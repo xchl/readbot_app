@@ -2,9 +2,10 @@ import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'common/routers/pages.dart';
+import 'global.dart';
 
-void main() {
+Future<void> main() async {
+  await Global.init();
   runApp(const MyApp());
 }
 
