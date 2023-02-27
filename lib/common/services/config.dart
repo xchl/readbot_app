@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:feed_inbox_app/common/index.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -9,6 +12,8 @@ class ConfigService extends GetxService {
   PackageInfo? _platform;
   String get version => _platform?.version ?? '-';
 
+  Locale locale = PlatformDispatcher.instance.locale;
+
   // 初始化
   Future<ConfigService> init() async {
     await getPlatform();
@@ -19,9 +24,28 @@ class ConfigService extends GetxService {
   void onInit() {
     super.onInit();
     getPlatform();
+    initLocale();
   }
 
   Future<void> getPlatform() async {
     _platform = await PackageInfo.fromPlatform();
+  }
+
+  // 初始语言
+  void initLocale() {
+    var langCode = Storage().getString(Constants.storageLanguageCode);
+    if (langCode.isEmpty) return;
+    var index = Translation.supportedLocales.indexWhere((element) {
+      return element.languageCode == langCode;
+    });
+    if (index < 0) return;
+    locale = Translation.supportedLocales[index];
+  }
+
+  // 更改语言
+  void onLocaleUpdate(Locale value) {
+    locale = value;
+    Get.updateLocale(value);
+    Storage().setString(Constants.storageLanguageCode, value.languageCode);
   }
 }
