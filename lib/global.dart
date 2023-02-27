@@ -8,9 +8,9 @@ class Global {
     // 这个表示先将原生端与flutter的接口初始化，然后再处理后续操作，这样能保证代码运行正确。
     WidgetsFlutterBinding.ensureInitialized();
 
-    // await Future.wait([
-    //   Get.putAsync<ConfigService>(() async => await ConfigService().init()),
-    // ]).whenComplete(() {});
+    // 工具类
+    await Storage().init();
+
     Get.put<ConfigService>(ConfigService());
   }
 }
