@@ -41,6 +41,9 @@ dependencies:
   package_info_plus: ^3.0.3
   shared_preferences: ^0.5.7+3
   dio: ^5.0.1
+  flutter_svg: ^2.0.2
+  badges: ^3.0.2
+  extended_image: ^7.0.2
 
 dev_dependencies:
   flutter_test:
