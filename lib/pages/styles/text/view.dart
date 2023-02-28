@@ -1,3 +1,4 @@
+import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,8 +9,17 @@ class TextPage extends GetView<TextController> {
 
   // 主视图
   Widget _buildView() {
-    return const Center(
-      child: Text("TextPage"),
+    return ListView(
+      children: [
+        const ListTile(title: TextWidget.title1("title1")),
+        const ListTile(title: TextWidget.title2("title2")),
+        const ListTile(title: TextWidget.title3("title3")),
+        const ListTile(title: TextWidget.body1("body1")),
+        const ListTile(title: TextWidget.body2("body2")),
+        const ListTile(title: TextWidget.body3("body3")),
+        const ListTile(title: TextWidget.navigation("navigation")),
+        ListTile(title: TextWidget.button("button")),
+      ],
     );
   }
 
