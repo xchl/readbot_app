@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:get/get.dart';
 
@@ -9,11 +10,25 @@ class WelcomeController extends GetxController {
   // 当前位置
   int currentIndex = 0;
 
+  bool isShowStart = false; // 是否显示 Start
+
+  CarouselController carouselController = CarouselController();
+
   // 当前位置发生改变
   void onPageChanged(int index) {
     currentIndex = index;
-    // update(['slider', 'bar']);
+    isShowStart = currentIndex == 2;
     update(['bar']);
+  }
+
+  // 去首页
+  void onToMain() {
+    Get.offAllNamed(RouteNames.systemMain);
+  }
+
+  // 下一个
+  void onNext() {
+    carouselController.nextPage();
   }
 
   _initData() {
