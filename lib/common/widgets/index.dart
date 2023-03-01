@@ -6,3 +6,4 @@ export 'text.dart';
 export 'icon.dart';
 export 'image.dart';
 export 'button.dart';
+export 'input.dart';
