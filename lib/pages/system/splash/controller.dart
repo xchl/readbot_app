@@ -17,10 +17,12 @@ class SplashController extends GetxController {
   // }
 
   _jumpToPage() {
-    // 欢迎页
-    Future.delayed(const Duration(seconds: 1), () {
-      // 关闭其他跳转
-      Get.offAllNamed(RouteNames.systemWelcome);
+    Future.delayed(const Duration(seconds: 1)).then((_) {
+      if (ConfigService.to.isAlreadyOpen) {
+        Get.offAllNamed(RouteNames.main);
+      } else {
+        Get.offAllNamed(RouteNames.systemWelcome);
+      }
     });
   }
 
@@ -28,8 +30,8 @@ class SplashController extends GetxController {
   void onReady() {
     super.onReady();
     FlutterNativeSplash.remove();
-    //_initData();
     _jumpToPage();
+    //_initData();
   }
 
   // @override

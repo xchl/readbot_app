@@ -6,4 +6,6 @@ class Constants {
   static const feedBoxServerUrl = 'http://127.0.0.1:8000';
 
   static const storageThemeCode = 'theme_code';
+
+  static const storageAlreadyOpen = 'already_open'; // 首次打开
 }
