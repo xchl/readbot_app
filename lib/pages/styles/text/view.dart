@@ -18,7 +18,7 @@ class TextPage extends GetView<TextController> {
         const ListTile(title: TextWidget.body2("body2")),
         const ListTile(title: TextWidget.body3("body3")),
         const ListTile(title: TextWidget.navigation("navigation")),
-        ListTile(title: TextWidget.button("button")),
+        ListTile(title: TextWidget.button(text: "button")),
       ],
     );
   }

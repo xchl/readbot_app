@@ -146,9 +146,9 @@ class TextWidget extends StatelessWidget {
         super(key: key);
 
   /// 文字 - 按钮
-  TextWidget.button(
-    this.text, {
+  TextWidget.button({
     Key? key,
+    required this.text,
     this.maxLines = 1,
     this.softWrap = false,
     this.overflow = TextOverflow.clip,
