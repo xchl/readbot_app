@@ -12,9 +12,11 @@ class Global {
     // 让启动图保持在屏幕
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-    // kv存储工具类
+    // 工具类
     await Storage().init();
+    Loading();
 
+    // 初始化服务
     Get.put<ConfigService>(ConfigService());
     Get.put<FeedBoxHttpService>(FeedBoxHttpService());
   }

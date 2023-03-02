@@ -4,3 +4,4 @@ library utils;
 
 export 'storage.dart';
 export './validator.dart';
+export './loading.dart';
