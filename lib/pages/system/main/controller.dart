@@ -6,7 +6,7 @@ class MainController extends GetxController {
 
   _initData() async {
     // 读取用户 profile
-    await UserService.to.getProfile();
+    // await UserService.to.getProfile();
 
     // 测试用
     Get.toNamed(RouteNames.systemLogin);
@@ -24,7 +24,6 @@ class MainController extends GetxController {
   void onReady() {
     super.onReady();
     _initData();
-    Get.toNamed(RouteNames.systemRegister);
   }
 
   // @override

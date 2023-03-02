@@ -6,10 +6,8 @@ class LoginController extends GetxController {
   LoginController();
 
   /// 定义输入控制器
-  TextEditingController userNameController =
-      TextEditingController(text: "username@example.com");
-  TextEditingController passwordController =
-      TextEditingController(text: "12345678");
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   /// 表单 key
   GlobalKey formKey = GlobalKey<FormState>();
@@ -35,7 +33,7 @@ class LoginController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    userNameController.dispose();
+    emailController.dispose();
     passwordController.dispose();
   }
 
@@ -50,7 +48,7 @@ class LoginController extends GetxController {
 
         // api 请求
         UserTokenModel res = await UserApi.login(UserLoginReq(
-          email: userNameController.text,
+          email: emailController.text,
           password: password,
         ));
 

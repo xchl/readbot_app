@@ -15,19 +15,17 @@ class LoginPage extends GetView<LoginController> {
       key: controller.formKey, //设置globalKey，用于后面获取FormState
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: <Widget>[
-        // username
+        // email
         TextFormWidget(
           autofocus: true,
-          controller: controller.userNameController,
-          labelText: LocaleKeys.registerFormName.tr,
+          keyboardType: TextInputType.emailAddress,
+          controller: controller.emailController,
+          labelText: LocaleKeys.registerFormEmail.tr,
           validator: Validatorless.multiple([
             Validatorless.required(LocaleKeys.validatorRequired.tr),
-            Validatorless.min(
-                3, LocaleKeys.validatorMin.trParams({"size": "3"})),
-            Validatorless.max(
-                20, LocaleKeys.validatorMax.trParams({"size": "20"})),
+            Validatorless.email(LocaleKeys.validatorEmail.tr),
           ]),
-        ).paddingBottom(AppSpace.listRow.w),
+        ),
 
         // password
         TextFormWidget(
@@ -58,27 +56,27 @@ class LoginPage extends GetView<LoginController> {
         ).paddingBottom(30.w),
 
         // OR
-        TextWidget.body1(LocaleKeys.loginOrText.tr).paddingBottom(30.w),
+        // TextWidget.body1(LocaleKeys.loginOrText.tr).paddingBottom(30.w),
 
         // 其它登录按钮
-        <Widget>[
-          ButtonWidget.iconTextOutlined(
-            IconWidget.svg(AssetsSvgs.facebookSvg),
-            "Facebook",
-            borderColor: AppColors.surfaceVariant,
-            width: 149.w,
-            height: 44.w,
-          ),
-          ButtonWidget.iconTextOutlined(
-            IconWidget.svg(AssetsSvgs.googleSvg),
-            "Google",
-            borderColor: AppColors.surfaceVariant,
-            width: 149.w,
-            height: 44.w,
-          ),
-        ].toRow(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-        ),
+        // <Widget>[
+        //   ButtonWidget.iconTextOutlined(
+        //     IconWidget.svg(AssetsSvgs.facebookSvg),
+        //     "Facebook",
+        //     borderColor: AppColors.surfaceVariant,
+        //     width: 149.w,
+        //     height: 44.w,
+        //   ),
+        //   ButtonWidget.iconTextOutlined(
+        //     IconWidget.svg(AssetsSvgs.googleSvg),
+        //     "Google",
+        //     borderColor: AppColors.surfaceVariant,
+        //     width: 149.w,
+        //     height: 44.w,
+        //   ),
+        // ].toRow(
+        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+        // ),
 
         // end
       ].toColumn(),
@@ -112,7 +110,6 @@ class LoginPage extends GetView<LoginController> {
       id: "login",
       builder: (_) {
         return Scaffold(
-          appBar: AppBar(title: const Text("login")),
           body: SafeArea(
             child: _buildView(),
           ),

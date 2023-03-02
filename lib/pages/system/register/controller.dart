@@ -8,14 +8,11 @@ class RegisterController extends GetxController {
   GlobalKey formKey = GlobalKey<FormState>();
 
   // 用户名
-  TextEditingController userNameController =
-      TextEditingController(text: "username");
+  TextEditingController userNameController = TextEditingController();
   // 邮件
-  TextEditingController emailController =
-      TextEditingController(text: "username@example.com");
+  TextEditingController emailController = TextEditingController();
   // 密码
-  TextEditingController passwordController =
-      TextEditingController(text: "12345678");
+  TextEditingController passwordController = TextEditingController();
 
   _initData() {
     update(["register"]);
