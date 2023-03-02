@@ -19,5 +19,6 @@ class Global {
     // 初始化服务
     Get.put<ConfigService>(ConfigService());
     Get.put<FeedBoxHttpService>(FeedBoxHttpService());
+    Get.put<UserService>(UserService());
   }
 }
