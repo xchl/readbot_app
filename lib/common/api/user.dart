@@ -5,7 +5,7 @@ class UserApi {
   /// 注册
   static Future<bool> register(UserRegisterReq? req) async {
     var res = await FeedBoxHttpService.to.post(
-      '/users/register',
+      '/user/register',
       data: req,
     );
 
