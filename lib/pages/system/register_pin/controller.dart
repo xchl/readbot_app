@@ -1,27 +1,39 @@
+import 'package:feed_inbox_app/common/index.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegisterPinController extends GetxController {
   RegisterPinController();
 
-  _initData() {
-    update(["register_pin"]);
+// ping 文字输入控制器
+  TextEditingController pinController = TextEditingController();
+
+  // 表单 key
+  GlobalKey formKey = GlobalKey<FormState>();
+
+  // pin 触发提交
+  void onPinSubmit(String val) {
+    debugPrint("onPinSubmit: $val");
   }
 
-  void onTap() {}
+  // 按钮提交
+  void onBtnSubmit() {}
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
+  // 按钮返回
+  void onBtnBackup() {
+    Get.back();
+  }
+
+  // 验证 pin
+  String? pinValidator(val) {
+    return val == '111111'
+        ? null
+        : LocaleKeys.commonMessageIncorrect.trParams({"method": "Pin"});
+  }
 
   @override
-  void onReady() {
-    super.onReady();
-    _initData();
+  void onClose() {
+    super.onClose();
+    pinController.dispose();
   }
-
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
 }
