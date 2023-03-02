@@ -109,7 +109,7 @@ class _TextFormWidgetState extends State<TextFormWidget> {
             ),
       // 校验
       validator: widget.validator,
-      // 是否密码
+      // 是否显示密码
       obscureText: _isShowObscureIcon,
       // 输入格式
       inputFormatters: widget.inputFormatters,
