@@ -46,10 +46,12 @@ class LoginController extends GetxController {
       try {
         Loading.show();
 
+        var password = EncryptUtil().aesEncode(passwordController.text);
+
         // api 请求
         UserTokenModel res = await UserApi.login(UserLoginReq(
           email: userNameController.text,
-          password: passwordController.text,
+          password: password,
         ));
 
         // 本地保存 token

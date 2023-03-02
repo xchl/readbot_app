@@ -31,7 +31,6 @@ class SplashController extends GetxController {
     super.onReady();
     FlutterNativeSplash.remove();
     _jumpToPage();
-    //_initData();
   }
 
   // @override
