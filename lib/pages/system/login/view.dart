@@ -1,4 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -106,8 +107,8 @@ class LoginPage extends GetView<LoginController> {
       child: <Widget>[
         // 头部标题
         TextWidget.title1(LocaleKeys.loginBackTitle.tr).padding(
-          top: 10,
-          bottom: 30,
+          top: AppSpace.page,
+          bottom: AppSpace.titleContent,
         ),
 
         // 表单

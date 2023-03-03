@@ -98,7 +98,7 @@ class RegisterPage extends GetView<RegisterController> {
       child: <Widget>[
         // 头部标题
         TextWidget.title1(LocaleKeys.registerTitle.tr)
-            .padding(top: 10, bottom: 30),
+            .padding(top: AppSpace.page, bottom: AppSpace.titleContent),
 
         // 表单
         _buildForm().card(),

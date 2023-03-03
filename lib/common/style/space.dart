@@ -31,7 +31,7 @@ class AppSpace {
   static double get paragraph => 24;
 
   /// 标题内容 - 10
-  static double get titleContent => 10;
+  static double get titleContent => 30;
 
   /// 图标文字 - 15
   static double get iconTextSmail => 5;

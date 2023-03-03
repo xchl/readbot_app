@@ -25,8 +25,8 @@ class PageTitleWithDescWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
         )
         .padding(
-          top: 10,
-          bottom: 30,
+          top: AppSpace.page,
+          bottom: AppSpace.titleContent,
         );
   }
 }
