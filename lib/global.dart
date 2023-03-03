@@ -20,5 +20,8 @@ class Global {
     Get.put<ConfigService>(ConfigService());
     Get.put<FeedBoxHttpService>(FeedBoxHttpService());
     Get.put<UserService>(UserService());
+
+    // 默认语言
+    ConfigService.to.onLocaleUpdate(Translation.fallbackLocale);
   }
 }

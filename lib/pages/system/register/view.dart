@@ -17,7 +17,7 @@ class RegisterPage extends GetView<RegisterController> {
         TextFormWidget(
           autofocus: true,
           controller: controller.userNameController,
-          labelText: LocaleKeys.registerFormName.tr,
+          labelText: LocaleKeys.loginUsername.tr,
           validator: Validatorless.multiple([
             Validatorless.required(LocaleKeys.validatorRequired.tr),
             Validatorless.min(
@@ -32,7 +32,7 @@ class RegisterPage extends GetView<RegisterController> {
           autofocus: true,
           keyboardType: TextInputType.emailAddress,
           controller: controller.emailController,
-          labelText: LocaleKeys.registerFormEmail.tr,
+          labelText: LocaleKeys.loginEmail.tr,
           validator: Validatorless.multiple([
             Validatorless.required(LocaleKeys.validatorRequired.tr),
             Validatorless.email(LocaleKeys.validatorEmail.tr),
@@ -42,7 +42,7 @@ class RegisterPage extends GetView<RegisterController> {
         // password
         TextFormWidget(
           controller: controller.passwordController,
-          labelText: LocaleKeys.registerFormPassword.tr,
+          labelText: LocaleKeys.loginPassword.tr,
           isObscure: true,
           validator: Validatorless.multiple([
             Validatorless.required(LocaleKeys.validatorRequired.tr),
@@ -97,17 +97,13 @@ class RegisterPage extends GetView<RegisterController> {
     return SingleChildScrollView(
       child: <Widget>[
         // 头部标题
-        PageTitleWidget(
-          title: LocaleKeys.registerTitle.tr,
-          desc: LocaleKeys.registerDesc.tr,
-        ),
+        TextWidget.title1(LocaleKeys.registerTitle.tr)
+            .padding(top: 10, bottom: 30),
 
         // 表单
         _buildForm().card(),
       ]
-          .toColumn(
-            crossAxisAlignment: CrossAxisAlignment.start,
-          )
+          .toColumn(crossAxisAlignment: CrossAxisAlignment.center)
           .paddingHorizontal(AppSpace.page),
     );
   }

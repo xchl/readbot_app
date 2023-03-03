@@ -9,6 +9,26 @@ import 'index.dart';
 class LoginPage extends GetView<LoginController> {
   const LoginPage({Key? key}) : super(key: key);
 
+  // 提示
+  Widget _buildTips() {
+    return <Widget>[
+      // 提示
+      ButtonWidget.text(
+        LocaleKeys.loginForgotPassword.tr,
+        textSize: 12,
+      ).paddingRight(10),
+      // 注册文字按钮
+      ButtonWidget.text(
+        LocaleKeys.loginSignUp.tr,
+        onTap: controller.onSignUp,
+        textSize: 12,
+        textColor: AppColors.primary,
+      )
+    ].toRow(
+      mainAxisAlignment: MainAxisAlignment.center,
+    );
+  }
+
   // 表单页
   Widget _buildForm() {
     return Form(
@@ -20,7 +40,7 @@ class LoginPage extends GetView<LoginController> {
           autofocus: true,
           keyboardType: TextInputType.emailAddress,
           controller: controller.emailController,
-          labelText: LocaleKeys.registerFormEmail.tr,
+          labelText: LocaleKeys.loginEmail.tr,
           validator: Validatorless.multiple([
             Validatorless.required(LocaleKeys.validatorRequired.tr),
             Validatorless.email(LocaleKeys.validatorEmail.tr),
@@ -30,7 +50,7 @@ class LoginPage extends GetView<LoginController> {
         // password
         TextFormWidget(
           controller: controller.passwordController,
-          labelText: LocaleKeys.registerFormPassword.tr,
+          labelText: LocaleKeys.loginPassword.tr,
           isObscure: true,
           validator: Validatorless.multiple([
             Validatorless.required(LocaleKeys.validatorRequired.tr),
@@ -42,18 +62,15 @@ class LoginPage extends GetView<LoginController> {
               ),
             ),
           ]),
-        ).paddingBottom(AppSpace.listRow.w * 2),
-
-        // Forgot Password?
-        TextWidget.body1(LocaleKeys.loginForgotPassword.tr)
-            .alignRight()
-            .paddingBottom(50.w),
+        ).paddingBottom(AppSpace.listRow.w * 3),
 
         // 登录按钮
         ButtonWidget.primary(
           LocaleKeys.loginSignIn.tr,
           onTap: controller.onSignIn,
-        ).paddingBottom(30.w),
+        ).paddingBottom(AppSpace.listRow.w),
+
+        _buildTips(),
 
         // OR
         // TextWidget.body1(LocaleKeys.loginOrText.tr).paddingBottom(30.w),
@@ -88,16 +105,16 @@ class LoginPage extends GetView<LoginController> {
     return SingleChildScrollView(
       child: <Widget>[
         // 头部标题
-        PageTitleWidget(
-          title: LocaleKeys.loginBackTitle.tr,
-          desc: LocaleKeys.loginBackDesc.tr,
+        TextWidget.title1(LocaleKeys.loginBackTitle.tr).padding(
+          top: 10,
+          bottom: 30,
         ),
 
         // 表单
         _buildForm().card(),
       ]
           .toColumn(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
           )
           .paddingHorizontal(AppSpace.page),
     );

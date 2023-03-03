@@ -36,6 +36,9 @@ Map<String, String> localeEn = {
   LocaleKeys.loginSignIn: 'Sign In',
   LocaleKeys.loginSignUp: 'Sign Up',
   LocaleKeys.loginOrText: '- OR -',
+  LocaleKeys.loginEmail: 'Email',
+  LocaleKeys.loginPassword: 'Password',
+  LocaleKeys.loginUsername: 'Username',
 
   // 注册 - new user
   LocaleKeys.registerTitle: 'Register',
@@ -58,7 +61,8 @@ Map<String, String> localeEn = {
 
   // 注册PIN - register pin
   LocaleKeys.registerPinTitle: 'Verification',
-  LocaleKeys.registerPinDesc: 'we will send you a Pin to continue your account',
+  LocaleKeys.registerEmailPinDesc:
+      'we will send you a Pin to continue your account',
   LocaleKeys.registerPinFormTip: 'Pin',
   LocaleKeys.registerPinButton: 'Submit',
 

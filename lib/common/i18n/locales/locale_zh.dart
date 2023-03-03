@@ -32,18 +32,18 @@ Map<String, String> localeZh = {
   LocaleKeys.stylesTitle: '样式 && 功能 && 调试',
 
   // 登录、注册 - 通用
-  LocaleKeys.loginForgotPassword: '忘记密码?',
-  LocaleKeys.loginSignIn: '登 陆',
+  LocaleKeys.loginForgotPassword: '忘记密码',
+  LocaleKeys.loginSignIn: '登 录',
   LocaleKeys.loginSignUp: '注 册',
   LocaleKeys.loginOrText: '- 或者 -',
+  LocaleKeys.loginEmail: '电子邮箱',
+  LocaleKeys.loginPassword: '密码',
+  LocaleKeys.loginUsername: '用户名',
 
   // 注册 - register user
-  LocaleKeys.registerTitle: '欢迎',
+  LocaleKeys.registerTitle: '欢迎注册',
   LocaleKeys.registerDesc: '注册新账号',
-  LocaleKeys.registerFormName: '登录账号',
-  LocaleKeys.registerFormEmail: '电子邮件',
   LocaleKeys.registerFormPhoneNumber: '电话号码',
-  LocaleKeys.registerFormPassword: '密码',
   LocaleKeys.registerFormFirstName: '姓',
   LocaleKeys.registerFormLastName: '名',
   LocaleKeys.registerHaveAccount: '你有现成账号?',
@@ -56,14 +56,12 @@ Map<String, String> localeZh = {
   LocaleKeys.validatorPassword: '密码长度必须 大于 @min 小于 @max',
 
   // 注册PIN - register pin
-  LocaleKeys.registerPinTitle: '验证',
-  LocaleKeys.registerPinDesc: '我们将向您发送PIN码以继续您的帐户',
-  LocaleKeys.registerPinFormTip: 'Pin',
+  LocaleKeys.registerPinTitle: '账号验证',
+  LocaleKeys.registerEmailPinDesc: '我们已向您的邮箱发送验证码',
+  LocaleKeys.registerPinFormTip: '验证码',
   LocaleKeys.registerPinButton: '提交',
 
   // 登录 - back login
-  LocaleKeys.loginBackTitle: '欢迎登陆!',
-  LocaleKeys.loginBackDesc: '登陆后继续',
-  LocaleKeys.loginBackFieldEmail: '账号',
-  LocaleKeys.loginBackFieldPassword: '登陆密码',
+  LocaleKeys.loginBackTitle: '欢迎登录',
+  LocaleKeys.loginBackDesc: '登录后继续',
 };

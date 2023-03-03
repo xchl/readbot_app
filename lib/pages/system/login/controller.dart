@@ -67,6 +67,6 @@ class LoginController extends GetxController {
 
   /// Sign Up
   void onSignUp() {
-    Get.offNamed(RouteNames.systemRegister);
+    Get.toNamed(RouteNames.systemRegister);
   }
 }

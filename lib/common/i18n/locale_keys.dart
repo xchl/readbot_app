@@ -31,6 +31,9 @@ class LocaleKeys {
   static const loginSignIn = 'login_sign_in';
   static const loginOrText = 'login_or_text';
   static const loginSignUp = 'login_sign_up';
+  static const loginEmail = 'login_email';
+  static const loginUsername = 'login_username';
+  static const loginPassword = 'login_password';
 
   // 注册 - register user
   static const registerTitle = 'register_title';
@@ -52,7 +55,7 @@ class LocaleKeys {
 
   // 注册PIN - register pin
   static const registerPinTitle = 'register_pin_title';
-  static const registerPinDesc = 'register_pin_desc';
+  static const registerEmailPinDesc = 'register_pin_desc';
   static const registerPinFormTip = 'register_pin_form_tip';
   static const registerPinButton = 'register_pin_button';
 

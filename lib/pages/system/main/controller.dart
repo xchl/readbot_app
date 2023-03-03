@@ -1,4 +1,3 @@
-import 'package:feed_inbox_app/common/index.dart';
 import 'package:get/get.dart';
 
 class MainController extends GetxController {
@@ -9,7 +8,7 @@ class MainController extends GetxController {
     // await UserService.to.getProfile();
 
     // 测试用
-    Get.toNamed(RouteNames.systemLogin);
+    // Get.toNamed(RouteNames.systemLogin);
     update(["main"]);
   }
 

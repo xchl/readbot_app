@@ -2,14 +2,14 @@ import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/material.dart';
 
 // 页面标题 组件
-class PageTitleWidget extends StatelessWidget {
+class PageTitleWithDescWidget extends StatelessWidget {
   /// 标题
   final String title;
 
   /// 说明
   final String desc;
 
-  const PageTitleWidget({
+  const PageTitleWithDescWidget({
     Key? key,
     required this.title,
     required this.desc,
@@ -22,10 +22,9 @@ class PageTitleWidget extends StatelessWidget {
       TextWidget.body2(desc),
     ]
         .toColumn(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
         )
         .padding(
-          left: 10,
           top: 10,
           bottom: 30,
         );

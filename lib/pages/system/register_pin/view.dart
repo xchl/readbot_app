@@ -48,16 +48,15 @@ class RegisterPinPage extends GetView<RegisterPinController> {
     return SingleChildScrollView(
       child: <Widget>[
         // 头部标题
-        PageTitleWidget(
-          title: LocaleKeys.registerPinTitle.tr,
-          desc: LocaleKeys.registerPinDesc.tr,
-        ),
+        PageTitleWithDescWidget(
+            title: LocaleKeys.registerPinTitle.tr,
+            desc: LocaleKeys.registerEmailPinDesc.tr),
 
         // 表单
         _buildForm().card(),
       ]
           .toColumn(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
           )
           .paddingHorizontal(AppSpace.page),
     );
@@ -70,7 +69,7 @@ class RegisterPinPage extends GetView<RegisterPinController> {
       id: "register_pin",
       builder: (_) {
         return Scaffold(
-          appBar: AppBar(title: const Text("register_pin")),
+          // appBar: AppBar(title: const Text("register_pin")),
           body: SafeArea(
             child: _buildView(),
           ),
