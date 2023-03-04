@@ -6,6 +6,7 @@ static const cKidsSvg = 'assets/svgs/c-kids.svg';
 static const cManSvg = 'assets/svgs/c-man.svg';
 static const cMoreSvg = 'assets/svgs/c-more.svg';
 static const cWomanSvg = 'assets/svgs/c-woman.svg';
+static const eyeSvg = 'assets/svgs/eye.svg';
 static const facebookSvg = 'assets/svgs/facebook.svg';
 static const googleSvg = 'assets/svgs/google.svg';
 static const iAddFriendSvg = 'assets/svgs/i-add-friend.svg';

@@ -7,6 +7,7 @@ class AssetsSvgs {
   static const cManSvg = 'assets/svgs/c-man.svg';
   static const cMoreSvg = 'assets/svgs/c-more.svg';
   static const cWomanSvg = 'assets/svgs/c-woman.svg';
+  static const eyeSvg = 'assets/svgs/eye.svg';
   static const facebookSvg = 'assets/svgs/facebook.svg';
   static const googleSvg = 'assets/svgs/google.svg';
   static const iAddFriendSvg = 'assets/svgs/i-add-friend.svg';
@@ -35,5 +36,8 @@ class AssetsSvgs {
   static const pGiftSvg = 'assets/svgs/p-gift.svg';
   static const pHomeSvg = 'assets/svgs/p-home.svg';
   static const pNotificationsSvg = 'assets/svgs/p-notifications.svg';
+  static const pThemeSvg = 'assets/svgs/p-theme.svg';
   static const pTranslateSvg = 'assets/svgs/p-translate.svg';
+  static const profileHeaderBackgroundSvg =
+      'assets/svgs/profile-header-background.svg';
 }
