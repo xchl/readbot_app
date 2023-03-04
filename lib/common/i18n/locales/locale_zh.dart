@@ -69,4 +69,9 @@ Map<String, String> localeZh = {
   LocaleKeys.tabBarFocus: '聚焦',
   LocaleKeys.tabBarAll: '所有',
   LocaleKeys.tabBarSetting: '设置',
+
+  // 我的
+  LocaleKeys.myBtnLogout: '注销',
+  LocaleKeys.myBtnLanguage: '语言',
+  LocaleKeys.myBtnTheme: '主题',
 };

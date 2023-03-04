@@ -76,4 +76,9 @@ Map<String, String> localeEn = {
   LocaleKeys.tabBarFocus: 'Focus',
   LocaleKeys.tabBarAll: 'ALL',
   LocaleKeys.tabBarSetting: 'Setting',
+
+  // 我的
+  LocaleKeys.myBtnLogout: 'Logout',
+  LocaleKeys.myBtnLanguage: 'Language',
+  LocaleKeys.myBtnTheme: 'Theme',
 };

@@ -1,3 +1,4 @@
+import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +19,11 @@ class MainController extends GetxController {
 
   // 切换页面
   void onJumpToPage(int page) {
-    pageController.jumpToPage(page);
+    if ((page != 0) && !UserService.to.isLogin) {
+      Get.toNamed(RouteNames.systemLogin);
+    } else {
+      pageController.jumpToPage(page);
+    }
   }
 
   _initData() async {

@@ -69,4 +69,9 @@ class LocaleKeys {
   static const tabBarFocus = 'tab_bar_focus';
   static const tabBarAll = 'tab_bar_all';
   static const tabBarSetting = 'tab_bar_setting';
+
+  // 我的
+  static const myBtnLogout = "my_btn_logout";
+  static const myBtnLanguage = "my_btn_language";
+  static const myBtnTheme = "my_btn_theme";
 }

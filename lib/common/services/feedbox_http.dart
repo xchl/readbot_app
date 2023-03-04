@@ -99,8 +99,9 @@ class RequestInterceptors extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // super.onRequest(options, handler);
-    if (UserService.to.hasToken) {
-      options.headers['Authorization'] = 'Bearer ${UserService.to.token}';
+    if (UserService.to.hasAccessToken) {
+      options.headers['Authorization'] =
+          'Bearer ${UserService.to.access_token}';
     }
     return handler.next(options);
     // 如果你想完成请求并返回一些自定义数据，你可以resolve一个Response对象 `handler.resolve(response)`。

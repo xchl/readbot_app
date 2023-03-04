@@ -9,6 +9,7 @@ class Constants {
 
   static const storageAlreadyOpen = 'already_open'; // 首次打开
 
-  static const storageToken = 'token'; // 登录成功后 token
+  static const storageAccessToken = 'access_token'; // 登录成功后 access token
+  static const storageRefreshToken = 'refresh_token'; // 登录成功后 refresh token
   static const storageProfile = 'profile'; // 用户资料缓存
 }
