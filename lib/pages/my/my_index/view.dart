@@ -16,7 +16,6 @@ class MyIndexPage extends GetView<MyIndexController> {
         // 顶部 APP 导航栏
         _buildAppBar(),
         // My Order
-        _buildMyOrder().sliverBox,
         // 按钮列表
         _buildButtonsList().sliverBox,
 
@@ -24,6 +23,7 @@ class MyIndexPage extends GetView<MyIndexController> {
         ButtonWidget.primary(
           LocaleKeys.myBtnLogout.tr,
           height: 60,
+          onTap: () => controller.onLogout(),
         )
             .padding(
               left: AppSpace.page,
@@ -41,14 +41,27 @@ class MyIndexPage extends GetView<MyIndexController> {
     );
   }
 
-  // My Order
-  Widget _buildMyOrder() {
-    return const Text("My Order");
-  }
-
   // 按钮列表
   Widget _buildButtonsList() {
-    return const Text("按钮列表");
+    return <Widget>[
+      // Theme
+      ButtonItemWidget(
+        title: LocaleKeys.myBtnTheme.tr,
+        svgPath: AssetsSvgs.pThemeSvg,
+        color: "F89C52".toColor,
+        onTap: () => ConfigService.to.switchThemeModel(),
+      ),
+
+      // 调试工具
+      ButtonItemWidget(
+        title: LocaleKeys.myBtnStyles.tr,
+        svgPath: AssetsSvgs.pCurrencySvg,
+        color: "4971FF".toColor,
+        onTap: () => Get.toNamed(RouteNames.stylesStylesIndex),
+      ),
+
+      // end
+    ].toColumn().card().padding(top: 30.h, bottom: 30.h);
   }
 
   // 顶部 APP 导航栏

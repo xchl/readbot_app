@@ -81,4 +81,5 @@ Map<String, String> localeEn = {
   LocaleKeys.myBtnLogout: 'Logout',
   LocaleKeys.myBtnLanguage: 'Language',
   LocaleKeys.myBtnTheme: 'Theme',
+  LocaleKeys.myBtnStyles: 'Styles',
 };

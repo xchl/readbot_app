@@ -74,4 +74,5 @@ class LocaleKeys {
   static const myBtnLogout = "my_btn_logout";
   static const myBtnLanguage = "my_btn_language";
   static const myBtnTheme = "my_btn_theme";
+  static const myBtnStyles = 'my_btn_style';
 }
