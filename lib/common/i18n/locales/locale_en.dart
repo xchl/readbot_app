@@ -71,4 +71,9 @@ Map<String, String> localeEn = {
   LocaleKeys.loginBackDesc: 'Sign in to continue',
   LocaleKeys.loginBackFieldEmail: 'Name',
   LocaleKeys.loginBackFieldPassword: 'Password',
+
+  // APP 导航
+  LocaleKeys.tabBarFocus: 'Focus',
+  LocaleKeys.tabBarAll: 'ALL',
+  LocaleKeys.tabBarSetting: 'Setting',
 };

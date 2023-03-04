@@ -20,10 +20,8 @@ class SplashController extends GetxController {
     Future.delayed(const Duration(seconds: 1)).then((_) {
       if (!ConfigService.to.isAlreadyOpen) {
         Get.offAllNamed(RouteNames.systemWelcome);
-      } else if (UserService.to.isLogin) {
-        Get.offAllNamed(RouteNames.main);
       } else {
-        Get.offAllNamed(RouteNames.systemLogin);
+        Get.offAllNamed(RouteNames.main);
       }
     });
   }

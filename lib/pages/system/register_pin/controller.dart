@@ -41,7 +41,6 @@ class RegisterPinController extends GetxController {
     try {
       Loading.show();
 
-      // 暂时提交，后续改 aes 加密后处理
       bool isOk = await UserApi.register(req);
       if (isOk) {
         Loading.success(

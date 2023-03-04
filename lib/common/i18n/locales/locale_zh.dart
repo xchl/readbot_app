@@ -64,4 +64,9 @@ Map<String, String> localeZh = {
   // 登录 - back login
   LocaleKeys.loginBackTitle: '欢迎登录',
   LocaleKeys.loginBackDesc: '登录后继续',
+
+  // APP 导航
+  LocaleKeys.tabBarFocus: '聚焦',
+  LocaleKeys.tabBarAll: '所有',
+  LocaleKeys.tabBarSetting: '设置',
 };

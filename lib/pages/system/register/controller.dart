@@ -42,8 +42,8 @@ class RegisterController extends GetxController {
   // 注册
   void onSignUp() {
     if ((formKey.currentState as FormState).validate()) {
-      // aes 加密密码
-      var password = EncryptUtil().aesEncode(passwordController.text);
+      // sha2 加密密码
+      var password = EncryptUtil.sha256Encode(passwordController.text);
 
       //验证通过
       Get.offNamed(

@@ -64,4 +64,9 @@ class LocaleKeys {
   static const loginBackDesc = 'login_back_desc';
   static const loginBackFieldEmail = 'login_back_field_email';
   static const loginBackFieldPassword = 'login_back_field_password';
+
+  // APP 主导航
+  static const tabBarFocus = 'tab_bar_focus';
+  static const tabBarAll = 'tab_bar_all';
+  static const tabBarSetting = 'tab_bar_setting';
 }

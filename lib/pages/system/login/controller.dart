@@ -44,7 +44,8 @@ class LoginController extends GetxController {
       try {
         Loading.show();
 
-        var password = EncryptUtil().aesEncode(passwordController.text);
+        //sha2密码加密
+        var password = EncryptUtil.sha256Encode(passwordController.text);
 
         // api 请求
         UserTokenModel res = await UserApi.login(UserLoginReq(
