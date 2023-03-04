@@ -15,22 +15,15 @@ class RoutePages {
     GetPage(
       name: RouteNames.main,
       page: () => const MainPage(),
+      binding: MainBinding(),
     ),
     GetPage(
-      name: RouteNames.feedFeedList,
-      page: () => const FeedListPage(),
+      name: RouteNames.homeInfoAll,
+      page: () => const InfoAllPage(),
     ),
     GetPage(
-      name: RouteNames.feedFeedManage,
-      page: () => const FeedManagePage(),
-    ),
-    GetPage(
-      name: RouteNames.infoInfoDetail,
-      page: () => const InfoDetailPage(),
-    ),
-    GetPage(
-      name: RouteNames.infoInfoList,
-      page: () => const InfoListPage(),
+      name: RouteNames.homeInfoFocus,
+      page: () => const InfoFocusPage(),
     ),
     GetPage(
       name: RouteNames.myMyIndex,
@@ -111,6 +104,6 @@ class RoutePages {
     GetPage(
       name: RouteNames.systemWelcome,
       page: () => const WelcomePage(),
-    ),
+    )
   ];
 }

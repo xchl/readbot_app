@@ -1,7 +1,5 @@
-export 'feed/feed_list/index.dart';
-export 'feed/feed_manage/index.dart';
-export 'info/info_detail/index.dart';
-export 'info/info_list/index.dart';
+export 'home/info_all/index.dart';
+export 'home/info_focus/index.dart';
 export 'my/my_index/index.dart';
 export 'styles/buttom_sheet/index.dart';
 export 'styles/buttons/index.dart';

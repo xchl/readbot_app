@@ -1,9 +1,7 @@
 class RouteNames {
   static const main = '/';
-  static const feedFeedList = '/feed_feed_list';
-  static const feedFeedManage = '/feed_feed_manage';
-  static const infoInfoDetail = '/info_info_detail';
-  static const infoInfoList = '/info_info_list';
+  static const homeInfoAll = '/home_info_all';
+  static const homeInfoFocus = '/home_info_focus';
   static const myMyIndex = '/my_my_index';
   static const stylesButtomSheet = '/styles_buttom_sheet';
   static const stylesButtons = '/styles_buttons';

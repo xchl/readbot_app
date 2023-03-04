@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 
-class FeedManageController extends GetxController {
-  FeedManageController();
+class InfoAllController extends GetxController {
+  InfoAllController();
 
   _initData() {
-    update(["feed_manage"]);
+    update(["info_all"]);
   }
 
   void onTap() {}

@@ -1,4 +1,6 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/pages/home/info_all/index.dart';
+import 'package:feed_inbox_app/pages/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -77,9 +79,9 @@ class _MainViewGetX extends GetView<MainController> {
           onPageChanged: controller.onIndexChanged,
           children: const [
             // 加入空页面占位
-            Text("1"),
-            Text("2"),
-            Text("3"),
+            InfoFocusPage(),
+            InfoAllPage(),
+            MyIndexPage()
           ],
         ),
       ),
@@ -89,16 +91,9 @@ class _MainViewGetX extends GetView<MainController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MainController>(
-      init: MainController(),
+      init: Get.find<MainController>(),
       id: "main",
-      builder: (_) {
-        return Scaffold(
-          appBar: AppBar(title: const Text("main")),
-          body: SafeArea(
-            child: _buildView(),
-          ),
-        );
-      },
+      builder: (_) => _buildView(),
     );
   }
 }

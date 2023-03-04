@@ -1,4 +1,4 @@
-library feed_manage;
+library info_focus;
 
 export './controller.dart';
 export './view.dart';

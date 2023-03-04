@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 
-class InfoListController extends GetxController {
-  InfoListController();
+class InfoFocusController extends GetxController {
+  InfoFocusController();
 
   _initData() {
-    update(["info_list"]);
+    update(["info_focus"]);
   }
 
   void onTap() {}
