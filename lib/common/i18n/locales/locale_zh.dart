@@ -75,4 +75,5 @@ Map<String, String> localeZh = {
   LocaleKeys.myBtnLanguage: '语言',
   LocaleKeys.myBtnTheme: '主题',
   LocaleKeys.myBtnStyles: '样式调试',
+  LocaleKeys.myBtnManageSource: '管理订阅源',
 };

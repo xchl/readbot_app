@@ -75,4 +75,5 @@ class LocaleKeys {
   static const myBtnLanguage = "my_btn_language";
   static const myBtnTheme = "my_btn_theme";
   static const myBtnStyles = 'my_btn_style';
+  static const myBtnManageSource = 'my_btn_manage_source';
 }

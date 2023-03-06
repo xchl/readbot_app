@@ -82,4 +82,5 @@ Map<String, String> localeEn = {
   LocaleKeys.myBtnLanguage: 'Language',
   LocaleKeys.myBtnTheme: 'Theme',
   LocaleKeys.myBtnStyles: 'Styles',
+  LocaleKeys.myBtnManageSource: 'Manage Feed',
 };

@@ -30,6 +30,10 @@ class RoutePages {
       page: () => const MyIndexPage(),
     ),
     GetPage(
+      name: RouteNames.myMyFeeds,
+      page: () => const MyFeedsPage(),
+    ),
+    GetPage(
       name: RouteNames.stylesButtomSheet,
       page: () => const ButtomSheetPage(),
     ),

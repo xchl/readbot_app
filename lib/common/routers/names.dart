@@ -3,6 +3,7 @@ class RouteNames {
   static const homeInfoAll = '/home_info_all';
   static const homeInfoFocus = '/home_info_focus';
   static const myMyIndex = '/my_my_index';
+  static const myMyFeeds = '/my_my_feeds';
   static const stylesButtomSheet = '/styles_buttom_sheet';
   static const stylesButtons = '/styles_buttons';
   static const stylesCarousel = '/styles_carousel';

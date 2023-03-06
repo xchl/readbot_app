@@ -60,6 +60,13 @@ class MyIndexPage extends GetView<MyIndexController> {
         onTap: () => Get.toNamed(RouteNames.stylesStylesIndex),
       ),
 
+      // 管理订阅源
+      ButtonItemWidget(
+        title: LocaleKeys.myBtnManageSource.tr,
+        svgPath: AssetsSvgs.rssSvg,
+        color: "4971FF".toColor,
+        onTap: () => Get.toNamed(RouteNames.myMyFeeds),
+      ),
       // end
     ].toColumn().card().padding(top: 30.h, bottom: 30.h);
   }
@@ -132,31 +139,6 @@ class MyIndexPage extends GetView<MyIndexController> {
                 size: 26.sp,
               ),
             ].toRow().paddingHorizontal(AppSpace.card),
-
-            // 功能栏位
-            <Widget>[
-              // 1
-              BarItemWidget(
-                title: LocaleKeys.myBtnLogout.tr,
-                svgPath: AssetsSvgs.iLikeSvg,
-              ),
-              // 2
-              BarItemWidget(
-                title: LocaleKeys.myBtnLogout.tr,
-                svgPath: AssetsSvgs.iAddFriendSvg,
-              ),
-              // 3
-              BarItemWidget(
-                title: LocaleKeys.myBtnLogout.tr,
-                svgPath: AssetsSvgs.iCouponSvg,
-              ),
-            ]
-                .toRow(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                )
-                .paddingAll(AppSpace.card)
-                .card()
-                .paddingHorizontal(AppSpace.page),
           ].toColumn(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           ),
