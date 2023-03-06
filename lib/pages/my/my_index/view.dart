@@ -127,7 +127,7 @@ class MyIndexPage extends GetView<MyIndexController> {
 
               // 称呼
               TextWidget.title1(
-                "Sen", //todo, 改成用户的
+                "${UserService.to.profile.basicProfile!.username}",
                 color: AppColors.primary,
                 size: 26.sp,
               ),

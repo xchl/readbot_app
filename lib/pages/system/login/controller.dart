@@ -54,10 +54,10 @@ class LoginController extends GetxController {
         ));
 
         // 本地保存 token
-        await UserService.to.setAccessToken(res.accessToken!.token!);
-        await UserService.to.setRefreshToken(res.refreshToken!.token!);
+        await UserService.to.setAccessToken(res);
+
         // 获取用户资料
-        //await UserService.to.getProfile();
+        await UserService.to.getProfile();
 
         Loading.success();
         Get.back(result: true);

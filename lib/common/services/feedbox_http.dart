@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
@@ -100,8 +98,7 @@ class RequestInterceptors extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // super.onRequest(options, handler);
     if (UserService.to.hasAccessToken) {
-      options.headers['Authorization'] =
-          'Bearer ${UserService.to.access_token}';
+      options.headers['Authorization'] = 'Bearer ${UserService.to.accessToken}';
     }
     return handler.next(options);
     // 如果你想完成请求并返回一些自定义数据，你可以resolve一个Response对象 `handler.resolve(response)`。
@@ -128,12 +125,6 @@ class RequestInterceptors extends Interceptor {
     }
   }
 
-  // 退出并重新登录
-  Future<void> _errorNoAuthLogout() async {
-    await UserService.to.logout();
-    Get.toNamed(RouteNames.systemLogin);
-  }
-
   @override
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
     // final exception = HttpException(err.message);
@@ -144,7 +135,7 @@ class RequestInterceptors extends Interceptor {
           final errorMessage = ErrorMessageModel.fromJson(response?.data);
           switch (errorMessage.statusCode) {
             case 401:
-              _errorNoAuthLogout();
+              UserService.to.login();
               break;
             case 404:
               break;

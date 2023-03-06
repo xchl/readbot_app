@@ -25,10 +25,10 @@ class UserApi {
   }
 
   /// Profile
-  static Future<UserProfileModel> profile() async {
+  static Future<UserInfo> info() async {
     var res = await FeedBoxHttpService.to.get(
       '/user/me',
     );
-    return UserProfileModel.fromJson(res.data);
+    return UserInfo.fromJson(res.data);
   }
 }

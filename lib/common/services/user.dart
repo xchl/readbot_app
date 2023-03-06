@@ -8,58 +8,57 @@ class UserService extends GetxService {
   static UserService get to => Get.find();
 
   final _isLogin = false.obs;
-  String access_token = '';
-  String refresh_token = '';
-  final _profile = UserProfileModel().obs;
+  String accessToken = '';
+  String refreshToken = '';
+  final _profile = UserInfo().obs;
 
   /// 是否登录
   bool get isLogin => _isLogin.value;
 
   /// 用户 profile
-  UserProfileModel get profile => _profile.value;
+  UserInfo get profile => _profile.value;
 
   /// 是否有令牌 token
-  bool get hasAccessToken => access_token.isNotEmpty;
-  bool get hasRefreshToken => refresh_token.isNotEmpty;
+  bool get hasAccessToken => accessToken.isNotEmpty;
+  bool get hasRefreshToken => refreshToken.isNotEmpty;
 
   @override
   void onInit() {
     super.onInit();
     // 读 token
-    access_token = Storage().getString(Constants.storageAccessToken);
-    refresh_token = Storage().getString(Constants.storageRefreshToken);
-
+    accessToken = Storage().getString(Constants.storageAccessToken);
+    refreshToken = Storage().getString(Constants.storageRefreshToken);
     // 读 profile
     var profileOffline = Storage().getString(Constants.storageProfile);
+
     if (profileOffline.isNotEmpty) {
-      _profile(UserProfileModel.fromJson(jsonDecode(profileOffline)));
+      _profile(UserInfo.fromJson(jsonDecode(profileOffline)));
     }
   }
 
-  /// 设置令牌 todo
-  Future<void> setAccessToken(String value) async {
-    await Storage().setString(Constants.storageAccessToken, value);
-    access_token = value;
-    _isLogin.value = true;
-  }
-
   /// 设置令牌
-  Future<void> setRefreshToken(String value) async {
-    await Storage().setString(Constants.storageRefreshToken, value);
-    refresh_token = value;
+  Future<void> setAccessToken(UserTokenModel token) async {
+    await Storage().setString(Constants.storageAccessToken, token.accessToken!);
+    accessToken = token.accessToken!;
+
+    await Storage()
+        .setString(Constants.storageRefreshToken, token.refreshToken!);
+    refreshToken = token.refreshToken!;
+
+    _isLogin.value = true;
   }
 
   /// 获取用户 profile
   Future<void> getProfile() async {
-    if (access_token.isEmpty) return;
-    UserProfileModel result = await UserApi.profile();
+    if (accessToken.isEmpty) return;
+    UserInfo result = await UserApi.info();
     _profile(result);
     Storage().setString(Constants.storageProfile, jsonEncode(result));
   }
 
   /// 设置用户 profile
-  Future<void> setProfile(UserProfileModel profile) async {
-    if (access_token.isEmpty) return;
+  Future<void> setProfile(UserInfo profile) async {
+    if (accessToken.isEmpty) return;
     _isLogin.value = true;
     _profile(profile);
     Storage().setString(Constants.storageProfile, jsonEncode(profile));
@@ -70,10 +69,16 @@ class UserService extends GetxService {
     // if (_isLogin.value) await UserAPIs.logout();
     await Storage().remove(Constants.storageAccessToken);
     await Storage().remove(Constants.storageRefreshToken);
-    _profile(UserProfileModel());
+    _profile(UserInfo());
     _isLogin.value = false;
-    access_token = '';
-    refresh_token = '';
+    accessToken = '';
+    refreshToken = '';
+  }
+
+  /// 登录
+  Future<void> login() async {
+    await logout();
+    Get.toNamed(RouteNames.systemLogin);
   }
 
   /// 检查是否登录
