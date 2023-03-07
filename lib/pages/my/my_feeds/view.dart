@@ -1,4 +1,6 @@
+import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'index.dart';
@@ -6,11 +8,32 @@ import 'index.dart';
 class MyFeedsPage extends GetView<MyFeedsController> {
   const MyFeedsPage({Key? key}) : super(key: key);
 
+  // 表单页
+  Widget _buildForm() {
+    return Form(
+      key: controller.formKey, //设置globalKey，用于后面获取FormState
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: <Widget>[
+        // url
+        TextFormWidget(
+          autofocus: true,
+          keyboardType: TextInputType.url,
+          controller: controller.urlController,
+          labelText: LocaleKeys.feedAddDesc.tr,
+        ).paddingBottom(30),
+
+        // 添加按钮
+        ButtonWidget.primary(
+          LocaleKeys.feedAddBtn.tr,
+          onTap: controller.onAddFeed,
+        ).paddingBottom(AppSpace.listRow.w),
+      ].toColumn(),
+    ).paddingAll(AppSpace.card);
+  }
+
   // 主视图
   Widget _buildView() {
-    return const Center(
-      child: Text("MyFeedsPage"),
-    );
+    return <Widget>[_buildForm()].toColumn();
   }
 
   @override

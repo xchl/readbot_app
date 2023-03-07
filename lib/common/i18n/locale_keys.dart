@@ -76,4 +76,10 @@ class LocaleKeys {
   static const myBtnTheme = "my_btn_theme";
   static const myBtnStyles = 'my_btn_style';
   static const myBtnManageSource = 'my_btn_manage_source';
+  static const myBtnAddSource = 'my_btn_add_source';
+  static const myBtnRefresh = 'my_btn_Refresh';
+
+  // 订阅源
+  static const feedAddDesc = 'feed_add_desc';
+  static const feedAddBtn = 'feed_add_btn';
 }

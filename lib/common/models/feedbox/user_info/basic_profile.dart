@@ -2,7 +2,7 @@ class BasicProfile {
   int? userId;
   String? email;
   String? username;
-  bool? proLevel;
+  int? proLevel;
   dynamic proEndTime;
 
   BasicProfile({
@@ -17,7 +17,7 @@ class BasicProfile {
         userId: json['user_id'] as int?,
         email: json['email'] as String?,
         username: json['username'] as String?,
-        proLevel: json['pro_level'] as bool?,
+        proLevel: json['pro_level'] as int?,
         proEndTime: json['pro_end_time'] as dynamic,
       );
 

@@ -11,5 +11,10 @@ class Constants {
 
   static const storageAccessToken = 'access_token'; // 登录成功后 access token
   static const storageRefreshToken = 'refresh_token'; // 登录成功后 refresh token
+
   static const storageProfile = 'profile'; // 用户资料缓存
+
+  // Feed
+  static const existUrlType = "exist";
+  static const createdUrlType = "create";
 }

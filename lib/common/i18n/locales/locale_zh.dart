@@ -76,4 +76,10 @@ Map<String, String> localeZh = {
   LocaleKeys.myBtnTheme: '主题',
   LocaleKeys.myBtnStyles: '样式调试',
   LocaleKeys.myBtnManageSource: '管理订阅源',
+  LocaleKeys.myBtnAddSource: '添加订阅源',
+  LocaleKeys.myBtnRefresh: '刷新Token',
+
+  //Feed
+  LocaleKeys.feedAddBtn: '添加',
+  LocaleKeys.feedAddDesc: '把url粘贴在这里'
 };

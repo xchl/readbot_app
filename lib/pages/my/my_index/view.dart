@@ -15,9 +15,12 @@ class MyIndexPage extends GetView<MyIndexController> {
       slivers: <Widget>[
         // 顶部 APP 导航栏
         _buildAppBar(),
-        // My Order
-        // 按钮列表
-        _buildButtonsList().sliverBox,
+        // Debug工具
+        _buildDebugButtonsList().sliverBox,
+        // 订阅源管理
+        _buildFeedButtonsList().sliverBox,
+        // 主题管理
+        _buildThemeButtonsList().sliverBox,
 
         // 注销
         ButtonWidget.primary(
@@ -28,7 +31,7 @@ class MyIndexPage extends GetView<MyIndexController> {
             .padding(
               left: AppSpace.page,
               right: AppSpace.page,
-              bottom: AppSpace.listRow * 2,
+              top: AppSpace.listRow * 2,
             )
             .sliverBox,
 
@@ -41,8 +44,28 @@ class MyIndexPage extends GetView<MyIndexController> {
     );
   }
 
+  Widget _buildFeedButtonsList() {
+    return <Widget>[
+      // 添加订阅源
+      ButtonItemWidget(
+        title: LocaleKeys.myBtnAddSource.tr,
+        svgPath: AssetsSvgs.rssSvg,
+        color: "4971FF".toColor,
+        onTap: () => Get.toNamed(RouteNames.myMyFeeds),
+      ),
+      // 添加订阅源
+      ButtonItemWidget(
+        title: LocaleKeys.myBtnManageSource.tr,
+        svgPath: AssetsSvgs.rssSvg,
+        color: "4971FF".toColor,
+        onTap: () => Get.toNamed(RouteNames.myMyFeeds),
+      ),
+      // end
+    ].toColumn().card().padding(top: 30.h, bottom: 10.h);
+  }
+
   // 按钮列表
-  Widget _buildButtonsList() {
+  Widget _buildThemeButtonsList() {
     return <Widget>[
       // Theme
       ButtonItemWidget(
@@ -51,24 +74,29 @@ class MyIndexPage extends GetView<MyIndexController> {
         color: "F89C52".toColor,
         onTap: () => ConfigService.to.switchThemeModel(),
       ),
+    ].toColumn().card().padding(top: 30.h, bottom: 10.h);
+  }
 
-      // 调试工具
+  // 按钮列表
+  Widget _buildDebugButtonsList() {
+    return <Widget>[
+      // 刷新Token
+      // ButtonItemWidget(
+      //   title: LocaleKeys.myBtnRefresh.tr,
+      //   svgPath: AssetsSvgs.pThemeSvg,
+      //   color: "F89C52".toColor,
+      //   onTap: () => UserService.to.refresh_token(),
+      // ),
+
+      // 样式调试工具
       ButtonItemWidget(
         title: LocaleKeys.myBtnStyles.tr,
         svgPath: AssetsSvgs.pCurrencySvg,
         color: "4971FF".toColor,
         onTap: () => Get.toNamed(RouteNames.stylesStylesIndex),
       ),
-
-      // 管理订阅源
-      ButtonItemWidget(
-        title: LocaleKeys.myBtnManageSource.tr,
-        svgPath: AssetsSvgs.rssSvg,
-        color: "4971FF".toColor,
-        onTap: () => Get.toNamed(RouteNames.myMyFeeds),
-      ),
       // end
-    ].toColumn().card().padding(top: 30.h, bottom: 30.h);
+    ].toColumn().card().padding(top: 30.h, bottom: 10.h);
   }
 
   // 顶部 APP 导航栏

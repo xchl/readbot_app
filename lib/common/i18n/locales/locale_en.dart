@@ -83,4 +83,10 @@ Map<String, String> localeEn = {
   LocaleKeys.myBtnTheme: 'Theme',
   LocaleKeys.myBtnStyles: 'Styles',
   LocaleKeys.myBtnManageSource: 'Manage Feed',
+  LocaleKeys.myBtnAddSource: 'Add Feed',
+  LocaleKeys.myBtnRefresh: 'Refresh Token',
+
+  // Feed
+  LocaleKeys.feedAddBtn: 'Add',
+  LocaleKeys.feedAddDesc: 'Paste feed url here',
 };

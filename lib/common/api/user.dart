@@ -24,6 +24,12 @@ class UserApi {
     return UserTokenModel.fromJson(res.data);
   }
 
+  static Future<UserTokenModel> refreshToken(String refreshToken) async {
+    var res = await FeedBoxHttpService.to
+        .post('/user/refresh-token', data: refreshToken);
+    return UserTokenModel.fromJson(res.data);
+  }
+
   /// Profile
   static Future<UserInfo> info() async {
     var res = await FeedBoxHttpService.to.get(
