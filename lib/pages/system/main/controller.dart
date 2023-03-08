@@ -18,15 +18,16 @@ class MainController extends GetxController {
   }
 
   // 切换页面
-  void onJumpToPage(int page) {
-    if ((page != 0) && !UserService.to.isLogin) {
+  void onJumpToPage(int page) async {
+    bool isLogin = await UserService.to.isLogin();
+    if ((page != 0) && !isLogin) {
       Get.toNamed(RouteNames.systemLogin);
     } else {
       pageController.jumpToPage(page);
     }
   }
 
-  _initData() async {
+  _initData() {
     // 读取用户 profile
     // await UserService.to.getProfile();
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../index.dart';
 
@@ -7,37 +8,66 @@ import '../index.dart';
 class UserService extends GetxService {
   static UserService get to => Get.find();
 
-  final _isLogin = false.obs;
   String accessToken = '';
   String refreshToken = '';
-  final _profile = UserInfo().obs;
+  DateTime _accessTokenExpirTime = DateTime.fromMillisecondsSinceEpoch(0);
+  DateTime _refreshTokenExpirTime = DateTime.fromMillisecondsSinceEpoch(0);
+  final _basicProfile = BasicProfile().obs;
 
-  /// 是否登录
-  bool get isLogin => _isLogin.value;
+  bool hasActiveAccessToken() {
+    if (accessToken.isEmpty) return false;
+    return _accessTokenExpirTime
+        .isAfter(DateTime.now().toUtc().add(Constants.tokenExpiredEpsSecond));
+  }
+
+  bool hasActiveRefreshToken() {
+    if (refreshToken.isEmpty) return false;
+    return _refreshTokenExpirTime
+        .isAfter(DateTime.now().toUtc().add(Constants.tokenExpiredEpsSecond));
+  }
+
+  Future<bool> isLogin() async {
+    await refreshTokenIfNeed();
+    return hasActiveAccessToken();
+  }
 
   /// 用户 profile
-  UserInfo get profile => _profile.value;
-
-  /// 是否有令牌 token
-  bool get hasAccessToken => accessToken.isNotEmpty;
-  bool get hasRefreshToken => refreshToken.isNotEmpty;
+  BasicProfile get basicProfile => _basicProfile.value;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     // 读 token
     accessToken = Storage().getString(Constants.storageAccessToken);
     refreshToken = Storage().getString(Constants.storageRefreshToken);
-    // 读 profile
-    var profileOffline = Storage().getString(Constants.storageProfile);
 
-    if (profileOffline.isNotEmpty) {
-      _profile(UserInfo.fromJson(jsonDecode(profileOffline)));
+    // 解析Token
+    if (accessToken.isNotEmpty && refreshToken.isNotEmpty) {
+      parseToken(accessToken, refreshToken);
     }
+    await refreshTokenIfNeed();
+    parseProfile();
+  }
+
+  void parseProfile() {
+    var decodedAccessToken = JwtDecoder.decode(accessToken);
+    _basicProfile(BasicProfile.fromJson(decodedAccessToken['data']));
+  }
+
+  void parseToken(String accessToken, String refreshToken) {
+    var decodedAccessToken = JwtDecoder.decode(accessToken);
+    _accessTokenExpirTime =
+        DateTime.fromMillisecondsSinceEpoch(decodedAccessToken['exp']);
+
+    _basicProfile(BasicProfile.fromJson(decodedAccessToken['data']));
+
+    var decodedRefreshToken = JwtDecoder.decode(refreshToken);
+    _refreshTokenExpirTime =
+        DateTime.fromMillisecondsSinceEpoch(decodedRefreshToken['exp']);
   }
 
   /// 设置令牌
-  Future<void> setAccessToken(UserTokenModel token) async {
+  Future<void> setToken(UserTokenModel token) async {
     await Storage().setString(Constants.storageAccessToken, token.accessToken!);
     accessToken = token.accessToken!;
 
@@ -45,22 +75,21 @@ class UserService extends GetxService {
         .setString(Constants.storageRefreshToken, token.refreshToken!);
     refreshToken = token.refreshToken!;
 
-    _isLogin.value = true;
+    parseToken(accessToken, refreshToken);
   }
 
   /// 获取用户 profile
-  Future<void> getProfile() async {
-    if (accessToken.isEmpty) return;
-    UserInfo result = await UserApi.info();
-    _profile(result);
-    Storage().setString(Constants.storageProfile, jsonEncode(result));
-  }
+  // Future<void> getProfile() async {
+  //   if (accessToken.isEmpty) return;
+  //   UserInfo result = await UserApi.info();
+  //   _basicProfile(result);
+  //   Storage().setString(Constants.storageProfile, jsonEncode(result));
+  // }
 
   /// 设置用户 profile
-  Future<void> setProfile(UserInfo profile) async {
+  Future<void> setProfile(BasicProfile profile) async {
     if (accessToken.isEmpty) return;
-    _isLogin.value = true;
-    _profile(profile);
+    _basicProfile(profile);
     Storage().setString(Constants.storageProfile, jsonEncode(profile));
   }
 
@@ -69,24 +98,23 @@ class UserService extends GetxService {
     // if (_isLogin.value) await UserAPIs.logout();
     await Storage().remove(Constants.storageAccessToken);
     await Storage().remove(Constants.storageRefreshToken);
-    _profile(UserInfo());
-    _isLogin.value = false;
+    _basicProfile(BasicProfile());
     accessToken = '';
     refreshToken = '';
   }
 
   /// 登录
-  Future<void> login() async {
-    await logout();
-    Get.toNamed(RouteNames.systemLogin);
+  Future<void> login(UserLoginReq req) async {
+    UserTokenModel res = await UserApi.login(req);
+    await setToken(res);
   }
 
-  /// 检查是否登录
-  Future<bool> checkIsLogin() async {
-    if (_isLogin.value == false) {
-      await Get.toNamed(RouteNames.systemLogin);
-      return false;
+  /// 刷新token
+  Future<void> refreshTokenIfNeed() async {
+    if (!hasActiveAccessToken() && hasActiveRefreshToken()) {
+      UserTokenModel res = await UserApi.refreshToken(refreshToken);
+      await setToken(res);
+      // parseProfile();
     }
-    return true;
   }
 }

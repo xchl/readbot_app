@@ -47,19 +47,13 @@ class LoginController extends GetxController {
         //sha2密码加密
         var password = EncryptUtil.sha256Encode(passwordController.text);
 
-        // api 请求
-        UserTokenModel res = await UserApi.login(UserLoginReq(
+        await UserService.to.login(UserLoginReq(
           email: emailController.text,
           password: password,
         ));
 
-        // 本地保存 token
-        await UserService.to.setAccessToken(res);
-
-        // 获取用户资料
-        await UserService.to.getProfile();
-
         Loading.success();
+
         Get.back(result: true);
       } finally {
         Loading.dismiss();

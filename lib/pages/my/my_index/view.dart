@@ -53,9 +53,9 @@ class MyIndexPage extends GetView<MyIndexController> {
         color: "4971FF".toColor,
         onTap: () => Get.toNamed(RouteNames.myMyFeeds),
       ),
-      // 添加订阅源
+      // 订阅源列表
       ButtonItemWidget(
-        title: LocaleKeys.myBtnManageSource.tr,
+        title: LocaleKeys.myBtnSourceList.tr,
         svgPath: AssetsSvgs.rssSvg,
         color: "4971FF".toColor,
         onTap: () => Get.toNamed(RouteNames.myMyFeeds),
@@ -162,7 +162,7 @@ class MyIndexPage extends GetView<MyIndexController> {
 
               // 称呼
               TextWidget.title1(
-                "${UserService.to.profile.basicProfile!.username}",
+                "${UserService.to.basicProfile.username}",
                 color: AppColors.primary,
                 size: 26.sp,
               ),

@@ -78,6 +78,7 @@ Map<String, String> localeZh = {
   LocaleKeys.myBtnManageSource: '管理订阅源',
   LocaleKeys.myBtnAddSource: '添加订阅源',
   LocaleKeys.myBtnRefresh: '刷新Token',
+  LocaleKeys.myBtnSourceList: '订阅源列表',
 
   //Feed
   LocaleKeys.feedAddBtn: '添加',

@@ -17,4 +17,7 @@ class Constants {
   // Feed
   static const existUrlType = "exist";
   static const createdUrlType = "create";
+
+  // Token过期判断误差
+  static const tokenExpiredEpsSecond = Duration(seconds: 10);
 }

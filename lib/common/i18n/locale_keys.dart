@@ -78,6 +78,7 @@ class LocaleKeys {
   static const myBtnManageSource = 'my_btn_manage_source';
   static const myBtnAddSource = 'my_btn_add_source';
   static const myBtnRefresh = 'my_btn_Refresh';
+  static const myBtnSourceList = 'my_btn_source_list';
 
   // 订阅源
   static const feedAddDesc = 'feed_add_desc';

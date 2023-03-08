@@ -26,7 +26,7 @@ class UserApi {
 
   static Future<UserTokenModel> refreshToken(String refreshToken) async {
     var res = await FeedBoxHttpService.to
-        .post('/user/refresh-token', data: refreshToken);
+        .post('/user/refresh_token', data: refreshToken);
     return UserTokenModel.fromJson(res.data);
   }
 

@@ -24,7 +24,7 @@ class FeedBoxHttpService extends GetxService {
     _dio = Dio(options);
 
     // 拦截器
-    _dio.interceptors.add(RequestInterceptors());
+    _dio.interceptors.add(AuthInterceptors());
   }
 
   Future<Response> get(
@@ -92,22 +92,35 @@ class FeedBoxHttpService extends GetxService {
   }
 }
 
+class AuthInterceptors extends Interceptor {
+  @override
+  Future<void> onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
+    if (options.path == '/user/login' ||
+        options.path == '/user/register' ||
+        options.path == '/user/refresh_token') {
+      handler.next(options);
+    } else {
+      await UserService.to.refreshTokenIfNeed();
+      if (UserService.to.hasActiveAccessToken()) {
+        options.headers['Authorization'] =
+            'Bearer ${UserService.to.accessToken}';
+        handler.next(options);
+      } else {
+        handler.reject(DioError.badResponse(
+            statusCode: 401,
+            requestOptions: options,
+            response: Response(
+                data: null,
+                statusCode: 401,
+                requestOptions: RequestOptions(path: 'some url'))));
+      }
+    }
+  }
+}
+
 /// 拦截
 class RequestInterceptors extends Interceptor {
-  @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // super.onRequest(options, handler);
-    if (UserService.to.hasAccessToken) {
-      options.headers['Authorization'] = 'Bearer ${UserService.to.accessToken}';
-    }
-    return handler.next(options);
-    // 如果你想完成请求并返回一些自定义数据，你可以resolve一个Response对象 `handler.resolve(response)`。
-    // 这样请求将会被终止，上层then会被调用，then中返回的数据将是你的自定义response.
-    //
-    // 如果你想终止请求并触发一个错误,你可以返回一个`DioError`对象,如`handler.reject(error)`，
-    // 这样请求将被中止并触发异常，上层catchError会被调用。
-  }
-
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     // 200 请求成功, 201 添加成功
@@ -133,9 +146,9 @@ class RequestInterceptors extends Interceptor {
         {
           final response = err.response;
           final errorMessage = ErrorMessageModel.fromJson(response?.data);
-          switch (errorMessage.statusCode) {
+          switch (response?.statusCode) {
             case 401:
-              UserService.to.login();
+              Get.toNamed(RouteNames.systemLogin);
               break;
             case 404:
               break;

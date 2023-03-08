@@ -85,6 +85,7 @@ Map<String, String> localeEn = {
   LocaleKeys.myBtnManageSource: 'Manage Feed',
   LocaleKeys.myBtnAddSource: 'Add Feed',
   LocaleKeys.myBtnRefresh: 'Refresh Token',
+  LocaleKeys.myBtnSourceList: 'Feed List',
 
   // Feed
   LocaleKeys.feedAddBtn: 'Add',
