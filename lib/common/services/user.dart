@@ -95,7 +95,6 @@ class UserService extends GetxService {
 
   /// 注销
   Future<void> logout() async {
-    // if (_isLogin.value) await UserAPIs.logout();
     await Storage().remove(Constants.storageAccessToken);
     await Storage().remove(Constants.storageRefreshToken);
     _basicProfile(BasicProfile());

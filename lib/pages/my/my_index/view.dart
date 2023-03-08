@@ -46,13 +46,6 @@ class MyIndexPage extends GetView<MyIndexController> {
 
   Widget _buildFeedButtonsList() {
     return <Widget>[
-      // 添加订阅源
-      ButtonItemWidget(
-        title: LocaleKeys.myBtnAddSource.tr,
-        svgPath: AssetsSvgs.rssSvg,
-        color: "4971FF".toColor,
-        onTap: () => Get.toNamed(RouteNames.myMyFeeds),
-      ),
       // 订阅源列表
       ButtonItemWidget(
         title: LocaleKeys.myBtnSourceList.tr,

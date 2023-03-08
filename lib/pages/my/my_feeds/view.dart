@@ -1,4 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/pages/my/my_feeds/widgets/feed_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,7 +24,7 @@ class MyFeedsPage extends GetView<MyFeedsController> {
         ).paddingBottom(30),
 
         // 添加按钮
-        ButtonWidget.primary(
+        ButtonWidget.text(
           LocaleKeys.feedAddBtn.tr,
           onTap: controller.onAddFeed,
         ).paddingBottom(AppSpace.listRow.w),
@@ -31,9 +32,43 @@ class MyFeedsPage extends GetView<MyFeedsController> {
     ).paddingAll(AppSpace.card);
   }
 
+  // 表单页
+  Widget _buildFeedList() {
+    return <Widget>[
+      // 订阅源管理
+      _buildFeedButtonsList(),
+      ButtonWidget.secondary(
+        LocaleKeys.myBtnAddSource.tr,
+        height: 40,
+        onTap: () => showDialog(
+            context: Get.context!,
+            builder: (context) => SimpleDialog(
+                  children: [_buildForm()],
+                )),
+      ).padding(
+        left: AppSpace.page,
+        right: AppSpace.page,
+        top: AppSpace.listRow * 2,
+      )
+    ].toColumn();
+  }
+
+  // 按钮列表
+  Widget _buildFeedButtonsList() {
+    return <Widget>[
+      FeedItemWidget(
+        title: "Feed1",
+        iconUrl:
+            "https://c-ssl.duitang.com/uploads/blog/202105/09/20210509012315_89541.jpeg",
+        onTap: () => Get.toNamed(RouteNames.stylesStylesIndex),
+      ),
+      // end
+    ].toColumn().card().padding(top: 30.h, bottom: 10.h);
+  }
+
   // 主视图
   Widget _buildView() {
-    return <Widget>[_buildForm()].toColumn();
+    return <Widget>[_buildFeedList()].toColumn();
   }
 
   @override
@@ -43,7 +78,7 @@ class MyFeedsPage extends GetView<MyFeedsController> {
       id: "my_feeds",
       builder: (_) {
         return Scaffold(
-          appBar: AppBar(title: const Text("my_feeds")),
+          // appBar: AppBar(title: const Text("my_feeds")),
           body: SafeArea(
             child: _buildView(),
           ),
