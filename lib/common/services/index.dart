@@ -5,3 +5,4 @@ library services;
 export 'config.dart';
 export 'feedbox_http.dart';
 export 'user.dart';
+export 'feed.dart';

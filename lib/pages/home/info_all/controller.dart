@@ -20,6 +20,8 @@ class InfoAllController extends GetxController {
     _initData();
   }
 
+  void onAppBarTap() {}
+
   // @override
   // void onClose() {
   //   super.onClose();
