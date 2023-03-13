@@ -5,13 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// 按钮列表项
 class FeedItemWidget extends StatelessWidget {
   final String title;
-  final String iconUrl;
+  final String logoUrl;
   final Function()? onTap;
 
   const FeedItemWidget({
     Key? key,
     required this.title,
-    required this.iconUrl,
+    required this.logoUrl,
     this.onTap,
   }) : super(key: key);
 
@@ -27,7 +27,7 @@ class FeedItemWidget extends StatelessWidget {
             ),
 
         // 叠加图标
-        IconWidget.url(iconUrl),
+        IconWidget.url(logoUrl),
       ].toStack(
         alignment: Alignment.center,
       ),

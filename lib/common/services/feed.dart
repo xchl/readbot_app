@@ -6,7 +6,20 @@ import 'package:get/get.dart';
 class FeedService extends GetxService {
   static FeedService get to => Get.find();
 
-  List<FeedInfo> _feedList = [];
+  final _feedList = <UserFeed>[].obs;
+
+  int get feedLength => _feedList.length;
+
+  List<UserFeed> get feedList => _feedList;
+
+  UserFeed feed(int i) {
+    return _feedList[i];
+  }
+
+  Future<void> addFeed(UserFeed feed) async {
+    UserFeed res = await FeedApi.addExistSingle(feed);
+    _feedList.add(res);
+  }
 
   @override
   void onInit() async {
@@ -15,6 +28,6 @@ class FeedService extends GetxService {
   }
 
   Future<void> fetchFeedList() async {
-    _feedList = await FeedApi.getFeedList();
+    _feedList.value = await FeedApi.getFeedList();
   }
 }

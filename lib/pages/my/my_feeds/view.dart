@@ -55,15 +55,14 @@ class MyFeedsPage extends GetView<MyFeedsController> {
 
   // 按钮列表
   Widget _buildFeedButtonsList() {
-    return <Widget>[
-      FeedItemWidget(
-        title: "Feed1",
-        iconUrl:
-            "https://c-ssl.duitang.com/uploads/blog/202105/09/20210509012315_89541.jpeg",
+    return List.generate(
+      FeedService.to.feedLength,
+      (index) => FeedItemWidget(
+        title: "${FeedService.to.feed(index).name}",
+        logoUrl: "${FeedService.to.feed(index).logo}",
         onTap: () => Get.toNamed(RouteNames.stylesStylesIndex),
       ),
-      // end
-    ].toColumn().card().padding(top: 30.h, bottom: 10.h);
+    ).toColumn();
   }
 
   // 主视图

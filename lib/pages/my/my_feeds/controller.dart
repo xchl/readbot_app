@@ -12,7 +12,8 @@ class MyFeedsController extends GetxController {
   /// 表单 key
   GlobalKey formKey = GlobalKey<FormState>();
 
-  _initData() {
+  _initData() async {
+    await FeedService.to.fetchFeedList();
     update(["my_feeds"]);
   }
 
@@ -34,12 +35,10 @@ class MyFeedsController extends GetxController {
       try {
         Loading.show();
 
-        // api 请求
-        FeedInfo res = await FeedApi.addExistSingle(FeedInfo(
+        var feed = UserFeed(
           url: urlController.text,
-        ));
-
-        print(res);
+        );
+        await FeedService.to.addFeed(feed);
 
         Loading.success();
         Get.back(result: true);

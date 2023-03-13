@@ -3,18 +3,18 @@ import 'package:feed_inbox_app/common/index.dart';
 /// 订阅源API
 class FeedApi {
   /// 增加外部订阅源
-  static Future<FeedInfo> addExistSingle(feedInfo) async {
+  static Future<UserFeed> addExistSingle(feedInfo) async {
     var res = await FeedBoxHttpService.to
         .post('/feed/add/${Constants.existUrlType}', data: feedInfo);
-    return FeedInfo.fromJson(res.data);
+    return UserFeed.fromJson(res.data);
   }
 
   /// 获取订阅源列表
-  static Future<List<FeedInfo>> getFeedList() async {
+  static Future<List<UserFeed>> getFeedList() async {
     var res = await FeedBoxHttpService.to.get('/feed');
-    List<FeedInfo> feeds = [];
+    List<UserFeed> feeds = [];
     for (var item in res.data) {
-      feeds.add(FeedInfo.fromJson(item));
+      feeds.add(UserFeed.fromJson(item));
     }
     return feeds;
   }

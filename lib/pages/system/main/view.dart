@@ -56,12 +56,12 @@ class _MainViewGetX extends GetView<MainController> {
               currentIndex: controller.currentIndex,
               items: [
                 NavigationItemModel(
-                  label: LocaleKeys.tabBarAll.tr,
-                  icon: AssetsSvgs.eyeSvg,
-                ),
-                NavigationItemModel(
                   label: LocaleKeys.tabBarFocus.tr,
                   icon: AssetsSvgs.navHomeSvg,
+                ),
+                NavigationItemModel(
+                  label: LocaleKeys.tabBarAll.tr,
+                  icon: AssetsSvgs.eyeSvg,
                 ),
                 NavigationItemModel(
                   label: LocaleKeys.tabBarSetting.tr,
