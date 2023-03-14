@@ -52,6 +52,8 @@ dependencies:
   flutter_easyloading: ^3.0.5
   crypto: ^3.0.2
   jwt_decoder: ^2.0.1
+  intl: ^0.17.0
+  pull_to_refresh: ^2.0.0
 
 dev_dependencies:
   flutter_test:

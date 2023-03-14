@@ -10,9 +10,12 @@ class InfoFocusPage extends GetView<InfoFocusController> {
 
   // 主视图
   Widget _buildView() {
-    return const Center(
-      child: Text("InfoFocusPage"),
-    );
+    return List.generate(
+      FeedService.to.feedLength,
+      (index) => TextWidget.title3(
+        "${FeedService.to.feed(index).name}",
+      ),
+    ).toColumn();
   }
 
   @override

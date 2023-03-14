@@ -1,6 +1,8 @@
-class Post {
+class UserPost {
   int? userId;
   int? feedId;
+  String? feedName;
+  dynamic cover;
   int? postId;
   String? link;
   String? content;
@@ -11,9 +13,11 @@ class Post {
   dynamic notes;
   int? publishTime;
 
-  Post({
+  UserPost({
     this.userId,
     this.feedId,
+    this.feedName,
+    this.cover,
     this.postId,
     this.link,
     this.content,
@@ -25,9 +29,11 @@ class Post {
     this.publishTime,
   });
 
-  factory Post.fromJson(Map<String, dynamic> json) => Post(
+  factory UserPost.fromJson(Map<String, dynamic> json) => UserPost(
         userId: json['user_id'] as int?,
         feedId: json['feed_id'] as int?,
+        feedName: json['feed_name'] as String?,
+        cover: json['cover'] as dynamic,
         postId: json['post_id'] as int?,
         link: json['link'] as String?,
         content: json['content'] as String?,
@@ -42,6 +48,8 @@ class Post {
   Map<String, dynamic> toJson() => {
         'user_id': userId,
         'feed_id': feedId,
+        'feed_name': feedName,
+        'cover': cover,
         'post_id': postId,
         'link': link,
         'content': content,

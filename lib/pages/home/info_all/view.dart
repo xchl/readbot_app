@@ -1,5 +1,6 @@
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'index.dart';
@@ -44,11 +45,33 @@ class InfoAllPage extends GetView<InfoAllController> {
 
   // 主视图
   Widget _buildView() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [],
-      ).paddingAll(AppSpace.card),
-    );
+    return ListView.separated(
+            separatorBuilder: (_, __) => const Divider(),
+            itemBuilder: (context, i) {
+              final item = FeedService.to.postList[i];
+              return Dismissible(
+                background: Container(
+                  color: AppColors.primary,
+                  child: const Icon(Icons.check),
+                ),
+                secondaryBackground: Container(
+                  color: AppColors.secondary,
+                  child: const Icon(Icons.cancel),
+                ),
+                key: ValueKey<int>(item.postId!),
+                onDismissed: (direction) {
+                  if (direction == DismissDirection.startToEnd) {
+                    controller.addToArchive(i);
+                  } else {
+                    controller.addToFocus(i);
+                  }
+                },
+                child: PostItemWidget(post: item),
+              );
+            },
+            itemCount: FeedService.to.postLength)
+        .paddingLeft(5.w)
+        .paddingRight(5.w);
   }
 
   @override
@@ -59,9 +82,15 @@ class InfoAllPage extends GetView<InfoAllController> {
       builder: (_) {
         return Scaffold(
           appBar: _buildAppBar(),
-          body: SafeArea(
-            child: _buildView(),
+          drawer: Drawer(
+            backgroundColor: AppColors.background,
           ),
+          body: RefreshIndicator(
+              displacement: 50,
+              color: Colors.redAccent,
+              backgroundColor: Colors.blue,
+              onRefresh: controller.onRefresh,
+              child: _buildView()),
         );
       },
     );
