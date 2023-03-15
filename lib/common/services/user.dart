@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -45,13 +46,19 @@ class UserService extends GetxService {
     if (accessToken.isNotEmpty && refreshToken.isNotEmpty) {
       parseToken(accessToken, refreshToken);
     }
+
     await refreshTokenIfNeed();
     parseProfile();
   }
 
+  @override
+  void onReady() async {}
+
   void parseProfile() {
-    var decodedAccessToken = JwtDecoder.decode(accessToken);
-    _basicProfile(BasicProfile.fromJson(decodedAccessToken['data']));
+    if (accessToken.isNotEmpty) {
+      var decodedAccessToken = JwtDecoder.decode(accessToken);
+      _basicProfile(BasicProfile.fromJson(decodedAccessToken['data']));
+    }
   }
 
   void parseToken(String accessToken, String refreshToken) {
@@ -77,14 +84,6 @@ class UserService extends GetxService {
 
     parseToken(accessToken, refreshToken);
   }
-
-  /// 获取用户 profile
-  // Future<void> getProfile() async {
-  //   if (accessToken.isEmpty) return;
-  //   UserInfo result = await UserApi.info();
-  //   _basicProfile(result);
-  //   Storage().setString(Constants.storageProfile, jsonEncode(result));
-  // }
 
   /// 设置用户 profile
   Future<void> setProfile(BasicProfile profile) async {
@@ -113,7 +112,6 @@ class UserService extends GetxService {
     if (!hasActiveAccessToken() && hasActiveRefreshToken()) {
       UserTokenModel res = await UserApi.refreshToken(refreshToken);
       await setToken(res);
-      // parseProfile();
     }
   }
 }

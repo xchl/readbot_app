@@ -48,7 +48,7 @@ class InfoAllPage extends GetView<InfoAllController> {
     return ListView.separated(
             separatorBuilder: (_, __) => const Divider(),
             itemBuilder: (context, i) {
-              final item = FeedService.to.postList[i];
+              final item = FeedService.to.explorePosts[i];
               return Dismissible(
                 background: Container(
                   color: AppColors.primary,
@@ -61,15 +61,15 @@ class InfoAllPage extends GetView<InfoAllController> {
                 key: ValueKey<int>(item.postId!),
                 onDismissed: (direction) {
                   if (direction == DismissDirection.startToEnd) {
-                    controller.addToArchive(i);
+                    controller.moveExploreToArchive(i);
                   } else {
-                    controller.addToFocus(i);
+                    controller.moveExploreToFocus(i);
                   }
                 },
                 child: PostItemWidget(post: item),
               );
             },
-            itemCount: FeedService.to.postLength)
+            itemCount: FeedService.to.explorePosts.length)
         .paddingLeft(5.w)
         .paddingRight(5.w);
   }
@@ -77,7 +77,7 @@ class InfoAllPage extends GetView<InfoAllController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<InfoAllController>(
-      init: Get.find<InfoAllController>(),
+      init: InfoAllController(),
       id: "info_all",
       builder: (_) {
         return Scaffold(

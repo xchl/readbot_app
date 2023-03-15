@@ -21,7 +21,7 @@ class InfoFocusPage extends GetView<InfoFocusController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<InfoFocusController>(
-      init: Get.find<InfoFocusController>(),
+      init: InfoFocusController(),
       id: "info_focus",
       builder: (_) {
         return Scaffold(

@@ -28,13 +28,13 @@ class InfoAllController extends GetxController {
     _initData();
   }
 
-  void addToArchive(int index) {
-    FeedService.to.postList.removeAt(index);
+  void moveExploreToArchive(int index) {
+    FeedService.to.exploreToArchive(index);
     update(["info_all"]);
   }
 
-  void addToFocus(int index) {
-    FeedService.to.postList.removeAt(index);
+  void moveExploreToFocus(int index) {
+    FeedService.to.exploreToFocus(index);
     update(["info_all"]);
   }
 

@@ -3,6 +3,7 @@ class UserPost {
   int? feedId;
   String? feedName;
   dynamic cover;
+  int? stage;
   int? postId;
   String? link;
   String? content;
@@ -18,6 +19,7 @@ class UserPost {
     this.feedId,
     this.feedName,
     this.cover,
+    this.stage,
     this.postId,
     this.link,
     this.content,
@@ -34,6 +36,7 @@ class UserPost {
         feedId: json['feed_id'] as int?,
         feedName: json['feed_name'] as String?,
         cover: json['cover'] as dynamic,
+        stage: json['stage'] as int?,
         postId: json['post_id'] as int?,
         link: json['link'] as String?,
         content: json['content'] as String?,
@@ -50,6 +53,7 @@ class UserPost {
         'feed_id': feedId,
         'feed_name': feedName,
         'cover': cover,
+        'stage': stage,
         'post_id': postId,
         'link': link,
         'content': content,
