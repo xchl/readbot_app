@@ -1,9 +1,9 @@
-import 'package:feed_inbox_app/common/services/feed.dart';
+import 'package:feed_inbox_app/common/index.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class InfoAllController extends GetxController {
-  InfoAllController();
+class PostAllController extends GetxController {
+  PostAllController();
 
   // 刷新控制器
   final RefreshController refreshController = RefreshController(
@@ -12,7 +12,7 @@ class InfoAllController extends GetxController {
 
   _initData() async {
     await FeedService.to.fetchPostList();
-    update(["info_all"]);
+    update(["post_all"]);
   }
 
   void onTap() {}
@@ -30,13 +30,15 @@ class InfoAllController extends GetxController {
 
   void moveExploreToArchive(int index) {
     FeedService.to.exploreToArchive(index);
-    update(["info_all"]);
+    update(["post_all"]);
   }
 
   void moveExploreToFocus(int index) {
     FeedService.to.exploreToFocus(index);
-    update(["info_all"]);
+    update(["post_all"]);
   }
+
+  void onTapItem(UserPost post) {}
 
   Future<void> onRefresh() async {
     try {
@@ -45,7 +47,7 @@ class InfoAllController extends GetxController {
     } catch (error) {
       refreshController.refreshFailed();
     }
-    update(["info_all"]);
+    update(["post_all"]);
   }
 
   void onAppBarTap() {}

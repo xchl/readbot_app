@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 
 import 'index.dart';
 
-class InfoAllPage extends GetView<InfoAllController> {
-  const InfoAllPage({Key? key}) : super(key: key);
+class postAllPage extends GetView<PostAllController> {
+  const postAllPage({Key? key}) : super(key: key);
 
   // 导航栏
   AppBar _buildAppBar() {
@@ -46,7 +46,9 @@ class InfoAllPage extends GetView<InfoAllController> {
   // 主视图
   Widget _buildView() {
     return ListView.separated(
-            separatorBuilder: (_, __) => const Divider(),
+            separatorBuilder: (_, __) => const Divider(
+                  height: 0,
+                ),
             itemBuilder: (context, i) {
               final item = FeedService.to.explorePosts[i];
               return Dismissible(
@@ -66,7 +68,11 @@ class InfoAllPage extends GetView<InfoAllController> {
                     controller.moveExploreToFocus(i);
                   }
                 },
-                child: PostItemWidget(post: item),
+                child: PostItemWidget(
+                  post: item,
+                ).inkWell(onTap: () {
+                  controller.onTapItem(item);
+                }),
               );
             },
             itemCount: FeedService.to.explorePosts.length)
@@ -77,9 +83,9 @@ class InfoAllPage extends GetView<InfoAllController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<InfoAllController>(
-      // init: InfoAllController(),
-      id: "info_all",
+    return GetBuilder<PostAllController>(
+      init: PostAllController(),
+      id: "post_all",
       builder: (_) {
         return Scaffold(
           appBar: _buildAppBar(),

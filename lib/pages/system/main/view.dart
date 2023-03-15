@@ -77,7 +77,7 @@ class _MainViewGetX extends GetView<MainController> {
           children: const [
             // 加入空页面占位
             InfoFocusPage(),
-            InfoAllPage(),
+            postAllPage(),
             MyIndexPage()
           ],
         ),
@@ -88,7 +88,7 @@ class _MainViewGetX extends GetView<MainController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MainController>(
-      // init: MainController(),
+      init: MainController(),
       id: "main",
       builder: (_) => _buildView(),
     );

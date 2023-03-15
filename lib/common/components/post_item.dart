@@ -7,12 +7,9 @@ import 'package:intl/intl.dart';
 class PostItemWidget extends StatelessWidget {
   final UserPost post;
 
-  // final Function() onTap;
-
   const PostItemWidget({
     Key? key,
     required this.post,
-    // required this.onTap,
   }) : super(key: key);
 
   Widget _buildImageBlock() {
@@ -46,6 +43,6 @@ class PostItemWidget extends StatelessWidget {
         // 文字Block
         _buildTextBlock().expanded(),
       ].toRow(),
-    );
+    ).paddingBottom(AppSpace.listItem).paddingTop(AppSpace.listItem);
   }
 }

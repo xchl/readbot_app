@@ -1,21 +1,25 @@
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:get/get.dart';
 
-class InfoFocusController extends GetxController {
-  InfoFocusController();
+class PostFocusController extends GetxController {
+  PostFocusController();
 
   _initData() {
-    update(["info_focus"]);
+    update(["post_focus"]);
+  }
+
+  void onTapItem(UserPost post) {
+    // print(post.postId);
   }
 
   void moveExploreToArchive(int index) {
     FeedService.to.exploreToArchive(index);
-    update(["info_focus"]);
+    update(["post_focus"]);
   }
 
   void moveExploreToFocus(int index) {
     FeedService.to.exploreToFocus(index);
-    update(["info_focus"]);
+    update(["post_focus"]);
   }
 
   void onTap() {}

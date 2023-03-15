@@ -15,11 +15,11 @@ class RoutePages {
     GetPage(
       name: RouteNames.main,
       page: () => const MainPage(),
-      binding: MainBinding(),
+      // binding: MainBinding(),
     ),
     GetPage(
       name: RouteNames.homeInfoAll,
-      page: () => const InfoAllPage(),
+      page: () => const postAllPage(),
     ),
     GetPage(
       name: RouteNames.homeInfoFocus,
@@ -88,6 +88,7 @@ class RoutePages {
     GetPage(
       name: RouteNames.systemMain,
       page: () => const MainPage(),
+      // binding: MainBinding(),
     ),
     GetPage(
       name: RouteNames.systemRegister,

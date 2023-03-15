@@ -2,8 +2,8 @@ library pages;
 
 // export './xxxx.dart';
 
-export 'home/info_all/index.dart';
-export 'home/info_focus/index.dart';
+export 'post/post_all/index.dart';
+export 'post/post_focus/index.dart';
 export 'my/my_index/index.dart';
 export 'my/my_feeds/index.dart';
 export 'styles/buttom_sheet/index.dart';

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 import 'index.dart';
 
-class InfoFocusPage extends GetView<InfoFocusController> {
+class InfoFocusPage extends GetView<PostFocusController> {
   const InfoFocusPage({Key? key}) : super(key: key);
 
   // 主视图
@@ -31,7 +31,9 @@ class InfoFocusPage extends GetView<InfoFocusController> {
                     controller.moveExploreToFocus(i);
                   }
                 },
-                child: PostItemWidget(post: item),
+                child: PostItemWidget(
+                  post: item,
+                ),
               );
             },
             itemCount: FeedService.to.focusPosts.length)
@@ -42,9 +44,9 @@ class InfoFocusPage extends GetView<InfoFocusController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<InfoFocusController>(
-      // init: InfoFocusController(),
-      id: "info_focus",
+    return GetBuilder<PostFocusController>(
+      init: PostFocusController(),
+      id: "post_focus",
       builder: (_) {
         return Scaffold(
           appBar: AppBar(

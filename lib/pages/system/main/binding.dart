@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 class MainBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<InfoFocusController>(() => InfoFocusController());
-    Get.lazyPut<InfoAllController>(() => InfoAllController());
+    Get.lazyPut<PostFocusController>(() => PostFocusController());
+    Get.lazyPut<PostAllController>(() => PostAllController());
     Get.lazyPut<MyIndexController>(() => MyIndexController());
     Get.lazyPut<MainController>(() => MainController());
   }
