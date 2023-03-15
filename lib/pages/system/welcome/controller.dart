@@ -23,7 +23,7 @@ class WelcomeController extends GetxController {
 
   // 去首页
   void onToMain() {
-    Get.offAllNamed(RouteNames.systemMain);
+    Get.offAllNamed(RouteNames.main);
   }
 
   // 下一个

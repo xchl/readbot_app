@@ -10,18 +10,40 @@ class InfoFocusPage extends GetView<InfoFocusController> {
 
   // 主视图
   Widget _buildView() {
-    return List.generate(
-      FeedService.to.feedLength,
-      (index) => TextWidget.title3(
-        "${FeedService.to.feed(index).name}",
-      ),
-    ).toColumn();
+    return ListView.separated(
+            separatorBuilder: (_, __) => const Divider(),
+            itemBuilder: (context, i) {
+              final item = FeedService.to.focusPosts[i];
+              return Dismissible(
+                background: Container(
+                  color: AppColors.primary,
+                  child: const Icon(Icons.check),
+                ),
+                secondaryBackground: Container(
+                  color: AppColors.secondary,
+                  child: const Icon(Icons.cancel),
+                ),
+                key: ValueKey<int>(item.postId!),
+                onDismissed: (direction) {
+                  if (direction == DismissDirection.startToEnd) {
+                    controller.moveExploreToArchive(i);
+                  } else {
+                    controller.moveExploreToFocus(i);
+                  }
+                },
+                child: PostItemWidget(post: item),
+              );
+            },
+            itemCount: FeedService.to.focusPosts.length)
+        .paddingLeft(5.w)
+        .paddingRight(5.w)
+        .backgroundColor(AppColors.background);
   }
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<InfoFocusController>(
-      init: InfoFocusController(),
+      // init: InfoFocusController(),
       id: "info_focus",
       builder: (_) {
         return Scaffold(

@@ -7,9 +7,12 @@ import 'package:intl/intl.dart';
 class PostItemWidget extends StatelessWidget {
   final UserPost post;
 
+  // final Function() onTap;
+
   const PostItemWidget({
     Key? key,
     required this.post,
+    // required this.onTap,
   }) : super(key: key);
 
   Widget _buildImageBlock() {
@@ -37,11 +40,12 @@ class PostItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: <Widget>[
-      // 图片Block
-      _buildImageBlock().width(60),
-      // 文字Block
-      _buildTextBlock().expanded(),
-    ].toRow());
+      child: <Widget>[
+        // 图片Block
+        _buildImageBlock().width(60),
+        // 文字Block
+        _buildTextBlock().expanded(),
+      ].toRow(),
+    );
   }
 }

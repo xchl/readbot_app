@@ -12,7 +12,7 @@ class InfoAllPage extends GetView<InfoAllController> {
   AppBar _buildAppBar() {
     return AppBar(
       // 背景透明
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.background,
       // 取消阴影
       elevation: 0,
       // 标题栏左侧间距
@@ -71,13 +71,14 @@ class InfoAllPage extends GetView<InfoAllController> {
             },
             itemCount: FeedService.to.explorePosts.length)
         .paddingLeft(5.w)
-        .paddingRight(5.w);
+        .paddingRight(5.w)
+        .backgroundColor(AppColors.background);
   }
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<InfoAllController>(
-      init: InfoAllController(),
+      // init: InfoAllController(),
       id: "info_all",
       builder: (_) {
         return Scaffold(
