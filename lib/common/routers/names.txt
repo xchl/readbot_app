@@ -1,6 +1,9 @@
-static const homeInfoAll = '/home_info_all';
-static const homeInfoFocus = '/home_info_focus';
+static const myMyFeeds = '/my_my_feeds';
 static const myMyIndex = '/my_my_index';
+static const myMyIndexWidgets = '/my_my_index_widgets';
+static const postPostAll = '/post_post_all';
+static const postPostDetail = '/post_post_detail';
+static const postPostFocus = '/post_post_focus';
 static const stylesButtomSheet = '/styles_buttom_sheet';
 static const stylesButtons = '/styles_buttons';
 static const stylesCarousel = '/styles_carousel';

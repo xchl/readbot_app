@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 
 import 'index.dart';
 
-class postAllPage extends GetView<PostAllController> {
-  const postAllPage({Key? key}) : super(key: key);
+class PostAllPage extends GetView<PostAllController> {
+  const PostAllPage({Key? key}) : super(key: key);
 
   // 导航栏
   AppBar _buildAppBar() {

@@ -1,15 +1,27 @@
 
       GetPage(
-        name: RouteNames.homeInfoAll,
-        page: () => const InfoAllPage(),
-      ),
-      GetPage(
-        name: RouteNames.homeInfoFocus,
-        page: () => const InfoFocusPage(),
+        name: RouteNames.myMyFeeds,
+        page: () => const MyFeedsPage(),
       ),
       GetPage(
         name: RouteNames.myMyIndex,
         page: () => const MyIndexPage(),
+      ),
+      GetPage(
+        name: RouteNames.myMyIndexWidgets,
+        page: () => const WidgetsPage(),
+      ),
+      GetPage(
+        name: RouteNames.postPostAll,
+        page: () => const PostAllPage(),
+      ),
+      GetPage(
+        name: RouteNames.postPostDetail,
+        page: () => const PostDetailPage(),
+      ),
+      GetPage(
+        name: RouteNames.postPostFocus,
+        page: () => const PostFocusPage(),
       ),
       GetPage(
         name: RouteNames.stylesButtomSheet,

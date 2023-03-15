@@ -2,10 +2,12 @@ library pages;
 
 // export './xxxx.dart';
 
-export 'post/post_all/index.dart';
-export 'post/post_focus/index.dart';
-export 'my/my_index/index.dart';
 export 'my/my_feeds/index.dart';
+export 'my/my_index/index.dart';
+export 'my/my_index/widgets/index.dart';
+export 'post/post_all/index.dart';
+export 'post/post_detail/index.dart';
+export 'post/post_focus/index.dart';
 export 'styles/buttom_sheet/index.dart';
 export 'styles/buttons/index.dart';
 export 'styles/carousel/index.dart';

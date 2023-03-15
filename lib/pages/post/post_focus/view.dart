@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 
 import 'index.dart';
 
-class InfoFocusPage extends GetView<PostFocusController> {
-  const InfoFocusPage({Key? key}) : super(key: key);
+class PostFocusPage extends GetView<PostFocusController> {
+  const PostFocusPage({Key? key}) : super(key: key);
 
   // 主视图
   Widget _buildView() {

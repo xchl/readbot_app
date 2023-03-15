@@ -18,20 +18,24 @@ class RoutePages {
       // binding: MainBinding(),
     ),
     GetPage(
-      name: RouteNames.homeInfoAll,
-      page: () => const postAllPage(),
-    ),
-    GetPage(
-      name: RouteNames.homeInfoFocus,
-      page: () => const InfoFocusPage(),
+      name: RouteNames.myMyFeeds,
+      page: () => const MyFeedsPage(),
     ),
     GetPage(
       name: RouteNames.myMyIndex,
       page: () => const MyIndexPage(),
     ),
     GetPage(
-      name: RouteNames.myMyFeeds,
-      page: () => const MyFeedsPage(),
+      name: RouteNames.postPostAll,
+      page: () => const PostAllPage(),
+    ),
+    GetPage(
+      name: RouteNames.postPostDetail,
+      page: () => const PostDetailPage(),
+    ),
+    GetPage(
+      name: RouteNames.postPostFocus,
+      page: () => const PostFocusPage(),
     ),
     GetPage(
       name: RouteNames.stylesButtomSheet,
@@ -88,7 +92,6 @@ class RoutePages {
     GetPage(
       name: RouteNames.systemMain,
       page: () => const MainPage(),
-      // binding: MainBinding(),
     ),
     GetPage(
       name: RouteNames.systemRegister,
@@ -109,6 +112,6 @@ class RoutePages {
     GetPage(
       name: RouteNames.systemWelcome,
       page: () => const WelcomePage(),
-    )
+    ),
   ];
 }

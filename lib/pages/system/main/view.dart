@@ -76,8 +76,8 @@ class _MainViewGetX extends GetView<MainController> {
           onPageChanged: controller.onIndexChanged,
           children: const [
             // 加入空页面占位
-            InfoFocusPage(),
-            postAllPage(),
+            PostFocusPage(),
+            PostAllPage(),
             MyIndexPage()
           ],
         ),
