@@ -38,7 +38,9 @@ class PostAllController extends GetxController {
     update(["post_all"]);
   }
 
-  void onTapItem(UserPost post) {}
+  void onTapItem(UserPost post) {
+    Get.toNamed(RouteNames.postPostDetail, arguments: {'post': post});
+  }
 
   Future<void> onRefresh() async {
     try {

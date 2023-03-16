@@ -20,6 +20,7 @@ version: 1.0.0+1
 
 environment:
   sdk: '>=2.19.0 <3.0.0'
+  flutter: ">=3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -54,6 +55,9 @@ dependencies:
   jwt_decoder: ^2.0.1
   intl: ^0.17.0
   pull_to_refresh: ^2.0.0
+  webview_flutter: ^4.0.6
+  webview_flutter_android: ^3.4.2
+  webview_flutter_wkwebview: ^3.2.1
 
 dev_dependencies:
   flutter_test:
