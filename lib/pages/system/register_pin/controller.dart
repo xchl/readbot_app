@@ -1,4 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +13,7 @@ class RegisterPinController extends GetxController {
   GlobalKey formKey = GlobalKey<FormState>();
 
   // 注册界面传值
-  UserRegisterReq? req = Get.arguments;
+  RegisterInfo? req = Get.arguments;
 
   // pin 触发提交
   void onPinSubmit(String val) {

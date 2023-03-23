@@ -1,4 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -48,7 +49,7 @@ class RegisterController extends GetxController {
       //验证通过
       Get.offNamed(
         RouteNames.systemRegisterPin,
-        arguments: UserRegisterReq(
+        arguments: RegisterInfo(
           username: userNameController.text,
           email: emailController.text,
           password: password,

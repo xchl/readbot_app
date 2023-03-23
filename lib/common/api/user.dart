@@ -1,9 +1,10 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 
 /// 用户 api
 class UserApi {
   /// 注册
-  static Future<bool> register(UserRegisterReq? req) async {
+  static Future<bool> register(RegisterInfo? req) async {
     var res = await FeedBoxHttpService.to.post(
       '/user/register',
       data: req,
