@@ -17,25 +17,25 @@ class UserApi {
   }
 
   /// 登录
-  static Future<UserTokenModel> login(UserLoginReq? req) async {
+  static Future<AuthResponse> login(LoginInfo? req) async {
     var res = await FeedBoxHttpService.to.post(
       '/user/login',
-      data: req,
+      data: LoginRequest(loginInfo: req),
     );
-    return UserTokenModel.fromJson(res.data);
+    return AuthResponse.fromJson(res.data);
   }
 
-  static Future<UserTokenModel> refreshToken(String refreshToken) async {
+  static Future<AuthResponse> refreshToken(String refreshToken) async {
     var res = await FeedBoxHttpService.to
         .post('/user/refresh_token', data: refreshToken);
-    return UserTokenModel.fromJson(res.data);
+    return AuthResponse.fromJson(res.data);
   }
 
   /// Profile
-  static Future<UserInfo> info() async {
+  static Future<UserProfile> info() async {
     var res = await FeedBoxHttpService.to.get(
       '/user/me',
     );
-    return UserInfo.fromJson(res.data);
+    return UserProfile.fromJson(res.data);
   }
 }

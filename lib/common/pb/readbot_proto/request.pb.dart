@@ -145,6 +145,53 @@ class LoginInfo extends $pb.GeneratedMessage {
   void clearPassword() => clearField(2);
 }
 
+class RefreshToken extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RefreshToken', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'request'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'token')
+    ..hasRequiredFields = false
+  ;
+
+  RefreshToken._() : super();
+  factory RefreshToken({
+    $core.String? token,
+  }) {
+    final _result = create();
+    if (token != null) {
+      _result.token = token;
+    }
+    return _result;
+  }
+  factory RefreshToken.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RefreshToken.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  RefreshToken clone() => RefreshToken()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  RefreshToken copyWith(void Function(RefreshToken) updates) => super.copyWith((message) => updates(message as RefreshToken)) as RefreshToken; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static RefreshToken create() => RefreshToken._();
+  RefreshToken createEmptyInstance() => create();
+  static $pb.PbList<RefreshToken> createRepeated() => $pb.PbList<RefreshToken>();
+  @$core.pragma('dart2js:noInline')
+  static RefreshToken getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RefreshToken>(create);
+  static RefreshToken? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get token => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set token($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasToken() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearToken() => clearField(1);
+}
+
 class ClientInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ClientInfo', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'request'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'clientName')
@@ -192,31 +239,82 @@ class ClientInfo extends $pb.GeneratedMessage {
   void clearClientName() => clearField(1);
 }
 
-enum AuthRequest_Request {
-  registerInfo, 
-  loginInfo, 
-  notSet
-}
-
-class AuthRequest extends $pb.GeneratedMessage {
-  static const $core.Map<$core.int, AuthRequest_Request> _AuthRequest_RequestByTag = {
-    2 : AuthRequest_Request.registerInfo,
-    3 : AuthRequest_Request.loginInfo,
-    0 : AuthRequest_Request.notSet
-  };
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AuthRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'request'), createEmptyInstance: create)
-    ..oo(0, [2, 3])
+class LoginRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'LoginRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'request'), createEmptyInstance: create)
     ..aOM<ClientInfo>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'clientInfo', subBuilder: ClientInfo.create)
-    ..aOM<RegisterInfo>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'registerInfo', subBuilder: RegisterInfo.create)
-    ..aOM<LoginInfo>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'loginInfo', subBuilder: LoginInfo.create)
+    ..aOM<LoginInfo>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'loginInfo', subBuilder: LoginInfo.create)
     ..hasRequiredFields = false
   ;
 
-  AuthRequest._() : super();
-  factory AuthRequest({
+  LoginRequest._() : super();
+  factory LoginRequest({
+    ClientInfo? clientInfo,
+    LoginInfo? loginInfo,
+  }) {
+    final _result = create();
+    if (clientInfo != null) {
+      _result.clientInfo = clientInfo;
+    }
+    if (loginInfo != null) {
+      _result.loginInfo = loginInfo;
+    }
+    return _result;
+  }
+  factory LoginRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LoginRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  LoginRequest clone() => LoginRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  LoginRequest copyWith(void Function(LoginRequest) updates) => super.copyWith((message) => updates(message as LoginRequest)) as LoginRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static LoginRequest create() => LoginRequest._();
+  LoginRequest createEmptyInstance() => create();
+  static $pb.PbList<LoginRequest> createRepeated() => $pb.PbList<LoginRequest>();
+  @$core.pragma('dart2js:noInline')
+  static LoginRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoginRequest>(create);
+  static LoginRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  ClientInfo get clientInfo => $_getN(0);
+  @$pb.TagNumber(1)
+  set clientInfo(ClientInfo v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasClientInfo() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearClientInfo() => clearField(1);
+  @$pb.TagNumber(1)
+  ClientInfo ensureClientInfo() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  LoginInfo get loginInfo => $_getN(1);
+  @$pb.TagNumber(2)
+  set loginInfo(LoginInfo v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasLoginInfo() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearLoginInfo() => clearField(2);
+  @$pb.TagNumber(2)
+  LoginInfo ensureLoginInfo() => $_ensure(1);
+}
+
+class RegisterRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RegisterRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'request'), createEmptyInstance: create)
+    ..aOM<ClientInfo>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'clientInfo', subBuilder: ClientInfo.create)
+    ..aOM<RegisterInfo>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'registerInfo', subBuilder: RegisterInfo.create)
+    ..hasRequiredFields = false
+  ;
+
+  RegisterRequest._() : super();
+  factory RegisterRequest({
     ClientInfo? clientInfo,
     RegisterInfo? registerInfo,
-    LoginInfo? loginInfo,
   }) {
     final _result = create();
     if (clientInfo != null) {
@@ -225,34 +323,28 @@ class AuthRequest extends $pb.GeneratedMessage {
     if (registerInfo != null) {
       _result.registerInfo = registerInfo;
     }
-    if (loginInfo != null) {
-      _result.loginInfo = loginInfo;
-    }
     return _result;
   }
-  factory AuthRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory AuthRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory RegisterRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RegisterRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  AuthRequest clone() => AuthRequest()..mergeFromMessage(this);
+  RegisterRequest clone() => RegisterRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  AuthRequest copyWith(void Function(AuthRequest) updates) => super.copyWith((message) => updates(message as AuthRequest)) as AuthRequest; // ignore: deprecated_member_use
+  RegisterRequest copyWith(void Function(RegisterRequest) updates) => super.copyWith((message) => updates(message as RegisterRequest)) as RegisterRequest; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static AuthRequest create() => AuthRequest._();
-  AuthRequest createEmptyInstance() => create();
-  static $pb.PbList<AuthRequest> createRepeated() => $pb.PbList<AuthRequest>();
+  static RegisterRequest create() => RegisterRequest._();
+  RegisterRequest createEmptyInstance() => create();
+  static $pb.PbList<RegisterRequest> createRepeated() => $pb.PbList<RegisterRequest>();
   @$core.pragma('dart2js:noInline')
-  static AuthRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AuthRequest>(create);
-  static AuthRequest? _defaultInstance;
-
-  AuthRequest_Request whichRequest() => _AuthRequest_RequestByTag[$_whichOneof(0)]!;
-  void clearRequest() => clearField($_whichOneof(0));
+  static RegisterRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegisterRequest>(create);
+  static RegisterRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   ClientInfo get clientInfo => $_getN(0);
@@ -275,16 +367,70 @@ class AuthRequest extends $pb.GeneratedMessage {
   void clearRegisterInfo() => clearField(2);
   @$pb.TagNumber(2)
   RegisterInfo ensureRegisterInfo() => $_ensure(1);
+}
 
-  @$pb.TagNumber(3)
-  LoginInfo get loginInfo => $_getN(2);
-  @$pb.TagNumber(3)
-  set loginInfo(LoginInfo v) { setField(3, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasLoginInfo() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearLoginInfo() => clearField(3);
-  @$pb.TagNumber(3)
-  LoginInfo ensureLoginInfo() => $_ensure(2);
+class RefreshTokenRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RefreshTokenRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'request'), createEmptyInstance: create)
+    ..aOM<ClientInfo>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'clientInfo', subBuilder: ClientInfo.create)
+    ..aOM<RefreshToken>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'refreshToken', subBuilder: RefreshToken.create)
+    ..hasRequiredFields = false
+  ;
+
+  RefreshTokenRequest._() : super();
+  factory RefreshTokenRequest({
+    ClientInfo? clientInfo,
+    RefreshToken? refreshToken,
+  }) {
+    final _result = create();
+    if (clientInfo != null) {
+      _result.clientInfo = clientInfo;
+    }
+    if (refreshToken != null) {
+      _result.refreshToken = refreshToken;
+    }
+    return _result;
+  }
+  factory RefreshTokenRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RefreshTokenRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  RefreshTokenRequest clone() => RefreshTokenRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  RefreshTokenRequest copyWith(void Function(RefreshTokenRequest) updates) => super.copyWith((message) => updates(message as RefreshTokenRequest)) as RefreshTokenRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static RefreshTokenRequest create() => RefreshTokenRequest._();
+  RefreshTokenRequest createEmptyInstance() => create();
+  static $pb.PbList<RefreshTokenRequest> createRepeated() => $pb.PbList<RefreshTokenRequest>();
+  @$core.pragma('dart2js:noInline')
+  static RefreshTokenRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RefreshTokenRequest>(create);
+  static RefreshTokenRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  ClientInfo get clientInfo => $_getN(0);
+  @$pb.TagNumber(1)
+  set clientInfo(ClientInfo v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasClientInfo() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearClientInfo() => clearField(1);
+  @$pb.TagNumber(1)
+  ClientInfo ensureClientInfo() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  RefreshToken get refreshToken => $_getN(1);
+  @$pb.TagNumber(2)
+  set refreshToken(RefreshToken v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasRefreshToken() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearRefreshToken() => clearField(2);
+  @$pb.TagNumber(2)
+  RefreshToken ensureRefreshToken() => $_ensure(1);
 }
 

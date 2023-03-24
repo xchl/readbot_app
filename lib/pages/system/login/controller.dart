@@ -1,4 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/common/pb/readbot_proto/request.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -47,7 +48,7 @@ class LoginController extends GetxController {
         //sha2密码加密
         var password = EncryptUtil.sha256Encode(passwordController.text);
 
-        await UserService.to.login(UserLoginReq(
+        await UserService.to.login(LoginInfo(
           email: emailController.text,
           password: password,
         ));
