@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: '>=2.18.0 <3.0.0'
   flutter: ">=3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
@@ -42,14 +42,14 @@ dependencies:
   package_info_plus: ^3.0.3
   shared_preferences: ^0.5.7+3
   dio: ^5.0.1
-  flutter_svg: ^2.0.2
+  flutter_svg: ^1.1.6
   badges: ^3.0.2
-  extended_image: ^7.0.2
+  extended_image: ^6.0.2
   flutter_screenutil: ^5.6.1
   flutter_native_splash: ^2.2.16
   carousel_slider: ^4.2.1
   validatorless: ^1.2.3
-  pinput: ^2.2.31
+  pinput: ^2.2.21
   flutter_easyloading: ^3.0.5
   crypto: ^3.0.2
   jwt_decoder: ^2.0.1

@@ -13,6 +13,7 @@ class Constants {
   static const storageLanguageCode = 'language_code';
   static const storageThemeCode = 'theme_code';
   static const storageAlreadyOpen = 'already_open'; // 首次打开
+  static const pageSizeMobile = 20;
 
   // Feed
   static const existUrlType = "exist";
@@ -25,4 +26,5 @@ class Constants {
   static const storageSeenPost = 'history_seen_post';
   static const storageArchivePost = 'history_archive_post';
   static const storageLatestPostId = 'history_latest_post_id';
+  static const storagePostCache = 'postCache';
 }

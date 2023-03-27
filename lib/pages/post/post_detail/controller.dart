@@ -1,4 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -13,7 +14,7 @@ class PostDetailController extends GetxController {
   late WebViewController webViewController;
 
   // 文章, 获取路由传递参数
-  UserPost post = Get.arguments['post'];
+  Content post = Get.arguments['content'];
 
   _initData() {
     update(["post_detail"]);
@@ -80,7 +81,7 @@ Page resource error:
           );
         },
       )
-      ..loadRequest(Uri.parse(post.link!));
+      ..loadRequest(Uri.parse(post.link));
 
     // #docregion platform_features
     if (controller.platform is AndroidWebViewController) {

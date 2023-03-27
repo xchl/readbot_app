@@ -84,3 +84,25 @@ const RefreshTokenRequest$json = const {
 
 /// Descriptor for `RefreshTokenRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List refreshTokenRequestDescriptor = $convert.base64Decode('ChNSZWZyZXNoVG9rZW5SZXF1ZXN0EjQKC2NsaWVudF9pbmZvGAEgASgLMhMucmVxdWVzdC5DbGllbnRJbmZvUgpjbGllbnRJbmZvEjoKDXJlZnJlc2hfdG9rZW4YAiABKAsyFS5yZXF1ZXN0LlJlZnJlc2hUb2tlblIMcmVmcmVzaFRva2Vu');
+@$core.Deprecated('Use feedInfoDescriptor instead')
+const FeedInfo$json = const {
+  '1': 'FeedInfo',
+  '2': const [
+    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'url', '3': 2, '4': 1, '5': 9, '10': 'url'},
+    const {'1': 'icon', '3': 3, '4': 1, '5': 9, '10': 'icon'},
+  ],
+};
+
+/// Descriptor for `FeedInfo`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List feedInfoDescriptor = $convert.base64Decode('CghGZWVkSW5mbxISCgRuYW1lGAEgASgJUgRuYW1lEhAKA3VybBgCIAEoCVIDdXJsEhIKBGljb24YAyABKAlSBGljb24=');
+@$core.Deprecated('Use createFeedRequestDescriptor instead')
+const CreateFeedRequest$json = const {
+  '1': 'CreateFeedRequest',
+  '2': const [
+    const {'1': 'feed_info', '3': 2, '4': 1, '5': 11, '6': '.request.FeedInfo', '10': 'feedInfo'},
+  ],
+};
+
+/// Descriptor for `CreateFeedRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List createFeedRequestDescriptor = $convert.base64Decode('ChFDcmVhdGVGZWVkUmVxdWVzdBIuCglmZWVkX2luZm8YAiABKAsyES5yZXF1ZXN0LkZlZWRJbmZvUghmZWVkSW5mbw==');

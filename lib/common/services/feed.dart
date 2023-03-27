@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:feed_inbox_app/common/api/feed.dart';
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/models/request/post_req.dart';
+import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:get/get.dart';
 
 /// 用户服务
@@ -11,35 +11,42 @@ class FeedService extends GetxService {
   static FeedService get to => Get.find();
 
   var _feedList = <UserFeed>[];
-  var _explorePostList = <UserPost>[];
-  var _focusPostList = <UserPost>[];
-  var _seenPostList = <UserPost>[];
-  var _archivePostList = <UserPost>[];
+  final _feedMap = <int, FeedProfile>{};
+  var _explorePostList = <UserContent>[];
+  var _focusPostList = <UserContent>[];
+  var _seenPostList = <UserContent>[];
+  var _archivePostList = <UserContent>[];
+  final _contentMap = <int, Content>{}; // contentId -> content
+
   int _latestPostId = -1;
   int _latestFeedId = -1;
 
   int get feedLength => _feedList.length;
 
   List<UserFeed> get feedList => _feedList;
+  Map<int, FeedProfile> get feedMap => _feedMap;
 
-  List<UserPost> get explorePosts => _explorePostList;
-  List<UserPost> get focusPosts => _focusPostList;
-  List<UserPost> get seenPosts => _seenPostList;
-  List<UserPost> get archivePosts => _archivePostList;
+  List<UserContent> get explorePosts => _explorePostList;
+  List<UserContent> get focusPosts => _focusPostList;
+  List<UserContent> get seenPosts => _seenPostList;
+  List<UserContent> get archivePosts => _archivePostList;
+  Map<int, Content> get contentMap => _contentMap;
 
   UserFeed feed(int i) {
     return feedList[i];
   }
 
-  Future<void> addFeed(UserFeed feed) async {
-    UserFeed res = await FeedApi.addExistSingle(feed);
-    _feedList.add(res);
+  Future<void> addFeed(FeedInfo feed) async {
+    CreateFeedResponse res = await FeedApi.addExistSingle(CreateFeedRequest(
+      feedInfo: feed,
+    ));
+    _feedList.add(res.userFeed);
   }
 
-  List<UserPost> _decodePost(String json) {
+  List<UserContent> _decodePost(String json) {
     return json != ""
         ? jsonDecode(json).map((item) {
-            return UserPost.fromJson(item);
+            return UserContent.fromJson(item);
           }).toList()
         : [];
   }
@@ -75,53 +82,60 @@ class FeedService extends GetxService {
   }
 
   void exploreToArchive(int index) {
-    UserPost post = explorePosts.removeAt(index);
+    UserContent post = explorePosts.removeAt(index);
     archivePosts.add(post);
   }
 
   void exploreToFocus(int index) {
-    UserPost post = explorePosts.removeAt(index);
+    UserContent post = explorePosts.removeAt(index);
     focusPosts.add(post);
   }
 
   void exploreToSeen(int index) {
-    UserPost post = explorePosts.removeAt(index);
+    UserContent post = explorePosts.removeAt(index);
     seenPosts.add(post);
   }
 
   void focusToSeen(int index) {
-    UserPost post = focusPosts.removeAt(index);
+    UserContent post = focusPosts.removeAt(index);
     seenPosts.add(post);
   }
 
   void focusToArchive(int index) {
-    UserPost post = focusPosts.removeAt(index);
+    UserContent post = focusPosts.removeAt(index);
     archivePosts.add(post);
   }
 
   Future<void> fetchFeedList() async {
-    _feedList = await FeedApi.getFeedList(); //todo: add lastesd Feed id
+    var resp = await FeedApi.getFeedList(); //todo: add lastesd Feed id
+    _feedList = resp.userFeeds;
+    for (final feed in resp.feedProfiles) {
+      _feedMap[feed.id] = feed;
+    }
   }
 
   Future<void> fetchPostList() async {
-    List<UserPost> postList =
-        await FeedApi.getPostList(PostReq(latestPostId: _latestPostId));
-    for (final post in postList) {
+    var resp = await FeedApi.getPostList(
+        _latestFeedId, Constants.pageSizeMobile, true);
+    for (final content in resp.contents) {
+      _contentMap[content.id] = content;
+    }
+    for (final post in resp.userContents) {
       switch (post.stage) {
-        case 1:
+        case ReadStage.READ_STAGE_EXPLORE:
           _explorePostList.add(post);
           break;
-        case 2:
+        case ReadStage.READ_STAGE_FOCUS:
           _focusPostList.add(post);
           break;
-        case 3:
+        case ReadStage.READ_STAGE_SEEN:
           _seenPostList.add(post);
           break;
-        case 4:
+        case ReadStage.READ_STAGE_ARCHIVED:
           _archivePostList.add(post);
           break;
       }
-      _latestPostId = max(_latestPostId, post.postId!);
+      _latestPostId = max(_latestPostId, post.contentId);
     }
   }
 

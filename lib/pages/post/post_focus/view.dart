@@ -13,7 +13,9 @@ class PostFocusPage extends GetView<PostFocusController> {
     return ListView.separated(
             separatorBuilder: (_, __) => const Divider(),
             itemBuilder: (context, i) {
-              final item = FeedService.to.focusPosts[i];
+              final userContent = FeedService.to.focusPosts[i];
+              final content = FeedService.to.contentMap[userContent.contentId]!;
+              final feed = FeedService.to.feedMap[content.feedId]!;
               return Dismissible(
                 background: Container(
                   color: AppColors.primary,
@@ -23,7 +25,7 @@ class PostFocusPage extends GetView<PostFocusController> {
                   color: AppColors.secondary,
                   child: const Icon(Icons.cancel),
                 ),
-                key: ValueKey<int>(item.postId!),
+                key: ValueKey<int>(content.id),
                 onDismissed: (direction) {
                   if (direction == DismissDirection.startToEnd) {
                     controller.moveExploreToArchive(i);
@@ -32,8 +34,11 @@ class PostFocusPage extends GetView<PostFocusController> {
                   }
                 },
                 child: PostItemWidget(
-                  post: item,
-                ),
+                  content: content,
+                  feedProfile: feed,
+                ).inkWell(onTap: () {
+                  controller.onTapItem(content);
+                }),
               );
             },
             itemCount: FeedService.to.focusPosts.length)

@@ -24,3 +24,22 @@ class ProLevel extends $pb.ProtobufEnum {
   const ProLevel._($core.int v, $core.String n) : super(v, n);
 }
 
+class ReadStage extends $pb.ProtobufEnum {
+  static const ReadStage READ_STAGE_EXPLORE = ReadStage._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'READ_STAGE_EXPLORE');
+  static const ReadStage READ_STAGE_FOCUS = ReadStage._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'READ_STAGE_FOCUS');
+  static const ReadStage READ_STAGE_SEEN = ReadStage._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'READ_STAGE_SEEN');
+  static const ReadStage READ_STAGE_ARCHIVED = ReadStage._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'READ_STAGE_ARCHIVED');
+
+  static const $core.List<ReadStage> values = <ReadStage> [
+    READ_STAGE_EXPLORE,
+    READ_STAGE_FOCUS,
+    READ_STAGE_SEEN,
+    READ_STAGE_ARCHIVED,
+  ];
+
+  static final $core.Map<$core.int, ReadStage> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static ReadStage? valueOf($core.int value) => _byValue[value];
+
+  const ReadStage._($core.int v, $core.String n) : super(v, n);
+}
+

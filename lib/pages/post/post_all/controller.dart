@@ -1,4 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -38,8 +39,8 @@ class PostAllController extends GetxController {
     update(["post_all"]);
   }
 
-  void onTapItem(UserPost post) {
-    Get.toNamed(RouteNames.postPostDetail, arguments: {'post': post});
+  void onTapItem(Content post) {
+    Get.toNamed(RouteNames.postPostDetail, arguments: {'content': post});
   }
 
   Future<void> onRefresh() async {

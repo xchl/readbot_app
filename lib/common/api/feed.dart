@@ -1,33 +1,27 @@
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/models/request/post_req.dart';
+import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 
 /// 订阅源API
 class FeedApi {
   /// 增加外部订阅源
-  static Future<UserFeed> addExistSingle(feedInfo) async {
+  static Future<CreateFeedResponse> addExistSingle(feedInfo) async {
     var res = await FeedBoxHttpService.to
         .post('/feed/add/${Constants.existUrlType}', data: feedInfo);
-    return UserFeed.fromJson(res.data);
+    return CreateFeedResponse.fromJson(res.data);
   }
 
   /// 获取订阅源列表
-  static Future<List<UserFeed>> getFeedList() async {
+  static Future<FecthFeedResponse> getFeedList() async {
     var res = await FeedBoxHttpService.to.get('/feed');
-    List<UserFeed> feeds = [];
-    for (var item in res.data) {
-      feeds.add(UserFeed.fromJson(item));
-    }
-    return feeds;
+    return FecthFeedResponse.fromJson(res.data);
   }
 
   /// 获取文章列表
-  static Future<List<UserPost>> getPostList(PostReq req) async {
-    var res =
-        await FeedBoxHttpService.to.get('/post/pull', params: req.toJson());
-    List<UserPost> posts = [];
-    for (var item in res.data) {
-      posts.add(UserPost.fromJson(item));
-    }
-    return posts;
+  static Future<FetchContentResponse> getPostList(
+      int latestId, int nums, bool isLatest) async {
+    var res = await FeedBoxHttpService.to.get('/post/pull',
+        params: {'latest_id': latestId, 'nums': nums, 'is_latest': isLatest});
+
+    return FetchContentResponse.fromJson(res.data);
   }
 }

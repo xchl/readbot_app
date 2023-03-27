@@ -1,4 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -50,7 +51,9 @@ class PostAllPage extends GetView<PostAllController> {
                   height: 0,
                 ),
             itemBuilder: (context, i) {
-              final item = FeedService.to.explorePosts[i];
+              final userContent = FeedService.to.explorePosts[i];
+              final content = FeedService.to.contentMap[userContent.contentId]!;
+              final feed = FeedService.to.feedMap[content.feedId]!;
               return Dismissible(
                 background: Container(
                   color: AppColors.primary,
@@ -60,7 +63,7 @@ class PostAllPage extends GetView<PostAllController> {
                   color: AppColors.secondary,
                   child: const Icon(Icons.cancel),
                 ),
-                key: ValueKey<int>(item.postId!),
+                key: ValueKey<int>(userContent.contentId),
                 onDismissed: (direction) {
                   if (direction == DismissDirection.startToEnd) {
                     controller.moveExploreToArchive(i);
@@ -69,9 +72,10 @@ class PostAllPage extends GetView<PostAllController> {
                   }
                 },
                 child: PostItemWidget(
-                  post: item,
+                  content: content,
+                  feedProfile: feed,
                 ).inkWell(onTap: () {
-                  controller.onTapItem(item);
+                  controller.onTapItem(content);
                 }),
               );
             },
