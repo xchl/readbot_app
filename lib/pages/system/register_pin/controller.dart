@@ -13,7 +13,7 @@ class RegisterPinController extends GetxController {
   GlobalKey formKey = GlobalKey<FormState>();
 
   // 注册界面传值
-  RegisterInfo? req = Get.arguments;
+  RegisterInfo req = Get.arguments;
 
   // pin 触发提交
   void onPinSubmit(String val) {

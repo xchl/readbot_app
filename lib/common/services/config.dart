@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/common/pb/readbot_proto/request.pb.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -22,9 +23,16 @@ class ConfigService extends GetxService {
   // 是否首次打开
   bool get isAlreadyOpen => Storage().getBool(Constants.storageAlreadyOpen);
 
+  ClientInfo? clientInfo;
+
   // 标记已打开app
   void setAlreadyOpen() {
     Storage().setBool(Constants.storageAlreadyOpen, true);
+  }
+
+  void setClient() {
+    //todo
+    clientInfo = ClientInfo.create()..clientName = "IOS";
   }
 
   // 初始化
@@ -36,6 +44,7 @@ class ConfigService extends GetxService {
   @override
   void onInit() {
     super.onInit();
+    setClient();
     getPlatform();
     initLocale();
     initTheme();

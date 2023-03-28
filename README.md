@@ -1,4 +1,4 @@
-# feed_inbox_app
+# ReadBot
 
 A new Flutter project.
 

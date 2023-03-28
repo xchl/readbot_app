@@ -57,7 +57,8 @@ class UserService extends GetxService {
   void parseProfile() {
     if (accessToken.isNotEmpty) {
       var decodedAccessToken = JwtDecoder.decode(accessToken);
-      _basicProfile(UserProfile.fromJson(decodedAccessToken['data']));
+      _basicProfile(
+          UserProfile()..mergeFromProto3Json(decodedAccessToken['data']));
     }
   }
 
@@ -66,7 +67,8 @@ class UserService extends GetxService {
     _accessTokenExpirTime =
         DateTime.fromMillisecondsSinceEpoch(decodedAccessToken['exp']);
 
-    _basicProfile(UserProfile.fromJson(decodedAccessToken['data']));
+    _basicProfile(
+        UserProfile()..mergeFromProto3Json(decodedAccessToken['data']));
 
     var decodedRefreshToken = JwtDecoder.decode(refreshToken);
     _refreshTokenExpirTime =

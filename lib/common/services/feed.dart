@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:extended_image/extended_image.dart';
 import 'package:feed_inbox_app/common/api/feed.dart';
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
+import 'package:webfeed/webfeed.dart';
 
 /// 用户服务
 class FeedService extends GetxService {
@@ -37,10 +40,14 @@ class FeedService extends GetxService {
   }
 
   Future<void> addFeed(FeedInfo feed) async {
-    CreateFeedResponse res = await FeedApi.addExistSingle(CreateFeedRequest(
-      feedInfo: feed,
-    ));
+    CreateFeedResponse res = await FeedApi.addExistSingle(feed);
     _feedList.add(res.userFeed);
+  }
+
+  Future<void> addFeedFromUrl(String url) async {
+    String res = await FeedApi.fetchFeedFromUrl(url);
+    var feed = RssFeed.parse(res);
+    LogService.to.i(feed.items!.length);
   }
 
   List<UserContent> _decodePost(String json) {
@@ -76,9 +83,10 @@ class FeedService extends GetxService {
 
   @override
   Future<void> onReady() async {
-    await fetchFeedList();
-    await fetchPostList();
-    // _saveAllData();
+    // if (UserService.to.hasActiveAccessToken()) {
+    //   await fetchFeedList();
+    //   await fetchPostList();
+    // }
   }
 
   void exploreToArchive(int index) {

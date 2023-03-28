@@ -1,6 +1,4 @@
-import 'package:feed_inbox_app/common/api/feed.dart';
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,10 +34,7 @@ class MyFeedsController extends GetxController {
       try {
         Loading.show();
 
-        var feed = FeedInfo(
-          url: urlController.text,
-        );
-        await FeedService.to.addFeed(feed);
+        await FeedService.to.addFeedFromUrl(urlController.text);
 
         Loading.success();
         Get.back(result: true);
