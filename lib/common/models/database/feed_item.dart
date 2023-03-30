@@ -1,5 +1,8 @@
+import 'package:feed_inbox_app/common/index.dart';
 import 'package:isar/isar.dart';
 import 'package:webfeed/webfeed.dart';
+
+part 'feed_item.g.dart';
 
 @collection
 class FeedItem {
@@ -18,6 +21,8 @@ class FeedItem {
   DateTime? createTime;
   String? md5;
 
+  final feed = IsarLink<Feed>();
+
   FeedItem({
     this.isFocus,
     this.isSeen,
@@ -34,8 +39,8 @@ class FeedItem {
     this.md5,
   });
 
-  factory FeedItem.fromRssItem(RssItem item) {
-    return FeedItem(
+  factory FeedItem.fromRssItem(RssItem item, Feed feed) {
+    var feedItem = FeedItem(
       isFocus: false,
       isSeen: false,
       title: item.title,
@@ -45,10 +50,12 @@ class FeedItem {
       description: item.description,
       createTime: DateTime.now(),
     );
+    feedItem.feed.value = feed;
+    return feedItem;
   }
 
-  factory FeedItem.fromAtomItem(AtomItem item) {
-    return FeedItem(
+  factory FeedItem.fromAtomItem(AtomItem item, Feed feed) {
+    var feedItem = FeedItem(
       isFocus: false,
       isSeen: false,
       title: item.title,
@@ -58,5 +65,7 @@ class FeedItem {
       description: item.summary,
       createTime: DateTime.now(),
     );
+    feedItem.feed.value = feed;
+    return feedItem;
   }
 }

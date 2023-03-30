@@ -1,6 +1,8 @@
 import 'package:webfeed/webfeed.dart';
 import 'package:isar/isar.dart';
 
+part 'feed.g.dart';
+
 @collection
 class Feed {
   Id id = Isar.autoIncrement;
@@ -40,5 +42,9 @@ class Feed {
       description: feed.subtitle,
       createTime: DateTime.now(),
     );
+  }
+
+  bool isValid() {
+    return url != null && name != null;
   }
 }

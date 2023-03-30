@@ -18,13 +18,17 @@ class MainController extends GetxController {
   }
 
   // 切换页面
+  // void onJumpToPage(int page) async {
+  //   bool isLogin = await UserService.to.isLogin();
+  //   if ((page != 0) && !isLogin) {
+  //     Get.toNamed(RouteNames.systemLogin);
+  //   } else {
+  //     pageController.jumpToPage(page);
+  //   }
+  // }
+
   void onJumpToPage(int page) async {
-    bool isLogin = await UserService.to.isLogin();
-    if ((page != 0) && !isLogin) {
-      Get.toNamed(RouteNames.systemLogin);
-    } else {
-      pageController.jumpToPage(page);
-    }
+    pageController.jumpToPage(page);
   }
 
   _initData() {

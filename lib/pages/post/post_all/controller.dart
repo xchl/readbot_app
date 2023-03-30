@@ -1,5 +1,4 @@
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -11,10 +10,16 @@ class PostAllController extends GetxController {
     initialRefresh: true,
   );
 
+  int _page = 0;
+
   _initData() async {
-    await FeedService.to.fetchPostList();
+    _feedItems = await FeedManager().getFeedItemsByPage(_page);
     update(["post_all"]);
   }
+
+  List<FeedItem> _feedItems = [];
+
+  List<FeedItem> get feedItems => _feedItems;
 
   void onTap() {}
 
@@ -29,23 +34,12 @@ class PostAllController extends GetxController {
     _initData();
   }
 
-  void moveExploreToArchive(int index) {
-    FeedService.to.exploreToArchive(index);
-    update(["post_all"]);
-  }
-
-  void moveExploreToFocus(int index) {
-    FeedService.to.exploreToFocus(index);
-    update(["post_all"]);
-  }
-
-  void onTapItem(Content post) {
+  void onTapItem(FeedItem post) {
     Get.toNamed(RouteNames.postPostDetail, arguments: {'content': post});
   }
 
   Future<void> onRefresh() async {
     try {
-      await FeedService.to.fetchPostList();
       refreshController.refreshCompleted();
     } catch (error) {
       refreshController.refreshFailed();

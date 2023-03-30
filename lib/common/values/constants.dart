@@ -14,6 +14,7 @@ class Constants {
   static const storageThemeCode = 'theme_code';
   static const storageAlreadyOpen = 'already_open'; // 首次打开
   static const pageSizeMobile = 20;
+  static const pageSizePC = 50;
 
   // Feed
   static const existUrlType = "exist";

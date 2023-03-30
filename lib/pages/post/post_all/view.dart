@@ -1,5 +1,4 @@
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -51,9 +50,7 @@ class PostAllPage extends GetView<PostAllController> {
                   height: 0,
                 ),
             itemBuilder: (context, i) {
-              final userContent = FeedService.to.explorePosts[i];
-              final content = FeedService.to.contentMap[userContent.contentId]!;
-              final feed = FeedService.to.feedMap[content.feedId]!;
+              final feedItem = controller.feedItems[i];
               return Dismissible(
                 background: Container(
                   color: AppColors.primary,
@@ -63,23 +60,20 @@ class PostAllPage extends GetView<PostAllController> {
                   color: AppColors.secondary,
                   child: const Icon(Icons.cancel),
                 ),
-                key: ValueKey<int>(userContent.contentId),
+                key: ValueKey<int>(feedItem.id),
                 onDismissed: (direction) {
                   if (direction == DismissDirection.startToEnd) {
-                    controller.moveExploreToArchive(i);
-                  } else {
-                    controller.moveExploreToFocus(i);
-                  }
+                  } else {}
                 },
                 child: PostItemWidget(
-                  content: content,
-                  feedProfile: feed,
+                  feedItem: feedItem,
+                  feed: feedItem.feed.value!,
                 ).inkWell(onTap: () {
-                  controller.onTapItem(content);
+                  controller.onTapItem(feedItem);
                 }),
               );
             },
-            itemCount: FeedService.to.explorePosts.length)
+            itemCount: controller.feedItems.length)
         .paddingLeft(5.w)
         .paddingRight(5.w)
         .backgroundColor(AppColors.background);

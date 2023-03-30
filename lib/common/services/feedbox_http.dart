@@ -24,7 +24,7 @@ class FeedBoxHttpService extends GetxService {
     _dio = Dio(options);
 
     // 拦截器
-    _dio.interceptors.add(AuthInterceptors());
+    // _dio.interceptors.add(AuthInterceptors());
   }
 
   Future<Response> get(

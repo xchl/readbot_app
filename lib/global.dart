@@ -4,6 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 import 'common/index.dart';
+import 'common/services/feed_manager.dart';
 
 class Global {
   static Future<void> init() async {
@@ -18,6 +19,7 @@ class Global {
 
     // 工具类
     await Storage().init();
+    await FeedManager().init();
     Loading();
 
     // 初始化服务

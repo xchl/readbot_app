@@ -1,18 +1,17 @@
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 /// 功能栏项
 class PostItemWidget extends StatelessWidget {
-  final Content content;
-  final FeedProfile feedProfile;
+  final FeedItem feedItem;
+  final Feed feed;
 
   const PostItemWidget({
     Key? key,
-    required this.content,
-    required this.feedProfile,
+    required this.feedItem,
+    required this.feed,
   }) : super(key: key);
 
   Widget _buildImageBlock() {
@@ -24,15 +23,13 @@ class PostItemWidget extends StatelessWidget {
   Widget _buildTextBlock() {
     return <Widget>[
       TextWidget.title3(
-        content.title,
+        feedItem.title!,
         maxLines: 2,
         softWrap: true,
       ).paddingBottom(5.h),
       <Widget>[
-        TextWidget.body2(feedProfile.name),
-        TextWidget.body2(DateFormat("M/d").format(
-                DateTime.fromMillisecondsSinceEpoch(
-                    content.publishTime.toInt())))
+        TextWidget.body2(feed.name!),
+        TextWidget.body2(DateFormat("M/d").format(feedItem.publishTime!))
             .paddingLeft(5.w)
       ].toRow()
     ].toColumn(crossAxisAlignment: CrossAxisAlignment.start);

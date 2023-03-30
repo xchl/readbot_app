@@ -1,4 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/common/services/feed_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,8 +12,12 @@ class MyFeedsController extends GetxController {
   /// 表单 key
   GlobalKey formKey = GlobalKey<FormState>();
 
-  _initData() async {
-    await FeedService.to.fetchFeedList();
+  List<Feed> _feedList = [];
+
+  List<Feed> get feedList => _feedList;
+
+  void _initData() async {
+    _feedList = await FeedManager().getAllFeeds();
     update(["my_feeds"]);
   }
 
@@ -24,7 +29,7 @@ class MyFeedsController extends GetxController {
   // }
 
   @override
-  void onReady() {
+  onReady() {
     super.onReady();
     _initData();
   }
@@ -37,6 +42,9 @@ class MyFeedsController extends GetxController {
         await FeedService.to.addFeedFromUrl(urlController.text);
 
         Loading.success();
+        _feedList = await FeedManager().getAllFeeds();
+
+        update(["my_feeds"]);
         Get.back(result: true);
       } finally {
         Loading.dismiss();

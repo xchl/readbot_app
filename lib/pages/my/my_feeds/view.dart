@@ -56,10 +56,10 @@ class MyFeedsPage extends GetView<MyFeedsController> {
   // 按钮列表
   Widget _buildFeedButtonsList() {
     return List.generate(
-      FeedService.to.feedLength,
+      controller.feedList.length,
       (index) => FeedItemWidget(
-        title: "${FeedService.to.feed(index).name}",
-        logoUrl: "${FeedService.to.feed(index).logo}",
+        title: controller.feedList[index].name ?? "", //TODO
+        logoUrl: controller.feedList[index].logo ?? "",
         onTap: () => Get.toNamed(RouteNames.stylesStylesIndex),
       ),
     ).toColumn();
