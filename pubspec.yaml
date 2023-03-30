@@ -63,6 +63,9 @@ dependencies:
   webfeed:
     path: ./lib/package/webfeed
   logger: ^1.3.0
+  isar: ^3.0.5
+  isar_flutter_libs: ^3.0.5
+  tuple: ^2.0.1
   
 dev_dependencies:
   flutter_test:
@@ -75,6 +78,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   flutter_launcher_icons_maker: ^0.10.2
+  isar_generator: ^3.0.5
+  build_runner: ^2.3.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

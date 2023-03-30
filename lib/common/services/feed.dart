@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:extended_image/extended_image.dart';
 import 'package:feed_inbox_app/common/api/feed.dart';
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
+import 'package:tuple/tuple.dart';
+import 'package:webfeed/util/function.dart';
 import 'package:webfeed/webfeed.dart';
 
 /// 用户服务
@@ -44,10 +44,43 @@ class FeedService extends GetxService {
     _feedList.add(res.userFeed);
   }
 
+  List<FeedItem> _parseRssItem(List<RssItem>? items) {
+    if (items == null) {
+      return [];
+    }
+    return items.map((item) => FeedItem.fromRssItem(item)).toList();
+  }
+
+  // parse Atom item
+  List<FeedItem> _parseAtomItem(List<AtomItem>? items) {
+    if (items == null) {
+      return [];
+    }
+    return items.map((item) => FeedItem.fromAtomItem(item)).toList();
+  }
+
+  Tuple2<Feed, List<FeedItem>> _parseFeed(String xml, String url) {
+    var feedType = getFeedType(xml);
+    if (feedType == FeedType.Rss) {
+      var feedRaw = RssFeed.parse(xml);
+      var feed = Feed.fromRssFeed(feedRaw, url);
+      var feedItems = _parseRssItem(feedRaw.items);
+      return Tuple2(feed, feedItems);
+    } else if (feedType == FeedType.Atom) {
+      var feedRaw = AtomFeed.parse(xml);
+      var feed = Feed.fromAtomFeed(feedRaw, url);
+      var feedItems = _parseAtomItem(feedRaw.items);
+      return Tuple2(feed, feedItems);
+    }
+    // TODO Error handle
+    return Tuple2(Feed(url), []);
+  }
+
   Future<void> addFeedFromUrl(String url) async {
-    String res = await FeedApi.fetchFeedFromUrl(url);
-    var feed = RssFeed.parse(res);
-    LogService.to.i(feed.items!.length);
+    String xml = await FeedApi.fetchFeedFromUrl(url);
+    var result = _parseFeed(xml, url);
+    LogService.to.i(result.item1);
+    LogService.to.i(result.item2);
   }
 
   List<UserContent> _decodePost(String json) {

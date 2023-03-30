@@ -9,4 +9,10 @@ class EncryptUtil {
     var digest = sha256.convert(bytes);
     return digest.toString();
   }
+
+  static String md5Encode(String content) {
+    var bytes = utf8.encode(content);
+    var digest = md5.convert(bytes);
+    return digest.toString();
+  }
 }
