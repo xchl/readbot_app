@@ -201,13 +201,13 @@ FeedItem _feedItemDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = FeedItem(
+    reader.readDateTimeOrNull(offsets[3]),
     authors: reader.readStringOrNull(offsets[0]),
     category: reader.readStringOrNull(offsets[1]),
     cover: reader.readStringOrNull(offsets[2]),
-    createTime: reader.readDateTimeOrNull(offsets[3]),
     description: reader.readStringOrNull(offsets[4]),
-    isFocus: reader.readBoolOrNull(offsets[5]),
-    isSeen: reader.readBoolOrNull(offsets[6]),
+    isFocus: reader.readBoolOrNull(offsets[5]) ?? false,
+    isSeen: reader.readBoolOrNull(offsets[6]) ?? false,
     link: reader.readStringOrNull(offsets[7]),
     md5: reader.readStringOrNull(offsets[8]),
     publishTime: reader.readDateTimeOrNull(offsets[9]),
@@ -237,9 +237,9 @@ P _feedItemDeserializeProp<P>(
     case 4:
       return (reader.readStringOrNull(offset)) as P;
     case 5:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 6:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 7:
       return (reader.readStringOrNull(offset)) as P;
     case 8:
@@ -1056,24 +1056,8 @@ extension FeedItemQueryFilter
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> isFocusIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'isFocus',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> isFocusIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'isFocus',
-      ));
-    });
-  }
-
   QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> isFocusEqualTo(
-      bool? value) {
+      bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isFocus',
@@ -1082,24 +1066,8 @@ extension FeedItemQueryFilter
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> isSeenIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'isSeen',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> isSeenIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'isSeen',
-      ));
-    });
-  }
-
   QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> isSeenEqualTo(
-      bool? value) {
+      bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isSeen',
@@ -2450,13 +2418,13 @@ extension FeedItemQueryProperty
     });
   }
 
-  QueryBuilder<FeedItem, bool?, QQueryOperations> isFocusProperty() {
+  QueryBuilder<FeedItem, bool, QQueryOperations> isFocusProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isFocus');
     });
   }
 
-  QueryBuilder<FeedItem, bool?, QQueryOperations> isSeenProperty() {
+  QueryBuilder<FeedItem, bool, QQueryOperations> isSeenProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isSeen');
     });

@@ -11,20 +11,12 @@ class PostFocusController extends GetxController {
   List<FeedItem> get feedItems => _feedItems;
 
   _initData() async {
-    _feedItems = await FeedManager().getFeedItemsByPage(_page);
+    _feedItems = await FeedManager().getFocusFeedItemsByPage(_page);
     update(["post_focus"]);
   }
 
-  void onTapItem(FeedItem post) {
-    // print(post.postId);
-  }
-
-  void moveExploreToArchive(int index) {
-    update(["post_focus"]);
-  }
-
-  void moveExploreToFocus(int index) {
-    update(["post_focus"]);
+  void onTapItem(FeedItem feedItem) {
+    Get.toNamed(RouteNames.postPostDetail, arguments: {'feedItem': feedItem});
   }
 
   void onTap() {}

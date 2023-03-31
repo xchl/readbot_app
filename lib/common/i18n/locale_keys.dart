@@ -83,4 +83,7 @@ class LocaleKeys {
   // 订阅源
   static const feedAddDesc = 'feed_add_desc';
   static const feedAddBtn = 'feed_add_btn';
+
+  // Feed
+  static const feedNoTitle = 'feed_no_title';
 }

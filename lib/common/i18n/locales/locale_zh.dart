@@ -82,5 +82,6 @@ Map<String, String> localeZh = {
 
   //Feed
   LocaleKeys.feedAddBtn: '添加',
-  LocaleKeys.feedAddDesc: '把url粘贴在这里'
+  LocaleKeys.feedAddDesc: '把url粘贴在这里',
+  LocaleKeys.feedNoTitle: '无标题',
 };

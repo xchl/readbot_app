@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../index.dart';
 
-enum IconWidgetType { icon, svg, image, url }
+enum IconWidgetType { icon, svg, image, url, text }
 
 /// 图标组件
 class IconWidget extends StatelessWidget {
@@ -16,6 +16,9 @@ class IconWidget extends StatelessWidget {
 
   /// assets 路径
   final String? assetName;
+
+  /// 文字
+  final String? text;
 
   /// 图片 url
   final String? imageUrl;
@@ -52,6 +55,7 @@ class IconWidget extends StatelessWidget {
     this.isDot,
     this.badgeString,
     this.assetName,
+    this.text,
     this.imageUrl,
     this.fit,
   }) : super(key: key);
@@ -67,6 +71,7 @@ class IconWidget extends StatelessWidget {
     this.isDot,
     this.badgeString,
     this.assetName,
+    this.text,
     this.imageUrl,
     this.fit,
   }) : super(key: key) {
@@ -81,6 +86,25 @@ class IconWidget extends StatelessWidget {
     this.width,
     this.height,
     this.color,
+    this.iconData,
+    this.text,
+    this.isDot,
+    this.badgeString,
+    this.imageUrl,
+    this.fit,
+  }) : super(key: key) {
+    return;
+  }
+
+  IconWidget.text(
+    this.text, {
+    Key? key,
+    this.type = IconWidgetType.text,
+    this.size = 24,
+    this.width,
+    this.height,
+    this.color,
+    this.assetName,
     this.iconData,
     this.isDot,
     this.badgeString,
@@ -98,6 +122,7 @@ class IconWidget extends StatelessWidget {
     this.width,
     this.height,
     this.color,
+    this.text,
     this.iconData,
     this.isDot,
     this.badgeString,
@@ -116,6 +141,7 @@ class IconWidget extends StatelessWidget {
     this.height,
     this.color,
     this.iconData,
+    this.text,
     this.isDot,
     this.badgeString,
     this.assetName,
@@ -133,6 +159,15 @@ class IconWidget extends StatelessWidget {
           iconData,
           size: size,
           color: color ?? AppColors.primary,
+        );
+        break;
+      case IconWidgetType.text:
+        icon = Text(
+          text!,
+          style: TextStyle(
+            color: color ?? AppColors.primary,
+            fontSize: size,
+          ),
         );
         break;
       case IconWidgetType.svg:

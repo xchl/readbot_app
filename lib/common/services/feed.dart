@@ -45,14 +45,14 @@ class FeedService extends GetxService {
   Future<void> addFeedFromUrl(String url) async {
     String xml = await FeedApi.fetchFeedFromUrl(url);
     Tuple2<Feed, List<FeedItem>> result = _parseFeed(xml, url);
-    await FeedManager().saveFeedAndItems(result.item1, result.item2);
+    await FeedManager().insertFeedAndItems(result.item1, result.item2);
   }
 
-  @override
-  void onInit() async {
-    super.onInit();
-    // 读 Post
-  }
+  // @override
+  // void onInit() async {
+  //   super.onInit();
+  //   // 读 Post
+  // }
 
   @override
   Future<void> onReady() async {

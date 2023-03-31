@@ -90,4 +90,5 @@ Map<String, String> localeEn = {
   // Feed
   LocaleKeys.feedAddBtn: 'Add',
   LocaleKeys.feedAddDesc: 'Paste feed url here',
+  LocaleKeys.feedNoTitle: 'Unkonwn Title',
 };

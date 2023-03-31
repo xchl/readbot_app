@@ -7,8 +7,8 @@ part 'feed_item.g.dart';
 @collection
 class FeedItem {
   Id id = Isar.autoIncrement;
-  bool? isFocus;
-  bool? isSeen;
+  bool isFocus;
+  bool isSeen;
   String? title;
   String? cover;
   String? link;
@@ -23,9 +23,10 @@ class FeedItem {
 
   final feed = IsarLink<Feed>();
 
-  FeedItem({
-    this.isFocus,
-    this.isSeen,
+  FeedItem(
+    this.createTime, {
+    this.isFocus = false,
+    this.isSeen = false,
     this.title,
     this.cover,
     this.link,
@@ -35,12 +36,12 @@ class FeedItem {
     this.category,
     this.description,
     this.summaryAlgo,
-    this.createTime,
     this.md5,
   });
 
   factory FeedItem.fromRssItem(RssItem item, Feed feed) {
     var feedItem = FeedItem(
+      DateTime.now(),
       isFocus: false,
       isSeen: false,
       title: item.title,
@@ -48,7 +49,6 @@ class FeedItem {
       publishTime: item.pubDate,
       authors: item.author,
       description: item.description,
-      createTime: DateTime.now(),
     );
     feedItem.feed.value = feed;
     return feedItem;
@@ -56,6 +56,7 @@ class FeedItem {
 
   factory FeedItem.fromAtomItem(AtomItem item, Feed feed) {
     var feedItem = FeedItem(
+      DateTime.now(),
       isFocus: false,
       isSeen: false,
       title: item.title,
@@ -63,7 +64,6 @@ class FeedItem {
       publishTime: item.updated,
       authors: item.authors?.map((e) => e.name).join(', '),
       description: item.summary,
-      createTime: DateTime.now(),
     );
     feedItem.feed.value = feed;
     return feedItem;

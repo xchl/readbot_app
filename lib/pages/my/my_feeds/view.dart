@@ -58,8 +58,8 @@ class MyFeedsPage extends GetView<MyFeedsController> {
     return List.generate(
       controller.feedList.length,
       (index) => FeedItemWidget(
-        title: controller.feedList[index].name ?? "", //TODO
-        logoUrl: controller.feedList[index].logo ?? "",
+        title: controller.feedList[index].name ?? LocaleKeys.feedNoTitle.tr,
+        logoUrl: controller.feedList[index].logo,
         onTap: () => Get.toNamed(RouteNames.stylesStylesIndex),
       ),
     ).toColumn();

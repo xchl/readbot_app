@@ -13,7 +13,7 @@ class PostDetailController extends GetxController {
   late WebViewController webViewController;
 
   // 文章, 获取路由传递参数
-  FeedItem post = Get.arguments['content'];
+  FeedItem feedItem = Get.arguments['feedItem'];
 
   _initData() {
     update(["post_detail"]);
@@ -80,7 +80,7 @@ Page resource error:
           );
         },
       )
-      ..loadRequest(Uri.parse(post.link!));
+      ..loadRequest(Uri.parse(feedItem.link!));
 
     // #docregion platform_features
     if (controller.platform is AndroidWebViewController) {

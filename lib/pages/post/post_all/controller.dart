@@ -13,7 +13,7 @@ class PostAllController extends GetxController {
   int _page = 0;
 
   _initData() async {
-    _feedItems = await FeedManager().getFeedItemsByPage(_page);
+    _feedItems = await FeedManager().getExploreFeedItemsByPage(_page);
     update(["post_all"]);
   }
 
@@ -34,8 +34,32 @@ class PostAllController extends GetxController {
     _initData();
   }
 
-  void onTapItem(FeedItem post) {
-    Get.toNamed(RouteNames.postPostDetail, arguments: {'content': post});
+  void turnToSeen(int index) async {
+    _feedItems[index].isSeen = true;
+    await FeedManager().updateFeedItem(_feedItems[index]);
+    update(["post_all"]);
+  }
+
+  void turnToFocus(int index) async {
+    _feedItems[index].isFocus = true;
+    await FeedManager().updateFeedItem(_feedItems[index]);
+    _feedItems.removeAt(index);
+    update(["post_all"]);
+  }
+
+  void onTapItem(FeedItem feedItem) {
+    Get.toNamed(RouteNames.postPostDetail, arguments: {'feedItem': feedItem});
+  }
+
+  void onLoadMore() async {
+    try {
+      _page++;
+      _feedItems.addAll(await FeedManager().getExploreFeedItemsByPage(_page));
+      refreshController.loadComplete();
+    } catch (error) {
+      refreshController.loadFailed();
+    }
+    update(["post_all"]);
   }
 
   Future<void> onRefresh() async {

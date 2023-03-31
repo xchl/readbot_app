@@ -56,14 +56,15 @@ class PostAllPage extends GetView<PostAllController> {
                   color: AppColors.primary,
                   child: const Icon(Icons.check),
                 ),
-                secondaryBackground: Container(
-                  color: AppColors.secondary,
-                  child: const Icon(Icons.cancel),
-                ),
+                // secondaryBackground: Container(
+                //   color: AppColors.secondary,
+                //   child: const Icon(Icons.check),
+                // ),
                 key: ValueKey<int>(feedItem.id),
                 onDismissed: (direction) {
                   if (direction == DismissDirection.startToEnd) {
-                  } else {}
+                    controller.turnToFocus(i);
+                  }
                 },
                 child: PostItemWidget(
                   feedItem: feedItem,
@@ -90,12 +91,21 @@ class PostAllPage extends GetView<PostAllController> {
           drawer: Drawer(
             backgroundColor: AppColors.background,
           ),
-          body: RefreshIndicator(
-              displacement: 50,
-              color: Colors.redAccent,
-              backgroundColor: Colors.blue,
-              onRefresh: controller.onRefresh,
-              child: _buildView()),
+          body: NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification notification) {
+              if (notification.metrics.pixels ==
+                  notification.metrics.maxScrollExtent) {
+                controller.onLoadMore();
+              }
+              return false;
+            },
+            child: RefreshIndicator(
+                displacement: 50,
+                color: Colors.redAccent,
+                backgroundColor: Colors.blue,
+                onRefresh: controller.onRefresh,
+                child: _buildView()),
+          ),
         );
       },
     );

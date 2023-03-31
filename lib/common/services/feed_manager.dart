@@ -13,7 +13,7 @@ class FeedManager {
   }
 
   // insert Feed
-  Future<int> addFeed(Feed feed) async {
+  Future<int> insertFeed(Feed feed) async {
     var id = await _isar.writeTxn(() async {
       return await _isar.feeds.put(feed);
     });
@@ -21,28 +21,36 @@ class FeedManager {
   }
 
   // insert Feed list
-  Future<void> addFeeds(List<Feed> feeds) async {
+  Future<void> insertFeeds(List<Feed> feeds) async {
     await _isar.writeTxn(() async {
       await _isar.feeds.putAll(feeds);
     });
   }
 
   // insert FeedItem
-  Future<void> addFeedItem(FeedItem item) async {
+  Future<void> insertFeedItem(FeedItem item) async {
+    await _isar.writeTxn(() async {
+      await _isar.feedItems.put(item);
+      await item.feed.save();
+    });
+  }
+
+  // update FeedItem
+  Future<void> updateFeedItem(FeedItem item) async {
     await _isar.writeTxn(() async {
       await _isar.feedItems.put(item);
     });
   }
 
   // insert FeedItem list
-  Future<void> addFeedItems(List<FeedItem> items) async {
+  Future<void> insertFeedItems(List<FeedItem> items) async {
     await _isar.writeTxn(() async {
       await _isar.feedItems.putAll(items);
     });
   }
 
   // save Feed and FeedItems
-  Future<void> saveFeedAndItems(Feed feed, List<FeedItem> items) async {
+  Future<void> insertFeedAndItems(Feed feed, List<FeedItem> items) async {
     await _isar.writeTxn(() async {
       await _isar.feeds.put(feed);
       await _isar.feedItems.putAll(items);
@@ -67,11 +75,26 @@ class FeedManager {
     return await _isar.feedItems.where().findAll();
   }
 
-  // query FeedItem by page
+  // query focus FeedItem by page
   // TODO
-  Future<List<FeedItem>> getFeedItemsByPage(int page) async {
+  Future<List<FeedItem>> getFocusFeedItemsByPage(int page) async {
     var feedItems = await _isar.feedItems
-        .where()
+        .filter()
+        .isFocusEqualTo(true)
+        .sortByPublishTimeDesc()
+        .offset(page * Constants.pageSizeMobile)
+        .limit(Constants.pageSizeMobile)
+        .findAll();
+    return feedItems;
+  }
+
+  // query explore FeedItem by page
+  // TODO
+  Future<List<FeedItem>> getExploreFeedItemsByPage(int page) async {
+    var feedItems = await _isar.feedItems
+        .filter()
+        .isFocusEqualTo(false)
+        .sortByPublishTimeDesc()
         .offset(page * Constants.pageSizeMobile)
         .limit(Constants.pageSizeMobile)
         .findAll();
