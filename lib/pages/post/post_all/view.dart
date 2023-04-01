@@ -87,9 +87,10 @@ class PostAllPage extends GetView<PostAllController> {
       id: "post_all",
       builder: (_) {
         return Scaffold(
-          appBar: _buildAppBar(),
-          drawer: Drawer(
-            backgroundColor: AppColors.background,
+          // appBar: _buildAppBar(),
+          endDrawer: Drawer(
+            backgroundColor: AppColors.primary,
+            width: 200.w,
           ),
           body: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification notification) {
