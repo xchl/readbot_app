@@ -10,10 +10,10 @@ class PostFocusPage extends GetView<PostFocusController> {
 
   // 主视图
   Widget _buildView() {
-    return ListView.separated(
-            separatorBuilder: (_, __) => const Divider(
-                  height: 0,
-                ),
+    return ListView.builder(
+            // separatorBuilder: (_, __) => const Divider(
+            //       height: 0,
+            //     ),
             itemBuilder: (context, i) {
               final feedItem = controller.feedItems[i];
               return Dismissible(
@@ -30,9 +30,8 @@ class PostFocusPage extends GetView<PostFocusController> {
                   if (direction == DismissDirection.startToEnd) {
                   } else {}
                 },
-                child: PostItemWidget(
+                child: PostItemListWidget(
                   feedItem: feedItem,
-                  feed: feedItem.feed.value!,
                 ).inkWell(onTap: () {
                   controller.onTapItem(feedItem);
                 }),

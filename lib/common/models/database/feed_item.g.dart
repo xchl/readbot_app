@@ -32,58 +32,63 @@ const FeedItemSchema = CollectionSchema(
       name: r'content',
       type: IsarType.string,
     ),
-    r'cover': PropertySchema(
+    r'contentHaveParsed': PropertySchema(
       id: 3,
+      name: r'contentHaveParsed',
+      type: IsarType.bool,
+    ),
+    r'cover': PropertySchema(
+      id: 4,
       name: r'cover',
       type: IsarType.string,
     ),
     r'createTime': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'createTime',
       type: IsarType.dateTime,
     ),
     r'description': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'description',
       type: IsarType.string,
     ),
     r'isFocus': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'isFocus',
       type: IsarType.bool,
     ),
     r'isSeen': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'isSeen',
       type: IsarType.bool,
     ),
     r'link': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'link',
       type: IsarType.string,
     ),
-    r'md5': PropertySchema(
-      id: 9,
-      name: r'md5',
+    r'md5String': PropertySchema(
+      id: 10,
+      name: r'md5String',
       type: IsarType.string,
     ),
     r'publishTime': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'publishTime',
       type: IsarType.dateTime,
     ),
     r'summaryAlgo': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'summaryAlgo',
       type: IsarType.string,
     ),
     r'tags': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'tags',
       type: IsarType.stringList,
     ),
     r'title': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'title',
       type: IsarType.string,
     )
@@ -93,7 +98,34 @@ const FeedItemSchema = CollectionSchema(
   deserialize: _feedItemDeserialize,
   deserializeProp: _feedItemDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'publishTime': IndexSchema(
+      id: 1698621452194960201,
+      name: r'publishTime',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'publishTime',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    ),
+    r'md5String': IndexSchema(
+      id: -5619380267181821120,
+      name: r'md5String',
+      unique: true,
+      replace: true,
+      properties: [
+        IndexPropertySchema(
+          name: r'md5String',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
   links: {
     r'feed': LinkSchema(
       id: -4819084863620428124,
@@ -152,7 +184,7 @@ int _feedItemEstimateSize(
     }
   }
   {
-    final value = object.md5;
+    final value = object.md5String;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -193,17 +225,18 @@ void _feedItemSerialize(
   writer.writeString(offsets[0], object.authors);
   writer.writeString(offsets[1], object.category);
   writer.writeString(offsets[2], object.content);
-  writer.writeString(offsets[3], object.cover);
-  writer.writeDateTime(offsets[4], object.createTime);
-  writer.writeString(offsets[5], object.description);
-  writer.writeBool(offsets[6], object.isFocus);
-  writer.writeBool(offsets[7], object.isSeen);
-  writer.writeString(offsets[8], object.link);
-  writer.writeString(offsets[9], object.md5);
-  writer.writeDateTime(offsets[10], object.publishTime);
-  writer.writeString(offsets[11], object.summaryAlgo);
-  writer.writeStringList(offsets[12], object.tags);
-  writer.writeString(offsets[13], object.title);
+  writer.writeBool(offsets[3], object.contentHaveParsed);
+  writer.writeString(offsets[4], object.cover);
+  writer.writeDateTime(offsets[5], object.createTime);
+  writer.writeString(offsets[6], object.description);
+  writer.writeBool(offsets[7], object.isFocus);
+  writer.writeBool(offsets[8], object.isSeen);
+  writer.writeString(offsets[9], object.link);
+  writer.writeString(offsets[10], object.md5String);
+  writer.writeDateTime(offsets[11], object.publishTime);
+  writer.writeString(offsets[12], object.summaryAlgo);
+  writer.writeStringList(offsets[13], object.tags);
+  writer.writeString(offsets[14], object.title);
 }
 
 FeedItem _feedItemDeserialize(
@@ -213,21 +246,22 @@ FeedItem _feedItemDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = FeedItem(
-    reader.readDateTimeOrNull(offsets[4]),
+    reader.readDateTimeOrNull(offsets[5]),
     authors: reader.readStringOrNull(offsets[0]),
     category: reader.readStringOrNull(offsets[1]),
-    cover: reader.readStringOrNull(offsets[3]),
-    description: reader.readStringOrNull(offsets[5]),
-    isFocus: reader.readBoolOrNull(offsets[6]) ?? false,
-    isSeen: reader.readBoolOrNull(offsets[7]) ?? false,
-    link: reader.readStringOrNull(offsets[8]),
-    md5: reader.readStringOrNull(offsets[9]),
-    publishTime: reader.readDateTimeOrNull(offsets[10]),
-    summaryAlgo: reader.readStringOrNull(offsets[11]),
-    tags: reader.readStringList(offsets[12]),
-    title: reader.readStringOrNull(offsets[13]),
+    content: reader.readStringOrNull(offsets[2]),
+    contentHaveParsed: reader.readBoolOrNull(offsets[3]),
+    cover: reader.readStringOrNull(offsets[4]),
+    description: reader.readStringOrNull(offsets[6]),
+    isFocus: reader.readBoolOrNull(offsets[7]) ?? false,
+    isSeen: reader.readBoolOrNull(offsets[8]) ?? false,
+    link: reader.readStringOrNull(offsets[9]),
+    md5String: reader.readStringOrNull(offsets[10]),
+    publishTime: reader.readDateTimeOrNull(offsets[11]),
+    summaryAlgo: reader.readStringOrNull(offsets[12]),
+    tags: reader.readStringList(offsets[13]),
+    title: reader.readStringOrNull(offsets[14]),
   );
-  object.content = reader.readStringOrNull(offsets[2]);
   object.id = id;
   return object;
 }
@@ -246,26 +280,28 @@ P _feedItemDeserializeProp<P>(
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 4:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 5:
       return (reader.readStringOrNull(offset)) as P;
+    case 5:
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 6:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 7:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 8:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 9:
       return (reader.readStringOrNull(offset)) as P;
     case 10:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 11:
       return (reader.readStringOrNull(offset)) as P;
+    case 11:
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 12:
-      return (reader.readStringList(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 13:
+      return (reader.readStringList(offset)) as P;
+    case 14:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -285,10 +321,73 @@ void _feedItemAttach(IsarCollection<dynamic> col, Id id, FeedItem object) {
   object.feed.attach(col, col.isar.collection<Feed>(), r'feed', id);
 }
 
+extension FeedItemByIndex on IsarCollection<FeedItem> {
+  Future<FeedItem?> getByMd5String(String? md5String) {
+    return getByIndex(r'md5String', [md5String]);
+  }
+
+  FeedItem? getByMd5StringSync(String? md5String) {
+    return getByIndexSync(r'md5String', [md5String]);
+  }
+
+  Future<bool> deleteByMd5String(String? md5String) {
+    return deleteByIndex(r'md5String', [md5String]);
+  }
+
+  bool deleteByMd5StringSync(String? md5String) {
+    return deleteByIndexSync(r'md5String', [md5String]);
+  }
+
+  Future<List<FeedItem?>> getAllByMd5String(List<String?> md5StringValues) {
+    final values = md5StringValues.map((e) => [e]).toList();
+    return getAllByIndex(r'md5String', values);
+  }
+
+  List<FeedItem?> getAllByMd5StringSync(List<String?> md5StringValues) {
+    final values = md5StringValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'md5String', values);
+  }
+
+  Future<int> deleteAllByMd5String(List<String?> md5StringValues) {
+    final values = md5StringValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'md5String', values);
+  }
+
+  int deleteAllByMd5StringSync(List<String?> md5StringValues) {
+    final values = md5StringValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'md5String', values);
+  }
+
+  Future<Id> putByMd5String(FeedItem object) {
+    return putByIndex(r'md5String', object);
+  }
+
+  Id putByMd5StringSync(FeedItem object, {bool saveLinks = true}) {
+    return putByIndexSync(r'md5String', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllByMd5String(List<FeedItem> objects) {
+    return putAllByIndex(r'md5String', objects);
+  }
+
+  List<Id> putAllByMd5StringSync(List<FeedItem> objects,
+      {bool saveLinks = true}) {
+    return putAllByIndexSync(r'md5String', objects, saveLinks: saveLinks);
+  }
+}
+
 extension FeedItemQueryWhereSort on QueryBuilder<FeedItem, FeedItem, QWhere> {
   QueryBuilder<FeedItem, FeedItem, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterWhere> anyPublishTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'publishTime'),
+      );
     });
   }
 }
@@ -356,6 +455,181 @@ extension FeedItemQueryWhere on QueryBuilder<FeedItem, FeedItem, QWhereClause> {
         upper: upperId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterWhereClause> publishTimeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'publishTime',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterWhereClause> publishTimeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'publishTime',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterWhereClause> publishTimeEqualTo(
+      DateTime? publishTime) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'publishTime',
+        value: [publishTime],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterWhereClause> publishTimeNotEqualTo(
+      DateTime? publishTime) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'publishTime',
+              lower: [],
+              upper: [publishTime],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'publishTime',
+              lower: [publishTime],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'publishTime',
+              lower: [publishTime],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'publishTime',
+              lower: [],
+              upper: [publishTime],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterWhereClause> publishTimeGreaterThan(
+    DateTime? publishTime, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'publishTime',
+        lower: [publishTime],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterWhereClause> publishTimeLessThan(
+    DateTime? publishTime, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'publishTime',
+        lower: [],
+        upper: [publishTime],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterWhereClause> publishTimeBetween(
+    DateTime? lowerPublishTime,
+    DateTime? upperPublishTime, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'publishTime',
+        lower: [lowerPublishTime],
+        includeLower: includeLower,
+        upper: [upperPublishTime],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterWhereClause> md5StringIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'md5String',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterWhereClause> md5StringIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'md5String',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterWhereClause> md5StringEqualTo(
+      String? md5String) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'md5String',
+        value: [md5String],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterWhereClause> md5StringNotEqualTo(
+      String? md5String) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'md5String',
+              lower: [],
+              upper: [md5String],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'md5String',
+              lower: [md5String],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'md5String',
+              lower: [md5String],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'md5String',
+              lower: [],
+              upper: [md5String],
+              includeUpper: false,
+            ));
+      }
     });
   }
 }
@@ -796,6 +1070,34 @@ extension FeedItemQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'content',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition>
+      contentHaveParsedIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'contentHaveParsed',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition>
+      contentHaveParsedIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'contentHaveParsed',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition>
+      contentHaveParsedEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'contentHaveParsed',
+        value: value,
       ));
     });
   }
@@ -1383,36 +1685,36 @@ extension FeedItemQueryFilter
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5IsNull() {
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5StringIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'md5',
+        property: r'md5String',
       ));
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5IsNotNull() {
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5StringIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'md5',
+        property: r'md5String',
       ));
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5EqualTo(
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5StringEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'md5',
+        property: r'md5String',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5GreaterThan(
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5StringGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1420,14 +1722,14 @@ extension FeedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'md5',
+        property: r'md5String',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5LessThan(
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5StringLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1435,14 +1737,14 @@ extension FeedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'md5',
+        property: r'md5String',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5Between(
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5StringBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1451,7 +1753,7 @@ extension FeedItemQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'md5',
+        property: r'md5String',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1461,69 +1763,70 @@ extension FeedItemQueryFilter
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5StartsWith(
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5StringStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'md5',
+        property: r'md5String',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5EndsWith(
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5StringEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'md5',
+        property: r'md5String',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5Contains(
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5StringContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'md5',
+        property: r'md5String',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5Matches(
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5StringMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'md5',
+        property: r'md5String',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5IsEmpty() {
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5StringIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'md5',
+        property: r'md5String',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> md5IsNotEmpty() {
+  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition>
+      md5StringIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'md5',
+        property: r'md5String',
         value: '',
       ));
     });
@@ -2184,6 +2487,18 @@ extension FeedItemQuerySortBy on QueryBuilder<FeedItem, FeedItem, QSortBy> {
     });
   }
 
+  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> sortByContentHaveParsed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'contentHaveParsed', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> sortByContentHaveParsedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'contentHaveParsed', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedItem, FeedItem, QAfterSortBy> sortByCover() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'cover', Sort.asc);
@@ -2256,15 +2571,15 @@ extension FeedItemQuerySortBy on QueryBuilder<FeedItem, FeedItem, QSortBy> {
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> sortByMd5() {
+  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> sortByMd5String() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'md5', Sort.asc);
+      return query.addSortBy(r'md5String', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> sortByMd5Desc() {
+  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> sortByMd5StringDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'md5', Sort.desc);
+      return query.addSortBy(r'md5String', Sort.desc);
     });
   }
 
@@ -2340,6 +2655,18 @@ extension FeedItemQuerySortThenBy
   QueryBuilder<FeedItem, FeedItem, QAfterSortBy> thenByContentDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'content', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> thenByContentHaveParsed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'contentHaveParsed', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> thenByContentHaveParsedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'contentHaveParsed', Sort.desc);
     });
   }
 
@@ -2427,15 +2754,15 @@ extension FeedItemQuerySortThenBy
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> thenByMd5() {
+  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> thenByMd5String() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'md5', Sort.asc);
+      return query.addSortBy(r'md5String', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> thenByMd5Desc() {
+  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> thenByMd5StringDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'md5', Sort.desc);
+      return query.addSortBy(r'md5String', Sort.desc);
     });
   }
 
@@ -2499,6 +2826,12 @@ extension FeedItemQueryWhereDistinct
     });
   }
 
+  QueryBuilder<FeedItem, FeedItem, QDistinct> distinctByContentHaveParsed() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'contentHaveParsed');
+    });
+  }
+
   QueryBuilder<FeedItem, FeedItem, QDistinct> distinctByCover(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2538,10 +2871,10 @@ extension FeedItemQueryWhereDistinct
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QDistinct> distinctByMd5(
+  QueryBuilder<FeedItem, FeedItem, QDistinct> distinctByMd5String(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'md5', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'md5String', caseSensitive: caseSensitive);
     });
   }
 
@@ -2598,6 +2931,12 @@ extension FeedItemQueryProperty
     });
   }
 
+  QueryBuilder<FeedItem, bool?, QQueryOperations> contentHaveParsedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'contentHaveParsed');
+    });
+  }
+
   QueryBuilder<FeedItem, String?, QQueryOperations> coverProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'cover');
@@ -2634,9 +2973,9 @@ extension FeedItemQueryProperty
     });
   }
 
-  QueryBuilder<FeedItem, String?, QQueryOperations> md5Property() {
+  QueryBuilder<FeedItem, String?, QQueryOperations> md5StringProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'md5');
+      return query.addPropertyName(r'md5String');
     });
   }
 

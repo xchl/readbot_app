@@ -12,10 +12,12 @@ class FeedManager {
     _isar = await Isar.open([FeedSchema, FeedItemSchema]);
   }
 
+  // Feed!
+
   // insert Feed
   Future<int> insertFeed(Feed feed) async {
     var id = await _isar.writeTxn(() async {
-      return await _isar.feeds.put(feed);
+      return await _isar.feeds.putByUrl(feed);
     });
     return id;
   }
@@ -23,47 +25,7 @@ class FeedManager {
   // insert Feed list
   Future<void> insertFeeds(List<Feed> feeds) async {
     await _isar.writeTxn(() async {
-      await _isar.feeds.putAll(feeds);
-    });
-  }
-
-  // insert FeedItem
-  Future<void> insertFeedItem(FeedItem item) async {
-    await _isar.writeTxn(() async {
-      await _isar.feedItems.put(item);
-      await item.feed.save();
-    });
-  }
-
-  // update FeedItem
-  Future<void> updateFeedItem(FeedItem item) async {
-    await _isar.writeTxn(() async {
-      await _isar.feedItems.put(item);
-    });
-  }
-
-  // update FeedItems
-  Future<void> updateFeedItems(List<FeedItem> items) async {
-    await _isar.writeTxn(() async {
-      await _isar.feedItems.putAll(items);
-    });
-  }
-
-  // insert FeedItem list
-  Future<void> insertFeedItems(List<FeedItem> items) async {
-    await _isar.writeTxn(() async {
-      await _isar.feedItems.putAll(items);
-    });
-  }
-
-  // save Feed and FeedItems
-  Future<void> insertFeedAndItems(Feed feed, List<FeedItem> items) async {
-    await _isar.writeTxn(() async {
-      await _isar.feeds.put(feed);
-      await _isar.feedItems.putAll(items);
-      for (var item in items) {
-        await item.feed.save();
-      }
+      await _isar.feeds.putAllByUrl(feeds);
     });
   }
 
@@ -75,6 +37,41 @@ class FeedManager {
   // query feed by ids
   Future<List<Feed?>> getFeeds(List<int> ids) async {
     return await _isar.feeds.getAll(ids);
+  }
+
+  // FeedItem
+
+  // insert FeedItem
+  Future<void> insertFeedItem(FeedItem item) async {
+    await _isar.writeTxn(() async {
+      await _isar.feedItems.putByMd5String(item);
+      await item.feed.save();
+    });
+  }
+
+  // update FeedItem
+  Future<void> updateFeedItem(FeedItem item) async {
+    await _isar.writeTxn(() async {
+      await _isar.feedItems.putByMd5String(item);
+    });
+  }
+
+  // update FeedItems
+  Future<void> updateFeedItems(List<FeedItem> items) async {
+    await _isar.writeTxn(() async {
+      await _isar.feedItems.putAllByMd5String(items);
+    });
+  }
+
+  // save Feed and FeedItems
+  Future<void> insertFeedAndItems(Feed feed, List<FeedItem> items) async {
+    await _isar.writeTxn(() async {
+      await _isar.feeds.putByUrl(feed);
+      await _isar.feedItems.putAllByMd5String(items);
+      for (var item in items) {
+        await item.feed.save();
+      }
+    });
   }
 
   // query all FeedItem

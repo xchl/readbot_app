@@ -1,7 +1,5 @@
 import 'package:feed_inbox_app/common/api/feed.dart';
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:tuple/tuple.dart';
 import 'package:webfeed/util/function.dart';
@@ -43,52 +41,25 @@ class FeedService extends GetxService {
     return Tuple2(Feed(url), []);
   }
 
-  Future<List<FeedItem>> downloadHtml(List<FeedItem> items) async {
-    if (items.isEmpty) {
-      return [];
-    }
-    int idx = 0;
-    final headlessInAppWebView = HeadlessInAppWebView(
-      initialUrlRequest: URLRequest(url: Uri.parse(items[idx].link!)),
-      onWebViewCreated: (controller) {
-        debugPrint("hello");
-      },
-      onConsoleMessage: (controller, consoleMessage) {
-        debugPrint("Console Message:, $consoleMessage.message");
-      },
-      onLoadStart: (controller, url) async {
-        debugPrint("Start:, $url");
-      },
-      onLoadStop: (controller, url) async {
-        String htmlContent = await controller.evaluateJavascript(
-            source: "document.documentElement.outerHTML;");
-        items[idx].content = htmlContent;
-        debugPrint(htmlContent);
-
-        if (idx < items.length - 1) {
-          idx += 1;
-          controller.loadUrl(
-              urlRequest: URLRequest(url: Uri.parse(items[idx].link!)));
-        }
-      },
-    );
-    await headlessInAppWebView.run();
-    headlessInAppWebView.dispose();
-    return items;
-  }
-
-  parseItemContent(List<FeedItem> items) async {
-    List<FeedItem> itemsWithLink =
-        items.where((item) => item.link != null).toList();
-    List<FeedItem> completeItems = await downloadHtml(itemsWithLink);
-    FeedManager().updateFeedItems(completeItems);
+  List<FeedItem> parseFeedItem(List<FeedItem> items) {
+    return items.map((item) {
+      if (item.description == null) {
+        return item;
+      }
+      var desc = item.description!;
+      var imgSrc = matchImgSrcInHtml(desc);
+      if (imgSrc != null) {
+        item.cover = imgSrc;
+      }
+      return item;
+    }).toList();
   }
 
   Future<void> addFeedFromUrl(String url) async {
     String xml = await FeedApi.fetchContentFromUrl(url);
     Tuple2<Feed, List<FeedItem>> result = _parseFeed(xml, url);
-    await FeedManager().insertFeedAndItems(result.item1, result.item2);
-    await parseItemContent(result.item2);
+    var feedItems = parseFeedItem(result.item2);
+    await FeedManager().insertFeedAndItems(result.item1, feedItems);
   }
 
   // @override

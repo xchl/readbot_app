@@ -6,7 +6,10 @@ part 'feed.g.dart';
 @collection
 class Feed {
   Id id = Isar.autoIncrement;
+
+  @Index(unique: true, replace: true)
   String? url;
+
   String? name;
   String? logo;
   String? description;

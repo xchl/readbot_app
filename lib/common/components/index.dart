@@ -6,4 +6,5 @@ export './welcome_slider.dart';
 export './slider_indicator.dart';
 export './page_title.dart';
 export './pin.dart';
-export './post_item.dart';
+export './post_item_card.dart';
+export './post_item_list.dart';

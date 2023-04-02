@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:isar/isar.dart';
 import 'package:webfeed/webfeed.dart';
+import 'package:crypto/crypto.dart';
 
 part 'feed_item.g.dart';
 
@@ -9,10 +12,15 @@ class FeedItem {
   Id id = Isar.autoIncrement;
   bool isFocus;
   bool isSeen;
+
   String? title;
+
   String? cover;
   String? link;
+
+  @Index()
   DateTime? publishTime;
+
   String? authors;
   List<String>? tags;
   String? category;
@@ -21,7 +29,9 @@ class FeedItem {
   String? content;
   bool? contentHaveParsed;
   DateTime? createTime;
-  String? md5;
+
+  @Index(unique: true, replace: true)
+  String? md5String;
 
   final feed = IsarLink<Feed>();
 
@@ -40,7 +50,7 @@ class FeedItem {
     this.summaryAlgo,
     this.content,
     this.contentHaveParsed = false,
-    this.md5,
+    this.md5String,
   });
 
   factory FeedItem.fromRssItem(RssItem item, Feed feed) {
@@ -54,6 +64,9 @@ class FeedItem {
       authors: item.author,
       description: item.description,
     );
+    String idString = (feedItem.title == null ? "" : feedItem.title!) +
+        (feedItem.link == null ? "" : feedItem.link!);
+    feedItem.md5String = md5.convert(utf8.encode(idString)).toString();
     feedItem.feed.value = feed;
     return feedItem;
   }
@@ -70,6 +83,9 @@ class FeedItem {
       description: item.summary,
     );
     feedItem.feed.value = feed;
+    String idString = (feedItem.title == null ? "" : feedItem.title!) +
+        (feedItem.link == null ? "" : feedItem.link!);
+    feedItem.md5String = md5.convert(utf8.encode(idString)).toString();
     return feedItem;
   }
 }

@@ -58,7 +58,21 @@ const FeedSchema = CollectionSchema(
   deserialize: _feedDeserialize,
   deserializeProp: _feedDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'url': IndexSchema(
+      id: -5756857009679432345,
+      name: r'url',
+      unique: true,
+      replace: true,
+      properties: [
+        IndexPropertySchema(
+          name: r'url',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
   links: {},
   embeddedSchemas: {},
   getId: _feedGetId,
@@ -184,6 +198,60 @@ void _feedAttach(IsarCollection<dynamic> col, Id id, Feed object) {
   object.id = id;
 }
 
+extension FeedByIndex on IsarCollection<Feed> {
+  Future<Feed?> getByUrl(String? url) {
+    return getByIndex(r'url', [url]);
+  }
+
+  Feed? getByUrlSync(String? url) {
+    return getByIndexSync(r'url', [url]);
+  }
+
+  Future<bool> deleteByUrl(String? url) {
+    return deleteByIndex(r'url', [url]);
+  }
+
+  bool deleteByUrlSync(String? url) {
+    return deleteByIndexSync(r'url', [url]);
+  }
+
+  Future<List<Feed?>> getAllByUrl(List<String?> urlValues) {
+    final values = urlValues.map((e) => [e]).toList();
+    return getAllByIndex(r'url', values);
+  }
+
+  List<Feed?> getAllByUrlSync(List<String?> urlValues) {
+    final values = urlValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'url', values);
+  }
+
+  Future<int> deleteAllByUrl(List<String?> urlValues) {
+    final values = urlValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'url', values);
+  }
+
+  int deleteAllByUrlSync(List<String?> urlValues) {
+    final values = urlValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'url', values);
+  }
+
+  Future<Id> putByUrl(Feed object) {
+    return putByIndex(r'url', object);
+  }
+
+  Id putByUrlSync(Feed object, {bool saveLinks = true}) {
+    return putByIndexSync(r'url', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllByUrl(List<Feed> objects) {
+    return putAllByIndex(r'url', objects);
+  }
+
+  List<Id> putAllByUrlSync(List<Feed> objects, {bool saveLinks = true}) {
+    return putAllByIndexSync(r'url', objects, saveLinks: saveLinks);
+  }
+}
+
 extension FeedQueryWhereSort on QueryBuilder<Feed, Feed, QWhere> {
   QueryBuilder<Feed, Feed, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
@@ -255,6 +323,69 @@ extension FeedQueryWhere on QueryBuilder<Feed, Feed, QWhereClause> {
         upper: upperId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<Feed, Feed, QAfterWhereClause> urlIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'url',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<Feed, Feed, QAfterWhereClause> urlIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'url',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Feed, Feed, QAfterWhereClause> urlEqualTo(String? url) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'url',
+        value: [url],
+      ));
+    });
+  }
+
+  QueryBuilder<Feed, Feed, QAfterWhereClause> urlNotEqualTo(String? url) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'url',
+              lower: [],
+              upper: [url],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'url',
+              lower: [url],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'url',
+              lower: [url],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'url',
+              lower: [],
+              upper: [url],
+              includeUpper: false,
+            ));
+      }
     });
   }
 }

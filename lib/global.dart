@@ -4,7 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 import 'common/index.dart';
-import 'common/services/feed_manager.dart';
+import 'common/services/database_manager.dart';
 
 class Global {
   static Future<void> init() async {

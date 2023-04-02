@@ -66,9 +66,8 @@ class PostAllPage extends GetView<PostAllController> {
                     controller.turnToFocus(i);
                   }
                 },
-                child: PostItemWidget(
+                child: PostItemListWidget(
                   feedItem: feedItem,
-                  feed: feedItem.feed.value!,
                 ).inkWell(onTap: () {
                   controller.onTapItem(feedItem);
                 }),
