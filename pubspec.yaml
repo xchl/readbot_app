@@ -66,6 +66,8 @@ dependencies:
   isar: ^3.0.5
   isar_flutter_libs: ^3.0.5
   tuple: ^2.0.1
+  flutter_inappwebview: ^5.7.2+3
+  flutter_html: ^3.0.0-alpha.6
   
 dev_dependencies:
   flutter_test:
@@ -100,6 +102,7 @@ flutter:
   assets:
     - assets/images/
     - assets/svgs/
+    - assets/js/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

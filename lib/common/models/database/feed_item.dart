@@ -18,6 +18,8 @@ class FeedItem {
   String? category;
   String? description;
   String? summaryAlgo;
+  String? content;
+  bool? contentHaveParsed;
   DateTime? createTime;
   String? md5;
 
@@ -36,6 +38,8 @@ class FeedItem {
     this.category,
     this.description,
     this.summaryAlgo,
+    this.content,
+    this.contentHaveParsed = false,
     this.md5,
   });
 

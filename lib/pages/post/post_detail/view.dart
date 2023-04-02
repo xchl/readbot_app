@@ -1,5 +1,9 @@
-import 'package:feed_inbox_app/common/index.dart';
+import 'dart:convert';
+
+import 'package:feed_inbox_app/common/values/js.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -19,7 +23,10 @@ class PostDetailPage extends GetView<PostDetailController> {
   // }
 
   Widget _buildView() {
-    return WebViewWidget(controller: controller.webViewController);
+    // return WebViewWidget(controller: controller.webViewController);
+    return controller.htmlBody == null
+        ? const Center(child: CircularProgressIndicator())
+        : Html(data: controller.htmlBody!);
   }
 
   @override

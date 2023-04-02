@@ -42,6 +42,13 @@ class FeedManager {
     });
   }
 
+  // update FeedItems
+  Future<void> updateFeedItems(List<FeedItem> items) async {
+    await _isar.writeTxn(() async {
+      await _isar.feedItems.putAll(items);
+    });
+  }
+
   // insert FeedItem list
   Future<void> insertFeedItems(List<FeedItem> items) async {
     await _isar.writeTxn(() async {
