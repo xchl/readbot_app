@@ -2,6 +2,7 @@ import 'package:feed_inbox_app/common/index.dart';
 import 'package:feed_inbox_app/pages/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class MainPage extends StatefulWidget {
@@ -43,6 +44,10 @@ class _MainViewGetX extends GetView<MainController> {
         return true;
       },
       child: Scaffold(
+        endDrawer: Drawer(
+          backgroundColor: AppColors.primary,
+          width: 200.w,
+        ),
         extendBody: true,
         resizeToAvoidBottomInset: false,
         // 导航栏

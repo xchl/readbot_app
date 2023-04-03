@@ -1,10 +1,10 @@
+import 'package:feed_inbox_app/common/services/worker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-
+import 'package:workmanager/workmanager.dart';
 import 'common/index.dart';
-import 'common/services/database_manager.dart';
 
 class Global {
   static Future<void> init() async {
@@ -28,8 +28,18 @@ class Global {
     Get.put<UserService>(UserService());
     Get.put<FeedService>(FeedService());
     Get.put<LogService>(LogService());
+
     // 默认语言
     ConfigService.to.onLocaleUpdate(Translation.fallbackLocale);
+
+    // Workmanager()
+    //     .initialize(WorkerIsolate.autoFetchFeedItem, isInDebugMode: true);
+
+    // Workmanager().registerPeriodicTask(
+    //   Constants.periodicFetchTask,
+    //   Constants.periodicFetchTask,
+    //   frequency: const Duration(minutes: 1),
+    // );
   }
 
   // 系统样式

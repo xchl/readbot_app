@@ -38,6 +38,7 @@ class AssetsSvgs {
   static const pNotificationsSvg = 'assets/svgs/p-notifications.svg';
   static const pThemeSvg = 'assets/svgs/p-theme.svg';
   static const pTranslateSvg = 'assets/svgs/p-translate.svg';
+  static const plusLgSvg = 'assets/svgs/plus-lg.svg';
   static const profileHeaderBackgroundSvg =
       'assets/svgs/profile-header-background.svg';
   static const rssSvg = 'assets/svgs/rss.svg';

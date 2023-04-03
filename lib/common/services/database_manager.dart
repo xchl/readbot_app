@@ -49,6 +49,16 @@ class FeedManager {
     });
   }
 
+  // insert FeedItems
+  Future<void> insertFeedItems(List<FeedItem> items) async {
+    await _isar.writeTxn(() async {
+      await _isar.feedItems.putAllByMd5String(items);
+      for (var item in items) {
+        await item.feed.save();
+      }
+    });
+  }
+
   // update FeedItem
   Future<void> updateFeedItem(FeedItem item) async {
     await _isar.writeTxn(() async {

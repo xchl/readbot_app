@@ -53,15 +53,17 @@ class PostFocusPage extends GetView<PostFocusController> {
           appBar: AppBar(
             toolbarHeight: 44.h,
             backgroundColor: AppColors.background,
-            elevation: 0,
-            //由于title本身是接受一个widget，所以可以直接给他一个自定义的widget。
+            elevation: 0.1,
             title: TextWidget.title1(
-              "待读",
+              LocaleKeys.focusTitle.tr,
               color: AppColors.secondary,
             ),
-          ),
-          drawer: const Drawer(
-            child: Text("左侧边栏"),
+            actions: [
+              // 图标
+              IconWidget.svg(
+                AssetsSvgs.plusLgSvg,
+              ).paddingRight(AppSpace.listItem)
+            ],
           ),
           body: SafeArea(
             child: _buildView(),

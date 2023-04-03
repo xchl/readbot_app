@@ -20,6 +20,7 @@ class Constants {
   static const existUrlType = "exist";
   static const createdUrlType = "create";
   static const storageLatestFeedId = 'history_latest_feed_id';
+  static const periodicFetchTask = 'readbot.periodicFetchTask';
 
   // Post
   static const storageExplorePost = 'history_explore_post';

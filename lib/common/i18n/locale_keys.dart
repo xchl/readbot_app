@@ -86,4 +86,6 @@ class LocaleKeys {
 
   // Feed
   static const feedNoTitle = 'feed_no_title';
+  static const focusTitle = 'feed_focus_title';
+  static const exploreTitle = 'feed_explore_title';
 }

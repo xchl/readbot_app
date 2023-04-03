@@ -64,6 +64,7 @@ class PostAllController extends GetxController {
 
   Future<void> onRefresh() async {
     try {
+      await FeedService.to.fetchAllFeed();
       refreshController.refreshCompleted();
     } catch (error) {
       refreshController.refreshFailed();

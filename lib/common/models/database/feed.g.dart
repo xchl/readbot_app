@@ -47,8 +47,14 @@ const FeedSchema = CollectionSchema(
       name: r'tags',
       type: IsarType.stringList,
     ),
-    r'url': PropertySchema(
+    r'type': PropertySchema(
       id: 6,
+      name: r'type',
+      type: IsarType.int,
+      enumMap: _FeedtypeEnumValueMap,
+    ),
+    r'url': PropertySchema(
+      id: 7,
       name: r'url',
       type: IsarType.string,
     )
@@ -117,12 +123,7 @@ int _feedEstimateSize(
       }
     }
   }
-  {
-    final value = object.url;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.url.length * 3;
   return bytesCount;
 }
 
@@ -138,7 +139,8 @@ void _feedSerialize(
   writer.writeString(offsets[3], object.logo);
   writer.writeString(offsets[4], object.name);
   writer.writeStringList(offsets[5], object.tags);
-  writer.writeString(offsets[6], object.url);
+  writer.writeInt(offsets[6], object.type.index);
+  writer.writeString(offsets[7], object.url);
 }
 
 Feed _feedDeserialize(
@@ -148,7 +150,8 @@ Feed _feedDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Feed(
-    reader.readStringOrNull(offsets[6]),
+    reader.readString(offsets[7]),
+    _FeedtypeValueEnumMap[reader.readIntOrNull(offsets[6])] ?? FeedType.Atom,
     createTime: reader.readDateTimeOrNull(offsets[0]),
     description: reader.readStringOrNull(offsets[1]),
     groupId: reader.readLongOrNull(offsets[2]),
@@ -180,11 +183,25 @@ P _feedDeserializeProp<P>(
     case 5:
       return (reader.readStringList(offset)) as P;
     case 6:
-      return (reader.readStringOrNull(offset)) as P;
+      return (_FeedtypeValueEnumMap[reader.readIntOrNull(offset)] ??
+          FeedType.Atom) as P;
+    case 7:
+      return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
+
+const _FeedtypeEnumValueMap = {
+  'Atom': 0,
+  'Rss': 1,
+  'Unknown': 2,
+};
+const _FeedtypeValueEnumMap = {
+  0: FeedType.Atom,
+  1: FeedType.Rss,
+  2: FeedType.Unknown,
+};
 
 Id _feedGetId(Feed object) {
   return object.id;
@@ -199,38 +216,38 @@ void _feedAttach(IsarCollection<dynamic> col, Id id, Feed object) {
 }
 
 extension FeedByIndex on IsarCollection<Feed> {
-  Future<Feed?> getByUrl(String? url) {
+  Future<Feed?> getByUrl(String url) {
     return getByIndex(r'url', [url]);
   }
 
-  Feed? getByUrlSync(String? url) {
+  Feed? getByUrlSync(String url) {
     return getByIndexSync(r'url', [url]);
   }
 
-  Future<bool> deleteByUrl(String? url) {
+  Future<bool> deleteByUrl(String url) {
     return deleteByIndex(r'url', [url]);
   }
 
-  bool deleteByUrlSync(String? url) {
+  bool deleteByUrlSync(String url) {
     return deleteByIndexSync(r'url', [url]);
   }
 
-  Future<List<Feed?>> getAllByUrl(List<String?> urlValues) {
+  Future<List<Feed?>> getAllByUrl(List<String> urlValues) {
     final values = urlValues.map((e) => [e]).toList();
     return getAllByIndex(r'url', values);
   }
 
-  List<Feed?> getAllByUrlSync(List<String?> urlValues) {
+  List<Feed?> getAllByUrlSync(List<String> urlValues) {
     final values = urlValues.map((e) => [e]).toList();
     return getAllByIndexSync(r'url', values);
   }
 
-  Future<int> deleteAllByUrl(List<String?> urlValues) {
+  Future<int> deleteAllByUrl(List<String> urlValues) {
     final values = urlValues.map((e) => [e]).toList();
     return deleteAllByIndex(r'url', values);
   }
 
-  int deleteAllByUrlSync(List<String?> urlValues) {
+  int deleteAllByUrlSync(List<String> urlValues) {
     final values = urlValues.map((e) => [e]).toList();
     return deleteAllByIndexSync(r'url', values);
   }
@@ -326,27 +343,7 @@ extension FeedQueryWhere on QueryBuilder<Feed, Feed, QWhereClause> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterWhereClause> urlIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'url',
-        value: [null],
-      ));
-    });
-  }
-
-  QueryBuilder<Feed, Feed, QAfterWhereClause> urlIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'url',
-        lower: [null],
-        includeLower: false,
-        upper: [],
-      ));
-    });
-  }
-
-  QueryBuilder<Feed, Feed, QAfterWhereClause> urlEqualTo(String? url) {
+  QueryBuilder<Feed, Feed, QAfterWhereClause> urlEqualTo(String url) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'url',
@@ -355,7 +352,7 @@ extension FeedQueryWhere on QueryBuilder<Feed, Feed, QWhereClause> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterWhereClause> urlNotEqualTo(String? url) {
+  QueryBuilder<Feed, Feed, QAfterWhereClause> urlNotEqualTo(String url) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -1244,24 +1241,60 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> urlIsNull() {
+  QueryBuilder<Feed, Feed, QAfterFilterCondition> typeEqualTo(FeedType value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'url',
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'type',
+        value: value,
       ));
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> urlIsNotNull() {
+  QueryBuilder<Feed, Feed, QAfterFilterCondition> typeGreaterThan(
+    FeedType value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'url',
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'type',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Feed, Feed, QAfterFilterCondition> typeLessThan(
+    FeedType value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'type',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Feed, Feed, QAfterFilterCondition> typeBetween(
+    FeedType lower,
+    FeedType upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'type',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
 
   QueryBuilder<Feed, Feed, QAfterFilterCondition> urlEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1274,7 +1307,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
   }
 
   QueryBuilder<Feed, Feed, QAfterFilterCondition> urlGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1289,7 +1322,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
   }
 
   QueryBuilder<Feed, Feed, QAfterFilterCondition> urlLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1304,8 +1337,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
   }
 
   QueryBuilder<Feed, Feed, QAfterFilterCondition> urlBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1454,6 +1487,18 @@ extension FeedQuerySortBy on QueryBuilder<Feed, Feed, QSortBy> {
     });
   }
 
+  QueryBuilder<Feed, Feed, QAfterSortBy> sortByType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'type', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Feed, Feed, QAfterSortBy> sortByTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'type', Sort.desc);
+    });
+  }
+
   QueryBuilder<Feed, Feed, QAfterSortBy> sortByUrl() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'url', Sort.asc);
@@ -1540,6 +1585,18 @@ extension FeedQuerySortThenBy on QueryBuilder<Feed, Feed, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Feed, Feed, QAfterSortBy> thenByType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'type', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Feed, Feed, QAfterSortBy> thenByTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'type', Sort.desc);
+    });
+  }
+
   QueryBuilder<Feed, Feed, QAfterSortBy> thenByUrl() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'url', Sort.asc);
@@ -1590,6 +1647,12 @@ extension FeedQueryWhereDistinct on QueryBuilder<Feed, Feed, QDistinct> {
   QueryBuilder<Feed, Feed, QDistinct> distinctByTags() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'tags');
+    });
+  }
+
+  QueryBuilder<Feed, Feed, QDistinct> distinctByType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'type');
     });
   }
 
@@ -1644,7 +1707,13 @@ extension FeedQueryProperty on QueryBuilder<Feed, Feed, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Feed, String?, QQueryOperations> urlProperty() {
+  QueryBuilder<Feed, FeedType, QQueryOperations> typeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'type');
+    });
+  }
+
+  QueryBuilder<Feed, String, QQueryOperations> urlProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'url');
     });

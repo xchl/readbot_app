@@ -28,17 +28,17 @@ class FeedService extends GetxService {
     var feedType = getFeedType(xml);
     if (feedType == FeedType.Rss) {
       var feedRaw = RssFeed.parse(xml);
-      var feed = Feed.fromRssFeed(feedRaw, url);
+      var feed = Feed.fromRssFeed(feedRaw, url, FeedType.Rss);
       var feedItems = _parseRssItem(feed, feedRaw.items);
       return Tuple2(feed, feedItems);
     } else if (feedType == FeedType.Atom) {
       var feedRaw = AtomFeed.parse(xml);
-      var feed = Feed.fromAtomFeed(feedRaw, url);
+      var feed = Feed.fromAtomFeed(feedRaw, url, FeedType.Atom);
       var feedItems = _parseAtomItem(feed, feedRaw.items);
       return Tuple2(feed, feedItems);
     }
     // TODO Error handle
-    return Tuple2(Feed(url), []);
+    return Tuple2(Feed(url, FeedType.Unknown), []);
   }
 
   List<FeedItem> parseFeedItem(List<FeedItem> items) {
@@ -60,6 +60,26 @@ class FeedService extends GetxService {
     Tuple2<Feed, List<FeedItem>> result = _parseFeed(xml, url);
     var feedItems = parseFeedItem(result.item2);
     await FeedManager().insertFeedAndItems(result.item1, feedItems);
+  }
+
+  Future<void> fetchFeed(Feed feed) async {
+    String content = await FeedApi.fetchContentFromUrl(feed.url);
+    if (feed.type == FeedType.Atom) {
+      var feedRaw = AtomFeed.parse(content);
+      var feedItems = _parseAtomItem(feed, feedRaw.items);
+      await FeedManager().insertFeedItems(feedItems);
+    } else if (feed.type == FeedType.Rss) {
+      var feedRaw = RssFeed.parse(content);
+      var feedItems = _parseRssItem(feed, feedRaw.items);
+      await FeedManager().insertFeedItems(feedItems);
+    }
+  }
+
+  Future<void> fetchAllFeed() async {
+    var feeds = await FeedManager().getAllFeeds();
+    for (var feed in feeds) {
+      await fetchFeed(feed);
+    }
   }
 
   // @override

@@ -66,6 +66,7 @@ class PostAllPage extends GetView<PostAllController> {
                     controller.turnToFocus(i);
                   }
                 },
+                direction: DismissDirection.startToEnd,
                 child: PostItemListWidget(
                   feedItem: feedItem,
                 ).inkWell(onTap: () {
@@ -86,10 +87,22 @@ class PostAllPage extends GetView<PostAllController> {
       id: "post_all",
       builder: (_) {
         return Scaffold(
-          // appBar: _buildAppBar(),
-          endDrawer: Drawer(
-            backgroundColor: AppColors.primary,
-            width: 200.w,
+          appBar: AppBar(
+            toolbarHeight: 44.h,
+            backgroundColor: AppColors.background,
+            elevation: 0.1,
+            title: TextWidget.title1(
+              LocaleKeys.exploreTitle.tr,
+              color: AppColors.secondary,
+            ),
+            actions: [
+              // 图标
+              IconWidget.svg(
+                AssetsSvgs.plusLgSvg,
+                size: 20,
+                isDot: true, // 未读消息 小圆点
+              )
+            ],
           ),
           body: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification notification) {
