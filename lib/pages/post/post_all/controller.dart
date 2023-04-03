@@ -1,14 +1,16 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PostAllController extends GetxController {
   PostAllController();
 
-  // 刷新控制器
-  final RefreshController refreshController = RefreshController(
-    initialRefresh: true,
-  );
+  /// 定义输入控制器
+  TextEditingController urlController = TextEditingController();
+
+  /// 表单 key
+  GlobalKey formKey = GlobalKey<FormState>();
 
   int _page = 0;
 
@@ -34,10 +36,19 @@ class PostAllController extends GetxController {
     _initData();
   }
 
-  void turnToSeen(int index) async {
-    _feedItems[index].isSeen = true;
-    await FeedManager().updateFeedItem(_feedItems[index]);
-    update(["post_all"]);
+  void onAddFeed() async {
+    if ((formKey.currentState as FormState).validate()) {
+      try {
+        Loading.show();
+        await FeedService.to.addFeedFromUrl(urlController.text);
+        Loading.success();
+        refreshFeedItem();
+        update(["post_all"]);
+        Get.back(result: true);
+      } finally {
+        Loading.dismiss();
+      }
+    }
   }
 
   void turnToFocus(int index) async {
@@ -51,32 +62,33 @@ class PostAllController extends GetxController {
     Get.toNamed(RouteNames.postPostDetail, arguments: {'feedItem': feedItem});
   }
 
+  Future<void> refreshFeedItem() async {
+    _page = 0;
+    _feedItems = await FeedManager().getExploreFeedItemsByPage(_page);
+  }
+
+  Future<void> appendFeedItem() async {
+    _page++;
+    _feedItems = await FeedManager().getExploreFeedItemsByPage(_page);
+  }
+
   void onLoadMore() async {
     try {
-      _page++;
-      _feedItems.addAll(await FeedManager().getExploreFeedItemsByPage(_page));
-      refreshController.loadComplete();
+      appendFeedItem();
+      update(["post_all"]);
     } catch (error) {
-      refreshController.loadFailed();
+      // do nothing
     }
-    update(["post_all"]);
   }
 
   Future<void> onRefresh() async {
     try {
       await FeedService.to.fetchAllFeed();
-      refreshController.refreshCompleted();
+      refreshFeedItem();
+      // refreshController.refreshCompleted();
+      update(["post_all"]);
     } catch (error) {
-      refreshController.refreshFailed();
+      // refreshController.refreshFailed();
     }
-    update(["post_all"]);
-  }
-
-  void onAppBarTap() {}
-
-  @override
-  void dispose() {
-    super.dispose();
-    refreshController.dispose();
   }
 }

@@ -2,45 +2,31 @@ import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'index.dart';
 
 class PostAllPage extends GetView<PostAllController> {
   const PostAllPage({Key? key}) : super(key: key);
 
-  // 导航栏
-  AppBar _buildAppBar() {
-    return AppBar(
-      // 背景透明
-      backgroundColor: AppColors.background,
-      // 取消阴影
-      elevation: 0,
-      // 标题栏左侧间距
-      titleSpacing: AppSpace.listItem,
-      // 搜索栏
-      title: InputWidget.search(
-        // 提示文字，多语言
-        hintText: LocaleKeys.myBtnLanguage.tr,
-        // 点击事件
-        onTap: controller.onAppBarTap,
-        // 只读
-        readOnly: true,
-      ),
-      // 右侧的按钮区
-      actions: [
-        // 图标
-        IconWidget.svg(
-          AssetsSvgs.pNotificationsSvg,
-          size: 20,
-          isDot: true, // 未读消息 小圆点
-        )
-            .unconstrained() // 去掉约束, appBar 会有个约束下来
-            .padding(
-              left: AppSpace.listItem,
-              right: AppSpace.page,
-            ),
-      ],
-    );
+  Widget _buildForm() {
+    return Form(
+      key: controller.formKey, //设置globalKey，用于后面获取FormState
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: <Widget>[
+        // url
+        TextFormWidget(
+          autofocus: true,
+          keyboardType: TextInputType.url,
+          controller: controller.urlController,
+          labelText: LocaleKeys.feedAddDesc.tr,
+        ).paddingBottom(30),
+
+        // 添加按钮
+        ButtonWidget.text(
+          LocaleKeys.feedAddBtn.tr,
+          onTap: controller.onAddFeed,
+        ).paddingBottom(AppSpace.listRow.w),
+      ].toColumn(),
+    ).paddingAll(AppSpace.card);
   }
 
   // 主视图
@@ -99,9 +85,13 @@ class PostAllPage extends GetView<PostAllController> {
               // 图标
               IconWidget.svg(
                 AssetsSvgs.plusLgSvg,
-                size: 20,
-                isDot: true, // 未读消息 小圆点
-              )
+              ).paddingRight(AppSpace.listItem).onTap(() {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return _buildForm();
+                    });
+              })
             ],
           ),
           body: NotificationListener<ScrollNotification>(

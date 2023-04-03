@@ -49,7 +49,7 @@ dependencies:
   flutter_native_splash: ^2.2.16
   carousel_slider: ^4.2.1
   validatorless: ^1.2.3
-  pinput: ^2.2.21
+  pinput: ^2.2.31
   flutter_easyloading: ^3.0.5
   crypto: ^3.0.2
   jwt_decoder: ^2.0.1
@@ -69,6 +69,7 @@ dependencies:
   flutter_inappwebview: ^5.7.2+3
   flutter_html: ^3.0.0-alpha.6
   workmanager: ^0.5.1
+  html: ^0.15.2
   
 dev_dependencies:
   flutter_test:

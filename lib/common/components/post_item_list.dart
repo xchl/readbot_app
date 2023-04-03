@@ -13,12 +13,7 @@ class PostItemListWidget extends StatelessWidget {
   }) : super(key: key);
 
   Widget _buildImageBlock() {
-    return feedItem.cover == null
-        ? const SizedBox(
-            width: 0,
-            height: 0,
-          )
-        : ImageWidget.url(feedItem.cover!);
+    return ImageWidget.url(feedItem.cover!);
   }
 
   Widget _buildTextBlock() {
@@ -45,7 +40,12 @@ class PostItemListWidget extends StatelessWidget {
     return Container(
       child: <Widget>[
         // 图片Block
-        _buildImageBlock().width(100).height(80).paddingRight(10),
+        feedItem.cover == null
+            ? const SizedBox(
+                width: 0,
+                height: 0,
+              )
+            : _buildImageBlock().width(100).height(80).paddingRight(10),
         // Description Block
         _buildTextBlock().expanded(),
       ].toRow().padding(left: 5.w, right: 5.w, top: 5.h, bottom: 5.h),

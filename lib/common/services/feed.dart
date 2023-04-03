@@ -47,9 +47,12 @@ class FeedService extends GetxService {
         return item;
       }
       var desc = item.description!;
-      var imgSrc = matchImgSrcInHtml(desc);
-      if (imgSrc != null) {
+      // var imgSrc = matchImgSrcInHtml(desc);
+      try {
+        var imgSrc = findCoverImageInHtml(desc);
         item.cover = imgSrc;
+      } catch (exception) {
+        // do nothing
       }
       return item;
     }).toList();
@@ -67,10 +70,12 @@ class FeedService extends GetxService {
     if (feed.type == FeedType.Atom) {
       var feedRaw = AtomFeed.parse(content);
       var feedItems = _parseAtomItem(feed, feedRaw.items);
+      feedItems = parseFeedItem(feedItems);
       await FeedManager().insertFeedItems(feedItems);
     } else if (feed.type == FeedType.Rss) {
       var feedRaw = RssFeed.parse(content);
       var feedItems = _parseRssItem(feed, feedRaw.items);
+      feedItems = parseFeedItem(feedItems);
       await FeedManager().insertFeedItems(feedItems);
     }
   }
