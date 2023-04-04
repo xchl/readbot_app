@@ -1,7 +1,6 @@
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PostAllController extends GetxController {
   PostAllController();
@@ -69,7 +68,8 @@ class PostAllController extends GetxController {
 
   Future<void> appendFeedItem() async {
     _page++;
-    _feedItems = await FeedManager().getExploreFeedItemsByPage(_page);
+    var newFeedItems = await FeedManager().getExploreFeedItemsByPage(_page);
+    _feedItems.addAll(newFeedItems);
   }
 
   void onLoadMore() async {
