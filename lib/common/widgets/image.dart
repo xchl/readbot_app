@@ -126,6 +126,7 @@ class ImageWidget extends StatelessWidget {
           width: width,
           height: height,
           fit: fit,
+          cache: true,
           shape: BoxShape.rectangle,
           borderRadius: borderRadius,
           loadStateChanged: (state) => _buildLoadState(context, state),
