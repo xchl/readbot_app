@@ -1,11 +1,8 @@
-import 'dart:convert';
-
-import 'package:feed_inbox_app/common/values/js.dart';
+import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/common/pb/readbot_proto/response.pbjson.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import 'index.dart';
 
@@ -24,9 +21,37 @@ class PostDetailPage extends GetView<PostDetailController> {
 
   Widget _buildView() {
     // return WebViewWidget(controller: controller.webViewController);
-    return controller.htmlBody == null
-        ? const Center(child: CircularProgressIndicator())
-        : Html(data: controller.htmlBody!);
+    // return controller.htmlBody == null
+    //     ? const Center(child: CircularProgressIndicator())
+    //     : Html(data: controller.htmlBody!);
+
+    // if feedItem.content not null then InAppWebView load content as html
+    // else load feeditem link
+
+    return InAppWebView(
+        key: controller.webViewKey,
+        initialOptions: controller.options,
+        onWebViewCreated: (webController) {
+          webController.loadUrl(
+              urlRequest:
+                  URLRequest(url: Uri.parse(controller.feedItem.link!)));
+        },
+        onLoadStop: (webController, url) async {});
+
+    // return InAppWebView(
+    //     key: controller.webViewKey,
+    //     initialOptions: controller.options,
+    //     onWebViewCreated: (webController) {
+    //       controller.feedItem.content == null
+    //           ? webController.loadUrl(
+    //               urlRequest:
+    //                   URLRequest(url: Uri.parse(controller.feedItem.link!)))
+    //           : webController.loadData(data: controller.feedItem.content!);
+    //     },
+    //     onLoadStart: (webController, url) {
+    //       url == null ? debugPrint('load data') : debugPrint('load $url');
+    //     },
+    //     onLoadStop: (webController, url) async {});
   }
 
   @override

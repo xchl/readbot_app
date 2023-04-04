@@ -1,6 +1,7 @@
 import 'package:feed_inbox_app/common/api/feed.dart';
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:tuple/tuple.dart';
 import 'package:webfeed/util/function.dart';
@@ -59,29 +60,51 @@ class FeedService extends GetxService {
     }).toList();
   }
 
+  Future<void> downloadHtml(List<FeedItem> feedItems) async {
+    if (feedItems.isEmpty) return;
+    int idx = 0;
+    var headlessWebView = HeadlessInAppWebView(
+      initialUrlRequest: URLRequest(url: Uri.parse(feedItems[idx].link!)),
+      onLoadStop: (controller, url) async {
+        final String htmlContent = await controller.evaluateJavascript(
+            source: 'document.documentElement.outerHTML');
+        feedItems[idx].content = htmlContent;
+        FeedManager().updateFeedItem(feedItems[idx]);
+        debugPrint("Downloaded: $url");
+        if (idx < feedItems.length - 1) {
+          idx += 1;
+          controller.loadUrl(
+              urlRequest: URLRequest(url: Uri.parse(feedItems[idx].link!)));
+        }
+      },
+    );
+    debugPrint("Download Started!");
+    headlessWebView.run();
+    debugPrint("Download Stop! $feedItems.length Page");
+  }
+
   Future<void> addFeedFromUrl(String url) async {
     String xml = await FeedApi.fetchContentFromUrl(url);
     Tuple2<Feed, List<FeedItem>> result = _parseFeed(xml, url);
-    // var feedItems = parseFeedItem(result.item2);
-    var feedItems = await compute(parseFeedItem, result.item2);
+    var feedItems = parseFeedItem(result.item2);
     await FeedManager().insertFeedAndItems(result.item1, feedItems);
+    downloadHtml(feedItems);
   }
 
   Future<void> fetchFeed(Feed feed) async {
     String content = await FeedApi.fetchContentFromUrl(feed.url);
+    var feedItems = <FeedItem>[];
     if (feed.type == FeedType.Atom) {
       var feedRaw = AtomFeed.parse(content);
-      var feedItems = _parseAtomItem(feed, feedRaw.items);
-      // feedItems = parseFeedItem(feedItems);
-      feedItems = await compute(parseFeedItem, feedItems);
-      await FeedManager().insertFeedItems(feedItems);
+      feedItems = _parseAtomItem(feed, feedRaw.items);
+      feedItems = parseFeedItem(feedItems);
     } else if (feed.type == FeedType.Rss) {
       var feedRaw = RssFeed.parse(content);
-      var feedItems = _parseRssItem(feed, feedRaw.items);
-      feedItems = await compute(parseFeedItem, feedItems);
-      // feedItems = parseFeedItem(feedItems);
-      await FeedManager().insertFeedItems(feedItems);
+      feedItems = _parseRssItem(feed, feedRaw.items);
+      feedItems = parseFeedItem(feedItems);
     }
+    await FeedManager().insertFeedItems(feedItems);
+    downloadHtml(feedItems);
   }
 
   Future<void> fetchAllFeed() async {
@@ -89,19 +112,5 @@ class FeedService extends GetxService {
     for (var feed in feeds) {
       await fetchFeed(feed);
     }
-  }
-
-  // @override
-  // void onInit() async {
-  //   super.onInit();
-  //   // 读 Post
-  // }
-
-  @override
-  Future<void> onReady() async {
-    // if (UserService.to.hasActiveAccessToken()) {
-    //   await fetchFeedList();
-    //   await fetchPostList();
-    // }
   }
 }
