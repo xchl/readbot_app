@@ -8,7 +8,6 @@ class PostDetailController extends GetxController {
 
   final GlobalKey webViewKey = GlobalKey();
 
-  // InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
     crossPlatform: InAppWebViewOptions(
         useShouldOverrideUrlLoading: true,

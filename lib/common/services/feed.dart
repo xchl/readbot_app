@@ -68,8 +68,11 @@ class FeedService extends GetxService {
       onLoadStop: (controller, url) async {
         final String htmlContent = await controller.evaluateJavascript(
             source: 'document.documentElement.outerHTML');
-        feedItems[idx].content = htmlContent;
-        FeedManager().updateFeedItem(feedItems[idx]);
+
+        var content = Content(
+            type: ContentType.Html, content: htmlContent, uri: url.toString());
+
+        FeedManager().insertContent(content);
         debugPrint("Downloaded: $url");
         if (idx < feedItems.length - 1) {
           idx += 1;

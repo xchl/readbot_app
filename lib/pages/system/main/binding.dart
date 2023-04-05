@@ -9,5 +9,6 @@ class MainBinding implements Bindings {
     Get.lazyPut<PostAllController>(() => PostAllController());
     Get.lazyPut<MyIndexController>(() => MyIndexController());
     Get.lazyPut<MainController>(() => MainController());
+    Get.lazyPut<PostDetailController>(() => PostDetailController());
   }
 }

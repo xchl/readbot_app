@@ -7,16 +7,6 @@ import 'index.dart';
 class PostDetailPage extends GetView<PostDetailController> {
   const PostDetailPage({Key? key}) : super(key: key);
 
-  // 主视图
-  // Widget _buildView() {
-  //   return Center(
-  //     child: <Widget>[
-  //       Text(controller.post.content!),
-  //       Text(controller.post.link!)
-  //     ].toColumn(),
-  //   );
-  // }
-
   Widget _buildView() {
     // return WebViewWidget(controller: controller.webViewController);
     // return controller.htmlBody == null
@@ -34,6 +24,7 @@ class PostDetailPage extends GetView<PostDetailController> {
               urlRequest:
                   URLRequest(url: Uri.parse(controller.feedItem.link!)));
         },
+        // TODO Save the html
         onLoadStop: (webController, url) async {});
 
     // return InAppWebView(

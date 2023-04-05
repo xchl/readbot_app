@@ -1,4 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/common/models/database/content.dart';
 import 'package:isar/isar.dart';
 
 class FeedManager {
@@ -9,7 +10,7 @@ class FeedManager {
   late final Isar _isar;
 
   Future<void> init() async {
-    _isar = await Isar.open([FeedSchema, FeedItemSchema]);
+    _isar = await Isar.open([FeedSchema, FeedItemSchema, ContentSchema]);
   }
 
   // Feed!
@@ -113,5 +114,13 @@ class FeedManager {
         .limit(Constants.pageSizeMobile)
         .findAll();
     return feedItems;
+  }
+
+  // Content
+  // insert content
+  Future<void> insertContent(Content content) async {
+    await _isar.writeTxn(() async {
+      await _isar.contents.putByUri(content);
+    });
   }
 }
