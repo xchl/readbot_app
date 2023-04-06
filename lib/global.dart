@@ -19,7 +19,7 @@ class Global {
 
     // 工具类
     await Storage().init();
-    await FeedManager().init();
+    await DatabaseManager().init();
     Loading();
 
     // 初始化服务
@@ -28,6 +28,11 @@ class Global {
     Get.put<UserService>(UserService());
     Get.put<FeedService>(FeedService());
     Get.put<LogService>(LogService());
+
+    // 阅读模式
+    ReadModeStyle.fromConfig(
+      fontSize: 16,
+    );
 
     // 默认语言
     ConfigService.to.onLocaleUpdate(Translation.fallbackLocale);

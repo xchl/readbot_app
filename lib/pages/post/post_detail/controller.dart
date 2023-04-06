@@ -12,6 +12,7 @@ class PostDetailController extends GetxController {
     crossPlatform: InAppWebViewOptions(
         useShouldOverrideUrlLoading: true,
         mediaPlaybackRequiresUserGesture: false,
+        transparentBackground: true,
         cacheEnabled: true),
     android: AndroidInAppWebViewOptions(
       useHybridComposition: true,
