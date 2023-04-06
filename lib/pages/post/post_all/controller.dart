@@ -14,7 +14,7 @@ class PostAllController extends GetxController {
   int _page = 0;
 
   _initData() async {
-    _feedItems = await FeedManager().getExploreFeedItemsByPage(_page);
+    _feedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
     update(["post_all"]);
   }
 
@@ -52,7 +52,7 @@ class PostAllController extends GetxController {
 
   void turnToFocus(int index) async {
     _feedItems[index].isFocus = true;
-    await FeedManager().updateFeedItem(_feedItems[index]);
+    await DatabaseManager().updateFeedItem(_feedItems[index]);
     _feedItems.removeAt(index);
     update(["post_all"]);
   }
@@ -63,12 +63,12 @@ class PostAllController extends GetxController {
 
   Future<void> refreshFeedItem() async {
     _page = 0;
-    _feedItems = await FeedManager().getExploreFeedItemsByPage(_page);
+    _feedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
   }
 
   Future<void> appendFeedItem() async {
     _page++;
-    var newFeedItems = await FeedManager().getExploreFeedItemsByPage(_page);
+    var newFeedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
     _feedItems.addAll(newFeedItems);
   }
 
@@ -88,6 +88,7 @@ class PostAllController extends GetxController {
       // refreshController.refreshCompleted();
       update(["post_all"]);
     } catch (error) {
+      debugPrint(error.toString());
       // refreshController.refreshFailed();
     }
   }

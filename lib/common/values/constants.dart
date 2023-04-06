@@ -21,6 +21,7 @@ class Constants {
   static const createdUrlType = "create";
   static const storageLatestFeedId = 'history_latest_feed_id';
   static const periodicFetchTask = 'readbot.periodicFetchTask';
+  static const feedUpdateHour = 2;
 
   // Post
   static const storageExplorePost = 'history_explore_post';

@@ -1,15 +1,17 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/common/models/database/feed_update_record.dart';
 import 'package:isar/isar.dart';
 
-class FeedManager {
-  static final FeedManager _instance = FeedManager._internal();
-  factory FeedManager() => _instance;
-  FeedManager._internal();
+class DatabaseManager {
+  static final DatabaseManager _instance = DatabaseManager._internal();
+  factory DatabaseManager() => _instance;
+  DatabaseManager._internal();
 
   late final Isar _isar;
 
   Future<void> init() async {
-    _isar = await Isar.open([FeedSchema, FeedItemSchema, ContentSchema]);
+    _isar = await Isar.open(
+        [FeedSchema, FeedItemSchema, ContentSchema, FeedUpdateRecordSchema]);
   }
 
   // Feed!
@@ -34,28 +36,26 @@ class FeedManager {
     return await _isar.feeds.where().findAll();
   }
 
+  // get feeds last update record by feed id
+  Future<List<FeedUpdateRecord?>> getFeedLastUpdateRecord(feedIds) async {
+    return await _isar.feedUpdateRecords.getAllByFeedId(feedIds);
+  }
+
   // query feed by ids
   Future<List<Feed?>> getFeeds(List<int> ids) async {
     return await _isar.feeds.getAll(ids);
   }
 
   // FeedItem
-
-  // insert FeedItem
-  Future<void> insertFeedItem(FeedItem item) async {
-    await _isar.writeTxn(() async {
-      await _isar.feedItems.putByMd5String(item);
-      await item.feed.save();
-    });
-  }
-
   // insert FeedItems
-  Future<void> insertFeedItems(List<FeedItem> items) async {
+  Future<void> insertFeedItems(
+      List<FeedItem> items, FeedUpdateRecord record) async {
     await _isar.writeTxn(() async {
       await _isar.feedItems.putAllByMd5String(items);
       for (var item in items) {
         await item.feed.save();
       }
+      await _isar.feedUpdateRecords.putByFeedId(record);
     });
   }
 

@@ -11,7 +11,7 @@ class PostFocusController extends GetxController {
   List<FeedItem> get feedItems => _feedItems;
 
   _initData() async {
-    _feedItems = await FeedManager().getFocusFeedItemsByPage(_page);
+    _feedItems = await DatabaseManager().getFocusFeedItemsByPage(_page);
     update(["post_focus"]);
   }
 

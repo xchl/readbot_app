@@ -16,7 +16,7 @@ class MyFeedsController extends GetxController {
   List<Feed> get feedList => _feedList;
 
   void _initData() async {
-    _feedList = await FeedManager().getAllFeeds();
+    _feedList = await DatabaseManager().getAllFeeds();
     update(["my_feeds"]);
   }
 
@@ -41,7 +41,7 @@ class MyFeedsController extends GetxController {
         await FeedService.to.addFeedFromUrl(urlController.text);
 
         Loading.success();
-        _feedList = await FeedManager().getAllFeeds();
+        _feedList = await DatabaseManager().getAllFeeds();
 
         update(["my_feeds"]);
         Get.back(result: true);
