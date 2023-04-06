@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:tuple/tuple.dart';
 import 'package:webfeed/util/function.dart';
 import 'package:webfeed/webfeed.dart';
+import 'package:readability/readability.dart';
 
 /// 用户服务
 class FeedService extends GetxService {
@@ -60,20 +61,35 @@ class FeedService extends GetxService {
     }).toList();
   }
 
+  // extract content from html
+  static String extractReadableContent(String html) {
+    var doc = HtmlDocument(input: html);
+    doc.parse();
+    return doc.pureHtml;
+  }
+
   Future<void> downloadHtml(List<FeedItem> feedItems) async {
     if (feedItems.isEmpty) return;
     int idx = 0;
     var headlessWebView = HeadlessInAppWebView(
       initialUrlRequest: URLRequest(url: Uri.parse(feedItems[idx].link!)),
       onLoadStop: (controller, url) async {
-        final String htmlContent = await controller.evaluateJavascript(
-            source: 'document.documentElement.outerHTML');
+        // final String htmlContent = await controller.evaluateJavascript(
+        //     source: 'document.documentElement.outerHTML');
+
+        final String htmlContent = await controller.getHtml() ?? "";
+
+        String pureContent = await compute(extractReadableContent, htmlContent);
 
         var content = Content(
             type: ContentType.Html, content: htmlContent, uri: url.toString());
 
         FeedManager().insertContent(content);
-        debugPrint("Downloaded: $url");
+
+        feedItems[idx].content = pureContent;
+
+        FeedManager().updateFeedItem(feedItems[idx]);
+
         if (idx < feedItems.length - 1) {
           idx += 1;
           controller.loadUrl(
@@ -83,7 +99,7 @@ class FeedService extends GetxService {
     );
     debugPrint("Download Started!");
     headlessWebView.run();
-    debugPrint("Download Stop! $feedItems.length Page");
+    debugPrint("Download Stop! ${feedItems.length} Page");
   }
 
   Future<void> addFeedFromUrl(String url) async {

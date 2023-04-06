@@ -8,39 +8,31 @@ class PostDetailPage extends GetView<PostDetailController> {
   const PostDetailPage({Key? key}) : super(key: key);
 
   Widget _buildView() {
-    // return WebViewWidget(controller: controller.webViewController);
-    // return controller.htmlBody == null
-    //     ? const Center(child: CircularProgressIndicator())
-    //     : Html(data: controller.htmlBody!);
-
-    // if feedItem.content not null then InAppWebView load content as html
-    // else load feeditem link
+    // return InAppWebView(
+    //     key: controller.webViewKey,
+    //     initialOptions: controller.options,
+    //     onWebViewCreated: (webController) {
+    //       webController.loadUrl(
+    //           urlRequest:
+    //               URLRequest(url: Uri.parse(controller.feedItem.link!)));
+    //     },
+    //     // TODO Save the html
+    //     onLoadStop: (webController, url) async {});
 
     return InAppWebView(
         key: controller.webViewKey,
         initialOptions: controller.options,
         onWebViewCreated: (webController) {
-          webController.loadUrl(
-              urlRequest:
-                  URLRequest(url: Uri.parse(controller.feedItem.link!)));
+          controller.feedItem.content == null
+              ? webController.loadUrl(
+                  urlRequest:
+                      URLRequest(url: Uri.parse(controller.feedItem.link!)))
+              : webController.loadData(data: controller.feedItem.content!);
         },
-        // TODO Save the html
+        onLoadStart: (webController, url) {
+          debugPrint('load $url, origin url ${controller.feedItem.link!}');
+        },
         onLoadStop: (webController, url) async {});
-
-    // return InAppWebView(
-    //     key: controller.webViewKey,
-    //     initialOptions: controller.options,
-    //     onWebViewCreated: (webController) {
-    //       controller.feedItem.content == null
-    //           ? webController.loadUrl(
-    //               urlRequest:
-    //                   URLRequest(url: Uri.parse(controller.feedItem.link!)))
-    //           : webController.loadData(data: controller.feedItem.content!);
-    //     },
-    //     onLoadStart: (webController, url) {
-    //       url == null ? debugPrint('load data') : debugPrint('load $url');
-    //     },
-    //     onLoadStop: (webController, url) async {});
   }
 
   @override

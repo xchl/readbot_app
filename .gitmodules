@@ -1,3 +1,6 @@
 [submodule "lib/package/webfeed"]
 	path = lib/package/webfeed
 	url = https://github.com/RosenX/webfeed.git
+[submodule "lib/package/readability"]
+	path = lib/package/readability
+	url = https://github.com/RosenX/readability.git

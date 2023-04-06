@@ -1,5 +1,4 @@
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/models/database/content.dart';
 import 'package:isar/isar.dart';
 
 class FeedManager {
