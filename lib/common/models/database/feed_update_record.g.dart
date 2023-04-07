@@ -27,8 +27,13 @@ const FeedUpdateRecordSchema = CollectionSchema(
       name: r'lastContentHash',
       type: IsarType.string,
     ),
-    r'lastUpdate': PropertySchema(
+    r'lastItemPublishTime': PropertySchema(
       id: 2,
+      name: r'lastItemPublishTime',
+      type: IsarType.dateTime,
+    ),
+    r'lastUpdate': PropertySchema(
+      id: 3,
       name: r'lastUpdate',
       type: IsarType.dateTime,
     )
@@ -79,7 +84,8 @@ void _feedUpdateRecordSerialize(
 ) {
   writer.writeLong(offsets[0], object.feedId);
   writer.writeString(offsets[1], object.lastContentHash);
-  writer.writeDateTime(offsets[2], object.lastUpdate);
+  writer.writeDateTime(offsets[2], object.lastItemPublishTime);
+  writer.writeDateTime(offsets[3], object.lastUpdate);
 }
 
 FeedUpdateRecord _feedUpdateRecordDeserialize(
@@ -91,7 +97,8 @@ FeedUpdateRecord _feedUpdateRecordDeserialize(
   final object = FeedUpdateRecord(
     feedId: reader.readLong(offsets[0]),
     lastContentHash: reader.readString(offsets[1]),
-    lastUpdate: reader.readDateTime(offsets[2]),
+    lastItemPublishTime: reader.readDateTimeOrNull(offsets[2]),
+    lastUpdate: reader.readDateTime(offsets[3]),
   );
   object.id = id;
   return object;
@@ -109,6 +116,8 @@ P _feedUpdateRecordDeserializeProp<P>(
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 3:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -614,6 +623,80 @@ extension FeedUpdateRecordQueryFilter
   }
 
   QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
+      lastItemPublishTimeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'lastItemPublishTime',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
+      lastItemPublishTimeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'lastItemPublishTime',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
+      lastItemPublishTimeEqualTo(DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'lastItemPublishTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
+      lastItemPublishTimeGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'lastItemPublishTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
+      lastItemPublishTimeLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'lastItemPublishTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
+      lastItemPublishTimeBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'lastItemPublishTime',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
       lastUpdateEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -707,6 +790,20 @@ extension FeedUpdateRecordQuerySortBy
   }
 
   QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+      sortByLastItemPublishTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastItemPublishTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+      sortByLastItemPublishTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastItemPublishTime', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
       sortByLastUpdate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastUpdate', Sort.asc);
@@ -765,6 +862,20 @@ extension FeedUpdateRecordQuerySortThenBy
   }
 
   QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+      thenByLastItemPublishTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastItemPublishTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+      thenByLastItemPublishTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastItemPublishTime', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
       thenByLastUpdate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastUpdate', Sort.asc);
@@ -797,6 +908,13 @@ extension FeedUpdateRecordQueryWhereDistinct
   }
 
   QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QDistinct>
+      distinctByLastItemPublishTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'lastItemPublishTime');
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QDistinct>
       distinctByLastUpdate() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastUpdate');
@@ -822,6 +940,13 @@ extension FeedUpdateRecordQueryProperty
       lastContentHashProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastContentHash');
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecord, DateTime?, QQueryOperations>
+      lastItemPublishTimeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'lastItemPublishTime');
     });
   }
 

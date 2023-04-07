@@ -11,6 +11,7 @@ import 'package:tuple/tuple.dart';
 import 'package:webfeed/util/function.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:readability/readability.dart';
+import 'package:xml/xml.dart';
 
 /// 用户服务
 class FeedService extends GetxService {
@@ -43,7 +44,7 @@ class FeedService extends GetxService {
       return Tuple2(feed, feedItems);
     }
     // TODO Error handle
-    return Tuple2(Feed(url, FeedType.Unknown), []);
+    return Tuple2(Feed(url, type: FeedType.Unknown), []);
   }
 
   static List<FeedItem> parseCover(List<FeedItem> items) {
@@ -104,17 +105,79 @@ class FeedService extends GetxService {
     debugPrint("Download Stop! ${feedItems.length} Page");
   }
 
+  Future<Tuple2<Feed, List<FeedItem>>?> _fetchFeedFromUrl(String url) async {
+    String? xml = await FeedApi.fetchContentFromUrl(url);
+    if (xml == null) {
+      return null;
+    }
+    return _parseFeed(xml, url);
+  }
+
   Future<void> addFeedFromUrl(String url) async {
-    String xml = await FeedApi.fetchContentFromUrl(url);
-    Tuple2<Feed, List<FeedItem>> result = _parseFeed(xml, url);
+    Tuple2<Feed, List<FeedItem>>? result = await _fetchFeedFromUrl(url);
+    if (result == null) {
+      return;
+    }
     var feedItems = parseCover(result.item2);
     await DatabaseManager().insertFeedAndItems(result.item1, feedItems);
     downloadHtml(feedItems);
   }
 
-  Future<void> fetchAllFeed() async {
-    var allFeed = await DatabaseManager().getAllFeeds();
-    var feedIds = allFeed.map((feed) => feed.id).toList();
+  Feed? handleSingleOutline(XmlElement outline) {
+    List<XmlElement> childOutlines = outline.findElements('outline').toList();
+    if (childOutlines.isNotEmpty) {
+      return null;
+    }
+    var feedName = outline.getAttribute('title');
+    var feedDescription = outline.getAttribute('text');
+    var feedHtmlUrl = outline.getAttribute('xmlUrl');
+
+    if (feedHtmlUrl == null) {
+      return null;
+    }
+    return Feed(feedHtmlUrl,
+        customName: feedName, customDescription: feedDescription);
+  }
+
+  Future<void> importFeedFromOpml(String opmlContent) async {
+    XmlDocument document = XmlDocument.parse(opmlContent);
+    XmlElement opmlElement = document.findElements('opml').first;
+    XmlElement bodyElement = opmlElement.findElements('body').first;
+
+    var feedGroups = <FeedGroup>[];
+    var feeds = <Feed>[];
+
+    for (var outline in bodyElement.findElements('outline')) {
+      List<XmlElement> childOutlines = outline.findElements('outline').toList();
+      if (childOutlines.isNotEmpty) {
+        // create feed group
+        var groupTitle = outline.getAttribute('title');
+        var groupText = outline.getAttribute('text');
+        var group = FeedGroup(name: groupTitle, description: groupText);
+        feedGroups.add(group);
+
+        // for each child outline, add feed
+        for (var childOutline in childOutlines) {
+          var feed = handleSingleOutline(childOutline);
+          if (feed != null) {
+            feed.setGroup(group);
+            feeds.add(feed);
+          }
+        }
+      } else {
+        var feed = handleSingleOutline(outline);
+        if (feed != null) {
+          feeds.add(feed);
+        }
+      }
+    }
+    await DatabaseManager().insertFeedGroups(feedGroups);
+    await DatabaseManager().insertFeeds(feeds);
+    await fetchFeeds(feeds);
+  }
+
+  Future<void> fetchFeeds(List<Feed> feeds) async {
+    var feedIds = feeds.map((feed) => feed.id).toList();
     List<FeedUpdateRecord?> feedLastUpdateRecords =
         await DatabaseManager().getFeedLastUpdateRecord(feedIds);
 
@@ -122,7 +185,7 @@ class FeedService extends GetxService {
     // if there is no update record, feed need to update
     // if last update time is within config hour, feed need to update
     // otherwise, feed don't need to update
-    for (var i = 0; i < allFeed.length; i++) {
+    for (var i = 0; i < feeds.length; i++) {
       var lastUpdateRecord = feedLastUpdateRecords[i];
       if (lastUpdateRecord == null ||
           DateTime.now().difference(lastUpdateRecord.lastUpdate).inHours >=
@@ -135,16 +198,22 @@ class FeedService extends GetxService {
     // if hash is different from last update record, feed need to update
     // otherwise, feed don't need to update
     for (var i in feedsNeedUpdate) {
-      var feed = allFeed[i];
+      var feed = feeds[i];
       var lastUpdateRecord = feedLastUpdateRecords[i];
       // TODO add error handle
       var content = await FeedApi.fetchContentFromUrl(feed.url);
+      if (content == null) {
+        continue;
+      }
       var hash = md5.convert(utf8.encode(content)).toString();
       if (lastUpdateRecord != null &&
           lastUpdateRecord.lastContentHash == hash) {
         continue;
       }
-      var feedItems = parseFeedItems(content, feed);
+
+      var feedItems = feed.type != null
+          ? parseFeedItems(content, feed)
+          : parseFeedItemsAndUpdateFeed(content, feed);
 
       var feedItemsNeedInsert = <FeedItem>[];
       // if the pulish time of feed item is before last update time, feed item don't need to insert
@@ -185,13 +254,39 @@ class FeedService extends GetxService {
 
   // parse feed items from feed content
   List<FeedItem> parseFeedItems(String content, Feed feed) {
-    if (feed.type == FeedType.Atom) {
-      var feedRaw = AtomFeed.parse(content);
-      return _parseAtomItem(feed, feedRaw.items);
-    } else if (feed.type == FeedType.Rss) {
-      var feedRaw = RssFeed.parse(content);
-      return _parseRssItem(feed, feedRaw.items);
+    switch (feed.type) {
+      case FeedType.Atom:
+        var feedRaw = AtomFeed.parse(content);
+        return _parseAtomItem(feed, feedRaw.items);
+      case FeedType.Rss:
+        var feedRaw = RssFeed.parse(content);
+        return _parseRssItem(feed, feedRaw.items);
+      default:
+        return [];
     }
-    return [];
+  }
+
+  List<FeedItem> parseFeedItemsAndUpdateFeed(String content, Feed feed) {
+    var feedType = getFeedType(content);
+    if (feedType == FeedType.Rss) {
+      var feedRaw = RssFeed.parse(content);
+      feed.completeByRssFeed(feedRaw);
+      var feedItems = _parseRssItem(feed, feedRaw.items);
+      DatabaseManager().updateFeed(feed);
+      return feedItems;
+    } else if (feedType == FeedType.Atom) {
+      var feedRaw = AtomFeed.parse(content);
+      feed.completeByAtomFeed(feedRaw);
+      var feedItems = _parseAtomItem(feed, feedRaw.items);
+      DatabaseManager().updateFeed(feed);
+      return feedItems;
+    } else {
+      return [];
+    }
+  }
+
+  Future<void> fetchAllFeed() async {
+    var allFeed = await DatabaseManager().getAllFeeds();
+    await fetchFeeds(allFeed);
   }
 }

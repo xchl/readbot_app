@@ -33,7 +33,21 @@ const FeedGroupSchema = CollectionSchema(
   deserialize: _feedGroupDeserialize,
   deserializeProp: _feedGroupDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'name': IndexSchema(
+      id: 879695947855722453,
+      name: r'name',
+      unique: true,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'name',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
   links: {},
   embeddedSchemas: {},
   getId: _feedGroupGetId,
@@ -79,10 +93,11 @@ FeedGroup _feedGroupDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = FeedGroup();
-  object.description = reader.readStringOrNull(offsets[0]);
+  final object = FeedGroup(
+    description: reader.readStringOrNull(offsets[0]),
+    name: reader.readStringOrNull(offsets[1]),
+  );
   object.id = id;
-  object.name = reader.readStringOrNull(offsets[1]);
   return object;
 }
 
@@ -112,6 +127,60 @@ List<IsarLinkBase<dynamic>> _feedGroupGetLinks(FeedGroup object) {
 
 void _feedGroupAttach(IsarCollection<dynamic> col, Id id, FeedGroup object) {
   object.id = id;
+}
+
+extension FeedGroupByIndex on IsarCollection<FeedGroup> {
+  Future<FeedGroup?> getByName(String? name) {
+    return getByIndex(r'name', [name]);
+  }
+
+  FeedGroup? getByNameSync(String? name) {
+    return getByIndexSync(r'name', [name]);
+  }
+
+  Future<bool> deleteByName(String? name) {
+    return deleteByIndex(r'name', [name]);
+  }
+
+  bool deleteByNameSync(String? name) {
+    return deleteByIndexSync(r'name', [name]);
+  }
+
+  Future<List<FeedGroup?>> getAllByName(List<String?> nameValues) {
+    final values = nameValues.map((e) => [e]).toList();
+    return getAllByIndex(r'name', values);
+  }
+
+  List<FeedGroup?> getAllByNameSync(List<String?> nameValues) {
+    final values = nameValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'name', values);
+  }
+
+  Future<int> deleteAllByName(List<String?> nameValues) {
+    final values = nameValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'name', values);
+  }
+
+  int deleteAllByNameSync(List<String?> nameValues) {
+    final values = nameValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'name', values);
+  }
+
+  Future<Id> putByName(FeedGroup object) {
+    return putByIndex(r'name', object);
+  }
+
+  Id putByNameSync(FeedGroup object, {bool saveLinks = true}) {
+    return putByIndexSync(r'name', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllByName(List<FeedGroup> objects) {
+    return putAllByIndex(r'name', objects);
+  }
+
+  List<Id> putAllByNameSync(List<FeedGroup> objects, {bool saveLinks = true}) {
+    return putAllByIndexSync(r'name', objects, saveLinks: saveLinks);
+  }
 }
 
 extension FeedGroupQueryWhereSort
@@ -187,6 +256,71 @@ extension FeedGroupQueryWhere
         upper: upperId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<FeedGroup, FeedGroup, QAfterWhereClause> nameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'name',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedGroup, FeedGroup, QAfterWhereClause> nameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'name',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedGroup, FeedGroup, QAfterWhereClause> nameEqualTo(
+      String? name) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'name',
+        value: [name],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedGroup, FeedGroup, QAfterWhereClause> nameNotEqualTo(
+      String? name) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'name',
+              lower: [],
+              upper: [name],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'name',
+              lower: [name],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'name',
+              lower: [name],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'name',
+              lower: [],
+              upper: [name],
+              includeUpper: false,
+            ));
+      }
     });
   }
 }

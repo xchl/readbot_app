@@ -7,9 +7,9 @@ import 'index.dart';
 class PostAllPage extends GetView<PostAllController> {
   const PostAllPage({Key? key}) : super(key: key);
 
-  Widget _buildForm() {
+  Widget _buildFeedAddFromUrlForm() {
     return Form(
-      key: controller.formKey, //设置globalKey，用于后面获取FormState
+      key: controller.urlFromKey, //设置globalKey，用于后面获取FormState
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: <Widget>[
         // url
@@ -26,7 +26,7 @@ class PostAllPage extends GetView<PostAllController> {
           onTap: controller.onAddFeed,
         ).paddingBottom(AppSpace.listRow.w),
       ].toColumn(),
-    ).paddingAll(AppSpace.card);
+    ).paddingAll(AppSpace.card).height(200);
   }
 
   // 主视图
@@ -42,10 +42,6 @@ class PostAllPage extends GetView<PostAllController> {
                   color: AppColors.primary,
                   child: const Icon(Icons.check),
                 ),
-                // secondaryBackground: Container(
-                //   color: AppColors.secondary,
-                //   child: const Icon(Icons.check),
-                // ),
                 key: ValueKey<int>(feedItem.id),
                 onDismissed: (direction) {
                   if (direction == DismissDirection.startToEnd) {
@@ -81,17 +77,43 @@ class PostAllPage extends GetView<PostAllController> {
               LocaleKeys.exploreTitle.tr,
               color: AppColors.secondary,
             ),
+            // TODO 抽象出一个widget
             actions: [
-              // 图标
-              IconWidget.svg(
-                AssetsSvgs.plusLgSvg,
-              ).paddingRight(AppSpace.listItem).onTap(() {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return _buildForm();
-                    });
-              })
+              PopupMenuButton(
+                icon: IconWidget.svg(
+                  AssetsSvgs.plusLgSvg,
+                  color: AppColors.secondary,
+                ).paddingRight(AppSpace.listItem),
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: FeedAddButtonFunc.addFromUrl,
+                    child: TextWidget.body1(
+                      LocaleKeys.feedAddFromUrl.tr,
+                      color: AppColors.secondary,
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: FeedAddButtonFunc.importFromOpml,
+                    child: TextWidget.body1(
+                      LocaleKeys.feedAddFromOpml.tr,
+                      color: AppColors.secondary,
+                    ),
+                  ),
+                ],
+                onSelected: (value) {
+                  switch (value) {
+                    case FeedAddButtonFunc.addFromUrl:
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return _buildFeedAddFromUrlForm();
+                          });
+                      break;
+                    case FeedAddButtonFunc.importFromOpml:
+                      controller.onImportFromOpml();
+                  }
+                },
+              )
             ],
           ),
           body: NotificationListener<ScrollNotification>(

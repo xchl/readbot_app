@@ -93,4 +93,6 @@ Map<String, String> localeEn = {
   LocaleKeys.feedNoTitle: 'Unkonwn Title',
   LocaleKeys.focusTitle: 'Focus',
   LocaleKeys.exploreTitle: 'Explore',
+  LocaleKeys.feedAddFromUrl: 'RSS Url',
+  LocaleKeys.feedAddFromOpml: 'Import Opml',
 };

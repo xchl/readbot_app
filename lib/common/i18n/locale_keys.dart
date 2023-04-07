@@ -80,11 +80,11 @@ class LocaleKeys {
   static const myBtnRefresh = 'my_btn_Refresh';
   static const myBtnSourceList = 'my_btn_source_list';
 
-  // 订阅源
+  // Feed
   static const feedAddDesc = 'feed_add_desc';
   static const feedAddBtn = 'feed_add_btn';
-
-  // Feed
+  static const feedAddFromUrl = 'feed_add_from_url';
+  static const feedAddFromOpml = 'feed_add_from_opml';
   static const feedNoTitle = 'feed_no_title';
   static const focusTitle = 'feed_focus_title';
   static const exploreTitle = 'feed_explore_title';

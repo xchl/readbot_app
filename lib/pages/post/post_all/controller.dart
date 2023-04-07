@@ -1,6 +1,15 @@
+import 'dart:io';
+
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xml/xml.dart';
+
+enum FeedAddButtonFunc {
+  addFromUrl,
+  importFromOpml,
+}
 
 class PostAllController extends GetxController {
   PostAllController();
@@ -9,7 +18,8 @@ class PostAllController extends GetxController {
   TextEditingController urlController = TextEditingController();
 
   /// 表单 key
-  GlobalKey formKey = GlobalKey<FormState>();
+  GlobalKey urlFromKey = GlobalKey<FormState>();
+  GlobalKey opmlFormKey = GlobalKey<FormState>();
 
   int _page = 0;
 
@@ -24,11 +34,6 @@ class PostAllController extends GetxController {
 
   void onTap() {}
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
-
   @override
   void onReady() {
     super.onReady();
@@ -36,7 +41,7 @@ class PostAllController extends GetxController {
   }
 
   void onAddFeed() async {
-    if ((formKey.currentState as FormState).validate()) {
+    if ((urlFromKey.currentState as FormState).validate()) {
       try {
         Loading.show();
         await FeedService.to.addFeedFromUrl(urlController.text);
@@ -81,15 +86,33 @@ class PostAllController extends GetxController {
     }
   }
 
+  Future<void> onImportFromOpml() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        // type: FileType.custom,
+        // allowedExtensions: ['opml'],
+        );
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      String contents = await file.readAsString();
+      try {
+        Loading.show();
+        await FeedService.to.importFeedFromOpml(contents);
+        Loading.success();
+      } catch (error) {
+        // TODO 处理错误
+        debugPrint(error.toString());
+      }
+    }
+  }
+
   Future<void> onRefresh() async {
     try {
       await FeedService.to.fetchAllFeed();
       refreshFeedItem();
-      // refreshController.refreshCompleted();
       update(["post_all"]);
     } catch (error) {
       debugPrint(error.toString());
-      // refreshController.refreshFailed();
     }
   }
 }

@@ -86,4 +86,6 @@ Map<String, String> localeZh = {
   LocaleKeys.feedNoTitle: '无标题',
   LocaleKeys.focusTitle: '聚焦',
   LocaleKeys.exploreTitle: '发现',
+  LocaleKeys.feedAddFromUrl: '添加RSS链接',
+  LocaleKeys.feedAddFromOpml: '从Opml导入',
 };

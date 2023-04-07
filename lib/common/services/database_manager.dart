@@ -10,8 +10,22 @@ class DatabaseManager {
   late final Isar _isar;
 
   Future<void> init() async {
-    _isar = await Isar.open(
-        [FeedSchema, FeedItemSchema, ContentSchema, FeedUpdateRecordSchema]);
+    _isar = await Isar.open([
+      FeedSchema,
+      FeedItemSchema,
+      ContentSchema,
+      FeedUpdateRecordSchema,
+      FeedGroupSchema
+    ]);
+  }
+
+  // FeedGroup
+
+  // insert Feed Groups
+  Future<void> insertFeedGroups(List<FeedGroup> groups) async {
+    await _isar.writeTxn(() async {
+      await _isar.feedGroups.putAllByName(groups);
+    });
   }
 
   // Feed!
@@ -28,6 +42,17 @@ class DatabaseManager {
   Future<void> insertFeeds(List<Feed> feeds) async {
     await _isar.writeTxn(() async {
       await _isar.feeds.putAllByUrl(feeds);
+      for (var feed in feeds) {
+        await feed.group.save();
+      }
+    });
+  }
+
+  // update Feed
+  Future<void> updateFeed(Feed feed) async {
+    await _isar.writeTxn(() async {
+      await _isar.feeds.putByUrl(feed);
+      await feed.group.save();
     });
   }
 

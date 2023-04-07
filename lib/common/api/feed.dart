@@ -13,9 +13,14 @@ class FeedApi {
   }
 
   /// 通过URL获取订阅源
-  static Future<String> fetchContentFromUrl(String url) async {
-    var res = await FeedBoxHttpService.to.get(url);
-    return res.data;
+  static Future<String?> fetchContentFromUrl(String url) async {
+    try {
+      var res = await FeedBoxHttpService.to.get(url);
+      return res.data;
+    } catch (e) {
+      // TODO
+      return null;
+    }
   }
 
   /// 获取订阅源列表
