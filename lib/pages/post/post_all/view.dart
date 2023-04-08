@@ -1,8 +1,9 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/pages/index.dart';
+import 'package:feed_inbox_app/pages/post/post_drawer/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'index.dart';
 
 class PostAllPage extends GetView<PostAllController> {
   const PostAllPage({Key? key}) : super(key: key);
@@ -69,10 +70,7 @@ class PostAllPage extends GetView<PostAllController> {
       id: "post_all",
       builder: (_) {
         return Scaffold(
-          endDrawer: Drawer(
-            backgroundColor: AppColors.onBackground,
-            width: 100.w,
-          ),
+          endDrawer: PostDrawerPage(SubPage.explore),
           onEndDrawerChanged: controller.onEndDrawerChanged,
           appBar: AppBar(
             toolbarHeight: 44.h,

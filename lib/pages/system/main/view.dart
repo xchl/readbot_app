@@ -23,6 +23,12 @@ class _MainPageState extends State<MainPage>
   }
 }
 
+enum SubPage {
+  focus,
+  explore,
+  setting,
+}
+
 class _MainViewGetX extends GetView<MainController> {
   const _MainViewGetX({Key? key}) : super(key: key);
 
