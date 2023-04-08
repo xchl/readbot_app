@@ -69,6 +69,11 @@ class PostAllPage extends GetView<PostAllController> {
       id: "post_all",
       builder: (_) {
         return Scaffold(
+          endDrawer: Drawer(
+            backgroundColor: AppColors.onBackground,
+            width: 100.w,
+          ),
+          onEndDrawerChanged: controller.onEndDrawerChanged,
           appBar: AppBar(
             toolbarHeight: 44.h,
             backgroundColor: AppColors.background,
@@ -118,8 +123,8 @@ class PostAllPage extends GetView<PostAllController> {
           ),
           body: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification notification) {
-              if (notification.metrics.pixels ==
-                  notification.metrics.maxScrollExtent) {
+              if (notification.metrics.pixels >
+                  notification.metrics.maxScrollExtent / 2) {
                 controller.onLoadMore();
               }
               return false;

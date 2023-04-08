@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/pages/system/main/index.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:xml/xml.dart';
 
 enum FeedAddButtonFunc {
   addFromUrl,
@@ -86,6 +86,16 @@ class PostAllController extends GetxController {
     }
   }
 
+  void onEndDrawerChanged(bool isOpen) {
+    if (isOpen) {
+      var mainController = Get.find<MainController>();
+      mainController.toHideBottomBar();
+    } else {
+      var mainController = Get.find<MainController>();
+      mainController.toShowBottomBar();
+    }
+  }
+
   Future<void> onImportFromOpml() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         // type: FileType.custom,
@@ -105,6 +115,8 @@ class PostAllController extends GetxController {
       }
     }
   }
+
+  void openDrawer() {}
 
   Future<void> onRefresh() async {
     try {

@@ -6,6 +6,9 @@ class MainController extends GetxController {
 
   // 分页管理
   final PageController pageController = PageController();
+  final ScrollController scrollController = ScrollController();
+
+  var showBottomBar = true;
 
   // 当前的 tab index
   int currentIndex = 0;
@@ -16,18 +19,26 @@ class MainController extends GetxController {
     update(['navigation']);
   }
 
-  // 切换页面
-  // void onJumpToPage(int page) async {
-  //   bool isLogin = await UserService.to.isLogin();
-  //   if ((page != 0) && !isLogin) {
-  //     Get.toNamed(RouteNames.systemLogin);
-  //   } else {
-  //     pageController.jumpToPage(page);
-  //   }
-  // }
+  void toHideBottomBar() {
+    showBottomBar = false;
+    update(['main']);
+  }
+
+  void toShowBottomBar() {
+    showBottomBar = true;
+    update(['main']);
+  }
 
   void onJumpToPage(int page) async {
     pageController.jumpToPage(page);
+  }
+
+  void onEndDrawerChanged(bool isOpen) {
+    if (isOpen) {
+      debugPrint('Hello Drawer');
+    } else {
+      debugPrint('Bye Drawer');
+    }
   }
 
   _initData() {
