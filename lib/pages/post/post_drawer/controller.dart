@@ -1,13 +1,28 @@
+import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/pages/index.dart';
 import 'package:get/get.dart';
 
 class PostDrawerController extends GetxController {
-  PostDrawerController();
+  PostDrawerController(this._subPage);
 
-  _initData() {
+  final SubPage _subPage;
+  Map<FeedGroup, List<Feed>> feedGroupedByGroup = {};
+
+  _initData() async {
+    List<Feed> feeds = await DatabaseManager().getAllFeeds();
+    List<FeedGroup> feedGroups = await DatabaseManager().getAllGroups();
+    Map<int, List<Feed>> feedGroupedByGroupId = {};
+    for (var feed in feeds) {
+      if (feedGroupedByGroupId[feed.groupId] == null) {
+        feedGroupedByGroupId[feed.groupId!] = [];
+      }
+      feedGroupedByGroupId[feed.groupId]!.add(feed);
+    }
+    for (var group in feedGroups) {
+      feedGroupedByGroup[group] = feedGroupedByGroupId[group.id] ?? [];
+    }
     update(["post_drawer"]);
   }
-
-  void onTap() {}
 
   // @override
   // void onInit() {

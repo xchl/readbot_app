@@ -42,9 +42,6 @@ class DatabaseManager {
   Future<void> insertFeeds(List<Feed> feeds) async {
     await _isar.writeTxn(() async {
       await _isar.feeds.putAllByUrl(feeds);
-      for (var feed in feeds) {
-        await feed.group.save();
-      }
     });
   }
 
@@ -52,7 +49,6 @@ class DatabaseManager {
   Future<void> updateFeed(Feed feed) async {
     await _isar.writeTxn(() async {
       await _isar.feeds.putByUrl(feed);
-      await feed.group.save();
     });
   }
 
@@ -72,6 +68,7 @@ class DatabaseManager {
   }
 
   // FeedItem
+
   // insert FeedItems
   Future<void> insertFeedItems(
       List<FeedItem> items, FeedUpdateRecord record) async {
@@ -114,6 +111,16 @@ class DatabaseManager {
     return await _isar.feedItems.where().findAll();
   }
 
+  // query all explore feeditems
+  Future<List<FeedItem>> getAllExploreFeedItems() async {
+    return await _isar.feedItems.filter().isFocusEqualTo(false).findAll();
+  }
+
+  // query all focus feeditems
+  Future<List<FeedItem>> getAllFocusFeedItems() async {
+    return await _isar.feedItems.filter().isFocusEqualTo(true).findAll();
+  }
+
   // query focus FeedItem by page
   // TODO
   Future<List<FeedItem>> getFocusFeedItemsByPage(int page) async {
@@ -145,6 +152,19 @@ class DatabaseManager {
   Future<void> insertContent(Content content) async {
     await _isar.writeTxn(() async {
       await _isar.contents.putByUri(content);
+    });
+  }
+
+  // Group
+  // query all group
+  Future<List<FeedGroup>> getAllGroups() async {
+    return await _isar.feedGroups.where().findAll();
+  }
+
+  // insert group
+  Future<void> insertGroup(FeedGroup group) async {
+    await _isar.writeTxn(() async {
+      await _isar.feedGroups.putByName(group);
     });
   }
 }

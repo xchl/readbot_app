@@ -144,7 +144,6 @@ class FeedService extends GetxService {
     XmlElement opmlElement = document.findElements('opml').first;
     XmlElement bodyElement = opmlElement.findElements('body').first;
 
-    var feedGroups = <FeedGroup>[];
     var feeds = <Feed>[];
 
     for (var outline in bodyElement.findElements('outline')) {
@@ -154,13 +153,13 @@ class FeedService extends GetxService {
         var groupTitle = outline.getAttribute('title');
         var groupText = outline.getAttribute('text');
         var group = FeedGroup(name: groupTitle, description: groupText);
-        feedGroups.add(group);
+        await DatabaseManager().insertGroup(group);
 
         // for each child outline, add feed
         for (var childOutline in childOutlines) {
           var feed = handleSingleOutline(childOutline);
           if (feed != null) {
-            feed.setGroup(group);
+            feed.groupId = group.id;
             feeds.add(feed);
           }
         }
@@ -171,7 +170,6 @@ class FeedService extends GetxService {
         }
       }
     }
-    await DatabaseManager().insertFeedGroups(feedGroups);
     await DatabaseManager().insertFeeds(feeds);
     await fetchFeeds(feeds);
   }

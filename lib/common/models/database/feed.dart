@@ -18,13 +18,15 @@ class Feed {
   String? description;
   String? customDescription;
 
+  int? groupId;
+
   List<String>? tags;
   DateTime createTime;
 
   @Enumerated(EnumType.ordinal32)
   FeedType? type;
 
-  final group = IsarLink<FeedGroup>();
+  String get title => customName ?? name ?? "No Name";
 
   Feed(
     this.url, {
@@ -37,11 +39,6 @@ class Feed {
     this.customDescription,
     this.customLogo,
   }) : createTime = DateTime.now();
-
-  // set group
-  setGroup(FeedGroup group) {
-    this.group.value = group;
-  }
 
   completeByRssFeed(RssFeed rssFeed) {
     name = rssFeed.title;

@@ -11,7 +11,7 @@ class FeedItemWidget extends StatelessWidget {
   const FeedItemWidget({
     Key? key,
     required this.title,
-    required this.logoUrl,
+    this.logoUrl,
     this.onTap,
   }) : super(key: key);
 
@@ -33,13 +33,14 @@ class FeedItemWidget extends StatelessWidget {
             : IconWidget.text(
                 title.substring(0, 1),
                 color: AppColors.primary,
+                size: 20,
               )
       ].toStack(
         alignment: Alignment.center,
       ),
 
       // 间距
-      leadingSpace: 20.w,
+      leadingSpace: 10.w,
 
       // 标题
       title: TextWidget.body1(
