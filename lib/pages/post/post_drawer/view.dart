@@ -16,7 +16,19 @@ class PostDrawerPage extends GetView<PostDrawerController> {
   final double? width;
 
   Widget _buildPostExploreDrawer() {
-    return FeedFilterWidget(controller.feedGroupedByGroup);
+    List<ExpansionPanelListItem<String, FeedItemWidget>> items =
+        controller.feedGroupedByGroup.entries
+            .map((e) => ExpansionPanelListItem(
+                headerValue: e.key.name!, // TODO
+                expandedValue: e.value
+                    .map((e) => FeedItemWidget(
+                          title: e.title,
+                          logoUrl: e.logo,
+                          onTap: () => controller.onFeedSelect(e.id),
+                        ))
+                    .toList()))
+            .toList();
+    return FeedFilterWidget(items);
   }
 
   Widget _buildPostFocusDrawer() {

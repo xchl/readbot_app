@@ -47,6 +47,7 @@ class FeedItemWidget extends StatelessWidget {
         title,
         size: 15.sp,
         weight: FontWeight.w400,
+        overflow: TextOverflow.ellipsis,
       ),
     ).inkWell(
       onTap: onTap,

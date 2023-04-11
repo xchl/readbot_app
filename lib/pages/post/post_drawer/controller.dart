@@ -1,5 +1,6 @@
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:feed_inbox_app/pages/index.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PostDrawerController extends GetxController {
@@ -24,15 +25,22 @@ class PostDrawerController extends GetxController {
     update(["post_drawer"]);
   }
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
+  @override
+  void onInit() {
+    super.onInit();
+    _initData();
+  }
+
+  void onFeedSelect(int feedId) async {
+    debugPrint("$feedId");
+    if (_subPage == SubPage.explore) {
+      await Get.find<PostAllController>().onFeedSelect(feedId);
+    }
+  }
 
   @override
   void onReady() {
     super.onReady();
-    _initData();
   }
 
   // @override

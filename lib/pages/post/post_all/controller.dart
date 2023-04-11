@@ -86,6 +86,11 @@ class PostAllController extends GetxController {
     }
   }
 
+  Future<void> onFeedSelect(int feedId) async {
+    _feedItems = await DatabaseManager().getExploreFeedItemsByFeedId(feedId);
+    update(["post_all"]);
+  }
+
   void onEndDrawerChanged(bool isOpen) {
     if (isOpen) {
       var mainController = Get.find<MainController>();
