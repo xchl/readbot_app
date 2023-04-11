@@ -85,7 +85,14 @@ Map<String, String> localeEn = {
   LocaleKeys.myBtnManageSource: 'Manage Feed',
   LocaleKeys.myBtnAddSource: 'Add Feed',
   LocaleKeys.myBtnRefresh: 'Refresh Token',
-  LocaleKeys.myBtnSourceList: 'Feed List',
+  LocaleKeys.myBtnSourceManager: 'Feed Manage',
+  LocaleKeys.myThemePart: 'Style',
+  LocaleKeys.myServicePart: 'Service',
+  LocaleKeys.myFeedPart: 'RSS',
+  LocaleKeys.myDartTheme: 'Dart Mode',
+  LocaleKeys.myIsNeedSync: 'Content Sync',
+  LocaleKeys.myAISetting: 'AI Setting',
+  LocaleKeys.myRuleSetting: 'Rule Setting',
 
   // Feed
   LocaleKeys.feedAddBtn: 'Add',

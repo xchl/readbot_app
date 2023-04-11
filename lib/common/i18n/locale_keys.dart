@@ -78,7 +78,14 @@ class LocaleKeys {
   static const myBtnManageSource = 'my_btn_manage_source';
   static const myBtnAddSource = 'my_btn_add_source';
   static const myBtnRefresh = 'my_btn_Refresh';
-  static const myBtnSourceList = 'my_btn_source_list';
+  static const myBtnSourceManager = 'my_btn_source_manager';
+  static const myThemePart = 'theme_part';
+  static const myServicePart = 'service_part';
+  static const myFeedPart = 'feed_part';
+  static const myDartTheme = 'dart_theme';
+  static const myIsNeedSync = 'is_need_sync';
+  static const myAISetting = 'my_ai_setting';
+  static const myRuleSetting = 'my_rule_setting';
 
   // Feed
   static const feedAddDesc = 'feed_add_desc';

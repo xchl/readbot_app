@@ -20,7 +20,6 @@ class DatabaseManager {
   }
 
   // FeedGroup
-
   // insert Feed Groups
   Future<void> insertFeedGroups(List<FeedGroup> groups) async {
     await _isar.writeTxn(() async {

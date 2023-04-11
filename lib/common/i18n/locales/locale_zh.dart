@@ -78,7 +78,14 @@ Map<String, String> localeZh = {
   LocaleKeys.myBtnManageSource: '管理订阅源',
   LocaleKeys.myBtnAddSource: '添加订阅源',
   LocaleKeys.myBtnRefresh: '刷新Token',
-  LocaleKeys.myBtnSourceList: '订阅源列表',
+  LocaleKeys.myBtnSourceManager: '订阅源管理',
+  LocaleKeys.myThemePart: '外观',
+  LocaleKeys.myServicePart: '服务',
+  LocaleKeys.myFeedPart: '信息流',
+  LocaleKeys.myDartTheme: '夜间模式',
+  LocaleKeys.myIsNeedSync: '内容同步',
+  LocaleKeys.myAISetting: 'AI服务设置',
+  LocaleKeys.myRuleSetting: '规则管理',
 
   //Feed
   LocaleKeys.feedAddBtn: '添加',

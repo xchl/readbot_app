@@ -15,8 +15,8 @@ class MyIndexPage extends GetView<MyIndexController> {
       slivers: <Widget>[
         // 顶部 APP 导航栏
         _buildAppBar(),
-        // Debug工具
-        _buildDebugButtonsList().sliverBox,
+        // 服务相关
+        _buildServiceButtonsList().sliverBox,
         // 订阅源管理
         _buildFeedButtonsList().sliverBox,
         // 主题管理
@@ -34,69 +34,67 @@ class MyIndexPage extends GetView<MyIndexController> {
               top: AppSpace.listRow * 2,
             )
             .sliverBox,
-
-        // todo
-
-        // TextWidget.body2(
-        //   "v ${ConfigService.to.version}",
-        // ).alignCenter().paddingBottom(200).sliverBox,
       ],
     );
   }
 
   Widget _buildFeedButtonsList() {
     return <Widget>[
-      // 订阅源列表
-      ButtonItemWidget(
-        title: LocaleKeys.myBtnSourceList.tr,
-        svgPath: AssetsSvgs.rssSvg,
-        color: "4971FF".toColor,
-        onTap: () => Get.toNamed(RouteNames.myMyFeeds),
-      ),
-      // end
-    ].toColumn().card().padding(top: 30.h, bottom: 10.h);
+      TextWidget.body1(LocaleKeys.myFeedPart.tr)
+          .alignLeft()
+          .padding(left: 10, bottom: 10),
+      <Widget>[
+        // 订阅源列表
+        ButtonItemWidget(
+          title: LocaleKeys.myBtnSourceManager.tr,
+          onTap: () => Get.toNamed(RouteNames.myMyFeeds),
+        ),
+        ButtonItemWidget(
+          title: LocaleKeys.myRuleSetting.tr,
+        ),
+        // end
+      ].toColumn().card()
+    ].toColumn().padding(top: 30.h, bottom: 10.h);
   }
 
-  // 按钮列表
   Widget _buildThemeButtonsList() {
     return <Widget>[
-      // Theme
-      ButtonItemWidget(
-        title: LocaleKeys.myBtnTheme.tr,
-        svgPath: AssetsSvgs.pThemeSvg,
-        color: "F89C52".toColor,
-        onTap: () => ConfigService.to.switchThemeModel(),
-      ),
-    ].toColumn().card().padding(top: 30.h, bottom: 10.h);
+      TextWidget.body1(LocaleKeys.myThemePart.tr)
+          .alignLeft()
+          .padding(left: 10, bottom: 10),
+      <Widget>[
+        SwitchItemWidget(
+          title: LocaleKeys.myDartTheme.tr,
+          statu: controller.isNightMode,
+          onTap: (bool value) => controller.onChangeTheme(value),
+        )
+      ].toColumn().card()
+    ].toColumn().padding(top: 30.h, bottom: 10.h);
   }
 
-  // 按钮列表
-  Widget _buildDebugButtonsList() {
+  Widget _buildServiceButtonsList() {
     return <Widget>[
-      // 刷新Token
-      // ButtonItemWidget(
-      //   title: LocaleKeys.myBtnRefresh.tr,
-      //   svgPath: AssetsSvgs.pThemeSvg,
-      //   color: "F89C52".toColor,
-      //   onTap: () => UserService.to.refresh_token(),
-      // ),
-
-      // 样式调试工具
-      ButtonItemWidget(
-        title: LocaleKeys.myBtnStyles.tr,
-        svgPath: AssetsSvgs.pCurrencySvg,
-        color: "4971FF".toColor,
-        onTap: () => Get.toNamed(RouteNames.stylesStylesIndex),
-      ),
-      // end
-    ].toColumn().card().padding(top: 30.h, bottom: 10.h);
+      TextWidget.body1(LocaleKeys.myServicePart.tr)
+          .alignLeft()
+          .padding(left: 10, bottom: 10),
+      <Widget>[
+        SwitchItemWidget(
+          title: LocaleKeys.myIsNeedSync.tr,
+          statu: controller.isNightMode,
+          onTap: (bool value) => controller.onChangeTheme(value),
+        ),
+        ButtonItemWidget(
+          title: LocaleKeys.myAISetting.tr,
+        ),
+      ].toColumn().card()
+    ].toColumn().padding(top: 30.h, bottom: 10.h);
   }
 
   // 顶部 APP 导航栏
   Widget _buildAppBar() {
     return SliverAppBar(
       // 背景色
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.background,
       // 固定在顶部
       pinned: true,
       // 浮动在顶部
@@ -106,64 +104,23 @@ class MyIndexPage extends GetView<MyIndexController> {
       // 是否应拉伸以填充过度滚动区域。
       stretch: true,
       // 高度
-      expandedHeight: 280.h,
+      expandedHeight: 200.h,
       // 此小组件堆叠在工具栏和选项卡栏后面。其高度将与应用栏的整体高度相同。
       flexibleSpace: FlexibleSpaceBar(
-        // // 折叠模式
-        // collapseMode: CollapseMode.parallax,
-        // // 折叠动画
-        // stretchModes: const [
-        //   // 模糊
-        //   StretchMode.blurBackground,
-        //   // 尺寸
-        //   StretchMode.zoomBackground,
-        //   // 标题动画
-        //   StretchMode.fadeTitle,
-        // ],
-        // 标题
-        // title: const TextWidget.navigation(text: "Ducafecat"),
         // 背景
         background: <Widget>[
-          // 背景图
+          // 用户信息
           <Widget>[
-            IconWidget.svg(
-              AssetsSvgs.profileHeaderBackgroundSvg,
-              color: AppColors.primaryContainer,
-              fit: BoxFit.cover,
-            ).expanded(),
-            // const ImageWidget.(
-            //   AssetsImages.profileBackgroundPng,
-            //   fit: BoxFit.cover,
-            // ).expanded(),
-          ].toColumn(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-          ),
-
-          // 内容
-          <Widget>[
-            // 用户信息
-            <Widget>[
-              // 头像
-              ImageWidget.url(
-                // 测试需要改成自定义头像
-                "https://c-ssl.duitang.com/uploads/blog/202105/09/20210509012315_89541.jpeg",
-                width: 100.w,
-                height: 100.w,
-                fit: BoxFit.fill,
-                radius: 50.w,
-              ).paddingRight(AppSpace.listItem),
-
-              // 称呼
-              TextWidget.title1(
-                "${UserService.to.basicProfile.username}",
-                color: AppColors.primary,
-                size: 26.sp,
-              ),
-            ].toRow().paddingHorizontal(AppSpace.card),
-          ].toColumn(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
-        ].toStack(),
+            // 称呼
+            TextWidget.title1(
+              "Hi, Sen",
+              color: AppColors.primary,
+              size: 26.sp,
+            ),
+          ].toRow().paddingHorizontal(AppSpace.card),
+        ].toColumn(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        ),
       ),
     );
   }

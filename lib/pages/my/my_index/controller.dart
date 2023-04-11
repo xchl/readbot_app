@@ -5,16 +5,19 @@ import 'package:get/get.dart';
 class MyIndexController extends GetxController {
   MyIndexController();
 
+  bool isNightMode = ConfigService().isDarkModel;
+
   _initData() {
     update(["my_index"]);
   }
 
-  void onTap() {}
+  void onChangeTheme(bool isOn) async {
+    isNightMode = isOn;
+    await ConfigService().switchThemeModel();
+    update(["my_index"]);
+  }
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
+  void onTap() {}
 
   // 注销
   void onLogout() {
