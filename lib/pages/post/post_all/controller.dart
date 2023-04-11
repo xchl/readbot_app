@@ -23,6 +23,8 @@ class PostAllController extends GetxController {
 
   int _page = 0;
 
+  int? _feedId;
+
   _initData() async {
     _feedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
     update(["post_all"]);
@@ -68,27 +70,30 @@ class PostAllController extends GetxController {
 
   Future<void> refreshFeedItem() async {
     _page = 0;
-    _feedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
+    _feedItems = await DatabaseManager()
+        .getExploreFeedItemsByPage(_page, feedId: _feedId);
+    update(["post_all"]);
   }
 
   Future<void> appendFeedItem() async {
     _page++;
-    var newFeedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
+    var newFeedItems = await DatabaseManager()
+        .getExploreFeedItemsByPage(_page, feedId: _feedId);
     _feedItems.addAll(newFeedItems);
+    update(["post_all"]);
   }
 
   void onLoadMore() async {
     try {
       appendFeedItem();
-      update(["post_all"]);
     } catch (error) {
       // do nothing
     }
   }
 
-  Future<void> onFeedSelect(int feedId) async {
-    _feedItems = await DatabaseManager().getExploreFeedItemsByFeedId(feedId);
-    update(["post_all"]);
+  Future<void> onFeedSelect(int? feedId) async {
+    _feedId = feedId;
+    refreshFeedItem();
   }
 
   void onEndDrawerChanged(bool isOpen) {
@@ -103,9 +108,9 @@ class PostAllController extends GetxController {
 
   Future<void> onImportFromOpml() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-        // type: FileType.custom,
-        // allowedExtensions: ['opml'],
-        );
+      type: FileType.custom,
+      allowedExtensions: ['xml', 'opml'],
+    );
 
     if (result != null) {
       File file = File(result.files.single.path!);
@@ -114,6 +119,7 @@ class PostAllController extends GetxController {
         Loading.show();
         await FeedService.to.importFeedFromOpml(contents);
         Loading.success();
+        refreshFeedItem();
       } catch (error) {
         // TODO 处理错误
         debugPrint(error.toString());
@@ -127,7 +133,6 @@ class PostAllController extends GetxController {
     try {
       await FeedService.to.fetchAllFeed();
       refreshFeedItem();
-      update(["post_all"]);
     } catch (error) {
       debugPrint(error.toString());
     }

@@ -24,6 +24,9 @@ class PostDrawerPage extends GetView<PostDrawerController> {
                     .map((e) => FeedItemWidget(
                           title: e.title,
                           logoUrl: e.logo,
+                          backgroud: e.id == controller.selectedFeedId
+                              ? AppColors.primary.withOpacity(0.1)
+                              : null,
                           onTap: () => controller.onFeedSelect(e.id),
                         ))
                     .toList()))

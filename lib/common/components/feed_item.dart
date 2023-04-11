@@ -6,11 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class FeedItemWidget extends StatelessWidget {
   final String title;
   final String? logoUrl;
+  final Color? backgroud;
   final Function()? onTap;
 
   const FeedItemWidget({
     Key? key,
     required this.title,
+    this.backgroud,
     this.logoUrl,
     this.onTap,
   }) : super(key: key);
@@ -49,8 +51,10 @@ class FeedItemWidget extends StatelessWidget {
         weight: FontWeight.w400,
         overflow: TextOverflow.ellipsis,
       ),
-    ).inkWell(
-      onTap: onTap,
-    );
+    )
+        .inkWell(
+          onTap: onTap,
+        )
+        .backgroundColor(backgroud ?? AppColors.background);
   }
 }

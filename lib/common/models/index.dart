@@ -4,5 +4,4 @@ library models;
 
 export './welcome_model.dart';
 export './error_message_model.dart';
-export './fake_response.dart';
 export './database/index.dart';

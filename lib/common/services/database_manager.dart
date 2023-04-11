@@ -148,9 +148,11 @@ class DatabaseManager {
 
   // query explore FeedItem by page
   // TODO
-  Future<List<FeedItem>> getExploreFeedItemsByPage(int page) async {
+  Future<List<FeedItem>> getExploreFeedItemsByPage(int page,
+      {int? feedId}) async {
     var feedItems = await _isar.feedItems
         .filter()
+        .feed((q) => feedId != null ? q.idEqualTo(feedId) : q.idGreaterThan(0))
         .isFocusEqualTo(false)
         .sortByPublishTimeDesc()
         .offset(page * Constants.pageSizeMobile)
@@ -178,5 +180,10 @@ class DatabaseManager {
     await _isar.writeTxn(() async {
       await _isar.feedGroups.putByName(group);
     });
+  }
+
+  // watch
+  Stream<void> watchFeedItemsLazy() {
+    return _isar.feedItems.watchLazy();
   }
 }

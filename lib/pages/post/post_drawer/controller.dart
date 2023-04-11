@@ -9,6 +9,8 @@ class PostDrawerController extends GetxController {
   final SubPage _subPage;
   Map<FeedGroup, List<Feed>> feedGroupedByGroup = {};
 
+  int? selectedFeedId;
+
   _initData() async {
     List<Feed> feeds = await DatabaseManager().getAllFeeds();
     List<FeedGroup> feedGroups = await DatabaseManager().getAllGroups();
@@ -32,19 +34,14 @@ class PostDrawerController extends GetxController {
   }
 
   void onFeedSelect(int feedId) async {
-    debugPrint("$feedId");
+    if (selectedFeedId != null) {
+      selectedFeedId = null;
+    } else {
+      selectedFeedId = feedId;
+    }
+    update(["post_drawer"]);
     if (_subPage == SubPage.explore) {
-      await Get.find<PostAllController>().onFeedSelect(feedId);
+      await Get.find<PostAllController>().onFeedSelect(selectedFeedId);
     }
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
 }

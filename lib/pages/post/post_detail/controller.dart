@@ -23,4 +23,14 @@ class PostDetailController extends GetxController {
   );
 
   FeedItem feedItem = Get.arguments['feedItem'];
+
+  late String? html;
+
+  @override
+  void onInit() {
+    super.onInit();
+    if (feedItem.content != null) {
+      html = injectCss(feedItem.content!, ReadModeStyle().css);
+    }
+  }
 }

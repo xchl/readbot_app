@@ -70,7 +70,7 @@ class PostAllPage extends GetView<PostAllController> {
       id: "post_all",
       builder: (_) {
         return Scaffold(
-          endDrawer: PostDrawerPage(SubPage.explore),
+          endDrawer: const PostDrawerPage(SubPage.explore),
           onEndDrawerChanged: controller.onEndDrawerChanged,
           appBar: AppBar(
             toolbarHeight: 44.h,

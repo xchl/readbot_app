@@ -1,5 +1,3 @@
-import 'index.dart';
-
 class ExpansionPanelListItem<H, E> {
   ExpansionPanelListItem(
       {required this.expandedValue,
