@@ -9,6 +9,7 @@ class PostDetailController extends GetxController {
   final GlobalKey webViewKey = GlobalKey();
   bool isReadMode = false;
   double _lastScrollPosition = 0;
+  final double _scrollThreshhold = 20;
   bool isShowBottomBar = true;
   late InAppWebViewController webView;
 
@@ -40,15 +41,18 @@ class PostDetailController extends GetxController {
   }
 
   void handleScrollChange(int x, int y) {
-    if (y > _lastScrollPosition) {
+    double delta = (y - _lastScrollPosition);
+    if (delta > _scrollThreshhold) {
       // 上滑
       isShowBottomBar = false;
-    } else if (y < _lastScrollPosition) {
+      _lastScrollPosition = y.toDouble();
+      update(['post_detail']);
+    } else if (delta < -_scrollThreshhold) {
       // 下滑
       isShowBottomBar = true;
+      _lastScrollPosition = y.toDouble();
+      update(['post_detail']);
     }
-    _lastScrollPosition = y.toDouble();
-    update(['post_detail']);
   }
 
   void toggleReadMode() {
