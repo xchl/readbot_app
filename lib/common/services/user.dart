@@ -14,6 +14,7 @@ class UserService extends GetxService {
   DateTime _refreshTokenExpirTime = DateTime.fromMillisecondsSinceEpoch(0);
 
   final _basicProfile = UserProfile().obs;
+  final _isLogin = false.obs;
 
   bool hasActiveAccessToken() {
     if (accessToken.isEmpty) return false;
@@ -27,12 +28,13 @@ class UserService extends GetxService {
         .isAfter(DateTime.now().toUtc().add(Constants.tokenExpiredEpsSecond));
   }
 
-  Future<bool> isLogin() async {
-    await refreshTokenIfNeed();
-    return hasActiveAccessToken();
-  }
+  // Future<bool> isLogin() async {
+  //   await refreshTokenIfNeed();
+  //   return hasActiveAccessToken();
+  // }
 
   UserProfile get basicProfile => _basicProfile.value;
+  static bool get isLogin => UserService.to._isLogin.value;
 
   @override
   void onInit() async {
@@ -100,6 +102,7 @@ class UserService extends GetxService {
     _basicProfile(UserProfile());
     accessToken = '';
     refreshToken = '';
+    _isLogin.value = false;
   }
 
   /// 登录
@@ -107,6 +110,7 @@ class UserService extends GetxService {
     AuthResponse res = await UserApi.login(req);
     var token = res.tokens;
     await setToken(token);
+    _isLogin.value = true;
   }
 
   /// 刷新token

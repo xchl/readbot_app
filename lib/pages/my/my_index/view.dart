@@ -111,12 +111,18 @@ class MyIndexPage extends GetView<MyIndexController> {
         background: <Widget>[
           // 用户信息
           <Widget>[
-            // 称呼
-            TextWidget.title1(
-              "Hi, Sen",
-              color: AppColors.primary,
-              size: 26.sp,
-            ),
+            Obx(() => UserService.isLogin
+                ? TextWidget.title1(
+                    "Hi, Sen",
+                    color: AppColors.primary,
+                    size: 26.sp,
+                  )
+                : ButtonWidget.text(
+                    LocaleKeys.myLoginBtn.tr,
+                    onTap: () => Get.toNamed(RouteNames.systemLogin),
+                    textSize: 26.sp,
+                    textColor: AppColors.primary,
+                  )),
           ].toRow().paddingHorizontal(AppSpace.card),
         ].toColumn(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

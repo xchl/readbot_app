@@ -1,5 +1,4 @@
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/pages/index.dart';
 import 'package:get/get.dart';
 
 class MyIndexController extends GetxController {
@@ -7,7 +6,7 @@ class MyIndexController extends GetxController {
 
   bool isNightMode = ConfigService().isDarkModel;
 
-  _initData() {
+  _initData() async {
     update(["my_index"]);
   }
 
@@ -17,22 +16,15 @@ class MyIndexController extends GetxController {
     update(["my_index"]);
   }
 
-  void onTap() {}
-
   // 注销
   void onLogout() {
     UserService.to.logout();
-    Get.find<MainController>().onJumpToPage(0);
+    update(["my_index"]);
   }
 
   @override
-  void onReady() {
+  void onReady() async {
     super.onReady();
-    _initData();
+    await _initData();
   }
-
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
 }

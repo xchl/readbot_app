@@ -86,6 +86,7 @@ class LocaleKeys {
   static const myIsNeedSync = 'is_need_sync';
   static const myAISetting = 'my_ai_setting';
   static const myRuleSetting = 'my_rule_setting';
+  static const myLoginBtn = 'my_login_btn';
 
   // Feed
   static const feedAddDesc = 'feed_add_desc';

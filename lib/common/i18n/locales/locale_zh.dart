@@ -86,6 +86,7 @@ Map<String, String> localeZh = {
   LocaleKeys.myIsNeedSync: '内容同步',
   LocaleKeys.myAISetting: 'AI服务设置',
   LocaleKeys.myRuleSetting: '规则管理',
+  LocaleKeys.myLoginBtn: '登录',
 
   //Feed
   LocaleKeys.feedAddBtn: '添加',

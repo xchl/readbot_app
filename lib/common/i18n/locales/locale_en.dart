@@ -93,6 +93,7 @@ Map<String, String> localeEn = {
   LocaleKeys.myIsNeedSync: 'Content Sync',
   LocaleKeys.myAISetting: 'AI Setting',
   LocaleKeys.myRuleSetting: 'Rule Setting',
+  LocaleKeys.myLoginBtn: 'Login',
 
   // Feed
   LocaleKeys.feedAddBtn: 'Add',
