@@ -22,14 +22,19 @@ const ContentSchema = CollectionSchema(
       name: r'content',
       type: IsarType.string,
     ),
-    r'type': PropertySchema(
+    r'feedItemId': PropertySchema(
       id: 1,
+      name: r'feedItemId',
+      type: IsarType.long,
+    ),
+    r'type': PropertySchema(
+      id: 2,
       name: r'type',
       type: IsarType.byte,
       enumMap: _ContenttypeEnumValueMap,
     ),
     r'uri': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'uri',
       type: IsarType.string,
     )
@@ -68,12 +73,7 @@ int _contentEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.content;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.content.length * 3;
   bytesCount += 3 + object.uri.length * 3;
   return bytesCount;
 }
@@ -85,8 +85,9 @@ void _contentSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.content);
-  writer.writeByte(offsets[1], object.type.index);
-  writer.writeString(offsets[2], object.uri);
+  writer.writeLong(offsets[1], object.feedItemId);
+  writer.writeByte(offsets[2], object.type.index);
+  writer.writeString(offsets[3], object.uri);
 }
 
 Content _contentDeserialize(
@@ -96,10 +97,11 @@ Content _contentDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Content(
-    content: reader.readStringOrNull(offsets[0]),
-    type: _ContenttypeValueEnumMap[reader.readByteOrNull(offsets[1])] ??
-        ContentType.Html,
-    uri: reader.readString(offsets[2]),
+    content: reader.readString(offsets[0]),
+    feedItemId: reader.readLong(offsets[1]),
+    type: _ContenttypeValueEnumMap[reader.readByteOrNull(offsets[2])] ??
+        ContentType.html,
+    uri: reader.readString(offsets[3]),
   );
   object.id = id;
   return object;
@@ -113,11 +115,13 @@ P _contentDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 1:
-      return (_ContenttypeValueEnumMap[reader.readByteOrNull(offset)] ??
-          ContentType.Html) as P;
+      return (reader.readLong(offset)) as P;
     case 2:
+      return (_ContenttypeValueEnumMap[reader.readByteOrNull(offset)] ??
+          ContentType.html) as P;
+    case 3:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -125,10 +129,10 @@ P _contentDeserializeProp<P>(
 }
 
 const _ContenttypeEnumValueMap = {
-  'Html': 0,
+  'html': 0,
 };
 const _ContenttypeValueEnumMap = {
-  0: ContentType.Html,
+  0: ContentType.html,
 };
 
 Id _contentGetId(Content object) {
@@ -317,24 +321,8 @@ extension ContentQueryWhere on QueryBuilder<Content, Content, QWhereClause> {
 
 extension ContentQueryFilter
     on QueryBuilder<Content, Content, QFilterCondition> {
-  QueryBuilder<Content, Content, QAfterFilterCondition> contentIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'content',
-      ));
-    });
-  }
-
-  QueryBuilder<Content, Content, QAfterFilterCondition> contentIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'content',
-      ));
-    });
-  }
-
   QueryBuilder<Content, Content, QAfterFilterCondition> contentEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -347,7 +335,7 @@ extension ContentQueryFilter
   }
 
   QueryBuilder<Content, Content, QAfterFilterCondition> contentGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -362,7 +350,7 @@ extension ContentQueryFilter
   }
 
   QueryBuilder<Content, Content, QAfterFilterCondition> contentLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -377,8 +365,8 @@ extension ContentQueryFilter
   }
 
   QueryBuilder<Content, Content, QAfterFilterCondition> contentBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -459,6 +447,59 @@ extension ContentQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'content',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Content, Content, QAfterFilterCondition> feedItemIdEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'feedItemId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Content, Content, QAfterFilterCondition> feedItemIdGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'feedItemId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Content, Content, QAfterFilterCondition> feedItemIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'feedItemId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Content, Content, QAfterFilterCondition> feedItemIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'feedItemId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -718,6 +759,18 @@ extension ContentQuerySortBy on QueryBuilder<Content, Content, QSortBy> {
     });
   }
 
+  QueryBuilder<Content, Content, QAfterSortBy> sortByFeedItemId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'feedItemId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Content, Content, QAfterSortBy> sortByFeedItemIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'feedItemId', Sort.desc);
+    });
+  }
+
   QueryBuilder<Content, Content, QAfterSortBy> sortByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
@@ -754,6 +807,18 @@ extension ContentQuerySortThenBy
   QueryBuilder<Content, Content, QAfterSortBy> thenByContentDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'content', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Content, Content, QAfterSortBy> thenByFeedItemId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'feedItemId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Content, Content, QAfterSortBy> thenByFeedItemIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'feedItemId', Sort.desc);
     });
   }
 
@@ -803,6 +868,12 @@ extension ContentQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Content, Content, QDistinct> distinctByFeedItemId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'feedItemId');
+    });
+  }
+
   QueryBuilder<Content, Content, QDistinct> distinctByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'type');
@@ -825,9 +896,15 @@ extension ContentQueryProperty
     });
   }
 
-  QueryBuilder<Content, String?, QQueryOperations> contentProperty() {
+  QueryBuilder<Content, String, QQueryOperations> contentProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'content');
+    });
+  }
+
+  QueryBuilder<Content, int, QQueryOperations> feedItemIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'feedItemId');
     });
   }
 

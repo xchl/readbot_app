@@ -1,5 +1,4 @@
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

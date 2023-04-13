@@ -182,8 +182,10 @@ class DatabaseManager {
     });
   }
 
-  // watch
-  Stream<void> watchFeedItemsLazy() {
-    return _isar.feedItems.watchLazy();
+  // get content by feeditem id
+  Future<Content?> getContentByFeedItemId(int feedItemId) async {
+    var content =
+        await _isar.contents.filter().feedItemIdEqualTo(feedItemId).findFirst();
+    return content;
   }
 }

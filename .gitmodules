@@ -4,3 +4,6 @@
 [submodule "lib/package/readability"]
 	path = lib/package/readability
 	url = https://github.com/RosenX/readability.git
+[submodule "lib/common/proto"]
+	path = lib/common/proto
+	url = https://github.com/BotYet/readbot_proto.git

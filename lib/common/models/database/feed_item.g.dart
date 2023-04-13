@@ -27,68 +27,58 @@ const FeedItemSchema = CollectionSchema(
       name: r'category',
       type: IsarType.string,
     ),
-    r'content': PropertySchema(
-      id: 2,
-      name: r'content',
-      type: IsarType.string,
-    ),
-    r'contentHaveParsed': PropertySchema(
-      id: 3,
-      name: r'contentHaveParsed',
-      type: IsarType.bool,
-    ),
     r'cover': PropertySchema(
-      id: 4,
+      id: 2,
       name: r'cover',
       type: IsarType.string,
     ),
     r'createTime': PropertySchema(
-      id: 5,
+      id: 3,
       name: r'createTime',
       type: IsarType.dateTime,
     ),
     r'description': PropertySchema(
-      id: 6,
+      id: 4,
       name: r'description',
       type: IsarType.string,
     ),
     r'isFocus': PropertySchema(
-      id: 7,
+      id: 5,
       name: r'isFocus',
       type: IsarType.bool,
     ),
     r'isSeen': PropertySchema(
-      id: 8,
+      id: 6,
       name: r'isSeen',
       type: IsarType.bool,
     ),
     r'link': PropertySchema(
-      id: 9,
+      id: 7,
       name: r'link',
       type: IsarType.string,
     ),
     r'md5String': PropertySchema(
-      id: 10,
+      id: 8,
       name: r'md5String',
       type: IsarType.string,
     ),
     r'publishTime': PropertySchema(
-      id: 11,
+      id: 9,
       name: r'publishTime',
       type: IsarType.dateTime,
     ),
     r'summaryAlgo': PropertySchema(
-      id: 12,
+      id: 10,
       name: r'summaryAlgo',
       type: IsarType.string,
     ),
     r'tags': PropertySchema(
-      id: 13,
+      id: 11,
       name: r'tags',
       type: IsarType.stringList,
     ),
     r'title': PropertySchema(
-      id: 14,
+      id: 12,
       name: r'title',
       type: IsarType.string,
     )
@@ -160,12 +150,6 @@ int _feedItemEstimateSize(
     }
   }
   {
-    final value = object.content;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
     final value = object.cover;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -224,19 +208,17 @@ void _feedItemSerialize(
 ) {
   writer.writeString(offsets[0], object.authors);
   writer.writeString(offsets[1], object.category);
-  writer.writeString(offsets[2], object.content);
-  writer.writeBool(offsets[3], object.contentHaveParsed);
-  writer.writeString(offsets[4], object.cover);
-  writer.writeDateTime(offsets[5], object.createTime);
-  writer.writeString(offsets[6], object.description);
-  writer.writeBool(offsets[7], object.isFocus);
-  writer.writeBool(offsets[8], object.isSeen);
-  writer.writeString(offsets[9], object.link);
-  writer.writeString(offsets[10], object.md5String);
-  writer.writeDateTime(offsets[11], object.publishTime);
-  writer.writeString(offsets[12], object.summaryAlgo);
-  writer.writeStringList(offsets[13], object.tags);
-  writer.writeString(offsets[14], object.title);
+  writer.writeString(offsets[2], object.cover);
+  writer.writeDateTime(offsets[3], object.createTime);
+  writer.writeString(offsets[4], object.description);
+  writer.writeBool(offsets[5], object.isFocus);
+  writer.writeBool(offsets[6], object.isSeen);
+  writer.writeString(offsets[7], object.link);
+  writer.writeString(offsets[8], object.md5String);
+  writer.writeDateTime(offsets[9], object.publishTime);
+  writer.writeString(offsets[10], object.summaryAlgo);
+  writer.writeStringList(offsets[11], object.tags);
+  writer.writeString(offsets[12], object.title);
 }
 
 FeedItem _feedItemDeserialize(
@@ -246,21 +228,19 @@ FeedItem _feedItemDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = FeedItem(
-    reader.readDateTimeOrNull(offsets[5]),
+    reader.readDateTimeOrNull(offsets[3]),
     authors: reader.readStringOrNull(offsets[0]),
     category: reader.readStringOrNull(offsets[1]),
-    content: reader.readStringOrNull(offsets[2]),
-    contentHaveParsed: reader.readBoolOrNull(offsets[3]),
-    cover: reader.readStringOrNull(offsets[4]),
-    description: reader.readStringOrNull(offsets[6]),
-    isFocus: reader.readBoolOrNull(offsets[7]) ?? false,
-    isSeen: reader.readBoolOrNull(offsets[8]) ?? false,
-    link: reader.readStringOrNull(offsets[9]),
-    md5String: reader.readStringOrNull(offsets[10]),
-    publishTime: reader.readDateTimeOrNull(offsets[11]),
-    summaryAlgo: reader.readStringOrNull(offsets[12]),
-    tags: reader.readStringList(offsets[13]),
-    title: reader.readStringOrNull(offsets[14]),
+    cover: reader.readStringOrNull(offsets[2]),
+    description: reader.readStringOrNull(offsets[4]),
+    isFocus: reader.readBoolOrNull(offsets[5]) ?? false,
+    isSeen: reader.readBoolOrNull(offsets[6]) ?? false,
+    link: reader.readStringOrNull(offsets[7]),
+    md5String: reader.readStringOrNull(offsets[8]),
+    publishTime: reader.readDateTimeOrNull(offsets[9]),
+    summaryAlgo: reader.readStringOrNull(offsets[10]),
+    tags: reader.readStringList(offsets[11]),
+    title: reader.readStringOrNull(offsets[12]),
   );
   object.id = id;
   return object;
@@ -280,28 +260,24 @@ P _feedItemDeserializeProp<P>(
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 4:
       return (reader.readStringOrNull(offset)) as P;
     case 5:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 6:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 7:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
-    case 8:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
-    case 9:
       return (reader.readStringOrNull(offset)) as P;
+    case 8:
+      return (reader.readStringOrNull(offset)) as P;
+    case 9:
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 10:
       return (reader.readStringOrNull(offset)) as P;
     case 11:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 12:
-      return (reader.readStringOrNull(offset)) as P;
-    case 13:
       return (reader.readStringList(offset)) as P;
-    case 14:
+    case 12:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -924,180 +900,6 @@ extension FeedItemQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'category',
         value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> contentIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'content',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> contentIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'content',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> contentEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'content',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> contentGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'content',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> contentLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'content',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> contentBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'content',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> contentStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'content',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> contentEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'content',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> contentContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'content',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> contentMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'content',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> contentIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'content',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition> contentIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'content',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition>
-      contentHaveParsedIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'contentHaveParsed',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition>
-      contentHaveParsedIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'contentHaveParsed',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterFilterCondition>
-      contentHaveParsedEqualTo(bool? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'contentHaveParsed',
-        value: value,
       ));
     });
   }
@@ -2475,30 +2277,6 @@ extension FeedItemQuerySortBy on QueryBuilder<FeedItem, FeedItem, QSortBy> {
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> sortByContent() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'content', Sort.asc);
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> sortByContentDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'content', Sort.desc);
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> sortByContentHaveParsed() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'contentHaveParsed', Sort.asc);
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> sortByContentHaveParsedDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'contentHaveParsed', Sort.desc);
-    });
-  }
-
   QueryBuilder<FeedItem, FeedItem, QAfterSortBy> sortByCover() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'cover', Sort.asc);
@@ -2643,30 +2421,6 @@ extension FeedItemQuerySortThenBy
   QueryBuilder<FeedItem, FeedItem, QAfterSortBy> thenByCategoryDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'category', Sort.desc);
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> thenByContent() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'content', Sort.asc);
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> thenByContentDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'content', Sort.desc);
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> thenByContentHaveParsed() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'contentHaveParsed', Sort.asc);
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QAfterSortBy> thenByContentHaveParsedDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'contentHaveParsed', Sort.desc);
     });
   }
 
@@ -2819,19 +2573,6 @@ extension FeedItemQueryWhereDistinct
     });
   }
 
-  QueryBuilder<FeedItem, FeedItem, QDistinct> distinctByContent(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'content', caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<FeedItem, FeedItem, QDistinct> distinctByContentHaveParsed() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'contentHaveParsed');
-    });
-  }
-
   QueryBuilder<FeedItem, FeedItem, QDistinct> distinctByCover(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2922,18 +2663,6 @@ extension FeedItemQueryProperty
   QueryBuilder<FeedItem, String?, QQueryOperations> categoryProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'category');
-    });
-  }
-
-  QueryBuilder<FeedItem, String?, QQueryOperations> contentProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'content');
-    });
-  }
-
-  QueryBuilder<FeedItem, bool?, QQueryOperations> contentHaveParsedProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'contentHaveParsed');
     });
   }
 

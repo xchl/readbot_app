@@ -2,11 +2,21 @@ import 'package:dio/dio.dart';
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 
-class FeedBoxHttpService extends GetxService {
-  static FeedBoxHttpService get to => Get.find();
+class HttpService extends GetxService {
+  static HttpService get to => Get.find();
 
   late final Dio _dio;
   // final CancelToken _cancelToken = CancelToken(); // 默认去掉
+
+  static Future<String?> request(String url) async {
+    try {
+      var res = await HttpService.to.get(url);
+      return res.data;
+    } catch (e) {
+      // TODO
+      return null;
+    }
+  }
 
   @override
   void onInit() {

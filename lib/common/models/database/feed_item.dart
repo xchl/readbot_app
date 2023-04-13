@@ -26,8 +26,6 @@ class FeedItem {
   String? category;
   String? description;
   String? summaryAlgo;
-  String? content;
-  bool? contentHaveParsed;
   DateTime? createTime;
 
   @Index(unique: true, replace: true)
@@ -48,8 +46,6 @@ class FeedItem {
     this.category,
     this.description,
     this.summaryAlgo,
-    this.content,
-    this.contentHaveParsed = false,
     this.md5String,
   });
 

@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: readbot_proto/request.proto
+//  source: request.proto
 //
 // @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,deprecated_member_use_from_same_package,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
@@ -84,25 +84,26 @@ const RefreshTokenRequest$json = const {
 
 /// Descriptor for `RefreshTokenRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List refreshTokenRequestDescriptor = $convert.base64Decode('ChNSZWZyZXNoVG9rZW5SZXF1ZXN0EjQKC2NsaWVudF9pbmZvGAEgASgLMhMucmVxdWVzdC5DbGllbnRJbmZvUgpjbGllbnRJbmZvEjoKDXJlZnJlc2hfdG9rZW4YAiABKAsyFS5yZXF1ZXN0LlJlZnJlc2hUb2tlblIMcmVmcmVzaFRva2Vu');
-@$core.Deprecated('Use feedInfoDescriptor instead')
-const FeedInfo$json = const {
-  '1': 'FeedInfo',
+@$core.Deprecated('Use contentPullRequestDescriptor instead')
+const ContentPullRequest$json = const {
+  '1': 'ContentPullRequest',
   '2': const [
-    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'url', '3': 2, '4': 1, '5': 9, '10': 'url'},
-    const {'1': 'icon', '3': 3, '4': 1, '5': 9, '10': 'icon'},
+    const {'1': 'sync_timestamp', '3': 1, '4': 1, '5': 11, '6': '.model.SyncTimestamp', '10': 'syncTimestamp'},
   ],
 };
 
-/// Descriptor for `FeedInfo`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List feedInfoDescriptor = $convert.base64Decode('CghGZWVkSW5mbxISCgRuYW1lGAEgASgJUgRuYW1lEhAKA3VybBgCIAEoCVIDdXJsEhIKBGljb24YAyABKAlSBGljb24=');
-@$core.Deprecated('Use createFeedRequestDescriptor instead')
-const CreateFeedRequest$json = const {
-  '1': 'CreateFeedRequest',
+/// Descriptor for `ContentPullRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List contentPullRequestDescriptor = $convert.base64Decode('ChJDb250ZW50UHVsbFJlcXVlc3QSOwoOc3luY190aW1lc3RhbXAYASABKAsyFC5tb2RlbC5TeW5jVGltZXN0YW1wUg1zeW5jVGltZXN0YW1w');
+@$core.Deprecated('Use contentPushRequestDescriptor instead')
+const ContentPushRequest$json = const {
+  '1': 'ContentPushRequest',
   '2': const [
-    const {'1': 'feed_info', '3': 2, '4': 1, '5': 11, '6': '.request.FeedInfo', '10': 'feedInfo'},
+    const {'1': 'feeds', '3': 1, '4': 3, '5': 11, '6': '.model.Feed', '10': 'feeds'},
+    const {'1': 'feed_update_records', '3': 2, '4': 3, '5': 11, '6': '.model.FeedUpdateRecord', '10': 'feedUpdateRecords'},
+    const {'1': 'feed_groups', '3': 3, '4': 3, '5': 11, '6': '.model.FeedGroup', '10': 'feedGroups'},
+    const {'1': 'feed_items', '3': 4, '4': 3, '5': 11, '6': '.model.FeedItem', '10': 'feedItems'},
   ],
 };
 
-/// Descriptor for `CreateFeedRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List createFeedRequestDescriptor = $convert.base64Decode('ChFDcmVhdGVGZWVkUmVxdWVzdBIuCglmZWVkX2luZm8YAiABKAsyES5yZXF1ZXN0LkZlZWRJbmZvUghmZWVkSW5mbw==');
+/// Descriptor for `ContentPushRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List contentPushRequestDescriptor = $convert.base64Decode('ChJDb250ZW50UHVzaFJlcXVlc3QSIQoFZmVlZHMYASADKAsyCy5tb2RlbC5GZWVkUgVmZWVkcxJHChNmZWVkX3VwZGF0ZV9yZWNvcmRzGAIgAygLMhcubW9kZWwuRmVlZFVwZGF0ZVJlY29yZFIRZmVlZFVwZGF0ZVJlY29yZHMSMQoLZmVlZF9ncm91cHMYAyADKAsyEC5tb2RlbC5GZWVkR3JvdXBSCmZlZWRHcm91cHMSLgoKZmVlZF9pdGVtcxgEIAMoCzIPLm1vZGVsLkZlZWRJdGVtUglmZWVkSXRlbXM=');

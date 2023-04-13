@@ -33,10 +33,11 @@ class PostDetailController extends GetxController {
   late String? html;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    if (feedItem.content != null) {
-      html = injectCss(feedItem.content!, ReadModeStyle().css);
+    var content = await DatabaseManager().getContentByFeedItemId(feedItem.id);
+    if (content != null) {
+      html = injectCss(content.content, ReadModeStyle().css);
     }
   }
 

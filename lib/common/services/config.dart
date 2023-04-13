@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/pb/readbot_proto/request.pb.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 

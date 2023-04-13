@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:feed_inbox_app/common/pb/readbot_proto/index.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -13,6 +12,7 @@ class UserService extends GetxService {
   String refreshToken = '';
   DateTime _accessTokenExpirTime = DateTime.fromMillisecondsSinceEpoch(0);
   DateTime _refreshTokenExpirTime = DateTime.fromMillisecondsSinceEpoch(0);
+
   final _basicProfile = UserProfile().obs;
 
   bool hasActiveAccessToken() {
@@ -32,7 +32,6 @@ class UserService extends GetxService {
     return hasActiveAccessToken();
   }
 
-  /// 用户 profile
   UserProfile get basicProfile => _basicProfile.value;
 
   @override

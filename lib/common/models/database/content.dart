@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 part 'content.g.dart';
 
 enum ContentType {
-  Html,
+  html,
 }
 
 @collection
@@ -16,7 +16,13 @@ class Content {
   @Index(unique: true, replace: true)
   String uri;
 
-  String? content;
+  String content;
 
-  Content({required this.type, required this.uri, this.content});
+  int feedItemId;
+
+  Content(
+      {required this.type,
+      required this.uri,
+      required this.content,
+      required this.feedItemId});
 }

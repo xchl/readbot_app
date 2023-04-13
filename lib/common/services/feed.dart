@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:feed_inbox_app/common/api/feed.dart';
+
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:feed_inbox_app/common/models/database/feed_update_record.dart';
 import 'package:flutter/foundation.dart';
@@ -85,13 +85,12 @@ class FeedService extends GetxService {
         String pureContent = await compute(extractReadableContent, htmlContent);
 
         var content = Content(
-            type: ContentType.Html, content: htmlContent, uri: url.toString());
+            type: ContentType.html,
+            content: pureContent,
+            uri: url.toString(),
+            feedItemId: feedItems[idx].id);
 
         DatabaseManager().insertContent(content);
-
-        feedItems[idx].content = pureContent;
-
-        DatabaseManager().updateFeedItem(feedItems[idx]);
 
         if (idx < feedItems.length - 1) {
           idx += 1;
@@ -106,7 +105,7 @@ class FeedService extends GetxService {
   }
 
   Future<Tuple2<Feed, List<FeedItem>>?> _fetchFeedFromUrl(String url) async {
-    String? xml = await FeedApi.fetchContentFromUrl(url);
+    String? xml = await HttpService.request(url);
     if (xml == null) {
       return null;
     }
@@ -199,7 +198,7 @@ class FeedService extends GetxService {
       var feed = feeds[i];
       var lastUpdateRecord = feedLastUpdateRecords[i];
       // TODO add error handle
-      var content = await FeedApi.fetchContentFromUrl(feed.url);
+      var content = await HttpService.request(feed.url);
       if (content == null) {
         continue;
       }
