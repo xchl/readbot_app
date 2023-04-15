@@ -38,7 +38,6 @@ class LoginController extends GetxController {
   }
 
   /// Sign In
-  /// Sign In
   Future<void> onSignIn() async {
     if ((formKey.currentState as FormState).validate()) {
       try {
@@ -51,10 +50,11 @@ class LoginController extends GetxController {
           email: emailController.text,
           password: password,
         ));
-
         Loading.success();
-
         Get.back(result: true);
+      } catch (e) {
+        // TODO 异常处理
+        Loading.error(e.toString());
       } finally {
         Loading.dismiss();
       }

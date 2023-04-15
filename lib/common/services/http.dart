@@ -34,7 +34,7 @@ class HttpService extends GetxService {
     _dio = Dio(options);
 
     // 拦截器
-    // _dio.interceptors.add(AuthInterceptors());
+    _dio.interceptors.add(RequestInterceptors());
   }
 
   Future<Response> get(
@@ -132,21 +132,31 @@ class AuthInterceptors extends Interceptor {
 /// 拦截
 class RequestInterceptors extends Interceptor {
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // 200 请求成功, 201 添加成功
-    if (response.statusCode != 200 && response.statusCode != 201) {
-      handler.reject(
-        DioError(
-          requestOptions: response.requestOptions,
-          response: response,
-          type: DioErrorType.badResponse,
-        ),
-        true,
-      );
-    } else {
-      handler.next(response);
+  Future<void> onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
+    await UserService.to.refreshTokenIfNeed();
+    if (UserService.to.hasActiveAccessToken()) {
+      options.headers['Authorization'] = 'Bearer ${UserService.to.accessToken}';
     }
+    handler.next(options);
   }
+
+  // @override
+  // void onResponse(Response response, ResponseInterceptorHandler handler) {
+  //   // 200 请求成功, 201 添加成功
+  //   if (response.statusCode != 200 && response.statusCode != 201) {
+  //     handler.reject(
+  //       DioError(
+  //         requestOptions: response.requestOptions,
+  //         response: response,
+  //         type: DioErrorType.badResponse,
+  //       ),
+  //       true,
+  //     );
+  //   } else {
+  //     handler.next(response);
+  //   }
+  // }
 
   @override
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
