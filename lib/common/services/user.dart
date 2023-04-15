@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:feed_inbox_app/common/models/proto/model.pb.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 

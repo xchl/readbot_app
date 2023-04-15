@@ -11,118 +11,113 @@ class DatabaseManager {
 
   Future<void> init() async {
     _isar = await Isar.open([
-      FeedSchema,
-      FeedItemSchema,
-      ContentSchema,
-      FeedUpdateRecordSchema,
-      FeedGroupSchema
+      FeedModelSchema,
+      FeedItemModelSchema,
+      ContentModelSchema,
+      FeedUpdateRecordModelSchema,
+      FeedGroupModelSchema
     ]);
   }
 
   // FeedGroup
   // insert Feed Groups
-  Future<void> insertFeedGroups(List<FeedGroup> groups) async {
+  Future<void> insertFeedGroups(List<FeedGroupModel> groups) async {
     await _isar.writeTxn(() async {
-      await _isar.feedGroups.putAllByName(groups);
+      await _isar.feedGroupModels.putAllByName(groups);
     });
   }
 
   // Feed!
 
   // insert Feed
-  Future<int> insertFeed(Feed feed) async {
+  Future<int> insertFeed(FeedModel feed) async {
     var id = await _isar.writeTxn(() async {
-      return await _isar.feeds.putByUrl(feed);
+      return await _isar.feedModels.putByUrl(feed);
     });
     return id;
   }
 
   // insert Feed list
-  Future<void> insertFeeds(List<Feed> feeds) async {
+  Future<void> insertFeeds(List<FeedModel> feeds) async {
     await _isar.writeTxn(() async {
-      await _isar.feeds.putAllByUrl(feeds);
+      await _isar.feedModels.putAllByUrl(feeds);
     });
   }
 
   // update Feed
-  Future<void> updateFeed(Feed feed) async {
+  Future<void> updateFeed(FeedModel feed) async {
     await _isar.writeTxn(() async {
-      await _isar.feeds.putByUrl(feed);
+      await _isar.feedModels.putByUrl(feed);
     });
   }
 
   // query all feed
-  Future<List<Feed>> getAllFeeds() async {
-    return await _isar.feeds.where().findAll();
+  Future<List<FeedModel>> getAllFeeds() async {
+    return await _isar.feedModels.where().findAll();
   }
 
   // get feeds last update record by feed id
-  Future<List<FeedUpdateRecord?>> getFeedLastUpdateRecord(feedIds) async {
-    return await _isar.feedUpdateRecords.getAllByFeedId(feedIds);
+  Future<List<FeedUpdateRecordModel?>> getFeedLastUpdateRecord(feedIds) async {
+    return await _isar.feedUpdateRecordModels.getAllByFeedId(feedIds);
   }
 
   // query feed by ids
-  Future<List<Feed?>> getFeeds(List<int> ids) async {
-    return await _isar.feeds.getAll(ids);
+  Future<List<FeedModel?>> getFeeds(List<int> ids) async {
+    return await _isar.feedModels.getAll(ids);
   }
 
   // FeedItem
 
   // insert FeedItems
   Future<void> insertFeedItems(
-      List<FeedItem> items, FeedUpdateRecord record) async {
+      List<FeedItemModel> items, FeedUpdateRecordModel record) async {
     await _isar.writeTxn(() async {
-      await _isar.feedItems.putAllByMd5String(items);
-      for (var item in items) {
-        await item.feed.save();
-      }
-      await _isar.feedUpdateRecords.putByFeedId(record);
+      await _isar.feedItemModels.putAllByMd5String(items);
+      await _isar.feedUpdateRecordModels.putByFeedId(record);
     });
   }
 
   // update FeedItem
-  Future<void> updateFeedItem(FeedItem item) async {
+  Future<void> updateFeedItem(FeedItemModel item) async {
     await _isar.writeTxn(() async {
-      await _isar.feedItems.putByMd5String(item);
+      await _isar.feedItemModels.putByMd5String(item);
     });
   }
 
   // update FeedItems
-  Future<void> updateFeedItems(List<FeedItem> items) async {
+  Future<void> updateFeedItems(List<FeedItemModel> items) async {
     await _isar.writeTxn(() async {
-      await _isar.feedItems.putAllByMd5String(items);
+      await _isar.feedItemModels.putAllByMd5String(items);
     });
   }
 
   // save Feed and FeedItems
-  Future<void> insertFeedAndItems(Feed feed, List<FeedItem> items) async {
+  Future<void> insertFeedAndItems(
+      FeedModel feed, List<FeedItemModel> items) async {
     await _isar.writeTxn(() async {
-      await _isar.feeds.putByUrl(feed);
-      await _isar.feedItems.putAllByMd5String(items);
-      for (var item in items) {
-        await item.feed.save();
-      }
+      await _isar.feedModels.putByUrl(feed);
+      await _isar.feedItemModels.putAllByMd5String(items);
     });
   }
 
   // query all FeedItem
-  Future<List<FeedItem>> getAllFeedItems() async {
-    return await _isar.feedItems.where().findAll();
+  Future<List<FeedItemModel>> getAllFeedItems() async {
+    return await _isar.feedItemModels.where().findAll();
   }
 
   // query all explore feeditems
-  Future<List<FeedItem>> getAllExploreFeedItems() async {
-    return await _isar.feedItems.filter().isFocusEqualTo(false).findAll();
+  Future<List<FeedItemModel>> getAllExploreFeedItems() async {
+    return await _isar.feedItemModels.filter().isFocusEqualTo(false).findAll();
   }
 
   // query all focus feeditems
-  Future<List<FeedItem>> getAllFocusFeedItems() async {
-    return await _isar.feedItems.filter().isFocusEqualTo(true).findAll();
+  Future<List<FeedItemModel>> getAllFocusFeedItems() async {
+    return await _isar.feedItemModels.filter().isFocusEqualTo(true).findAll();
   }
 
   // query focus FeedItem by page
-  Future<List<FeedItem>> getFocusFeedItemsByPage(int page) async {
-    var feedItems = await _isar.feedItems
+  Future<List<FeedItemModel>> getFocusFeedItemsByPage(int page) async {
+    var feedItems = await _isar.feedItemModels
         .filter()
         .isFocusEqualTo(true)
         .sortByPublishTimeDesc()
@@ -134,58 +129,70 @@ class DatabaseManager {
 
   // query feeditems by feed id
   // TODO  add page
-  Future<List<FeedItem>> getExploreFeedItemsByFeedId(int feedId) async {
-    var feedItems = await _isar.feedItems
+  Future<List<FeedItemModel>> getExploreFeedItemsByFeedId(int feedId) async {
+    var feedItems = await _isar.feedItemModels
         .filter()
-        .feed(
-          (q) => q.idEqualTo(feedId),
-        )
+        .feedIdEqualTo(feedId)
         .isFocusEqualTo(false)
         .sortByPublishTimeDesc()
         .findAll();
     return feedItems;
   }
 
-  // query explore FeedItem by page
-  // TODO
-  Future<List<FeedItem>> getExploreFeedItemsByPage(int page,
+  Future<List<FeedItemModel>> getExploreFeedItemsByPage(int page,
       {int? feedId}) async {
-    var feedItems = await _isar.feedItems
-        .filter()
-        .feed((q) => feedId != null ? q.idEqualTo(feedId) : q.idGreaterThan(0))
-        .isFocusEqualTo(false)
+    var filter = _isar.feedItemModels.filter().isFocusEqualTo(false);
+    if (feedId != null) {
+      filter = filter.feedIdEqualTo(feedId);
+    }
+    return await filter
         .sortByPublishTimeDesc()
         .offset(page * Constants.pageSizeMobile)
         .limit(Constants.pageSizeMobile)
         .findAll();
-    return feedItems;
   }
 
   // Content
   // insert content
-  Future<void> insertContent(Content content) async {
+  Future<void> insertContent(ContentModel content) async {
     await _isar.writeTxn(() async {
-      await _isar.contents.putByUri(content);
-    });
-  }
-
-  // Group
-  // query all group
-  Future<List<FeedGroup>> getAllGroups() async {
-    return await _isar.feedGroups.where().findAll();
-  }
-
-  // insert group
-  Future<void> insertGroup(FeedGroup group) async {
-    await _isar.writeTxn(() async {
-      await _isar.feedGroups.putByName(group);
+      await _isar.contentModels.putByUri(content);
     });
   }
 
   // get content by feeditem id
-  Future<Content?> getContentByFeedItemId(int feedItemId) async {
-    var content =
-        await _isar.contents.filter().feedItemIdEqualTo(feedItemId).findFirst();
+  Future<ContentModel?> getContentByFeedItemId(int feedItemId) async {
+    var content = await _isar.contentModels
+        .filter()
+        .feedItemIdEqualTo(feedItemId)
+        .findFirst();
     return content;
+  }
+
+  // Group
+  // query all group
+  Future<List<FeedGroupModel>> getAllGroups() async {
+    return await _isar.feedGroupModels.where().findAll();
+  }
+
+  // insert group
+  Future<void> insertGroup(FeedGroupModel group) async {
+    await _isar.writeTxn(() async {
+      await _isar.feedGroupModels.putByName(group);
+    });
+  }
+
+  // save all content from sync pull
+  Future<void> syncSave(
+      List<FeedModel> feeds,
+      List<FeedItemModel> feedItems,
+      List<FeedGroupModel> feedGroups,
+      List<FeedUpdateRecordModel> feedUpdateRecords) async {
+    await _isar.writeTxn(() async {
+      await _isar.feedModels.putAllByUrl(feeds);
+      await _isar.feedItemModels.putAllByMd5String(feedItems);
+      await _isar.feedGroupModels.putAllByName(feedGroups);
+      await _isar.feedUpdateRecordModels.putAllByFeedId(feedUpdateRecords);
+    });
   }
 }

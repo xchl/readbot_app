@@ -16,6 +16,7 @@ class PostFocusPage extends GetView<PostFocusController> {
             //     ),
             itemBuilder: (context, i) {
               final feedItem = controller.feedItems[i];
+              final feed = controller.feeds[i];
               return Dismissible(
                 background: Container(
                   color: AppColors.primary,
@@ -32,6 +33,7 @@ class PostFocusPage extends GetView<PostFocusController> {
                 },
                 child: PostItemListWidget(
                   feedItem: feedItem,
+                  feed: feed!,
                 ).inkWell(onTap: () {
                   controller.onTapItem(feedItem);
                 }),

@@ -1,4 +1,3 @@
-import 'package:feed_inbox_app/common/services/worker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';

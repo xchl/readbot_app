@@ -28,9 +28,9 @@ class PostDetailController extends GetxController {
     ),
   );
 
-  FeedItem feedItem = Get.arguments['feedItem'];
+  FeedItemModel feedItem = Get.arguments['feedItem'];
 
-  late String? html;
+  String? html;
 
   @override
   void onInit() async {

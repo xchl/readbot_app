@@ -4,36 +4,31 @@ import 'package:get/get.dart';
 class PostFocusController extends GetxController {
   PostFocusController();
 
-  List<FeedItem> _feedItems = [];
+  List<FeedItemModel> _feedItems = [];
+  List<FeedModel?> _feeds = [];
 
   int _page = 0;
 
-  List<FeedItem> get feedItems => _feedItems;
+  List<FeedItemModel> get feedItems => _feedItems;
+  List<FeedModel?> get feeds => _feeds;
 
   _initData() async {
     _feedItems = await DatabaseManager().getFocusFeedItemsByPage(_page);
+    _feeds = await DatabaseManager().getFeeds(
+      _feedItems.map((e) => e.feedId).toList(),
+    );
     update(["post_focus"]);
   }
 
-  void onTapItem(FeedItem feedItem) {
+  void onTapItem(FeedItemModel feedItem) {
     Get.toNamed(RouteNames.postPostDetail, arguments: {'feedItem': feedItem});
   }
 
   void onTap() {}
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
 
   @override
   void onReady() {
     super.onReady();
     _initData();
   }
-
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
 }

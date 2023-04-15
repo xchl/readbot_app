@@ -27,14 +27,14 @@ class ProLevel extends $pb.ProtobufEnum {
 }
 
 class FeedType extends $pb.ProtobufEnum {
-  static const FeedType RSS = FeedType._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'RSS');
-  static const FeedType ATOM = FeedType._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ATOM');
-  static const FeedType Unknown = FeedType._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'Unknown');
+  static const FeedType FEED_TYPE_RSS = FeedType._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'FEED_TYPE_RSS');
+  static const FeedType FEED_TYPE_ATOM = FeedType._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'FEED_TYPE_ATOM');
+  static const FeedType FEED_TYPE_UNKNOWN = FeedType._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'FEED_TYPE_UNKNOWN');
 
   static const $core.List<FeedType> values = <FeedType> [
-    RSS,
-    ATOM,
-    Unknown,
+    FEED_TYPE_RSS,
+    FEED_TYPE_ATOM,
+    FEED_TYPE_UNKNOWN,
   ];
 
   static final $core.Map<$core.int, FeedType> _byValue = $pb.ProtobufEnum.initByValue(values);

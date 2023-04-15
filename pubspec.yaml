@@ -73,6 +73,7 @@ dependencies:
   readability:
     path: ./lib/package/readability
   file_picker: ^5.2.7
+  fixnum: ^1.1.0
   
 dev_dependencies:
   flutter_test:

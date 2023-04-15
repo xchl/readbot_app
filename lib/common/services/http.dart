@@ -40,12 +40,14 @@ class HttpService extends GetxService {
   Future<Response> get(
     String url, {
     Map<String, dynamic>? params,
+    dynamic data,
     Options? options,
     CancelToken? cancelToken,
   }) async {
     Options requestOptions = options ?? Options();
     Response response = await _dio.get(
       url,
+      data: data,
       queryParameters: params,
       options: requestOptions,
       cancelToken: cancelToken,

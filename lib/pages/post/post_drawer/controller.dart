@@ -7,14 +7,14 @@ class PostDrawerController extends GetxController {
   PostDrawerController(this._subPage);
 
   final SubPage _subPage;
-  Map<FeedGroup, List<Feed>> feedGroupedByGroup = {};
+  Map<FeedGroupModel, List<FeedModel>> feedGroupedByGroup = {};
 
   int? selectedFeedId;
 
   _initData() async {
-    List<Feed> feeds = await DatabaseManager().getAllFeeds();
-    List<FeedGroup> feedGroups = await DatabaseManager().getAllGroups();
-    Map<int, List<Feed>> feedGroupedByGroupId = {};
+    List<FeedModel> feeds = await DatabaseManager().getAllFeeds();
+    List<FeedGroupModel> feedGroups = await DatabaseManager().getAllGroups();
+    Map<int, List<FeedModel>> feedGroupedByGroupId = {};
     for (var feed in feeds) {
       if (feedGroupedByGroupId[feed.groupId] == null) {
         feedGroupedByGroupId[feed.groupId!] = [];

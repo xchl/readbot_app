@@ -9,13 +9,13 @@ part of 'feed.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-extension GetFeedCollection on Isar {
-  IsarCollection<Feed> get feeds => this.collection();
+extension GetFeedModelCollection on Isar {
+  IsarCollection<FeedModel> get feedModels => this.collection();
 }
 
-const FeedSchema = CollectionSchema(
-  name: r'Feed',
-  id: 8879644747771893978,
+const FeedModelSchema = CollectionSchema(
+  name: r'FeedModel',
+  id: 4510667381166093826,
   properties: {
     r'createTime': PropertySchema(
       id: 0,
@@ -71,18 +71,23 @@ const FeedSchema = CollectionSchema(
       id: 10,
       name: r'type',
       type: IsarType.int,
-      enumMap: _FeedtypeEnumValueMap,
+      enumMap: _FeedModeltypeEnumValueMap,
+    ),
+    r'updateTime': PropertySchema(
+      id: 11,
+      name: r'updateTime',
+      type: IsarType.dateTime,
     ),
     r'url': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'url',
       type: IsarType.string,
     )
   },
-  estimateSize: _feedEstimateSize,
-  serialize: _feedSerialize,
-  deserialize: _feedDeserialize,
-  deserializeProp: _feedDeserializeProp,
+  estimateSize: _feedModelEstimateSize,
+  serialize: _feedModelSerialize,
+  deserialize: _feedModelDeserialize,
+  deserializeProp: _feedModelDeserializeProp,
   idName: r'id',
   indexes: {
     r'url': IndexSchema(
@@ -97,18 +102,31 @@ const FeedSchema = CollectionSchema(
           caseSensitive: true,
         )
       ],
+    ),
+    r'updateTime': IndexSchema(
+      id: 397922507239516479,
+      name: r'updateTime',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'updateTime',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
     )
   },
   links: {},
   embeddedSchemas: {},
-  getId: _feedGetId,
-  getLinks: _feedGetLinks,
-  attach: _feedAttach,
+  getId: _feedModelGetId,
+  getLinks: _feedModelGetLinks,
+  attach: _feedModelAttach,
   version: '3.0.5',
 );
 
-int _feedEstimateSize(
-  Feed object,
+int _feedModelEstimateSize(
+  FeedModel object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -166,8 +184,8 @@ int _feedEstimateSize(
   return bytesCount;
 }
 
-void _feedSerialize(
-  Feed object,
+void _feedModelSerialize(
+  FeedModel object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -183,17 +201,19 @@ void _feedSerialize(
   writer.writeStringList(offsets[8], object.tags);
   writer.writeString(offsets[9], object.title);
   writer.writeInt(offsets[10], object.type?.index);
-  writer.writeString(offsets[11], object.url);
+  writer.writeDateTime(offsets[11], object.updateTime);
+  writer.writeString(offsets[12], object.url);
 }
 
-Feed _feedDeserialize(
+FeedModel _feedModelDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Feed(
-    reader.readString(offsets[11]),
+  final object = FeedModel(
+    reader.readString(offsets[12]),
+    createTime: reader.readDateTime(offsets[0]),
     customDescription: reader.readStringOrNull(offsets[1]),
     customLogo: reader.readStringOrNull(offsets[2]),
     customName: reader.readStringOrNull(offsets[3]),
@@ -201,15 +221,15 @@ Feed _feedDeserialize(
     logo: reader.readStringOrNull(offsets[6]),
     name: reader.readStringOrNull(offsets[7]),
     tags: reader.readStringList(offsets[8]),
-    type: _FeedtypeValueEnumMap[reader.readIntOrNull(offsets[10])],
+    type: _FeedModeltypeValueEnumMap[reader.readIntOrNull(offsets[10])],
+    updateTime: reader.readDateTime(offsets[11]),
   );
-  object.createTime = reader.readDateTime(offsets[0]);
   object.groupId = reader.readLongOrNull(offsets[5]);
   object.id = id;
   return object;
 }
 
-P _feedDeserializeProp<P>(
+P _feedModelDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -237,43 +257,45 @@ P _feedDeserializeProp<P>(
     case 9:
       return (reader.readString(offset)) as P;
     case 10:
-      return (_FeedtypeValueEnumMap[reader.readIntOrNull(offset)]) as P;
+      return (_FeedModeltypeValueEnumMap[reader.readIntOrNull(offset)]) as P;
     case 11:
+      return (reader.readDateTime(offset)) as P;
+    case 12:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-const _FeedtypeEnumValueMap = {
+const _FeedModeltypeEnumValueMap = {
   'Atom': 0,
   'Rss': 1,
   'Unknown': 2,
 };
-const _FeedtypeValueEnumMap = {
+const _FeedModeltypeValueEnumMap = {
   0: FeedType.Atom,
   1: FeedType.Rss,
   2: FeedType.Unknown,
 };
 
-Id _feedGetId(Feed object) {
+Id _feedModelGetId(FeedModel object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _feedGetLinks(Feed object) {
+List<IsarLinkBase<dynamic>> _feedModelGetLinks(FeedModel object) {
   return [];
 }
 
-void _feedAttach(IsarCollection<dynamic> col, Id id, Feed object) {
+void _feedModelAttach(IsarCollection<dynamic> col, Id id, FeedModel object) {
   object.id = id;
 }
 
-extension FeedByIndex on IsarCollection<Feed> {
-  Future<Feed?> getByUrl(String url) {
+extension FeedModelByIndex on IsarCollection<FeedModel> {
+  Future<FeedModel?> getByUrl(String url) {
     return getByIndex(r'url', [url]);
   }
 
-  Feed? getByUrlSync(String url) {
+  FeedModel? getByUrlSync(String url) {
     return getByIndexSync(r'url', [url]);
   }
 
@@ -285,12 +307,12 @@ extension FeedByIndex on IsarCollection<Feed> {
     return deleteByIndexSync(r'url', [url]);
   }
 
-  Future<List<Feed?>> getAllByUrl(List<String> urlValues) {
+  Future<List<FeedModel?>> getAllByUrl(List<String> urlValues) {
     final values = urlValues.map((e) => [e]).toList();
     return getAllByIndex(r'url', values);
   }
 
-  List<Feed?> getAllByUrlSync(List<String> urlValues) {
+  List<FeedModel?> getAllByUrlSync(List<String> urlValues) {
     final values = urlValues.map((e) => [e]).toList();
     return getAllByIndexSync(r'url', values);
   }
@@ -305,33 +327,43 @@ extension FeedByIndex on IsarCollection<Feed> {
     return deleteAllByIndexSync(r'url', values);
   }
 
-  Future<Id> putByUrl(Feed object) {
+  Future<Id> putByUrl(FeedModel object) {
     return putByIndex(r'url', object);
   }
 
-  Id putByUrlSync(Feed object, {bool saveLinks = true}) {
+  Id putByUrlSync(FeedModel object, {bool saveLinks = true}) {
     return putByIndexSync(r'url', object, saveLinks: saveLinks);
   }
 
-  Future<List<Id>> putAllByUrl(List<Feed> objects) {
+  Future<List<Id>> putAllByUrl(List<FeedModel> objects) {
     return putAllByIndex(r'url', objects);
   }
 
-  List<Id> putAllByUrlSync(List<Feed> objects, {bool saveLinks = true}) {
+  List<Id> putAllByUrlSync(List<FeedModel> objects, {bool saveLinks = true}) {
     return putAllByIndexSync(r'url', objects, saveLinks: saveLinks);
   }
 }
 
-extension FeedQueryWhereSort on QueryBuilder<Feed, Feed, QWhere> {
-  QueryBuilder<Feed, Feed, QAfterWhere> anyId() {
+extension FeedModelQueryWhereSort
+    on QueryBuilder<FeedModel, FeedModel, QWhere> {
+  QueryBuilder<FeedModel, FeedModel, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterWhere> anyUpdateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'updateTime'),
+      );
+    });
+  }
 }
 
-extension FeedQueryWhere on QueryBuilder<Feed, Feed, QWhereClause> {
-  QueryBuilder<Feed, Feed, QAfterWhereClause> idEqualTo(Id id) {
+extension FeedModelQueryWhere
+    on QueryBuilder<FeedModel, FeedModel, QWhereClause> {
+  QueryBuilder<FeedModel, FeedModel, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -340,7 +372,7 @@ extension FeedQueryWhere on QueryBuilder<Feed, Feed, QWhereClause> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<FeedModel, FeedModel, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -362,7 +394,7 @@ extension FeedQueryWhere on QueryBuilder<Feed, Feed, QWhereClause> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<FeedModel, FeedModel, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -371,7 +403,7 @@ extension FeedQueryWhere on QueryBuilder<Feed, Feed, QWhereClause> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<FeedModel, FeedModel, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -380,7 +412,7 @@ extension FeedQueryWhere on QueryBuilder<Feed, Feed, QWhereClause> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterWhereClause> idBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -396,7 +428,7 @@ extension FeedQueryWhere on QueryBuilder<Feed, Feed, QWhereClause> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterWhereClause> urlEqualTo(String url) {
+  QueryBuilder<FeedModel, FeedModel, QAfterWhereClause> urlEqualTo(String url) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'url',
@@ -405,7 +437,8 @@ extension FeedQueryWhere on QueryBuilder<Feed, Feed, QWhereClause> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterWhereClause> urlNotEqualTo(String url) {
+  QueryBuilder<FeedModel, FeedModel, QAfterWhereClause> urlNotEqualTo(
+      String url) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -438,10 +471,101 @@ extension FeedQueryWhere on QueryBuilder<Feed, Feed, QWhereClause> {
       }
     });
   }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterWhereClause> updateTimeEqualTo(
+      DateTime updateTime) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'updateTime',
+        value: [updateTime],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterWhereClause> updateTimeNotEqualTo(
+      DateTime updateTime) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'updateTime',
+              lower: [],
+              upper: [updateTime],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'updateTime',
+              lower: [updateTime],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'updateTime',
+              lower: [updateTime],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'updateTime',
+              lower: [],
+              upper: [updateTime],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterWhereClause> updateTimeGreaterThan(
+    DateTime updateTime, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'updateTime',
+        lower: [updateTime],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterWhereClause> updateTimeLessThan(
+    DateTime updateTime, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'updateTime',
+        lower: [],
+        upper: [updateTime],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterWhereClause> updateTimeBetween(
+    DateTime lowerUpdateTime,
+    DateTime upperUpdateTime, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'updateTime',
+        lower: [lowerUpdateTime],
+        includeLower: includeLower,
+        upper: [upperUpdateTime],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
-extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> createTimeEqualTo(
+extension FeedModelQueryFilter
+    on QueryBuilder<FeedModel, FeedModel, QFilterCondition> {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> createTimeEqualTo(
       DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -451,7 +575,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> createTimeGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      createTimeGreaterThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -464,7 +589,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> createTimeLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> createTimeLessThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -477,7 +602,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> createTimeBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> createTimeBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -494,7 +619,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customDescriptionIsNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customDescriptionIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'customDescription',
@@ -502,7 +628,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customDescriptionIsNotNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customDescriptionIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'customDescription',
@@ -510,7 +637,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customDescriptionEqualTo(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customDescriptionEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -523,7 +651,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customDescriptionGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customDescriptionGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -538,7 +667,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customDescriptionLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customDescriptionLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -553,7 +683,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customDescriptionBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customDescriptionBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -572,7 +703,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customDescriptionStartsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customDescriptionStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -585,7 +717,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customDescriptionEndsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customDescriptionEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -598,9 +731,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customDescriptionContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customDescriptionContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'customDescription',
@@ -610,9 +742,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customDescriptionMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customDescriptionMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'customDescription',
@@ -622,7 +753,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customDescriptionIsEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customDescriptionIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'customDescription',
@@ -631,7 +763,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition>
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
       customDescriptionIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -641,7 +773,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customLogoIsNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customLogoIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'customLogo',
@@ -649,7 +781,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customLogoIsNotNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customLogoIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'customLogo',
@@ -657,7 +790,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customLogoEqualTo(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customLogoEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -670,7 +803,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customLogoGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customLogoGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -685,7 +819,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customLogoLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customLogoLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -700,7 +834,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customLogoBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customLogoBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -719,7 +853,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customLogoStartsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customLogoStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -732,7 +867,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customLogoEndsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customLogoEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -745,7 +880,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customLogoContains(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customLogoContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -757,7 +892,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customLogoMatches(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customLogoMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -769,7 +904,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customLogoIsEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customLogoIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'customLogo',
@@ -778,7 +914,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customLogoIsNotEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customLogoIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'customLogo',
@@ -787,7 +924,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customNameIsNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customNameIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'customName',
@@ -795,7 +932,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customNameIsNotNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customNameIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'customName',
@@ -803,7 +941,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customNameEqualTo(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customNameEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -816,7 +954,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customNameGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customNameGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -831,7 +970,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customNameLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customNameLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -846,7 +985,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customNameBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customNameBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -865,7 +1004,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customNameStartsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customNameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -878,7 +1018,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customNameEndsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customNameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -891,7 +1031,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customNameContains(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customNameContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -903,7 +1043,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customNameMatches(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> customNameMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -915,7 +1055,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customNameIsEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customNameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'customName',
@@ -924,7 +1065,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> customNameIsNotEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      customNameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'customName',
@@ -933,7 +1075,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> descriptionIsNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      descriptionIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'description',
@@ -941,7 +1084,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> descriptionIsNotNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      descriptionIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'description',
@@ -949,7 +1093,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> descriptionEqualTo(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> descriptionEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -962,7 +1106,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> descriptionGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      descriptionGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -977,7 +1122,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> descriptionLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> descriptionLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -992,7 +1137,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> descriptionBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> descriptionBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1011,7 +1156,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> descriptionStartsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      descriptionStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1024,7 +1170,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> descriptionEndsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> descriptionEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1037,7 +1183,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> descriptionContains(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> descriptionContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1049,7 +1195,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> descriptionMatches(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> descriptionMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1061,7 +1207,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> descriptionIsEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      descriptionIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'description',
@@ -1070,7 +1217,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> descriptionIsNotEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      descriptionIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'description',
@@ -1079,7 +1227,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> groupIdIsNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'groupId',
@@ -1087,7 +1235,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> groupIdIsNotNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'groupId',
@@ -1095,7 +1243,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> groupIdEqualTo(int? value) {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupIdEqualTo(
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'groupId',
@@ -1104,7 +1253,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> groupIdGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupIdGreaterThan(
     int? value, {
     bool include = false,
   }) {
@@ -1117,7 +1266,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> groupIdLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupIdLessThan(
     int? value, {
     bool include = false,
   }) {
@@ -1130,7 +1279,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> groupIdBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -1147,7 +1296,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> idEqualTo(Id value) {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> idEqualTo(
+      Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -1156,7 +1306,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -1169,7 +1319,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> idLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -1182,7 +1332,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> idBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -1199,7 +1349,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> logoIsNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> logoIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'logo',
@@ -1207,7 +1357,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> logoIsNotNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> logoIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'logo',
@@ -1215,7 +1365,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> logoEqualTo(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> logoEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -1228,7 +1378,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> logoGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> logoGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1243,7 +1393,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> logoLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> logoLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1258,7 +1408,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> logoBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> logoBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1277,7 +1427,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> logoStartsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> logoStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1290,7 +1440,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> logoEndsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> logoEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1303,7 +1453,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> logoContains(String value,
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> logoContains(
+      String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -1314,7 +1465,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> logoMatches(String pattern,
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> logoMatches(
+      String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -1325,7 +1477,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> logoIsEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> logoIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'logo',
@@ -1334,7 +1486,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> logoIsNotEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> logoIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'logo',
@@ -1343,7 +1495,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> nameIsNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> nameIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'name',
@@ -1351,7 +1503,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> nameIsNotNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> nameIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'name',
@@ -1359,7 +1511,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> nameEqualTo(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> nameEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -1372,7 +1524,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> nameGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> nameGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1387,7 +1539,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> nameLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> nameLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1402,7 +1554,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> nameBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> nameBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1421,7 +1573,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> nameStartsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> nameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1434,7 +1586,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> nameEndsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> nameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1447,7 +1599,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> nameContains(String value,
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> nameContains(
+      String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -1458,7 +1611,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> nameMatches(String pattern,
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> nameMatches(
+      String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -1469,7 +1623,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> nameIsEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> nameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'name',
@@ -1478,7 +1632,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> nameIsNotEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> nameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'name',
@@ -1487,7 +1641,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsIsNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'tags',
@@ -1495,7 +1649,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsIsNotNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'tags',
@@ -1503,7 +1657,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsElementEqualTo(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsElementEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1516,7 +1670,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsElementGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      tagsElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1531,7 +1686,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsElementLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1546,7 +1701,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsElementBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -1565,7 +1720,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsElementStartsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      tagsElementStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1578,7 +1734,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsElementEndsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsElementEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1591,7 +1747,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsElementContains(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsElementContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1603,7 +1759,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsElementMatches(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsElementMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1615,7 +1771,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsElementIsEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      tagsElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'tags',
@@ -1624,7 +1781,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsElementIsNotEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      tagsElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'tags',
@@ -1633,7 +1791,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsLengthEqualTo(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsLengthEqualTo(
       int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
@@ -1646,7 +1804,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsIsEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'tags',
@@ -1658,7 +1816,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsIsNotEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'tags',
@@ -1670,7 +1828,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsLengthLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsLengthLessThan(
     int length, {
     bool include = false,
   }) {
@@ -1685,7 +1843,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsLengthGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      tagsLengthGreaterThan(
     int length, {
     bool include = false,
   }) {
@@ -1700,7 +1859,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> tagsLengthBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -1717,7 +1876,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> titleEqualTo(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> titleEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1730,7 +1889,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> titleGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> titleGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1745,7 +1904,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> titleLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> titleLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1760,7 +1919,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> titleBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> titleBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -1779,7 +1938,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> titleStartsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> titleStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1792,7 +1951,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> titleEndsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> titleEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1805,7 +1964,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> titleContains(String value,
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> titleContains(
+      String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -1816,7 +1976,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> titleMatches(String pattern,
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> titleMatches(
+      String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -1827,7 +1988,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> titleIsEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> titleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'title',
@@ -1836,7 +1997,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> titleIsNotEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> titleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'title',
@@ -1845,7 +2006,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> typeIsNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> typeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'type',
@@ -1853,7 +2014,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> typeIsNotNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> typeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'type',
@@ -1861,7 +2022,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> typeEqualTo(FeedType? value) {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> typeEqualTo(
+      FeedType? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'type',
@@ -1870,7 +2032,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> typeGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> typeGreaterThan(
     FeedType? value, {
     bool include = false,
   }) {
@@ -1883,7 +2045,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> typeLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> typeLessThan(
     FeedType? value, {
     bool include = false,
   }) {
@@ -1896,7 +2058,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> typeBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> typeBetween(
     FeedType? lower,
     FeedType? upper, {
     bool includeLower = true,
@@ -1913,7 +2075,61 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> urlEqualTo(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> updateTimeEqualTo(
+      DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'updateTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      updateTimeGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'updateTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> updateTimeLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'updateTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> updateTimeBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'updateTime',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> urlEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1926,7 +2142,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> urlGreaterThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> urlGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1941,7 +2157,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> urlLessThan(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> urlLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1956,7 +2172,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> urlBetween(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> urlBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -1975,7 +2191,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> urlStartsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> urlStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1988,7 +2204,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> urlEndsWith(
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> urlEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -2001,7 +2217,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> urlContains(String value,
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> urlContains(
+      String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -2012,7 +2229,8 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> urlMatches(String pattern,
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> urlMatches(
+      String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -2023,7 +2241,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> urlIsEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> urlIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'url',
@@ -2032,7 +2250,7 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterFilterCondition> urlIsNotEmpty() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> urlIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'url',
@@ -2042,298 +2260,328 @@ extension FeedQueryFilter on QueryBuilder<Feed, Feed, QFilterCondition> {
   }
 }
 
-extension FeedQueryObject on QueryBuilder<Feed, Feed, QFilterCondition> {}
+extension FeedModelQueryObject
+    on QueryBuilder<FeedModel, FeedModel, QFilterCondition> {}
 
-extension FeedQueryLinks on QueryBuilder<Feed, Feed, QFilterCondition> {}
+extension FeedModelQueryLinks
+    on QueryBuilder<FeedModel, FeedModel, QFilterCondition> {}
 
-extension FeedQuerySortBy on QueryBuilder<Feed, Feed, QSortBy> {
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByCreateTime() {
+extension FeedModelQuerySortBy on QueryBuilder<FeedModel, FeedModel, QSortBy> {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByCreateTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createTime', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByCreateTimeDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByCreateTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createTime', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByCustomDescription() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByCustomDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'customDescription', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByCustomDescriptionDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy>
+      sortByCustomDescriptionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'customDescription', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByCustomLogo() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByCustomLogo() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'customLogo', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByCustomLogoDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByCustomLogoDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'customLogo', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByCustomName() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByCustomName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'customName', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByCustomNameDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByCustomNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'customName', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByDescription() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByDescriptionDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByDescriptionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByGroupId() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByGroupId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'groupId', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByGroupIdDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByGroupIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'groupId', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByLogo() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByLogo() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'logo', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByLogoDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByLogoDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'logo', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByName() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByNameDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByTitle() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByTitleDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByTitleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByType() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByTypeDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByUrl() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByUpdateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updateTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByUpdateTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updateTime', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByUrl() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'url', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> sortByUrlDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByUrlDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'url', Sort.desc);
     });
   }
 }
 
-extension FeedQuerySortThenBy on QueryBuilder<Feed, Feed, QSortThenBy> {
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByCreateTime() {
+extension FeedModelQuerySortThenBy
+    on QueryBuilder<FeedModel, FeedModel, QSortThenBy> {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByCreateTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createTime', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByCreateTimeDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByCreateTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createTime', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByCustomDescription() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByCustomDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'customDescription', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByCustomDescriptionDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy>
+      thenByCustomDescriptionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'customDescription', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByCustomLogo() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByCustomLogo() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'customLogo', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByCustomLogoDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByCustomLogoDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'customLogo', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByCustomName() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByCustomName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'customName', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByCustomNameDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByCustomNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'customName', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByDescription() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByDescriptionDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByDescriptionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByGroupId() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByGroupId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'groupId', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByGroupIdDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByGroupIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'groupId', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenById() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByLogo() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByLogo() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'logo', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByLogoDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByLogoDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'logo', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByName() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByNameDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByTitle() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByTitleDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByTitleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByType() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByTypeDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.desc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByUrl() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByUpdateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updateTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByUpdateTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updateTime', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByUrl() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'url', Sort.asc);
     });
   }
 
-  QueryBuilder<Feed, Feed, QAfterSortBy> thenByUrlDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByUrlDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'url', Sort.desc);
     });
   }
 }
 
-extension FeedQueryWhereDistinct on QueryBuilder<Feed, Feed, QDistinct> {
-  QueryBuilder<Feed, Feed, QDistinct> distinctByCreateTime() {
+extension FeedModelQueryWhereDistinct
+    on QueryBuilder<FeedModel, FeedModel, QDistinct> {
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByCreateTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'createTime');
     });
   }
 
-  QueryBuilder<Feed, Feed, QDistinct> distinctByCustomDescription(
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByCustomDescription(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'customDescription',
@@ -2341,67 +2589,73 @@ extension FeedQueryWhereDistinct on QueryBuilder<Feed, Feed, QDistinct> {
     });
   }
 
-  QueryBuilder<Feed, Feed, QDistinct> distinctByCustomLogo(
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByCustomLogo(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'customLogo', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Feed, Feed, QDistinct> distinctByCustomName(
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByCustomName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'customName', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Feed, Feed, QDistinct> distinctByDescription(
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByDescription(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Feed, Feed, QDistinct> distinctByGroupId() {
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByGroupId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'groupId');
     });
   }
 
-  QueryBuilder<Feed, Feed, QDistinct> distinctByLogo(
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByLogo(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'logo', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Feed, Feed, QDistinct> distinctByName(
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Feed, Feed, QDistinct> distinctByTags() {
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByTags() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'tags');
     });
   }
 
-  QueryBuilder<Feed, Feed, QDistinct> distinctByTitle(
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'title', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Feed, Feed, QDistinct> distinctByType() {
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'type');
     });
   }
 
-  QueryBuilder<Feed, Feed, QDistinct> distinctByUrl(
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByUpdateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'updateTime');
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByUrl(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'url', caseSensitive: caseSensitive);
@@ -2409,80 +2663,88 @@ extension FeedQueryWhereDistinct on QueryBuilder<Feed, Feed, QDistinct> {
   }
 }
 
-extension FeedQueryProperty on QueryBuilder<Feed, Feed, QQueryProperty> {
-  QueryBuilder<Feed, int, QQueryOperations> idProperty() {
+extension FeedModelQueryProperty
+    on QueryBuilder<FeedModel, FeedModel, QQueryProperty> {
+  QueryBuilder<FeedModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<Feed, DateTime, QQueryOperations> createTimeProperty() {
+  QueryBuilder<FeedModel, DateTime, QQueryOperations> createTimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createTime');
     });
   }
 
-  QueryBuilder<Feed, String?, QQueryOperations> customDescriptionProperty() {
+  QueryBuilder<FeedModel, String?, QQueryOperations>
+      customDescriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'customDescription');
     });
   }
 
-  QueryBuilder<Feed, String?, QQueryOperations> customLogoProperty() {
+  QueryBuilder<FeedModel, String?, QQueryOperations> customLogoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'customLogo');
     });
   }
 
-  QueryBuilder<Feed, String?, QQueryOperations> customNameProperty() {
+  QueryBuilder<FeedModel, String?, QQueryOperations> customNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'customName');
     });
   }
 
-  QueryBuilder<Feed, String?, QQueryOperations> descriptionProperty() {
+  QueryBuilder<FeedModel, String?, QQueryOperations> descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
     });
   }
 
-  QueryBuilder<Feed, int?, QQueryOperations> groupIdProperty() {
+  QueryBuilder<FeedModel, int?, QQueryOperations> groupIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'groupId');
     });
   }
 
-  QueryBuilder<Feed, String?, QQueryOperations> logoProperty() {
+  QueryBuilder<FeedModel, String?, QQueryOperations> logoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'logo');
     });
   }
 
-  QueryBuilder<Feed, String?, QQueryOperations> nameProperty() {
+  QueryBuilder<FeedModel, String?, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
     });
   }
 
-  QueryBuilder<Feed, List<String>?, QQueryOperations> tagsProperty() {
+  QueryBuilder<FeedModel, List<String>?, QQueryOperations> tagsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'tags');
     });
   }
 
-  QueryBuilder<Feed, String, QQueryOperations> titleProperty() {
+  QueryBuilder<FeedModel, String, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });
   }
 
-  QueryBuilder<Feed, FeedType?, QQueryOperations> typeProperty() {
+  QueryBuilder<FeedModel, FeedType?, QQueryOperations> typeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'type');
     });
   }
 
-  QueryBuilder<Feed, String, QQueryOperations> urlProperty() {
+  QueryBuilder<FeedModel, DateTime, QQueryOperations> updateTimeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'updateTime');
+    });
+  }
+
+  QueryBuilder<FeedModel, String, QQueryOperations> urlProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'url');
     });

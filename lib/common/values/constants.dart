@@ -22,6 +22,7 @@ class Constants {
   static const storageLatestFeedId = 'history_latest_feed_id';
   static const periodicFetchTask = 'readbot.periodicFetchTask';
   static const feedUpdateHour = 2;
+  static const syncTimeStamp = 'syncTimeStamp';
 
   // Post
   static const storageExplorePost = 'history_explore_post';

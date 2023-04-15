@@ -27,12 +27,17 @@ class PostAllController extends GetxController {
 
   _initData() async {
     _feedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
+    _feed = await DatabaseManager().getFeeds(
+      _feedItems.map((e) => e.feedId).toList(),
+    );
     update(["post_all"]);
   }
 
-  List<FeedItem> _feedItems = [];
+  List<FeedItemModel> _feedItems = [];
+  List<FeedModel?> _feed = [];
 
-  List<FeedItem> get feedItems => _feedItems;
+  List<FeedItemModel> get feedItems => _feedItems;
+  List<FeedModel?> get feed => _feed;
 
   void onTap() {}
 
@@ -64,7 +69,7 @@ class PostAllController extends GetxController {
     update(["post_all"]);
   }
 
-  void onTapItem(FeedItem feedItem) {
+  void onTapItem(FeedItemModel feedItem) {
     Get.toNamed(RouteNames.postPostDetail, arguments: {'feedItem': feedItem});
   }
 

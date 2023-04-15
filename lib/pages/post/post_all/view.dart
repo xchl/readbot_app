@@ -38,6 +38,7 @@ class PostAllPage extends GetView<PostAllController> {
                 ),
             itemBuilder: (context, i) {
               final feedItem = controller.feedItems[i];
+              final feed = controller.feed[i];
               return Dismissible(
                 background: Container(
                   color: AppColors.primary,
@@ -52,6 +53,7 @@ class PostAllPage extends GetView<PostAllController> {
                 direction: DismissDirection.startToEnd,
                 child: PostItemListWidget(
                   feedItem: feedItem,
+                  feed: feed!,
                 ).inkWell(onTap: () {
                   controller.onTapItem(feedItem);
                 }),

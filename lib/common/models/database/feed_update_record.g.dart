@@ -9,13 +9,14 @@ part of 'feed_update_record.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-extension GetFeedUpdateRecordCollection on Isar {
-  IsarCollection<FeedUpdateRecord> get feedUpdateRecords => this.collection();
+extension GetFeedUpdateRecordModelCollection on Isar {
+  IsarCollection<FeedUpdateRecordModel> get feedUpdateRecordModels =>
+      this.collection();
 }
 
-const FeedUpdateRecordSchema = CollectionSchema(
-  name: r'FeedUpdateRecord',
-  id: -4785361976420438009,
+const FeedUpdateRecordModelSchema = CollectionSchema(
+  name: r'FeedUpdateRecordModel',
+  id: 3485920852919927359,
   properties: {
     r'feedId': PropertySchema(
       id: 0,
@@ -36,12 +37,17 @@ const FeedUpdateRecordSchema = CollectionSchema(
       id: 3,
       name: r'lastUpdate',
       type: IsarType.dateTime,
+    ),
+    r'updateTime': PropertySchema(
+      id: 4,
+      name: r'updateTime',
+      type: IsarType.dateTime,
     )
   },
-  estimateSize: _feedUpdateRecordEstimateSize,
-  serialize: _feedUpdateRecordSerialize,
-  deserialize: _feedUpdateRecordDeserialize,
-  deserializeProp: _feedUpdateRecordDeserializeProp,
+  estimateSize: _feedUpdateRecordModelEstimateSize,
+  serialize: _feedUpdateRecordModelSerialize,
+  deserialize: _feedUpdateRecordModelDeserialize,
+  deserializeProp: _feedUpdateRecordModelDeserializeProp,
   idName: r'id',
   indexes: {
     r'feedId': IndexSchema(
@@ -56,18 +62,31 @@ const FeedUpdateRecordSchema = CollectionSchema(
           caseSensitive: false,
         )
       ],
+    ),
+    r'updateTime': IndexSchema(
+      id: 397922507239516479,
+      name: r'updateTime',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'updateTime',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
     )
   },
   links: {},
   embeddedSchemas: {},
-  getId: _feedUpdateRecordGetId,
-  getLinks: _feedUpdateRecordGetLinks,
-  attach: _feedUpdateRecordAttach,
+  getId: _feedUpdateRecordModelGetId,
+  getLinks: _feedUpdateRecordModelGetLinks,
+  attach: _feedUpdateRecordModelAttach,
   version: '3.0.5',
 );
 
-int _feedUpdateRecordEstimateSize(
-  FeedUpdateRecord object,
+int _feedUpdateRecordModelEstimateSize(
+  FeedUpdateRecordModel object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -76,8 +95,8 @@ int _feedUpdateRecordEstimateSize(
   return bytesCount;
 }
 
-void _feedUpdateRecordSerialize(
-  FeedUpdateRecord object,
+void _feedUpdateRecordModelSerialize(
+  FeedUpdateRecordModel object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -86,25 +105,27 @@ void _feedUpdateRecordSerialize(
   writer.writeString(offsets[1], object.lastContentHash);
   writer.writeDateTime(offsets[2], object.lastItemPublishTime);
   writer.writeDateTime(offsets[3], object.lastUpdate);
+  writer.writeDateTime(offsets[4], object.updateTime);
 }
 
-FeedUpdateRecord _feedUpdateRecordDeserialize(
+FeedUpdateRecordModel _feedUpdateRecordModelDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = FeedUpdateRecord(
+  final object = FeedUpdateRecordModel(
     feedId: reader.readLong(offsets[0]),
     lastContentHash: reader.readString(offsets[1]),
     lastItemPublishTime: reader.readDateTimeOrNull(offsets[2]),
     lastUpdate: reader.readDateTime(offsets[3]),
+    updateTime: reader.readDateTime(offsets[4]),
   );
   object.id = id;
   return object;
 }
 
-P _feedUpdateRecordDeserializeProp<P>(
+P _feedUpdateRecordModelDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -119,30 +140,34 @@ P _feedUpdateRecordDeserializeProp<P>(
       return (reader.readDateTimeOrNull(offset)) as P;
     case 3:
       return (reader.readDateTime(offset)) as P;
+    case 4:
+      return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-Id _feedUpdateRecordGetId(FeedUpdateRecord object) {
+Id _feedUpdateRecordModelGetId(FeedUpdateRecordModel object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _feedUpdateRecordGetLinks(FeedUpdateRecord object) {
+List<IsarLinkBase<dynamic>> _feedUpdateRecordModelGetLinks(
+    FeedUpdateRecordModel object) {
   return [];
 }
 
-void _feedUpdateRecordAttach(
-    IsarCollection<dynamic> col, Id id, FeedUpdateRecord object) {
+void _feedUpdateRecordModelAttach(
+    IsarCollection<dynamic> col, Id id, FeedUpdateRecordModel object) {
   object.id = id;
 }
 
-extension FeedUpdateRecordByIndex on IsarCollection<FeedUpdateRecord> {
-  Future<FeedUpdateRecord?> getByFeedId(int feedId) {
+extension FeedUpdateRecordModelByIndex
+    on IsarCollection<FeedUpdateRecordModel> {
+  Future<FeedUpdateRecordModel?> getByFeedId(int feedId) {
     return getByIndex(r'feedId', [feedId]);
   }
 
-  FeedUpdateRecord? getByFeedIdSync(int feedId) {
+  FeedUpdateRecordModel? getByFeedIdSync(int feedId) {
     return getByIndexSync(r'feedId', [feedId]);
   }
 
@@ -154,12 +179,12 @@ extension FeedUpdateRecordByIndex on IsarCollection<FeedUpdateRecord> {
     return deleteByIndexSync(r'feedId', [feedId]);
   }
 
-  Future<List<FeedUpdateRecord?>> getAllByFeedId(List<int> feedIdValues) {
+  Future<List<FeedUpdateRecordModel?>> getAllByFeedId(List<int> feedIdValues) {
     final values = feedIdValues.map((e) => [e]).toList();
     return getAllByIndex(r'feedId', values);
   }
 
-  List<FeedUpdateRecord?> getAllByFeedIdSync(List<int> feedIdValues) {
+  List<FeedUpdateRecordModel?> getAllByFeedIdSync(List<int> feedIdValues) {
     final values = feedIdValues.map((e) => [e]).toList();
     return getAllByIndexSync(r'feedId', values);
   }
@@ -174,45 +199,56 @@ extension FeedUpdateRecordByIndex on IsarCollection<FeedUpdateRecord> {
     return deleteAllByIndexSync(r'feedId', values);
   }
 
-  Future<Id> putByFeedId(FeedUpdateRecord object) {
+  Future<Id> putByFeedId(FeedUpdateRecordModel object) {
     return putByIndex(r'feedId', object);
   }
 
-  Id putByFeedIdSync(FeedUpdateRecord object, {bool saveLinks = true}) {
+  Id putByFeedIdSync(FeedUpdateRecordModel object, {bool saveLinks = true}) {
     return putByIndexSync(r'feedId', object, saveLinks: saveLinks);
   }
 
-  Future<List<Id>> putAllByFeedId(List<FeedUpdateRecord> objects) {
+  Future<List<Id>> putAllByFeedId(List<FeedUpdateRecordModel> objects) {
     return putAllByIndex(r'feedId', objects);
   }
 
-  List<Id> putAllByFeedIdSync(List<FeedUpdateRecord> objects,
+  List<Id> putAllByFeedIdSync(List<FeedUpdateRecordModel> objects,
       {bool saveLinks = true}) {
     return putAllByIndexSync(r'feedId', objects, saveLinks: saveLinks);
   }
 }
 
-extension FeedUpdateRecordQueryWhereSort
-    on QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QWhere> {
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterWhere> anyId() {
+extension FeedUpdateRecordModelQueryWhereSort
+    on QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QWhere> {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhere>
+      anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterWhere> anyFeedId() {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhere>
+      anyFeedId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'feedId'),
       );
     });
   }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhere>
+      anyUpdateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'updateTime'),
+      );
+    });
+  }
 }
 
-extension FeedUpdateRecordQueryWhere
-    on QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QWhereClause> {
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterWhereClause> idEqualTo(
-      Id id) {
+extension FeedUpdateRecordModelQueryWhere on QueryBuilder<FeedUpdateRecordModel,
+    FeedUpdateRecordModel, QWhereClause> {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
+      idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -221,7 +257,7 @@ extension FeedUpdateRecordQueryWhere
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterWhereClause>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
       idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -244,7 +280,7 @@ extension FeedUpdateRecordQueryWhere
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterWhereClause>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
       idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -253,7 +289,7 @@ extension FeedUpdateRecordQueryWhere
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterWhereClause>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
       idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -262,7 +298,8 @@ extension FeedUpdateRecordQueryWhere
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterWhereClause> idBetween(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
+      idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -278,7 +315,7 @@ extension FeedUpdateRecordQueryWhere
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterWhereClause>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
       feedIdEqualTo(int feedId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
@@ -288,7 +325,7 @@ extension FeedUpdateRecordQueryWhere
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterWhereClause>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
       feedIdNotEqualTo(int feedId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -323,7 +360,7 @@ extension FeedUpdateRecordQueryWhere
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterWhereClause>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
       feedIdGreaterThan(
     int feedId, {
     bool include = false,
@@ -338,7 +375,7 @@ extension FeedUpdateRecordQueryWhere
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterWhereClause>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
       feedIdLessThan(
     int feedId, {
     bool include = false,
@@ -353,7 +390,7 @@ extension FeedUpdateRecordQueryWhere
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterWhereClause>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
       feedIdBetween(
     int lowerFeedId,
     int upperFeedId, {
@@ -370,12 +407,105 @@ extension FeedUpdateRecordQueryWhere
       ));
     });
   }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
+      updateTimeEqualTo(DateTime updateTime) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'updateTime',
+        value: [updateTime],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
+      updateTimeNotEqualTo(DateTime updateTime) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'updateTime',
+              lower: [],
+              upper: [updateTime],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'updateTime',
+              lower: [updateTime],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'updateTime',
+              lower: [updateTime],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'updateTime',
+              lower: [],
+              upper: [updateTime],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
+      updateTimeGreaterThan(
+    DateTime updateTime, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'updateTime',
+        lower: [updateTime],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
+      updateTimeLessThan(
+    DateTime updateTime, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'updateTime',
+        lower: [],
+        upper: [updateTime],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
+      updateTimeBetween(
+    DateTime lowerUpdateTime,
+    DateTime upperUpdateTime, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'updateTime',
+        lower: [lowerUpdateTime],
+        includeLower: includeLower,
+        upper: [upperUpdateTime],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
-extension FeedUpdateRecordQueryFilter
-    on QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QFilterCondition> {
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      feedIdEqualTo(int value) {
+extension FeedUpdateRecordModelQueryFilter on QueryBuilder<
+    FeedUpdateRecordModel, FeedUpdateRecordModel, QFilterCondition> {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> feedIdEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'feedId',
@@ -384,8 +514,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      feedIdGreaterThan(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> feedIdGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -398,8 +528,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      feedIdLessThan(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> feedIdLessThan(
     int value, {
     bool include = false,
   }) {
@@ -412,8 +542,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      feedIdBetween(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> feedIdBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -430,8 +560,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      idEqualTo(Id value) {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -440,8 +570,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      idGreaterThan(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -454,8 +584,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      idLessThan(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -468,8 +598,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      idBetween(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -486,8 +616,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastContentHashEqualTo(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastContentHashEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -500,8 +630,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastContentHashGreaterThan(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastContentHashGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -516,8 +646,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastContentHashLessThan(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastContentHashLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -532,8 +662,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastContentHashBetween(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastContentHashBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -552,8 +682,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastContentHashStartsWith(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastContentHashStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -566,8 +696,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastContentHashEndsWith(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastContentHashEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -580,7 +710,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+          QAfterFilterCondition>
       lastContentHashContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -591,7 +722,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+          QAfterFilterCondition>
       lastContentHashMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -602,8 +734,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastContentHashIsEmpty() {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastContentHashIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'lastContentHash',
@@ -612,8 +744,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastContentHashIsNotEmpty() {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastContentHashIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'lastContentHash',
@@ -622,8 +754,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastItemPublishTimeIsNull() {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastItemPublishTimeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'lastItemPublishTime',
@@ -631,8 +763,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastItemPublishTimeIsNotNull() {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastItemPublishTimeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'lastItemPublishTime',
@@ -640,8 +772,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastItemPublishTimeEqualTo(DateTime? value) {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastItemPublishTimeEqualTo(DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'lastItemPublishTime',
@@ -650,8 +782,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastItemPublishTimeGreaterThan(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastItemPublishTimeGreaterThan(
     DateTime? value, {
     bool include = false,
   }) {
@@ -664,8 +796,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastItemPublishTimeLessThan(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastItemPublishTimeLessThan(
     DateTime? value, {
     bool include = false,
   }) {
@@ -678,8 +810,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastItemPublishTimeBetween(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastItemPublishTimeBetween(
     DateTime? lower,
     DateTime? upper, {
     bool includeLower = true,
@@ -696,8 +828,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastUpdateEqualTo(DateTime value) {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastUpdateEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'lastUpdate',
@@ -706,8 +838,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastUpdateGreaterThan(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastUpdateGreaterThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -720,8 +852,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastUpdateLessThan(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastUpdateLessThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -734,8 +866,8 @@ extension FeedUpdateRecordQueryFilter
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterFilterCondition>
-      lastUpdateBetween(
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> lastUpdateBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -751,155 +883,240 @@ extension FeedUpdateRecordQueryFilter
       ));
     });
   }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> updateTimeEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'updateTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> updateTimeGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'updateTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> updateTimeLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'updateTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> updateTimeBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'updateTime',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
-extension FeedUpdateRecordQueryObject
-    on QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QFilterCondition> {}
+extension FeedUpdateRecordModelQueryObject on QueryBuilder<
+    FeedUpdateRecordModel, FeedUpdateRecordModel, QFilterCondition> {}
 
-extension FeedUpdateRecordQueryLinks
-    on QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QFilterCondition> {}
+extension FeedUpdateRecordModelQueryLinks on QueryBuilder<FeedUpdateRecordModel,
+    FeedUpdateRecordModel, QFilterCondition> {}
 
-extension FeedUpdateRecordQuerySortBy
-    on QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QSortBy> {
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+extension FeedUpdateRecordModelQuerySortBy
+    on QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QSortBy> {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       sortByFeedId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'feedId', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       sortByFeedIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'feedId', Sort.desc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       sortByLastContentHash() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastContentHash', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       sortByLastContentHashDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastContentHash', Sort.desc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       sortByLastItemPublishTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastItemPublishTime', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       sortByLastItemPublishTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastItemPublishTime', Sort.desc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       sortByLastUpdate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastUpdate', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       sortByLastUpdateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastUpdate', Sort.desc);
     });
   }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
+      sortByUpdateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updateTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
+      sortByUpdateTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updateTime', Sort.desc);
+    });
+  }
 }
 
-extension FeedUpdateRecordQuerySortThenBy
-    on QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QSortThenBy> {
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+extension FeedUpdateRecordModelQuerySortThenBy
+    on QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QSortThenBy> {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       thenByFeedId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'feedId', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       thenByFeedIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'feedId', Sort.desc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy> thenById() {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
+      thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       thenByLastContentHash() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastContentHash', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       thenByLastContentHashDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastContentHash', Sort.desc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       thenByLastItemPublishTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastItemPublishTime', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       thenByLastItemPublishTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastItemPublishTime', Sort.desc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       thenByLastUpdate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastUpdate', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QAfterSortBy>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       thenByLastUpdateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastUpdate', Sort.desc);
     });
   }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
+      thenByUpdateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updateTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
+      thenByUpdateTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updateTime', Sort.desc);
+    });
+  }
 }
 
-extension FeedUpdateRecordQueryWhereDistinct
-    on QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QDistinct> {
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QDistinct>
+extension FeedUpdateRecordModelQueryWhereDistinct
+    on QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QDistinct> {
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QDistinct>
       distinctByFeedId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'feedId');
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QDistinct>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QDistinct>
       distinctByLastContentHash({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastContentHash',
@@ -907,53 +1124,67 @@ extension FeedUpdateRecordQueryWhereDistinct
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QDistinct>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QDistinct>
       distinctByLastItemPublishTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastItemPublishTime');
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QDistinct>
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QDistinct>
       distinctByLastUpdate() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastUpdate');
     });
   }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QDistinct>
+      distinctByUpdateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'updateTime');
+    });
+  }
 }
 
-extension FeedUpdateRecordQueryProperty
-    on QueryBuilder<FeedUpdateRecord, FeedUpdateRecord, QQueryProperty> {
-  QueryBuilder<FeedUpdateRecord, int, QQueryOperations> idProperty() {
+extension FeedUpdateRecordModelQueryProperty on QueryBuilder<
+    FeedUpdateRecordModel, FeedUpdateRecordModel, QQueryProperty> {
+  QueryBuilder<FeedUpdateRecordModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, int, QQueryOperations> feedIdProperty() {
+  QueryBuilder<FeedUpdateRecordModel, int, QQueryOperations> feedIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'feedId');
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, String, QQueryOperations>
+  QueryBuilder<FeedUpdateRecordModel, String, QQueryOperations>
       lastContentHashProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastContentHash');
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, DateTime?, QQueryOperations>
+  QueryBuilder<FeedUpdateRecordModel, DateTime?, QQueryOperations>
       lastItemPublishTimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastItemPublishTime');
     });
   }
 
-  QueryBuilder<FeedUpdateRecord, DateTime, QQueryOperations>
+  QueryBuilder<FeedUpdateRecordModel, DateTime, QQueryOperations>
       lastUpdateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastUpdate');
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, DateTime, QQueryOperations>
+      updateTimeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'updateTime');
     });
   }
 }

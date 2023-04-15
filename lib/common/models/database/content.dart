@@ -7,7 +7,7 @@ enum ContentType {
 }
 
 @collection
-class Content {
+class ContentModel {
   Id id = Isar.autoIncrement;
 
   @enumerated
@@ -20,7 +20,7 @@ class Content {
 
   int feedItemId;
 
-  Content(
+  ContentModel(
       {required this.type,
       required this.uri,
       required this.content,

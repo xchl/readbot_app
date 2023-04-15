@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:feed_inbox_app/common/models/database/feed_update_record.dart';
+import 'package:feed_inbox_app/common/models/proto/model.pb.dart' as pb_model;
 import 'package:flutter/foundation.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart' hide Storage;
 import 'package:get/get.dart';
 import 'package:tuple/tuple.dart';
 import 'package:webfeed/util/function.dart';
@@ -17,37 +17,62 @@ import 'package:xml/xml.dart';
 class FeedService extends GetxService {
   static FeedService get to => Get.find();
 
-  List<FeedItem> _parseRssItem(Feed feed, List<RssItem>? items) {
+  List<FeedItemModel> _parseRssItem(FeedModel feed, List<RssItem>? items) {
     return items != null
-        ? items.map((item) => FeedItem.fromRssItem(item, feed)).toList()
+        ? items.map((item) => FeedItemModel.fromRssItem(item, feed)).toList()
         : [];
+  }
+
+  // sync pull from server
+  Future<void> syncPull() async {
+    var syncTimestampString = Storage().getString(Constants.syncTimeStamp);
+    var contentPullRequest = ContentPullRequest();
+    contentPullRequest.syncTimestamp = pb_model.SyncTimestamp()
+      ..mergeFromProto3Json(syncTimestampString != ''
+          ? jsonDecode(syncTimestampString)
+          : pb_model.SyncTimestamp());
+
+    ContentPullResponse contentPullResponse =
+        await ContentSyncApi.pull(contentPullRequest);
+
+    await DatabaseManager().syncSave(
+      toFeedModelList(contentPullResponse.feeds),
+      toFeedItemModelList(contentPullResponse.feedItems),
+      toFeedGroupModelList(contentPullResponse.feedGroups),
+      toFeedUpdateRecordModelList(contentPullResponse.feedUpdateRecords),
+    );
   }
 
   // parse Atom item
-  List<FeedItem> _parseAtomItem(Feed feed, List<AtomItem>? items) {
+  List<FeedItemModel> _parseAtomItem(FeedModel feed, List<AtomItem>? items) {
     return items != null
-        ? items.map((item) => FeedItem.fromAtomItem(item, feed)).toList()
+        ? items.map((item) => FeedItemModel.fromAtomItem(item, feed)).toList()
         : [];
   }
 
-  Tuple2<Feed, List<FeedItem>> _parseFeed(String xml, String url) {
+  Tuple2<FeedModel, List<FeedItemModel>> _parseFeed(String xml, String url) {
     var feedType = getFeedType(xml);
     if (feedType == FeedType.Rss) {
       var feedRaw = RssFeed.parse(xml);
-      var feed = Feed.fromRssFeed(feedRaw, url, FeedType.Rss);
+      var feed = FeedModel.fromRssFeed(feedRaw, url, FeedType.Rss);
       var feedItems = _parseRssItem(feed, feedRaw.items);
       return Tuple2(feed, feedItems);
     } else if (feedType == FeedType.Atom) {
       var feedRaw = AtomFeed.parse(xml);
-      var feed = Feed.fromAtomFeed(feedRaw, url, FeedType.Atom);
+      var feed = FeedModel.fromAtomFeed(feedRaw, url, FeedType.Atom);
       var feedItems = _parseAtomItem(feed, feedRaw.items);
       return Tuple2(feed, feedItems);
     }
     // TODO Error handle
-    return Tuple2(Feed(url, type: FeedType.Unknown), []);
+    return Tuple2(
+        FeedModel(url,
+            type: FeedType.Unknown,
+            createTime: DateTime.now(),
+            updateTime: DateTime.now()),
+        []);
   }
 
-  static List<FeedItem> parseCover(List<FeedItem> items) {
+  static List<FeedItemModel> parseCover(List<FeedItemModel> items) {
     return items.map((item) {
       if (item.description == null) {
         return item;
@@ -71,7 +96,7 @@ class FeedService extends GetxService {
     return doc.pureHtml;
   }
 
-  Future<void> downloadHtml(List<FeedItem> feedItems) async {
+  Future<void> downloadHtml(List<FeedItemModel> feedItems) async {
     if (feedItems.isEmpty) return;
     int idx = 0;
     var headlessWebView = HeadlessInAppWebView(
@@ -84,7 +109,7 @@ class FeedService extends GetxService {
 
         String pureContent = await compute(extractReadableContent, htmlContent);
 
-        var content = Content(
+        var content = ContentModel(
             type: ContentType.html,
             content: pureContent,
             uri: url.toString(),
@@ -104,7 +129,8 @@ class FeedService extends GetxService {
     debugPrint("Download Stop! ${feedItems.length} Page");
   }
 
-  Future<Tuple2<Feed, List<FeedItem>>?> _fetchFeedFromUrl(String url) async {
+  Future<Tuple2<FeedModel, List<FeedItemModel>>?> _fetchFeedFromUrl(
+      String url) async {
     String? xml = await HttpService.request(url);
     if (xml == null) {
       return null;
@@ -113,7 +139,8 @@ class FeedService extends GetxService {
   }
 
   Future<void> addFeedFromUrl(String url) async {
-    Tuple2<Feed, List<FeedItem>>? result = await _fetchFeedFromUrl(url);
+    Tuple2<FeedModel, List<FeedItemModel>>? result =
+        await _fetchFeedFromUrl(url);
     if (result == null) {
       return;
     }
@@ -122,7 +149,7 @@ class FeedService extends GetxService {
     downloadHtml(feedItems);
   }
 
-  Feed? handleSingleOutline(XmlElement outline) {
+  FeedModel? handleSingleOutline(XmlElement outline) {
     List<XmlElement> childOutlines = outline.findElements('outline').toList();
     if (childOutlines.isNotEmpty) {
       return null;
@@ -134,8 +161,11 @@ class FeedService extends GetxService {
     if (feedHtmlUrl == null) {
       return null;
     }
-    return Feed(feedHtmlUrl,
-        customName: feedName, customDescription: feedDescription);
+    return FeedModel(feedHtmlUrl,
+        customName: feedName,
+        customDescription: feedDescription,
+        updateTime: DateTime.now(),
+        createTime: DateTime.now());
   }
 
   Future<void> importFeedFromOpml(String opmlContent) async {
@@ -143,7 +173,7 @@ class FeedService extends GetxService {
     XmlElement opmlElement = document.findElements('opml').first;
     XmlElement bodyElement = opmlElement.findElements('body').first;
 
-    var feeds = <Feed>[];
+    var feeds = <FeedModel>[];
 
     for (var outline in bodyElement.findElements('outline')) {
       List<XmlElement> childOutlines = outline.findElements('outline').toList();
@@ -151,7 +181,11 @@ class FeedService extends GetxService {
         // create feed group
         var groupTitle = outline.getAttribute('title');
         var groupText = outline.getAttribute('text');
-        var group = FeedGroup(name: groupTitle, description: groupText);
+        var group = FeedGroupModel(
+          name: groupTitle,
+          description: groupText,
+          updateTime: DateTime.now(),
+        );
         await DatabaseManager().insertGroup(group);
 
         // for each child outline, add feed
@@ -173,9 +207,9 @@ class FeedService extends GetxService {
     await fetchFeeds(feeds);
   }
 
-  Future<void> fetchFeeds(List<Feed> feeds) async {
+  Future<void> fetchFeeds(List<FeedModel> feeds) async {
     var feedIds = feeds.map((feed) => feed.id).toList();
-    List<FeedUpdateRecord?> feedLastUpdateRecords =
+    List<FeedUpdateRecordModel?> feedLastUpdateRecords =
         await DatabaseManager().getFeedLastUpdateRecord(feedIds);
 
     var feedsNeedUpdate = <int>[];
@@ -212,7 +246,7 @@ class FeedService extends GetxService {
           ? parseFeedItems(content, feed)
           : parseFeedItemsAndUpdateFeed(content, feed);
 
-      var feedItemsNeedInsert = <FeedItem>[];
+      var feedItemsNeedInsert = <FeedItemModel>[];
       // if the pulish time of feed item is before last update time, feed item don't need to insert
       // if the pulish time of feed item is null, feed item need to insert
       // if there is no publish time in last update record, feed item need to insert
@@ -237,9 +271,10 @@ class FeedService extends GetxService {
         continue;
       }
 
-      var newUpdateRecord = FeedUpdateRecord(
+      var newUpdateRecord = FeedUpdateRecordModel(
           feedId: feed.id,
           lastUpdate: DateTime.now(),
+          updateTime: DateTime.now(),
           lastContentHash: hash,
           lastItemPublishTime: newLastItemPublishTime);
       feedItemsNeedInsert = parseCover(feedItemsNeedInsert);
@@ -250,7 +285,7 @@ class FeedService extends GetxService {
   }
 
   // parse feed items from feed content
-  List<FeedItem> parseFeedItems(String content, Feed feed) {
+  List<FeedItemModel> parseFeedItems(String content, FeedModel feed) {
     switch (feed.type) {
       case FeedType.Atom:
         var feedRaw = AtomFeed.parse(content);
@@ -263,7 +298,8 @@ class FeedService extends GetxService {
     }
   }
 
-  List<FeedItem> parseFeedItemsAndUpdateFeed(String content, Feed feed) {
+  List<FeedItemModel> parseFeedItemsAndUpdateFeed(
+      String content, FeedModel feed) {
     var feedType = getFeedType(content);
     if (feedType == FeedType.Rss) {
       var feedRaw = RssFeed.parse(content);

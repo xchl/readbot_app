@@ -9,13 +9,13 @@ part of 'feed_group.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-extension GetFeedGroupCollection on Isar {
-  IsarCollection<FeedGroup> get feedGroups => this.collection();
+extension GetFeedGroupModelCollection on Isar {
+  IsarCollection<FeedGroupModel> get feedGroupModels => this.collection();
 }
 
-const FeedGroupSchema = CollectionSchema(
-  name: r'FeedGroup',
-  id: 4402445768558669849,
+const FeedGroupModelSchema = CollectionSchema(
+  name: r'FeedGroupModel',
+  id: -8141242705617905129,
   properties: {
     r'description': PropertySchema(
       id: 0,
@@ -26,12 +26,17 @@ const FeedGroupSchema = CollectionSchema(
       id: 1,
       name: r'name',
       type: IsarType.string,
+    ),
+    r'updateTime': PropertySchema(
+      id: 2,
+      name: r'updateTime',
+      type: IsarType.dateTime,
     )
   },
-  estimateSize: _feedGroupEstimateSize,
-  serialize: _feedGroupSerialize,
-  deserialize: _feedGroupDeserialize,
-  deserializeProp: _feedGroupDeserializeProp,
+  estimateSize: _feedGroupModelEstimateSize,
+  serialize: _feedGroupModelSerialize,
+  deserialize: _feedGroupModelDeserialize,
+  deserializeProp: _feedGroupModelDeserializeProp,
   idName: r'id',
   indexes: {
     r'name': IndexSchema(
@@ -50,14 +55,14 @@ const FeedGroupSchema = CollectionSchema(
   },
   links: {},
   embeddedSchemas: {},
-  getId: _feedGroupGetId,
-  getLinks: _feedGroupGetLinks,
-  attach: _feedGroupAttach,
+  getId: _feedGroupModelGetId,
+  getLinks: _feedGroupModelGetLinks,
+  attach: _feedGroupModelAttach,
   version: '3.0.5',
 );
 
-int _feedGroupEstimateSize(
-  FeedGroup object,
+int _feedGroupModelEstimateSize(
+  FeedGroupModel object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -77,31 +82,33 @@ int _feedGroupEstimateSize(
   return bytesCount;
 }
 
-void _feedGroupSerialize(
-  FeedGroup object,
+void _feedGroupModelSerialize(
+  FeedGroupModel object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.description);
   writer.writeString(offsets[1], object.name);
+  writer.writeDateTime(offsets[2], object.updateTime);
 }
 
-FeedGroup _feedGroupDeserialize(
+FeedGroupModel _feedGroupModelDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = FeedGroup(
+  final object = FeedGroupModel(
     description: reader.readStringOrNull(offsets[0]),
     name: reader.readStringOrNull(offsets[1]),
+    updateTime: reader.readDateTime(offsets[2]),
   );
   object.id = id;
   return object;
 }
 
-P _feedGroupDeserializeProp<P>(
+P _feedGroupModelDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -112,29 +119,32 @@ P _feedGroupDeserializeProp<P>(
       return (reader.readStringOrNull(offset)) as P;
     case 1:
       return (reader.readStringOrNull(offset)) as P;
+    case 2:
+      return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-Id _feedGroupGetId(FeedGroup object) {
+Id _feedGroupModelGetId(FeedGroupModel object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _feedGroupGetLinks(FeedGroup object) {
+List<IsarLinkBase<dynamic>> _feedGroupModelGetLinks(FeedGroupModel object) {
   return [];
 }
 
-void _feedGroupAttach(IsarCollection<dynamic> col, Id id, FeedGroup object) {
+void _feedGroupModelAttach(
+    IsarCollection<dynamic> col, Id id, FeedGroupModel object) {
   object.id = id;
 }
 
-extension FeedGroupByIndex on IsarCollection<FeedGroup> {
-  Future<FeedGroup?> getByName(String? name) {
+extension FeedGroupModelByIndex on IsarCollection<FeedGroupModel> {
+  Future<FeedGroupModel?> getByName(String? name) {
     return getByIndex(r'name', [name]);
   }
 
-  FeedGroup? getByNameSync(String? name) {
+  FeedGroupModel? getByNameSync(String? name) {
     return getByIndexSync(r'name', [name]);
   }
 
@@ -146,12 +156,12 @@ extension FeedGroupByIndex on IsarCollection<FeedGroup> {
     return deleteByIndexSync(r'name', [name]);
   }
 
-  Future<List<FeedGroup?>> getAllByName(List<String?> nameValues) {
+  Future<List<FeedGroupModel?>> getAllByName(List<String?> nameValues) {
     final values = nameValues.map((e) => [e]).toList();
     return getAllByIndex(r'name', values);
   }
 
-  List<FeedGroup?> getAllByNameSync(List<String?> nameValues) {
+  List<FeedGroupModel?> getAllByNameSync(List<String?> nameValues) {
     final values = nameValues.map((e) => [e]).toList();
     return getAllByIndexSync(r'name', values);
   }
@@ -166,35 +176,37 @@ extension FeedGroupByIndex on IsarCollection<FeedGroup> {
     return deleteAllByIndexSync(r'name', values);
   }
 
-  Future<Id> putByName(FeedGroup object) {
+  Future<Id> putByName(FeedGroupModel object) {
     return putByIndex(r'name', object);
   }
 
-  Id putByNameSync(FeedGroup object, {bool saveLinks = true}) {
+  Id putByNameSync(FeedGroupModel object, {bool saveLinks = true}) {
     return putByIndexSync(r'name', object, saveLinks: saveLinks);
   }
 
-  Future<List<Id>> putAllByName(List<FeedGroup> objects) {
+  Future<List<Id>> putAllByName(List<FeedGroupModel> objects) {
     return putAllByIndex(r'name', objects);
   }
 
-  List<Id> putAllByNameSync(List<FeedGroup> objects, {bool saveLinks = true}) {
+  List<Id> putAllByNameSync(List<FeedGroupModel> objects,
+      {bool saveLinks = true}) {
     return putAllByIndexSync(r'name', objects, saveLinks: saveLinks);
   }
 }
 
-extension FeedGroupQueryWhereSort
-    on QueryBuilder<FeedGroup, FeedGroup, QWhere> {
-  QueryBuilder<FeedGroup, FeedGroup, QAfterWhere> anyId() {
+extension FeedGroupModelQueryWhereSort
+    on QueryBuilder<FeedGroupModel, FeedGroupModel, QWhere> {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension FeedGroupQueryWhere
-    on QueryBuilder<FeedGroup, FeedGroup, QWhereClause> {
-  QueryBuilder<FeedGroup, FeedGroup, QAfterWhereClause> idEqualTo(Id id) {
+extension FeedGroupModelQueryWhere
+    on QueryBuilder<FeedGroupModel, FeedGroupModel, QWhereClause> {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhereClause> idEqualTo(
+      Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -203,7 +215,8 @@ extension FeedGroupQueryWhere
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhereClause> idNotEqualTo(
+      Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -225,7 +238,8 @@ extension FeedGroupQueryWhere
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhereClause> idGreaterThan(
+      Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -234,7 +248,8 @@ extension FeedGroupQueryWhere
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhereClause> idLessThan(
+      Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -243,7 +258,7 @@ extension FeedGroupQueryWhere
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterWhereClause> idBetween(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -259,7 +274,7 @@ extension FeedGroupQueryWhere
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterWhereClause> nameIsNull() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhereClause> nameIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'name',
@@ -268,7 +283,8 @@ extension FeedGroupQueryWhere
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterWhereClause> nameIsNotNull() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhereClause>
+      nameIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
         indexName: r'name',
@@ -279,7 +295,7 @@ extension FeedGroupQueryWhere
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterWhereClause> nameEqualTo(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhereClause> nameEqualTo(
       String? name) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
@@ -289,8 +305,8 @@ extension FeedGroupQueryWhere
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterWhereClause> nameNotEqualTo(
-      String? name) {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhereClause>
+      nameNotEqualTo(String? name) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -325,9 +341,9 @@ extension FeedGroupQueryWhere
   }
 }
 
-extension FeedGroupQueryFilter
-    on QueryBuilder<FeedGroup, FeedGroup, QFilterCondition> {
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition>
+extension FeedGroupModelQueryFilter
+    on QueryBuilder<FeedGroupModel, FeedGroupModel, QFilterCondition> {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
       descriptionIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -336,7 +352,7 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition>
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
       descriptionIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -345,7 +361,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> descriptionEqualTo(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      descriptionEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -358,7 +375,7 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition>
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
       descriptionGreaterThan(
     String? value, {
     bool include = false,
@@ -374,7 +391,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> descriptionLessThan(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      descriptionLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -389,7 +407,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> descriptionBetween(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      descriptionBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -408,7 +427,7 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition>
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
       descriptionStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -422,7 +441,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> descriptionEndsWith(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      descriptionEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -435,9 +455,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> descriptionContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      descriptionContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'description',
@@ -447,9 +466,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> descriptionMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      descriptionMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'description',
@@ -459,7 +477,7 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition>
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
       descriptionIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -469,7 +487,7 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition>
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
       descriptionIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -479,7 +497,7 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> idEqualTo(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -489,7 +507,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -502,7 +521,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> idLessThan(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -515,7 +535,7 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> idBetween(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -532,7 +552,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> nameIsNull() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      nameIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'name',
@@ -540,7 +561,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> nameIsNotNull() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      nameIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'name',
@@ -548,7 +570,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> nameEqualTo(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      nameEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -561,7 +584,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> nameGreaterThan(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      nameGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -576,7 +600,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> nameLessThan(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      nameLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -591,7 +616,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> nameBetween(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      nameBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -610,7 +636,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> nameStartsWith(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      nameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -623,7 +650,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> nameEndsWith(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      nameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -636,9 +664,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> nameContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      nameContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'name',
@@ -648,9 +675,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> nameMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      nameMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'name',
@@ -660,7 +686,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> nameIsEmpty() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      nameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'name',
@@ -669,7 +696,8 @@ extension FeedGroupQueryFilter
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterFilterCondition> nameIsNotEmpty() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      nameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'name',
@@ -677,113 +705,217 @@ extension FeedGroupQueryFilter
       ));
     });
   }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      updateTimeEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'updateTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      updateTimeGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'updateTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      updateTimeLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'updateTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      updateTimeBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'updateTime',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
-extension FeedGroupQueryObject
-    on QueryBuilder<FeedGroup, FeedGroup, QFilterCondition> {}
+extension FeedGroupModelQueryObject
+    on QueryBuilder<FeedGroupModel, FeedGroupModel, QFilterCondition> {}
 
-extension FeedGroupQueryLinks
-    on QueryBuilder<FeedGroup, FeedGroup, QFilterCondition> {}
+extension FeedGroupModelQueryLinks
+    on QueryBuilder<FeedGroupModel, FeedGroupModel, QFilterCondition> {}
 
-extension FeedGroupQuerySortBy on QueryBuilder<FeedGroup, FeedGroup, QSortBy> {
-  QueryBuilder<FeedGroup, FeedGroup, QAfterSortBy> sortByDescription() {
+extension FeedGroupModelQuerySortBy
+    on QueryBuilder<FeedGroupModel, FeedGroupModel, QSortBy> {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy>
+      sortByDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterSortBy> sortByDescriptionDesc() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy>
+      sortByDescriptionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.desc);
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterSortBy> sortByName() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterSortBy> sortByNameDesc() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> sortByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy>
+      sortByUpdateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updateTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy>
+      sortByUpdateTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updateTime', Sort.desc);
+    });
+  }
 }
 
-extension FeedGroupQuerySortThenBy
-    on QueryBuilder<FeedGroup, FeedGroup, QSortThenBy> {
-  QueryBuilder<FeedGroup, FeedGroup, QAfterSortBy> thenByDescription() {
+extension FeedGroupModelQuerySortThenBy
+    on QueryBuilder<FeedGroupModel, FeedGroupModel, QSortThenBy> {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy>
+      thenByDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterSortBy> thenByDescriptionDesc() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy>
+      thenByDescriptionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.desc);
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterSortBy> thenById() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterSortBy> thenByName() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QAfterSortBy> thenByNameDesc() {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> thenByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy>
+      thenByUpdateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updateTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy>
+      thenByUpdateTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updateTime', Sort.desc);
+    });
+  }
 }
 
-extension FeedGroupQueryWhereDistinct
-    on QueryBuilder<FeedGroup, FeedGroup, QDistinct> {
-  QueryBuilder<FeedGroup, FeedGroup, QDistinct> distinctByDescription(
+extension FeedGroupModelQueryWhereDistinct
+    on QueryBuilder<FeedGroupModel, FeedGroupModel, QDistinct> {
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QDistinct> distinctByDescription(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<FeedGroup, FeedGroup, QDistinct> distinctByName(
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
     });
   }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QDistinct>
+      distinctByUpdateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'updateTime');
+    });
+  }
 }
 
-extension FeedGroupQueryProperty
-    on QueryBuilder<FeedGroup, FeedGroup, QQueryProperty> {
-  QueryBuilder<FeedGroup, int, QQueryOperations> idProperty() {
+extension FeedGroupModelQueryProperty
+    on QueryBuilder<FeedGroupModel, FeedGroupModel, QQueryProperty> {
+  QueryBuilder<FeedGroupModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<FeedGroup, String?, QQueryOperations> descriptionProperty() {
+  QueryBuilder<FeedGroupModel, String?, QQueryOperations>
+      descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
     });
   }
 
-  QueryBuilder<FeedGroup, String?, QQueryOperations> nameProperty() {
+  QueryBuilder<FeedGroupModel, String?, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, DateTime, QQueryOperations>
+      updateTimeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'updateTime');
     });
   }
 }

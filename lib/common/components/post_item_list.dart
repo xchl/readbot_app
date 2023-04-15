@@ -5,12 +5,12 @@ import 'package:intl/intl.dart';
 
 /// 功能栏项
 class PostItemListWidget extends StatelessWidget {
-  final FeedItem feedItem;
+  final FeedItemModel feedItem;
+  final FeedModel feed;
 
-  const PostItemListWidget({
-    Key? key,
-    required this.feedItem,
-  }) : super(key: key);
+  const PostItemListWidget(
+      {Key? key, required this.feedItem, required this.feed})
+      : super(key: key);
 
   Widget _buildImageBlock() {
     return ImageWidget.url(feedItem.cover!);
@@ -29,7 +29,7 @@ class PostItemListWidget extends StatelessWidget {
 
   Widget _buildDescriptionBlock() {
     return <Widget>[
-      TextWidget.body2(feedItem.feed.value!.name!), // todo
+      TextWidget.body2(feed.title),
       TextWidget.body2(DateFormat("M/d").format(feedItem.publishTime!))
           .paddingLeft(5.w)
     ].toRow();

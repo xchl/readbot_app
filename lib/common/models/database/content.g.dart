@@ -9,13 +9,13 @@ part of 'content.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-extension GetContentCollection on Isar {
-  IsarCollection<Content> get contents => this.collection();
+extension GetContentModelCollection on Isar {
+  IsarCollection<ContentModel> get contentModels => this.collection();
 }
 
-const ContentSchema = CollectionSchema(
-  name: r'Content',
-  id: 2749874844035024652,
+const ContentModelSchema = CollectionSchema(
+  name: r'ContentModel',
+  id: -1562986863270883678,
   properties: {
     r'content': PropertySchema(
       id: 0,
@@ -31,7 +31,7 @@ const ContentSchema = CollectionSchema(
       id: 2,
       name: r'type',
       type: IsarType.byte,
-      enumMap: _ContenttypeEnumValueMap,
+      enumMap: _ContentModeltypeEnumValueMap,
     ),
     r'uri': PropertySchema(
       id: 3,
@@ -39,10 +39,10 @@ const ContentSchema = CollectionSchema(
       type: IsarType.string,
     )
   },
-  estimateSize: _contentEstimateSize,
-  serialize: _contentSerialize,
-  deserialize: _contentDeserialize,
-  deserializeProp: _contentDeserializeProp,
+  estimateSize: _contentModelEstimateSize,
+  serialize: _contentModelSerialize,
+  deserialize: _contentModelDeserialize,
+  deserializeProp: _contentModelDeserializeProp,
   idName: r'id',
   indexes: {
     r'uri': IndexSchema(
@@ -61,14 +61,14 @@ const ContentSchema = CollectionSchema(
   },
   links: {},
   embeddedSchemas: {},
-  getId: _contentGetId,
-  getLinks: _contentGetLinks,
-  attach: _contentAttach,
+  getId: _contentModelGetId,
+  getLinks: _contentModelGetLinks,
+  attach: _contentModelAttach,
   version: '3.0.5',
 );
 
-int _contentEstimateSize(
-  Content object,
+int _contentModelEstimateSize(
+  ContentModel object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -78,8 +78,8 @@ int _contentEstimateSize(
   return bytesCount;
 }
 
-void _contentSerialize(
-  Content object,
+void _contentModelSerialize(
+  ContentModel object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -90,16 +90,16 @@ void _contentSerialize(
   writer.writeString(offsets[3], object.uri);
 }
 
-Content _contentDeserialize(
+ContentModel _contentModelDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Content(
+  final object = ContentModel(
     content: reader.readString(offsets[0]),
     feedItemId: reader.readLong(offsets[1]),
-    type: _ContenttypeValueEnumMap[reader.readByteOrNull(offsets[2])] ??
+    type: _ContentModeltypeValueEnumMap[reader.readByteOrNull(offsets[2])] ??
         ContentType.html,
     uri: reader.readString(offsets[3]),
   );
@@ -107,7 +107,7 @@ Content _contentDeserialize(
   return object;
 }
 
-P _contentDeserializeProp<P>(
+P _contentModelDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -119,7 +119,7 @@ P _contentDeserializeProp<P>(
     case 1:
       return (reader.readLong(offset)) as P;
     case 2:
-      return (_ContenttypeValueEnumMap[reader.readByteOrNull(offset)] ??
+      return (_ContentModeltypeValueEnumMap[reader.readByteOrNull(offset)] ??
           ContentType.html) as P;
     case 3:
       return (reader.readString(offset)) as P;
@@ -128,31 +128,32 @@ P _contentDeserializeProp<P>(
   }
 }
 
-const _ContenttypeEnumValueMap = {
+const _ContentModeltypeEnumValueMap = {
   'html': 0,
 };
-const _ContenttypeValueEnumMap = {
+const _ContentModeltypeValueEnumMap = {
   0: ContentType.html,
 };
 
-Id _contentGetId(Content object) {
+Id _contentModelGetId(ContentModel object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _contentGetLinks(Content object) {
+List<IsarLinkBase<dynamic>> _contentModelGetLinks(ContentModel object) {
   return [];
 }
 
-void _contentAttach(IsarCollection<dynamic> col, Id id, Content object) {
+void _contentModelAttach(
+    IsarCollection<dynamic> col, Id id, ContentModel object) {
   object.id = id;
 }
 
-extension ContentByIndex on IsarCollection<Content> {
-  Future<Content?> getByUri(String uri) {
+extension ContentModelByIndex on IsarCollection<ContentModel> {
+  Future<ContentModel?> getByUri(String uri) {
     return getByIndex(r'uri', [uri]);
   }
 
-  Content? getByUriSync(String uri) {
+  ContentModel? getByUriSync(String uri) {
     return getByIndexSync(r'uri', [uri]);
   }
 
@@ -164,12 +165,12 @@ extension ContentByIndex on IsarCollection<Content> {
     return deleteByIndexSync(r'uri', [uri]);
   }
 
-  Future<List<Content?>> getAllByUri(List<String> uriValues) {
+  Future<List<ContentModel?>> getAllByUri(List<String> uriValues) {
     final values = uriValues.map((e) => [e]).toList();
     return getAllByIndex(r'uri', values);
   }
 
-  List<Content?> getAllByUriSync(List<String> uriValues) {
+  List<ContentModel?> getAllByUriSync(List<String> uriValues) {
     final values = uriValues.map((e) => [e]).toList();
     return getAllByIndexSync(r'uri', values);
   }
@@ -184,33 +185,36 @@ extension ContentByIndex on IsarCollection<Content> {
     return deleteAllByIndexSync(r'uri', values);
   }
 
-  Future<Id> putByUri(Content object) {
+  Future<Id> putByUri(ContentModel object) {
     return putByIndex(r'uri', object);
   }
 
-  Id putByUriSync(Content object, {bool saveLinks = true}) {
+  Id putByUriSync(ContentModel object, {bool saveLinks = true}) {
     return putByIndexSync(r'uri', object, saveLinks: saveLinks);
   }
 
-  Future<List<Id>> putAllByUri(List<Content> objects) {
+  Future<List<Id>> putAllByUri(List<ContentModel> objects) {
     return putAllByIndex(r'uri', objects);
   }
 
-  List<Id> putAllByUriSync(List<Content> objects, {bool saveLinks = true}) {
+  List<Id> putAllByUriSync(List<ContentModel> objects,
+      {bool saveLinks = true}) {
     return putAllByIndexSync(r'uri', objects, saveLinks: saveLinks);
   }
 }
 
-extension ContentQueryWhereSort on QueryBuilder<Content, Content, QWhere> {
-  QueryBuilder<Content, Content, QAfterWhere> anyId() {
+extension ContentModelQueryWhereSort
+    on QueryBuilder<ContentModel, ContentModel, QWhere> {
+  QueryBuilder<ContentModel, ContentModel, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension ContentQueryWhere on QueryBuilder<Content, Content, QWhereClause> {
-  QueryBuilder<Content, Content, QAfterWhereClause> idEqualTo(Id id) {
+extension ContentModelQueryWhere
+    on QueryBuilder<ContentModel, ContentModel, QWhereClause> {
+  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -219,7 +223,8 @@ extension ContentQueryWhere on QueryBuilder<Content, Content, QWhereClause> {
     });
   }
 
-  QueryBuilder<Content, Content, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause> idNotEqualTo(
+      Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -241,7 +246,8 @@ extension ContentQueryWhere on QueryBuilder<Content, Content, QWhereClause> {
     });
   }
 
-  QueryBuilder<Content, Content, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause> idGreaterThan(
+      Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -250,7 +256,7 @@ extension ContentQueryWhere on QueryBuilder<Content, Content, QWhereClause> {
     });
   }
 
-  QueryBuilder<Content, Content, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -259,7 +265,7 @@ extension ContentQueryWhere on QueryBuilder<Content, Content, QWhereClause> {
     });
   }
 
-  QueryBuilder<Content, Content, QAfterWhereClause> idBetween(
+  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -275,7 +281,8 @@ extension ContentQueryWhere on QueryBuilder<Content, Content, QWhereClause> {
     });
   }
 
-  QueryBuilder<Content, Content, QAfterWhereClause> uriEqualTo(String uri) {
+  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause> uriEqualTo(
+      String uri) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'uri',
@@ -284,7 +291,8 @@ extension ContentQueryWhere on QueryBuilder<Content, Content, QWhereClause> {
     });
   }
 
-  QueryBuilder<Content, Content, QAfterWhereClause> uriNotEqualTo(String uri) {
+  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause> uriNotEqualTo(
+      String uri) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -319,9 +327,10 @@ extension ContentQueryWhere on QueryBuilder<Content, Content, QWhereClause> {
   }
 }
 
-extension ContentQueryFilter
-    on QueryBuilder<Content, Content, QFilterCondition> {
-  QueryBuilder<Content, Content, QAfterFilterCondition> contentEqualTo(
+extension ContentModelQueryFilter
+    on QueryBuilder<ContentModel, ContentModel, QFilterCondition> {
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      contentEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -334,7 +343,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> contentGreaterThan(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      contentGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -349,7 +359,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> contentLessThan(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      contentLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -364,7 +375,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> contentBetween(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      contentBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -383,7 +395,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> contentStartsWith(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      contentStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -396,7 +409,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> contentEndsWith(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      contentEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -409,9 +423,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> contentContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      contentContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'content',
@@ -421,9 +434,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> contentMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      contentMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'content',
@@ -433,7 +445,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> contentIsEmpty() {
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      contentIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'content',
@@ -442,7 +455,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> contentIsNotEmpty() {
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      contentIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'content',
@@ -451,8 +465,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> feedItemIdEqualTo(
-      int value) {
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedItemIdEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'feedItemId',
@@ -461,7 +475,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> feedItemIdGreaterThan(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedItemIdGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -474,7 +489,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> feedItemIdLessThan(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedItemIdLessThan(
     int value, {
     bool include = false,
   }) {
@@ -487,7 +503,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> feedItemIdBetween(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedItemIdBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -504,7 +521,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> idEqualTo(Id value) {
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> idEqualTo(
+      Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -513,7 +531,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -526,7 +544,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> idLessThan(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -539,7 +557,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> idBetween(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -556,7 +574,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> typeEqualTo(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> typeEqualTo(
       ContentType value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -566,7 +584,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> typeGreaterThan(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      typeGreaterThan(
     ContentType value, {
     bool include = false,
   }) {
@@ -579,7 +598,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> typeLessThan(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> typeLessThan(
     ContentType value, {
     bool include = false,
   }) {
@@ -592,7 +611,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> typeBetween(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> typeBetween(
     ContentType lower,
     ContentType upper, {
     bool includeLower = true,
@@ -609,7 +628,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> uriEqualTo(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> uriEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -622,7 +641,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> uriGreaterThan(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      uriGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -637,7 +657,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> uriLessThan(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> uriLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -652,7 +672,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> uriBetween(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> uriBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -671,7 +691,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> uriStartsWith(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> uriStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -684,7 +704,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> uriEndsWith(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> uriEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -697,7 +717,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> uriContains(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> uriContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -709,7 +729,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> uriMatches(
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> uriMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -721,7 +741,7 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> uriIsEmpty() {
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> uriIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'uri',
@@ -730,7 +750,8 @@ extension ContentQueryFilter
     });
   }
 
-  QueryBuilder<Content, Content, QAfterFilterCondition> uriIsNotEmpty() {
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      uriIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'uri',
@@ -740,147 +761,150 @@ extension ContentQueryFilter
   }
 }
 
-extension ContentQueryObject
-    on QueryBuilder<Content, Content, QFilterCondition> {}
+extension ContentModelQueryObject
+    on QueryBuilder<ContentModel, ContentModel, QFilterCondition> {}
 
-extension ContentQueryLinks
-    on QueryBuilder<Content, Content, QFilterCondition> {}
+extension ContentModelQueryLinks
+    on QueryBuilder<ContentModel, ContentModel, QFilterCondition> {}
 
-extension ContentQuerySortBy on QueryBuilder<Content, Content, QSortBy> {
-  QueryBuilder<Content, Content, QAfterSortBy> sortByContent() {
+extension ContentModelQuerySortBy
+    on QueryBuilder<ContentModel, ContentModel, QSortBy> {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByContent() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'content', Sort.asc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> sortByContentDesc() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByContentDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'content', Sort.desc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> sortByFeedItemId() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByFeedItemId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'feedItemId', Sort.asc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> sortByFeedItemIdDesc() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy>
+      sortByFeedItemIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'feedItemId', Sort.desc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> sortByType() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> sortByTypeDesc() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.desc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> sortByUri() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByUri() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uri', Sort.asc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> sortByUriDesc() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByUriDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uri', Sort.desc);
     });
   }
 }
 
-extension ContentQuerySortThenBy
-    on QueryBuilder<Content, Content, QSortThenBy> {
-  QueryBuilder<Content, Content, QAfterSortBy> thenByContent() {
+extension ContentModelQuerySortThenBy
+    on QueryBuilder<ContentModel, ContentModel, QSortThenBy> {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByContent() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'content', Sort.asc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> thenByContentDesc() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByContentDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'content', Sort.desc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> thenByFeedItemId() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByFeedItemId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'feedItemId', Sort.asc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> thenByFeedItemIdDesc() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy>
+      thenByFeedItemIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'feedItemId', Sort.desc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> thenById() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> thenByType() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> thenByTypeDesc() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.desc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> thenByUri() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByUri() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uri', Sort.asc);
     });
   }
 
-  QueryBuilder<Content, Content, QAfterSortBy> thenByUriDesc() {
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByUriDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uri', Sort.desc);
     });
   }
 }
 
-extension ContentQueryWhereDistinct
-    on QueryBuilder<Content, Content, QDistinct> {
-  QueryBuilder<Content, Content, QDistinct> distinctByContent(
+extension ContentModelQueryWhereDistinct
+    on QueryBuilder<ContentModel, ContentModel, QDistinct> {
+  QueryBuilder<ContentModel, ContentModel, QDistinct> distinctByContent(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'content', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Content, Content, QDistinct> distinctByFeedItemId() {
+  QueryBuilder<ContentModel, ContentModel, QDistinct> distinctByFeedItemId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'feedItemId');
     });
   }
 
-  QueryBuilder<Content, Content, QDistinct> distinctByType() {
+  QueryBuilder<ContentModel, ContentModel, QDistinct> distinctByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'type');
     });
   }
 
-  QueryBuilder<Content, Content, QDistinct> distinctByUri(
+  QueryBuilder<ContentModel, ContentModel, QDistinct> distinctByUri(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'uri', caseSensitive: caseSensitive);
@@ -888,33 +912,33 @@ extension ContentQueryWhereDistinct
   }
 }
 
-extension ContentQueryProperty
-    on QueryBuilder<Content, Content, QQueryProperty> {
-  QueryBuilder<Content, int, QQueryOperations> idProperty() {
+extension ContentModelQueryProperty
+    on QueryBuilder<ContentModel, ContentModel, QQueryProperty> {
+  QueryBuilder<ContentModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<Content, String, QQueryOperations> contentProperty() {
+  QueryBuilder<ContentModel, String, QQueryOperations> contentProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'content');
     });
   }
 
-  QueryBuilder<Content, int, QQueryOperations> feedItemIdProperty() {
+  QueryBuilder<ContentModel, int, QQueryOperations> feedItemIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'feedItemId');
     });
   }
 
-  QueryBuilder<Content, ContentType, QQueryOperations> typeProperty() {
+  QueryBuilder<ContentModel, ContentType, QQueryOperations> typeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'type');
     });
   }
 
-  QueryBuilder<Content, String, QQueryOperations> uriProperty() {
+  QueryBuilder<ContentModel, String, QQueryOperations> uriProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'uri');
     });

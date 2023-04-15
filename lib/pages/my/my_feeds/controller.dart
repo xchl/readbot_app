@@ -11,9 +11,9 @@ class MyFeedsController extends GetxController {
   /// 表单 key
   GlobalKey formKey = GlobalKey<FormState>();
 
-  List<Feed> _feedList = [];
+  List<FeedModel> _feedList = [];
 
-  List<Feed> get feedList => _feedList;
+  List<FeedModel> get feedList => _feedList;
 
   void _initData() async {
     _feedList = await DatabaseManager().getAllFeeds();
