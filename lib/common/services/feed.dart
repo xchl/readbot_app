@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:feed_inbox_app/common/models/database/feed_update_record.dart';
 import 'package:feed_inbox_app/common/models/proto/model.pb.dart' as pb_model;
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart' hide Storage;
 import 'package:get/get.dart';
@@ -26,11 +27,15 @@ class FeedService extends GetxService {
   // sync pull from server
   Future<void> syncPull() async {
     var syncTimestampString = Storage().getString(Constants.syncTimeStamp);
-    var contentPullRequest = ContentPullRequest();
-    contentPullRequest.syncTimestamp = pb_model.SyncTimestamp()
-      ..mergeFromProto3Json(syncTimestampString != ''
-          ? jsonDecode(syncTimestampString)
-          : pb_model.SyncTimestamp());
+    var syncTimestamp = syncTimestampString != ''
+        ? SyncTimestamp.fromJson(jsonDecode(syncTimestampString))
+        : SyncTimestamp(
+            feedUpdateRecord: 0,
+            feed: 0,
+            feedItem: 0,
+            feedGroup: 0,
+          );
+    var contentPullRequest = ContentPullRequest(syncTimestamp: syncTimestamp);
 
     ContentPullResponse contentPullResponse =
         await ContentSyncApi.pull(contentPullRequest);
