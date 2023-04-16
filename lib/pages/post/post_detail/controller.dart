@@ -29,15 +29,15 @@ class PostDetailController extends GetxController {
   );
 
   FeedItemModel feedItem = Get.arguments['feedItem'];
+  ContentModel? content = Get.arguments['content'];
 
   String? html;
 
   @override
   void onInit() async {
     super.onInit();
-    var content = await DatabaseManager().getContentByFeedItemId(feedItem.id);
-    if (content != null) {
-      html = injectCss(content.content, ReadModeStyle().css);
+    if (content != null && content!.type == ContentType.html) {
+      html = injectCss(content!.content, ReadModeStyle().css);
     }
   }
 

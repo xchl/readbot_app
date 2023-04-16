@@ -20,8 +20,10 @@ class PostFocusController extends GetxController {
     update(["post_focus"]);
   }
 
-  void onTapItem(FeedItemModel feedItem) {
-    Get.toNamed(RouteNames.postPostDetail, arguments: {'feedItem': feedItem});
+  void onTapItem(FeedItemModel feedItem) async {
+    var content = await DatabaseManager().getContentByFeedItemId(feedItem.id);
+    Get.toNamed(RouteNames.postPostDetail,
+        arguments: {'feedItem': feedItem, 'content': content});
   }
 
   void onTap() {}

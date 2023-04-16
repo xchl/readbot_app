@@ -66,17 +66,23 @@ class PostAllController extends GetxController {
     _feedItems[index].isFocus = true;
     await DatabaseManager().updateFeedItem(_feedItems[index]);
     _feedItems.removeAt(index);
+    _feed.removeAt(index);
     update(["post_all"]);
   }
 
-  void onTapItem(FeedItemModel feedItem) {
-    Get.toNamed(RouteNames.postPostDetail, arguments: {'feedItem': feedItem});
+  void onTapItem(FeedItemModel feedItem) async {
+    var content = await DatabaseManager().getContentByFeedItemId(feedItem.id);
+    Get.toNamed(RouteNames.postPostDetail,
+        arguments: {'feedItem': feedItem, 'content': content});
   }
 
   Future<void> refreshFeedItem() async {
     _page = 0;
     _feedItems = await DatabaseManager()
         .getExploreFeedItemsByPage(_page, feedId: _feedId);
+    _feed = await DatabaseManager().getFeeds(
+      _feedItems.map((e) => e.feedId).toList(),
+    );
     update(["post_all"]);
   }
 
@@ -84,7 +90,11 @@ class PostAllController extends GetxController {
     _page++;
     var newFeedItems = await DatabaseManager()
         .getExploreFeedItemsByPage(_page, feedId: _feedId);
+    var newFeed = await DatabaseManager().getFeeds(
+      newFeedItems.map((e) => e.feedId).toList(),
+    );
     _feedItems.addAll(newFeedItems);
+    _feed.addAll(newFeed);
     update(["post_all"]);
   }
 
@@ -131,8 +141,6 @@ class PostAllController extends GetxController {
       }
     }
   }
-
-  void openDrawer() {}
 
   Future<void> onRefresh() async {
     try {

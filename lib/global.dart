@@ -34,9 +34,6 @@ class Global {
 
     // 默认语言
     ConfigService.to.onLocaleUpdate(Translation.fallbackLocale);
-
-    // sync pull
-    FeedService.to.syncPull();
   }
 
   // 系统样式

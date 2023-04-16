@@ -29,10 +29,13 @@ class UserService extends GetxService {
         .isAfter(DateTime.now().toUtc().add(Constants.tokenExpiredEpsSecond));
   }
 
-  // Future<bool> isLogin() async {
-  //   await refreshTokenIfNeed();
-  //   return hasActiveAccessToken();
-  // }
+  Future<bool> tryLogin() async {
+    await refreshTokenIfNeed();
+    if (hasActiveAccessToken()) {
+      _isLogin(true);
+    }
+    return _isLogin.value;
+  }
 
   UserProfile get basicProfile => _basicProfile.value;
   static bool get isLogin => UserService.to._isLogin.value;
@@ -49,8 +52,9 @@ class UserService extends GetxService {
       parseToken(accessToken, refreshToken);
     }
 
-    await refreshTokenIfNeed();
-    parseProfile();
+    if (hasActiveAccessToken()) {
+      _isLogin(true);
+    }
   }
 
   @override

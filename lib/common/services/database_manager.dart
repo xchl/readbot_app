@@ -189,10 +189,18 @@ class DatabaseManager {
       List<FeedGroupModel> feedGroups,
       List<FeedUpdateRecordModel> feedUpdateRecords) async {
     await _isar.writeTxn(() async {
-      await _isar.feedModels.putAllByUrl(feeds);
-      await _isar.feedItemModels.putAllByMd5String(feedItems);
-      await _isar.feedGroupModels.putAllByName(feedGroups);
-      await _isar.feedUpdateRecordModels.putAllByFeedId(feedUpdateRecords);
+      if (feeds.isNotEmpty) {
+        await _isar.feedModels.putAllByUrl(feeds);
+      }
+      if (feedItems.isNotEmpty) {
+        await _isar.feedItemModels.putAllByMd5String(feedItems);
+      }
+      if (feedGroups.isNotEmpty) {
+        await _isar.feedGroupModels.putAllByName(feedGroups);
+      }
+      if (feedUpdateRecords.isNotEmpty) {
+        await _isar.feedUpdateRecordModels.putAllByFeedId(feedUpdateRecords);
+      }
     });
   }
 }

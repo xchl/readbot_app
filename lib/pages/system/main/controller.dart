@@ -1,4 +1,6 @@
+import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 class MainController extends GetxController {
@@ -41,25 +43,18 @@ class MainController extends GetxController {
     }
   }
 
-  _initData() {
-    // 读取用户 profile
-    // await UserService.to.getProfile();
-
-    // 测试用
-    // Get.toNamed(RouteNames.systemLogin);
+  _initData() async {
+    bool isLogin = await UserService.to.tryLogin();
+    if (isLogin) {
+      await FeedService.to.syncPull();
+    }
     update(["main"]);
   }
-
-  void onTap() {}
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
 
   @override
   void onReady() {
     super.onReady();
+    FlutterNativeSplash.remove();
     _initData();
   }
 
