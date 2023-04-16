@@ -147,12 +147,18 @@ final $typed_data.Uint8List feedDescriptor = $convert.base64Decode('CgRGZWVkEg4K
 const SyncTimestamp$json = const {
   '1': 'SyncTimestamp',
   '2': const [
-    const {'1': 'feed', '3': 1, '4': 1, '5': 3, '10': 'feed'},
-    const {'1': 'feed_group', '3': 2, '4': 1, '5': 3, '10': 'feedGroup'},
-    const {'1': 'feed_item', '3': 3, '4': 1, '5': 3, '10': 'feedItem'},
-    const {'1': 'feed_update_record', '3': 4, '4': 1, '5': 3, '10': 'feedUpdateRecord'},
+    const {'1': 'feed', '3': 1, '4': 1, '5': 3, '9': 0, '10': 'feed', '17': true},
+    const {'1': 'feed_group', '3': 2, '4': 1, '5': 3, '9': 1, '10': 'feedGroup', '17': true},
+    const {'1': 'feed_item', '3': 3, '4': 1, '5': 3, '9': 2, '10': 'feedItem', '17': true},
+    const {'1': 'feed_update_record', '3': 4, '4': 1, '5': 3, '9': 3, '10': 'feedUpdateRecord', '17': true},
+  ],
+  '8': const [
+    const {'1': '_feed'},
+    const {'1': '_feed_group'},
+    const {'1': '_feed_item'},
+    const {'1': '_feed_update_record'},
   ],
 };
 
 /// Descriptor for `SyncTimestamp`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List syncTimestampDescriptor = $convert.base64Decode('Cg1TeW5jVGltZXN0YW1wEhIKBGZlZWQYASABKANSBGZlZWQSHQoKZmVlZF9ncm91cBgCIAEoA1IJZmVlZEdyb3VwEhsKCWZlZWRfaXRlbRgDIAEoA1IIZmVlZEl0ZW0SLAoSZmVlZF91cGRhdGVfcmVjb3JkGAQgASgDUhBmZWVkVXBkYXRlUmVjb3Jk');
+final $typed_data.Uint8List syncTimestampDescriptor = $convert.base64Decode('Cg1TeW5jVGltZXN0YW1wEhcKBGZlZWQYASABKANIAFIEZmVlZIgBARIiCgpmZWVkX2dyb3VwGAIgASgDSAFSCWZlZWRHcm91cIgBARIgCglmZWVkX2l0ZW0YAyABKANIAlIIZmVlZEl0ZW2IAQESMQoSZmVlZF91cGRhdGVfcmVjb3JkGAQgASgDSANSEGZlZWRVcGRhdGVSZWNvcmSIAQFCBwoFX2ZlZWRCDQoLX2ZlZWRfZ3JvdXBCDAoKX2ZlZWRfaXRlbUIVChNfZmVlZF91cGRhdGVfcmVjb3Jk');

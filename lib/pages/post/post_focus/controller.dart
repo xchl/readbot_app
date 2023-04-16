@@ -9,6 +9,8 @@ class PostFocusController extends GetxController {
 
   int _page = 0;
 
+  // TODO 新增功能对齐explore
+
   List<FeedItemModel> get feedItems => _feedItems;
   List<FeedModel?> get feeds => _feeds;
 
@@ -25,8 +27,6 @@ class PostFocusController extends GetxController {
     Get.toNamed(RouteNames.postPostDetail,
         arguments: {'feedItem': feedItem, 'content': content});
   }
-
-  void onTap() {}
 
   @override
   void onReady() {

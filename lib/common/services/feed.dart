@@ -2,15 +2,12 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/models/database/feed_update_record.dart';
-import 'package:feed_inbox_app/common/models/proto/model.pb.dart' as pb_model;
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart' hide Storage;
 import 'package:get/get.dart';
 import 'package:tuple/tuple.dart';
 import 'package:webfeed/util/function.dart';
-import 'package:webfeed/webfeed.dart';
+import 'package:webfeed/webfeed.dart' as webfeed;
 import 'package:readability/readability.dart';
 import 'package:xml/xml.dart';
 
@@ -18,38 +15,16 @@ import 'package:xml/xml.dart';
 class FeedService extends GetxService {
   static FeedService get to => Get.find();
 
-  List<FeedItemModel> _parseRssItem(FeedModel feed, List<RssItem>? items) {
+  List<FeedItemModel> _parseRssItem(
+      FeedModel feed, List<webfeed.RssItem>? items) {
     return items != null
         ? items.map((item) => FeedItemModel.fromRssItem(item, feed)).toList()
         : [];
   }
 
-  // sync pull from server
-  Future<void> syncPull() async {
-    var syncTimestampString = Storage().getString(Constants.syncTimeStamp);
-    var syncTimestamp = syncTimestampString != ''
-        ? SyncTimestamp.fromJson(jsonDecode(syncTimestampString))
-        : SyncTimestamp(
-            feedUpdateRecord: 0,
-            feed: 0,
-            feedItem: 0,
-            feedGroup: 0,
-          );
-    var contentPullRequest = ContentPullRequest(syncTimestamp: syncTimestamp);
-
-    ContentPullResponse contentPullResponse =
-        await ContentSyncApi.pull(contentPullRequest);
-
-    await DatabaseManager().syncSave(
-      toFeedModelList(contentPullResponse.feeds),
-      toFeedItemModelList(contentPullResponse.feedItems),
-      toFeedGroupModelList(contentPullResponse.feedGroups),
-      toFeedUpdateRecordModelList(contentPullResponse.feedUpdateRecords),
-    );
-  }
-
   // parse Atom item
-  List<FeedItemModel> _parseAtomItem(FeedModel feed, List<AtomItem>? items) {
+  List<FeedItemModel> _parseAtomItem(
+      FeedModel feed, List<webfeed.AtomItem>? items) {
     return items != null
         ? items.map((item) => FeedItemModel.fromAtomItem(item, feed)).toList()
         : [];
@@ -57,21 +32,21 @@ class FeedService extends GetxService {
 
   Tuple2<FeedModel, List<FeedItemModel>> _parseFeed(String xml, String url) {
     var feedType = getFeedType(xml);
-    if (feedType == FeedType.Rss) {
-      var feedRaw = RssFeed.parse(xml);
-      var feed = FeedModel.fromRssFeed(feedRaw, url, FeedType.Rss);
+    if (feedType == webfeed.FeedType.Rss) {
+      var feedRaw = webfeed.RssFeed.parse(xml);
+      var feed = FeedModel.fromRssFeed(feedRaw, url, webfeed.FeedType.Rss);
       var feedItems = _parseRssItem(feed, feedRaw.items);
       return Tuple2(feed, feedItems);
-    } else if (feedType == FeedType.Atom) {
-      var feedRaw = AtomFeed.parse(xml);
-      var feed = FeedModel.fromAtomFeed(feedRaw, url, FeedType.Atom);
+    } else if (feedType == webfeed.FeedType.Atom) {
+      var feedRaw = webfeed.AtomFeed.parse(xml);
+      var feed = FeedModel.fromAtomFeed(feedRaw, url, webfeed.FeedType.Atom);
       var feedItems = _parseAtomItem(feed, feedRaw.items);
       return Tuple2(feed, feedItems);
     }
     // TODO Error handle
     return Tuple2(
         FeedModel(url,
-            type: FeedType.Unknown,
+            type: FeedType.unknown,
             createTime: DateTime.now(),
             updateTime: DateTime.now()),
         []);
@@ -292,11 +267,11 @@ class FeedService extends GetxService {
   // parse feed items from feed content
   List<FeedItemModel> parseFeedItems(String content, FeedModel feed) {
     switch (feed.type) {
-      case FeedType.Atom:
-        var feedRaw = AtomFeed.parse(content);
+      case FeedType.atom:
+        var feedRaw = webfeed.AtomFeed.parse(content);
         return _parseAtomItem(feed, feedRaw.items);
-      case FeedType.Rss:
-        var feedRaw = RssFeed.parse(content);
+      case FeedType.rss:
+        var feedRaw = webfeed.RssFeed.parse(content);
         return _parseRssItem(feed, feedRaw.items);
       default:
         return [];
@@ -306,14 +281,14 @@ class FeedService extends GetxService {
   List<FeedItemModel> parseFeedItemsAndUpdateFeed(
       String content, FeedModel feed) {
     var feedType = getFeedType(content);
-    if (feedType == FeedType.Rss) {
-      var feedRaw = RssFeed.parse(content);
+    if (feedType == webfeed.FeedType.Rss) {
+      var feedRaw = webfeed.RssFeed.parse(content);
       feed.completeByRssFeed(feedRaw);
       var feedItems = _parseRssItem(feed, feedRaw.items);
       DatabaseManager().updateFeed(feed);
       return feedItems;
-    } else if (feedType == FeedType.Atom) {
-      var feedRaw = AtomFeed.parse(content);
+    } else if (feedType == webfeed.FeedType.Atom) {
+      var feedRaw = webfeed.AtomFeed.parse(content);
       feed.completeByAtomFeed(feedRaw);
       var feedItems = _parseAtomItem(feed, feedRaw.items);
       DatabaseManager().updateFeed(feed);

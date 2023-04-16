@@ -62,21 +62,26 @@ class AuthResponse extends $pb.GeneratedMessage {
 
 class ContentPullResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ContentPullResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'response'), createEmptyInstance: create)
-    ..pc<$0.Feed>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'feeds', $pb.PbFieldType.PM, subBuilder: $0.Feed.create)
-    ..pc<$0.FeedUpdateRecord>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'feedUpdateRecords', $pb.PbFieldType.PM, subBuilder: $0.FeedUpdateRecord.create)
-    ..pc<$0.FeedGroup>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'feedGroups', $pb.PbFieldType.PM, subBuilder: $0.FeedGroup.create)
-    ..pc<$0.FeedItem>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'feedItems', $pb.PbFieldType.PM, subBuilder: $0.FeedItem.create)
+    ..aOM<$0.SyncTimestamp>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'syncTimestamp', subBuilder: $0.SyncTimestamp.create)
+    ..pc<$0.Feed>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'feeds', $pb.PbFieldType.PM, subBuilder: $0.Feed.create)
+    ..pc<$0.FeedUpdateRecord>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'feedUpdateRecords', $pb.PbFieldType.PM, subBuilder: $0.FeedUpdateRecord.create)
+    ..pc<$0.FeedGroup>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'feedGroups', $pb.PbFieldType.PM, subBuilder: $0.FeedGroup.create)
+    ..pc<$0.FeedItem>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'feedItems', $pb.PbFieldType.PM, subBuilder: $0.FeedItem.create)
     ..hasRequiredFields = false
   ;
 
   ContentPullResponse._() : super();
   factory ContentPullResponse({
+    $0.SyncTimestamp? syncTimestamp,
     $core.Iterable<$0.Feed>? feeds,
     $core.Iterable<$0.FeedUpdateRecord>? feedUpdateRecords,
     $core.Iterable<$0.FeedGroup>? feedGroups,
     $core.Iterable<$0.FeedItem>? feedItems,
   }) {
     final _result = create();
+    if (syncTimestamp != null) {
+      _result.syncTimestamp = syncTimestamp;
+    }
     if (feeds != null) {
       _result.feeds.addAll(feeds);
     }
@@ -113,16 +118,27 @@ class ContentPullResponse extends $pb.GeneratedMessage {
   static ContentPullResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<$0.Feed> get feeds => $_getList(0);
+  $0.SyncTimestamp get syncTimestamp => $_getN(0);
+  @$pb.TagNumber(1)
+  set syncTimestamp($0.SyncTimestamp v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSyncTimestamp() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSyncTimestamp() => clearField(1);
+  @$pb.TagNumber(1)
+  $0.SyncTimestamp ensureSyncTimestamp() => $_ensure(0);
 
   @$pb.TagNumber(2)
-  $core.List<$0.FeedUpdateRecord> get feedUpdateRecords => $_getList(1);
+  $core.List<$0.Feed> get feeds => $_getList(1);
 
   @$pb.TagNumber(3)
-  $core.List<$0.FeedGroup> get feedGroups => $_getList(2);
+  $core.List<$0.FeedUpdateRecord> get feedUpdateRecords => $_getList(2);
 
   @$pb.TagNumber(4)
-  $core.List<$0.FeedItem> get feedItems => $_getList(3);
+  $core.List<$0.FeedGroup> get feedGroups => $_getList(3);
+
+  @$pb.TagNumber(5)
+  $core.List<$0.FeedItem> get feedItems => $_getList(4);
 }
 
 class ContentPushResponse extends $pb.GeneratedMessage {

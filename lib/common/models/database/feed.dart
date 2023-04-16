@@ -1,9 +1,11 @@
 import 'package:feed_inbox_app/common/models/proto/model.pb.dart' as pb_model;
 import 'package:fixnum/fixnum.dart';
 import 'package:isar/isar.dart';
-import 'package:webfeed/webfeed.dart';
+import 'package:webfeed/webfeed.dart' as webfeed;
 
 part 'feed.g.dart';
+
+enum FeedType { rss, atom, unknown }
 
 @collection
 class FeedModel {
@@ -46,24 +48,25 @@ class FeedModel {
     required this.createTime,
   });
 
-  completeByRssFeed(RssFeed rssFeed) {
+  completeByRssFeed(webfeed.RssFeed rssFeed) {
     name = rssFeed.title;
     logo = rssFeed.image?.url;
     description = rssFeed.description;
-    type = FeedType.Rss;
+    type = convertTypeWebFeedToFeedModel(webfeed.FeedType.Rss);
   }
 
-  completeByAtomFeed(AtomFeed atomFeed) {
+  completeByAtomFeed(webfeed.AtomFeed atomFeed) {
     name = atomFeed.title;
     logo = atomFeed.logo;
     description = atomFeed.subtitle;
-    type = FeedType.Atom;
+    type = convertTypeWebFeedToFeedModel(webfeed.FeedType.Atom);
   }
 
-  factory FeedModel.fromRssFeed(RssFeed feed, String url, FeedType type) {
+  factory FeedModel.fromRssFeed(
+      webfeed.RssFeed feed, String url, webfeed.FeedType type) {
     return FeedModel(
       url,
-      type: type,
+      type: convertTypeWebFeedToFeedModel(type),
       name: feed.title,
       logo: feed.image?.url,
       description: feed.description,
@@ -72,10 +75,11 @@ class FeedModel {
     );
   }
 
-  factory FeedModel.fromAtomFeed(AtomFeed feed, String url, FeedType type) {
+  factory FeedModel.fromAtomFeed(
+      webfeed.AtomFeed feed, String url, webfeed.FeedType type) {
     return FeedModel(
       url,
-      type: type,
+      type: convertTypeWebFeedToFeedModel(type),
       name: feed.title,
       logo: feed.logo,
       description: feed.subtitle,
@@ -89,7 +93,7 @@ class FeedModel {
 FeedModel toFeedModel(pb_model.Feed feed) {
   return FeedModel(
     feed.url,
-    type: convertToFeedModelType(feed.feedType),
+    type: convertTypeToFeedModel(feed.feedType),
     name: feed.name,
     logo: feed.logo,
     description: feed.description,
@@ -111,7 +115,7 @@ List<FeedModel> toFeedModelList(List<pb_model.Feed> feeds) {
 pb_model.Feed toFeed(FeedModel feed) {
   return pb_model.Feed(
     url: feed.url,
-    feedType: convertToPbFeedType(feed.type!),
+    feedType: convertTypeToPbFeed(feed.type),
     name: feed.name,
     logo: feed.logo,
     description: feed.description,
@@ -130,25 +134,37 @@ List<pb_model.Feed> toFeedList(List<FeedModel> feeds) {
 }
 
 // convert feed type in FeedModel to FeedType in Feed
-pb_model.FeedType convertToPbFeedType(FeedType type) {
+pb_model.FeedType convertTypeToPbFeed(FeedType? type) {
   switch (type) {
-    case FeedType.Rss:
+    case FeedType.rss:
       return pb_model.FeedType.FEED_TYPE_RSS;
-    case FeedType.Atom:
+    case FeedType.atom:
       return pb_model.FeedType.FEED_TYPE_ATOM;
     default:
       return pb_model.FeedType.FEED_TYPE_UNKNOWN;
   }
 }
 
-// convert feed type in Feed to FeedType in FeedModel
-FeedType convertToFeedModelType(pb_model.FeedType type) {
+// convert feed type in to FeedType in FeedModel
+FeedType convertTypeToFeedModel(pb_model.FeedType type) {
   switch (type) {
     case pb_model.FeedType.FEED_TYPE_RSS:
-      return FeedType.Rss;
+      return FeedType.rss;
     case pb_model.FeedType.FEED_TYPE_ATOM:
-      return FeedType.Atom;
+      return FeedType.atom;
     default:
-      return FeedType.Unknown;
+      return FeedType.unknown;
+  }
+}
+
+// convert webfeed feed type to feedtype in FeedModel
+FeedType convertTypeWebFeedToFeedModel(webfeed.FeedType type) {
+  switch (type) {
+    case webfeed.FeedType.Rss:
+      return FeedType.rss;
+    case webfeed.FeedType.Atom:
+      return FeedType.atom;
+    default:
+      return FeedType.unknown;
   }
 }

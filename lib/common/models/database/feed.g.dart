@@ -268,14 +268,14 @@ P _feedModelDeserializeProp<P>(
 }
 
 const _FeedModeltypeEnumValueMap = {
-  'Atom': 0,
-  'Rss': 1,
-  'Unknown': 2,
+  'rss': 0,
+  'atom': 1,
+  'unknown': 2,
 };
 const _FeedModeltypeValueEnumMap = {
-  0: FeedType.Atom,
-  1: FeedType.Rss,
-  2: FeedType.Unknown,
+  0: FeedType.rss,
+  1: FeedType.atom,
+  2: FeedType.unknown,
 };
 
 Id _feedModelGetId(FeedModel object) {

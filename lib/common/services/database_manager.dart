@@ -15,7 +15,8 @@ class DatabaseManager {
       FeedItemModelSchema,
       ContentModelSchema,
       FeedUpdateRecordModelSchema,
-      FeedGroupModelSchema
+      FeedGroupModelSchema,
+      SyncTimestampModelSchema,
     ]);
   }
 
@@ -187,7 +188,8 @@ class DatabaseManager {
       List<FeedModel> feeds,
       List<FeedItemModel> feedItems,
       List<FeedGroupModel> feedGroups,
-      List<FeedUpdateRecordModel> feedUpdateRecords) async {
+      List<FeedUpdateRecordModel> feedUpdateRecords,
+      List<SyncTimestampModel> syncTimestampModels) async {
     await _isar.writeTxn(() async {
       if (feeds.isNotEmpty) {
         await _isar.feedModels.putAllByUrl(feeds);
@@ -201,6 +203,15 @@ class DatabaseManager {
       if (feedUpdateRecords.isNotEmpty) {
         await _isar.feedUpdateRecordModels.putAllByFeedId(feedUpdateRecords);
       }
+      if (syncTimestampModels.isNotEmpty) {
+        await _isar.syncTimestampModels.putAllByModelName(syncTimestampModels);
+      }
     });
+  }
+
+  // get SyncTimestampModel of models
+  Future<List<SyncTimestampModel?>> getSyncTimestampModel(
+      List<ModelName> models) async {
+    return await _isar.syncTimestampModels.getAllByModelName(models);
   }
 }

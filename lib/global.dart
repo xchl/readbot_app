@@ -26,6 +26,7 @@ class Global {
     Get.put<UserService>(UserService());
     Get.put<FeedService>(FeedService());
     Get.put<LogService>(LogService());
+    Get.put<SyncService>(SyncService());
 
     // 阅读模式
     ReadModeStyle.fromConfig(

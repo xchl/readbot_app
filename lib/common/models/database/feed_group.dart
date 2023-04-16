@@ -1,4 +1,5 @@
-import 'package:feed_inbox_app/common/models/proto/model.pb.dart' as pb_model;
+import 'package:feed_inbox_app/common/models/proto/model.pbserver.dart'
+    as pb_model;
 import 'package:fixnum/fixnum.dart';
 import 'package:isar/isar.dart';
 

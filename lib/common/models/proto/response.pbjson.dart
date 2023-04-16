@@ -22,15 +22,16 @@ final $typed_data.Uint8List authResponseDescriptor = $convert.base64Decode('CgxB
 const ContentPullResponse$json = const {
   '1': 'ContentPullResponse',
   '2': const [
-    const {'1': 'feeds', '3': 1, '4': 3, '5': 11, '6': '.model.Feed', '10': 'feeds'},
-    const {'1': 'feed_update_records', '3': 2, '4': 3, '5': 11, '6': '.model.FeedUpdateRecord', '10': 'feedUpdateRecords'},
-    const {'1': 'feed_groups', '3': 3, '4': 3, '5': 11, '6': '.model.FeedGroup', '10': 'feedGroups'},
-    const {'1': 'feed_items', '3': 4, '4': 3, '5': 11, '6': '.model.FeedItem', '10': 'feedItems'},
+    const {'1': 'sync_timestamp', '3': 1, '4': 1, '5': 11, '6': '.model.SyncTimestamp', '10': 'syncTimestamp'},
+    const {'1': 'feeds', '3': 2, '4': 3, '5': 11, '6': '.model.Feed', '10': 'feeds'},
+    const {'1': 'feed_update_records', '3': 3, '4': 3, '5': 11, '6': '.model.FeedUpdateRecord', '10': 'feedUpdateRecords'},
+    const {'1': 'feed_groups', '3': 4, '4': 3, '5': 11, '6': '.model.FeedGroup', '10': 'feedGroups'},
+    const {'1': 'feed_items', '3': 5, '4': 3, '5': 11, '6': '.model.FeedItem', '10': 'feedItems'},
   ],
 };
 
 /// Descriptor for `ContentPullResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List contentPullResponseDescriptor = $convert.base64Decode('ChNDb250ZW50UHVsbFJlc3BvbnNlEiEKBWZlZWRzGAEgAygLMgsubW9kZWwuRmVlZFIFZmVlZHMSRwoTZmVlZF91cGRhdGVfcmVjb3JkcxgCIAMoCzIXLm1vZGVsLkZlZWRVcGRhdGVSZWNvcmRSEWZlZWRVcGRhdGVSZWNvcmRzEjEKC2ZlZWRfZ3JvdXBzGAMgAygLMhAubW9kZWwuRmVlZEdyb3VwUgpmZWVkR3JvdXBzEi4KCmZlZWRfaXRlbXMYBCADKAsyDy5tb2RlbC5GZWVkSXRlbVIJZmVlZEl0ZW1z');
+final $typed_data.Uint8List contentPullResponseDescriptor = $convert.base64Decode('ChNDb250ZW50UHVsbFJlc3BvbnNlEjsKDnN5bmNfdGltZXN0YW1wGAEgASgLMhQubW9kZWwuU3luY1RpbWVzdGFtcFINc3luY1RpbWVzdGFtcBIhCgVmZWVkcxgCIAMoCzILLm1vZGVsLkZlZWRSBWZlZWRzEkcKE2ZlZWRfdXBkYXRlX3JlY29yZHMYAyADKAsyFy5tb2RlbC5GZWVkVXBkYXRlUmVjb3JkUhFmZWVkVXBkYXRlUmVjb3JkcxIxCgtmZWVkX2dyb3VwcxgEIAMoCzIQLm1vZGVsLkZlZWRHcm91cFIKZmVlZEdyb3VwcxIuCgpmZWVkX2l0ZW1zGAUgAygLMg8ubW9kZWwuRmVlZEl0ZW1SCWZlZWRJdGVtcw==');
 @$core.Deprecated('Use contentPushResponseDescriptor instead')
 const ContentPushResponse$json = const {
   '1': 'ContentPushResponse',

@@ -1,3 +1,5 @@
+import 'package:feed_inbox_app/common/index.dart';
+
 class SyncTimestamp {
   int? feed;
   int? feedItem;
@@ -6,6 +8,36 @@ class SyncTimestamp {
 
   SyncTimestamp(
       {this.feed, this.feedItem, this.feedGroup, this.feedUpdateRecord});
+
+  SyncTimestamp.fromSyncModels(List<ModelName> syncModels,
+      List<SyncTimestampModel?> syncTimestampModels) {
+    for (var i = 0; i < syncModels.length; i++) {
+      var syncModel = syncModels[i];
+      var syncTimestampModel = syncTimestampModels[i];
+      switch (syncModel) {
+        case ModelName.feed:
+          feed = syncTimestampModel != null
+              ? syncTimestampModel.syncTime.millisecondsSinceEpoch
+              : 0;
+          break;
+        case ModelName.feedItem:
+          feedItem = syncTimestampModel != null
+              ? syncTimestampModel.syncTime.millisecondsSinceEpoch
+              : 0;
+          break;
+        case ModelName.feedGroup:
+          feedGroup = syncTimestampModel != null
+              ? syncTimestampModel.syncTime.millisecondsSinceEpoch
+              : 0;
+          break;
+        case ModelName.feedUpdateRecord:
+          feedUpdateRecord = syncTimestampModel != null
+              ? syncTimestampModel.syncTime.millisecondsSinceEpoch
+              : 0;
+          break;
+      }
+    }
+  }
 
   SyncTimestamp.fromJson(Map<String, dynamic> json) {
     feed = json['feed'];
