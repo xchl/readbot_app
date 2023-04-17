@@ -9,6 +9,9 @@ class SyncTimestamp {
   SyncTimestamp(
       {this.feed, this.feedItem, this.feedGroup, this.feedUpdateRecord});
 
+  // 从数据库中获取的SyncTimestampModel转换为SyncTimestamp
+  // 如果modelName不在syncModels中，默认是null，表示不会被同步
+  // 如果数据库中没有对应的SyncTimestampModel，则默认为0，表示从头开始同步
   SyncTimestamp.fromSyncModels(List<ModelName> syncModels,
       List<SyncTimestampModel?> syncTimestampModels) {
     for (var i = 0; i < syncModels.length; i++) {

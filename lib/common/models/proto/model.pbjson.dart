@@ -36,7 +36,7 @@ final $typed_data.Uint8List feedTypeDescriptor = $convert.base64Decode('CghGZWVk
 const UserProfile$json = const {
   '1': 'UserProfile',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
+    const {'1': 'user_id', '3': 1, '4': 1, '5': 5, '10': 'userId'},
     const {'1': 'username', '3': 2, '4': 1, '5': 9, '10': 'username'},
     const {'1': 'email', '3': 3, '4': 1, '5': 9, '10': 'email'},
     const {'1': 'pro_level', '3': 4, '4': 1, '5': 14, '6': '.model.ProLevel', '10': 'proLevel'},
@@ -45,7 +45,7 @@ const UserProfile$json = const {
 };
 
 /// Descriptor for `UserProfile`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List userProfileDescriptor = $convert.base64Decode('CgtVc2VyUHJvZmlsZRIOCgJpZBgBIAEoBVICaWQSGgoIdXNlcm5hbWUYAiABKAlSCHVzZXJuYW1lEhQKBWVtYWlsGAMgASgJUgVlbWFpbBIsCglwcm9fbGV2ZWwYBCABKA4yDy5tb2RlbC5Qcm9MZXZlbFIIcHJvTGV2ZWwSIAoMcHJvX2VuZF90aW1lGAUgASgDUgpwcm9FbmRUaW1l');
+final $typed_data.Uint8List userProfileDescriptor = $convert.base64Decode('CgtVc2VyUHJvZmlsZRIXCgd1c2VyX2lkGAEgASgFUgZ1c2VySWQSGgoIdXNlcm5hbWUYAiABKAlSCHVzZXJuYW1lEhQKBWVtYWlsGAMgASgJUgVlbWFpbBIsCglwcm9fbGV2ZWwYBCABKA4yDy5tb2RlbC5Qcm9MZXZlbFIIcHJvTGV2ZWwSIAoMcHJvX2VuZF90aW1lGAUgASgDUgpwcm9FbmRUaW1l');
 @$core.Deprecated('Use tokensDescriptor instead')
 const Tokens$json = const {
   '1': 'Tokens',
@@ -61,20 +61,19 @@ final $typed_data.Uint8List tokensDescriptor = $convert.base64Decode('CgZUb2tlbn
 const FeedGroup$json = const {
   '1': 'FeedGroup',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
-    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'description', '3': 3, '4': 1, '5': 9, '10': 'description'},
-    const {'1': 'update_time', '3': 4, '4': 1, '5': 3, '10': 'updateTime'},
+    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'description', '3': 2, '4': 1, '5': 9, '10': 'description'},
+    const {'1': 'update_time', '3': 3, '4': 1, '5': 3, '10': 'updateTime'},
   ],
 };
 
 /// Descriptor for `FeedGroup`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List feedGroupDescriptor = $convert.base64Decode('CglGZWVkR3JvdXASDgoCaWQYASABKAVSAmlkEhIKBG5hbWUYAiABKAlSBG5hbWUSIAoLZGVzY3JpcHRpb24YAyABKAlSC2Rlc2NyaXB0aW9uEh8KC3VwZGF0ZV90aW1lGAQgASgDUgp1cGRhdGVUaW1l');
+final $typed_data.Uint8List feedGroupDescriptor = $convert.base64Decode('CglGZWVkR3JvdXASEgoEbmFtZRgBIAEoCVIEbmFtZRIgCgtkZXNjcmlwdGlvbhgCIAEoCVILZGVzY3JpcHRpb24SHwoLdXBkYXRlX3RpbWUYAyABKANSCnVwZGF0ZVRpbWU=');
 @$core.Deprecated('Use feedItemDescriptor instead')
 const FeedItem$json = const {
   '1': 'FeedItem',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
+    const {'1': 'feed_url', '3': 1, '4': 1, '5': 9, '10': 'feedUrl'},
     const {'1': 'is_focus', '3': 2, '4': 1, '5': 8, '10': 'isFocus'},
     const {'1': 'is_seen', '3': 3, '4': 1, '5': 8, '10': 'isSeen'},
     const {'1': 'title', '3': 4, '4': 1, '5': 9, '10': 'title'},
@@ -96,39 +95,37 @@ const FeedItem$json = const {
 };
 
 /// Descriptor for `FeedItem`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List feedItemDescriptor = $convert.base64Decode('CghGZWVkSXRlbRIOCgJpZBgBIAEoBVICaWQSGQoIaXNfZm9jdXMYAiABKAhSB2lzRm9jdXMSFwoHaXNfc2VlbhgDIAEoCFIGaXNTZWVuEhQKBXRpdGxlGAQgASgJUgV0aXRsZRIUCgVjb3ZlchgFIAEoCVIFY292ZXISEgoEbGluaxgGIAEoCVIEbGluaxIhCgxwdWJsaXNoX3RpbWUYCSABKANSC3B1Ymxpc2hUaW1lEhgKB2F1dGhvcnMYCiABKAlSB2F1dGhvcnMSEgoEdGFncxgLIAMoCVIEdGFncxIaCghjYXRlZ29yeRgMIAEoCVIIY2F0ZWdvcnkSIAoLZGVzY3JpcHRpb24YDSABKAlSC2Rlc2NyaXB0aW9uEiEKDHN1bW1hcnlfYWxnbxgOIAEoCVILc3VtbWFyeUFsZ28SGAoHY29udGVudBgPIAEoCVIHY29udGVudBIuChNjb250ZW50X2hhdmVfcGFyc2VkGBAgASgIUhFjb250ZW50SGF2ZVBhcnNlZBIfCgtjcmVhdGVfdGltZRgRIAEoA1IKY3JlYXRlVGltZRIdCgptZDVfc3RyaW5nGBIgASgJUgltZDVTdHJpbmcSFwoHZmVlZF9pZBgTIAEoBVIGZmVlZElkEh8KC3VwZGF0ZV90aW1lGBQgASgDUgp1cGRhdGVUaW1l');
+final $typed_data.Uint8List feedItemDescriptor = $convert.base64Decode('CghGZWVkSXRlbRIZCghmZWVkX3VybBgBIAEoCVIHZmVlZFVybBIZCghpc19mb2N1cxgCIAEoCFIHaXNGb2N1cxIXCgdpc19zZWVuGAMgASgIUgZpc1NlZW4SFAoFdGl0bGUYBCABKAlSBXRpdGxlEhQKBWNvdmVyGAUgASgJUgVjb3ZlchISCgRsaW5rGAYgASgJUgRsaW5rEiEKDHB1Ymxpc2hfdGltZRgJIAEoA1ILcHVibGlzaFRpbWUSGAoHYXV0aG9ycxgKIAEoCVIHYXV0aG9ycxISCgR0YWdzGAsgAygJUgR0YWdzEhoKCGNhdGVnb3J5GAwgASgJUghjYXRlZ29yeRIgCgtkZXNjcmlwdGlvbhgNIAEoCVILZGVzY3JpcHRpb24SIQoMc3VtbWFyeV9hbGdvGA4gASgJUgtzdW1tYXJ5QWxnbxIYCgdjb250ZW50GA8gASgJUgdjb250ZW50Ei4KE2NvbnRlbnRfaGF2ZV9wYXJzZWQYECABKAhSEWNvbnRlbnRIYXZlUGFyc2VkEh8KC2NyZWF0ZV90aW1lGBEgASgDUgpjcmVhdGVUaW1lEh0KCm1kNV9zdHJpbmcYEiABKAlSCW1kNVN0cmluZxIXCgdmZWVkX2lkGBMgASgFUgZmZWVkSWQSHwoLdXBkYXRlX3RpbWUYFCABKANSCnVwZGF0ZVRpbWU=');
 @$core.Deprecated('Use feedUpdateRecordDescriptor instead')
 const FeedUpdateRecord$json = const {
   '1': 'FeedUpdateRecord',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
-    const {'1': 'feed_id', '3': 2, '4': 1, '5': 5, '10': 'feedId'},
-    const {'1': 'last_update', '3': 3, '4': 1, '5': 3, '10': 'lastUpdate'},
-    const {'1': 'last_content_hash', '3': 4, '4': 1, '5': 9, '10': 'lastContentHash'},
-    const {'1': 'last_item_publish_time', '3': 5, '4': 1, '5': 3, '10': 'lastItemPublishTime'},
-    const {'1': 'update_time', '3': 6, '4': 1, '5': 3, '10': 'updateTime'},
+    const {'1': 'feed_url', '3': 1, '4': 1, '5': 9, '10': 'feedUrl'},
+    const {'1': 'last_update', '3': 2, '4': 1, '5': 3, '10': 'lastUpdate'},
+    const {'1': 'last_content_hash', '3': 3, '4': 1, '5': 9, '10': 'lastContentHash'},
+    const {'1': 'last_item_publish_time', '3': 4, '4': 1, '5': 3, '10': 'lastItemPublishTime'},
+    const {'1': 'update_time', '3': 5, '4': 1, '5': 3, '10': 'updateTime'},
   ],
 };
 
 /// Descriptor for `FeedUpdateRecord`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List feedUpdateRecordDescriptor = $convert.base64Decode('ChBGZWVkVXBkYXRlUmVjb3JkEg4KAmlkGAEgASgFUgJpZBIXCgdmZWVkX2lkGAIgASgFUgZmZWVkSWQSHwoLbGFzdF91cGRhdGUYAyABKANSCmxhc3RVcGRhdGUSKgoRbGFzdF9jb250ZW50X2hhc2gYBCABKAlSD2xhc3RDb250ZW50SGFzaBIzChZsYXN0X2l0ZW1fcHVibGlzaF90aW1lGAUgASgDUhNsYXN0SXRlbVB1Ymxpc2hUaW1lEh8KC3VwZGF0ZV90aW1lGAYgASgDUgp1cGRhdGVUaW1l');
+final $typed_data.Uint8List feedUpdateRecordDescriptor = $convert.base64Decode('ChBGZWVkVXBkYXRlUmVjb3JkEhkKCGZlZWRfdXJsGAEgASgJUgdmZWVkVXJsEh8KC2xhc3RfdXBkYXRlGAIgASgDUgpsYXN0VXBkYXRlEioKEWxhc3RfY29udGVudF9oYXNoGAMgASgJUg9sYXN0Q29udGVudEhhc2gSMwoWbGFzdF9pdGVtX3B1Ymxpc2hfdGltZRgEIAEoA1ITbGFzdEl0ZW1QdWJsaXNoVGltZRIfCgt1cGRhdGVfdGltZRgFIAEoA1IKdXBkYXRlVGltZQ==');
 @$core.Deprecated('Use feedDescriptor instead')
 const Feed$json = const {
   '1': 'Feed',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
-    const {'1': 'url', '3': 2, '4': 1, '5': 9, '10': 'url'},
-    const {'1': 'name', '3': 3, '4': 1, '5': 9, '9': 0, '10': 'name', '17': true},
-    const {'1': 'custom_name', '3': 4, '4': 1, '5': 9, '9': 1, '10': 'customName', '17': true},
-    const {'1': 'logo', '3': 5, '4': 1, '5': 9, '9': 2, '10': 'logo', '17': true},
-    const {'1': 'custom_logo', '3': 6, '4': 1, '5': 9, '9': 3, '10': 'customLogo', '17': true},
-    const {'1': 'description', '3': 7, '4': 1, '5': 9, '9': 4, '10': 'description', '17': true},
-    const {'1': 'custom_description', '3': 8, '4': 1, '5': 9, '9': 5, '10': 'customDescription', '17': true},
-    const {'1': 'group_id', '3': 9, '4': 1, '5': 5, '9': 6, '10': 'groupId', '17': true},
-    const {'1': 'tags', '3': 10, '4': 3, '5': 9, '10': 'tags'},
-    const {'1': 'create_time', '3': 11, '4': 1, '5': 3, '10': 'createTime'},
-    const {'1': 'feed_type', '3': 12, '4': 1, '5': 14, '6': '.model.FeedType', '10': 'feedType'},
-    const {'1': 'update_time', '3': 13, '4': 1, '5': 3, '10': 'updateTime'},
+    const {'1': 'url', '3': 1, '4': 1, '5': 9, '10': 'url'},
+    const {'1': 'name', '3': 2, '4': 1, '5': 9, '9': 0, '10': 'name', '17': true},
+    const {'1': 'custom_name', '3': 3, '4': 1, '5': 9, '9': 1, '10': 'customName', '17': true},
+    const {'1': 'logo', '3': 4, '4': 1, '5': 9, '9': 2, '10': 'logo', '17': true},
+    const {'1': 'custom_logo', '3': 5, '4': 1, '5': 9, '9': 3, '10': 'customLogo', '17': true},
+    const {'1': 'description', '3': 6, '4': 1, '5': 9, '9': 4, '10': 'description', '17': true},
+    const {'1': 'custom_description', '3': 7, '4': 1, '5': 9, '9': 5, '10': 'customDescription', '17': true},
+    const {'1': 'group_id', '3': 8, '4': 1, '5': 5, '9': 6, '10': 'groupId', '17': true},
+    const {'1': 'tags', '3': 9, '4': 3, '5': 9, '10': 'tags'},
+    const {'1': 'create_time', '3': 10, '4': 1, '5': 3, '10': 'createTime'},
+    const {'1': 'feed_type', '3': 11, '4': 1, '5': 14, '6': '.model.FeedType', '10': 'feedType'},
+    const {'1': 'update_time', '3': 12, '4': 1, '5': 3, '10': 'updateTime'},
   ],
   '8': const [
     const {'1': '_name'},
@@ -142,7 +139,7 @@ const Feed$json = const {
 };
 
 /// Descriptor for `Feed`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List feedDescriptor = $convert.base64Decode('CgRGZWVkEg4KAmlkGAEgASgFUgJpZBIQCgN1cmwYAiABKAlSA3VybBIXCgRuYW1lGAMgASgJSABSBG5hbWWIAQESJAoLY3VzdG9tX25hbWUYBCABKAlIAVIKY3VzdG9tTmFtZYgBARIXCgRsb2dvGAUgASgJSAJSBGxvZ2+IAQESJAoLY3VzdG9tX2xvZ28YBiABKAlIA1IKY3VzdG9tTG9nb4gBARIlCgtkZXNjcmlwdGlvbhgHIAEoCUgEUgtkZXNjcmlwdGlvbogBARIyChJjdXN0b21fZGVzY3JpcHRpb24YCCABKAlIBVIRY3VzdG9tRGVzY3JpcHRpb26IAQESHgoIZ3JvdXBfaWQYCSABKAVIBlIHZ3JvdXBJZIgBARISCgR0YWdzGAogAygJUgR0YWdzEh8KC2NyZWF0ZV90aW1lGAsgASgDUgpjcmVhdGVUaW1lEiwKCWZlZWRfdHlwZRgMIAEoDjIPLm1vZGVsLkZlZWRUeXBlUghmZWVkVHlwZRIfCgt1cGRhdGVfdGltZRgNIAEoA1IKdXBkYXRlVGltZUIHCgVfbmFtZUIOCgxfY3VzdG9tX25hbWVCBwoFX2xvZ29CDgoMX2N1c3RvbV9sb2dvQg4KDF9kZXNjcmlwdGlvbkIVChNfY3VzdG9tX2Rlc2NyaXB0aW9uQgsKCV9ncm91cF9pZA==');
+final $typed_data.Uint8List feedDescriptor = $convert.base64Decode('CgRGZWVkEhAKA3VybBgBIAEoCVIDdXJsEhcKBG5hbWUYAiABKAlIAFIEbmFtZYgBARIkCgtjdXN0b21fbmFtZRgDIAEoCUgBUgpjdXN0b21OYW1liAEBEhcKBGxvZ28YBCABKAlIAlIEbG9nb4gBARIkCgtjdXN0b21fbG9nbxgFIAEoCUgDUgpjdXN0b21Mb2dviAEBEiUKC2Rlc2NyaXB0aW9uGAYgASgJSARSC2Rlc2NyaXB0aW9uiAEBEjIKEmN1c3RvbV9kZXNjcmlwdGlvbhgHIAEoCUgFUhFjdXN0b21EZXNjcmlwdGlvbogBARIeCghncm91cF9pZBgIIAEoBUgGUgdncm91cElkiAEBEhIKBHRhZ3MYCSADKAlSBHRhZ3MSHwoLY3JlYXRlX3RpbWUYCiABKANSCmNyZWF0ZVRpbWUSLAoJZmVlZF90eXBlGAsgASgOMg8ubW9kZWwuRmVlZFR5cGVSCGZlZWRUeXBlEh8KC3VwZGF0ZV90aW1lGAwgASgDUgp1cGRhdGVUaW1lQgcKBV9uYW1lQg4KDF9jdXN0b21fbmFtZUIHCgVfbG9nb0IOCgxfY3VzdG9tX2xvZ29CDgoMX2Rlc2NyaXB0aW9uQhUKE19jdXN0b21fZGVzY3JpcHRpb25CCwoJX2dyb3VwX2lk');
 @$core.Deprecated('Use syncTimestampDescriptor instead')
 const SyncTimestamp$json = const {
   '1': 'SyncTimestamp',

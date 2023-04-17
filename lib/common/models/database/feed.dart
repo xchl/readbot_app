@@ -21,7 +21,7 @@ class FeedModel {
   String? description;
   String? customDescription;
 
-  int? groupId;
+  String? groupName;
 
   List<String>? tags;
   DateTime createTime;

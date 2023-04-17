@@ -10,19 +10,19 @@ class FeedGroupModel {
   Id id = Isar.autoIncrement;
 
   @Index(unique: true)
-  String? name;
+  String name;
 
   String? description;
 
   DateTime updateTime = DateTime.now();
 
-  FeedGroupModel({this.name, this.description, required this.updateTime});
+  FeedGroupModel(
+      {required this.name, this.description, required this.updateTime});
 }
 
 // function to convert FeedGroupModel to FeedGroup
 pb_model.FeedGroup toFeedGroup(FeedGroupModel model) {
   return pb_model.FeedGroup(
-    id: model.id,
     name: model.name,
     description: model.description,
     updateTime: Int64(model.updateTime.millisecondsSinceEpoch),

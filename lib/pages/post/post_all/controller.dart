@@ -23,12 +23,12 @@ class PostAllController extends GetxController {
 
   int _page = 0;
 
-  int? _feedId;
+  String? _feedUrl;
 
   _initData() async {
     _feedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
     _feed = await DatabaseManager().getFeeds(
-      _feedItems.map((e) => e.feedId).toList(),
+      _feedItems.map((e) => e.feedUrl).toList(),
     );
     update(["post_all"]);
   }
@@ -71,7 +71,8 @@ class PostAllController extends GetxController {
   }
 
   void onTapItem(FeedItemModel feedItem) async {
-    var content = await DatabaseManager().getContentByFeedItemId(feedItem.id);
+    var content =
+        await DatabaseManager().getContentByFeedItemMd5(feedItem.md5String);
     Get.toNamed(RouteNames.postPostDetail,
         arguments: {'feedItem': feedItem, 'content': content});
   }
@@ -79,9 +80,9 @@ class PostAllController extends GetxController {
   Future<void> refreshFeedItem() async {
     _page = 0;
     _feedItems = await DatabaseManager()
-        .getExploreFeedItemsByPage(_page, feedId: _feedId);
+        .getExploreFeedItemsByPage(_page, feedUrl: _feedUrl);
     _feed = await DatabaseManager().getFeeds(
-      _feedItems.map((e) => e.feedId).toList(),
+      _feedItems.map((e) => e.feedUrl).toList(),
     );
     update(["post_all"]);
   }
@@ -89,9 +90,9 @@ class PostAllController extends GetxController {
   Future<void> appendFeedItem() async {
     _page++;
     var newFeedItems = await DatabaseManager()
-        .getExploreFeedItemsByPage(_page, feedId: _feedId);
+        .getExploreFeedItemsByPage(_page, feedUrl: _feedUrl);
     var newFeed = await DatabaseManager().getFeeds(
-      newFeedItems.map((e) => e.feedId).toList(),
+      newFeedItems.map((e) => e.feedUrl).toList(),
     );
     _feedItems.addAll(newFeedItems);
     _feed.addAll(newFeed);
@@ -106,8 +107,8 @@ class PostAllController extends GetxController {
     }
   }
 
-  Future<void> onFeedSelect(int? feedId) async {
-    _feedId = feedId;
+  Future<void> onFeedSelect(String? feedUrl) async {
+    _feedUrl = feedUrl;
     refreshFeedItem();
   }
 

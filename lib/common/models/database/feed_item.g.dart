@@ -42,10 +42,10 @@ const FeedItemModelSchema = CollectionSchema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'feedId': PropertySchema(
+    r'feedUrl': PropertySchema(
       id: 5,
-      name: r'feedId',
-      type: IsarType.long,
+      name: r'feedUrl',
+      type: IsarType.string,
     ),
     r'isFocus': PropertySchema(
       id: 6,
@@ -177,18 +177,14 @@ int _feedItemModelEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.feedUrl.length * 3;
   {
     final value = object.link;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
   }
-  {
-    final value = object.md5String;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.md5String.length * 3;
   {
     final value = object.summaryAlgo;
     if (value != null) {
@@ -227,7 +223,7 @@ void _feedItemModelSerialize(
   writer.writeString(offsets[2], object.cover);
   writer.writeDateTime(offsets[3], object.createTime);
   writer.writeString(offsets[4], object.description);
-  writer.writeLong(offsets[5], object.feedId);
+  writer.writeString(offsets[5], object.feedUrl);
   writer.writeBool(offsets[6], object.isFocus);
   writer.writeBool(offsets[7], object.isSeen);
   writer.writeString(offsets[8], object.link);
@@ -246,7 +242,7 @@ FeedItemModel _feedItemModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = FeedItemModel(
-    reader.readLong(offsets[5]),
+    reader.readString(offsets[5]),
     authors: reader.readStringOrNull(offsets[0]),
     category: reader.readStringOrNull(offsets[1]),
     cover: reader.readStringOrNull(offsets[2]),
@@ -255,7 +251,6 @@ FeedItemModel _feedItemModelDeserialize(
     isFocus: reader.readBoolOrNull(offsets[6]) ?? false,
     isSeen: reader.readBoolOrNull(offsets[7]) ?? false,
     link: reader.readStringOrNull(offsets[8]),
-    md5String: reader.readStringOrNull(offsets[9]),
     publishTime: reader.readDateTimeOrNull(offsets[10]),
     summaryAlgo: reader.readStringOrNull(offsets[11]),
     tags: reader.readStringList(offsets[12]),
@@ -263,6 +258,7 @@ FeedItemModel _feedItemModelDeserialize(
     updateTime: reader.readDateTime(offsets[14]),
   );
   object.id = id;
+  object.md5String = reader.readString(offsets[9]);
   return object;
 }
 
@@ -284,7 +280,7 @@ P _feedItemModelDeserializeProp<P>(
     case 4:
       return (reader.readStringOrNull(offset)) as P;
     case 5:
-      return (reader.readLong(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 6:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 7:
@@ -292,7 +288,7 @@ P _feedItemModelDeserializeProp<P>(
     case 8:
       return (reader.readStringOrNull(offset)) as P;
     case 9:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 10:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 11:
@@ -322,39 +318,38 @@ void _feedItemModelAttach(
 }
 
 extension FeedItemModelByIndex on IsarCollection<FeedItemModel> {
-  Future<FeedItemModel?> getByMd5String(String? md5String) {
+  Future<FeedItemModel?> getByMd5String(String md5String) {
     return getByIndex(r'md5String', [md5String]);
   }
 
-  FeedItemModel? getByMd5StringSync(String? md5String) {
+  FeedItemModel? getByMd5StringSync(String md5String) {
     return getByIndexSync(r'md5String', [md5String]);
   }
 
-  Future<bool> deleteByMd5String(String? md5String) {
+  Future<bool> deleteByMd5String(String md5String) {
     return deleteByIndex(r'md5String', [md5String]);
   }
 
-  bool deleteByMd5StringSync(String? md5String) {
+  bool deleteByMd5StringSync(String md5String) {
     return deleteByIndexSync(r'md5String', [md5String]);
   }
 
-  Future<List<FeedItemModel?>> getAllByMd5String(
-      List<String?> md5StringValues) {
+  Future<List<FeedItemModel?>> getAllByMd5String(List<String> md5StringValues) {
     final values = md5StringValues.map((e) => [e]).toList();
     return getAllByIndex(r'md5String', values);
   }
 
-  List<FeedItemModel?> getAllByMd5StringSync(List<String?> md5StringValues) {
+  List<FeedItemModel?> getAllByMd5StringSync(List<String> md5StringValues) {
     final values = md5StringValues.map((e) => [e]).toList();
     return getAllByIndexSync(r'md5String', values);
   }
 
-  Future<int> deleteAllByMd5String(List<String?> md5StringValues) {
+  Future<int> deleteAllByMd5String(List<String> md5StringValues) {
     final values = md5StringValues.map((e) => [e]).toList();
     return deleteAllByIndex(r'md5String', values);
   }
 
-  int deleteAllByMd5StringSync(List<String?> md5StringValues) {
+  int deleteAllByMd5StringSync(List<String> md5StringValues) {
     final values = md5StringValues.map((e) => [e]).toList();
     return deleteAllByIndexSync(r'md5String', values);
   }
@@ -589,29 +584,7 @@ extension FeedItemModelQueryWhere
   }
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterWhereClause>
-      md5StringIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'md5String',
-        value: [null],
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItemModel, FeedItemModel, QAfterWhereClause>
-      md5StringIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'md5String',
-        lower: [null],
-        includeLower: false,
-        upper: [],
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItemModel, FeedItemModel, QAfterWhereClause>
-      md5StringEqualTo(String? md5String) {
+      md5StringEqualTo(String md5String) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'md5String',
@@ -621,7 +594,7 @@ extension FeedItemModelQueryWhere
   }
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterWhereClause>
-      md5StringNotEqualTo(String? md5String) {
+      md5StringNotEqualTo(String md5String) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -1442,57 +1415,137 @@ extension FeedItemModelQueryFilter
   }
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
-      feedIdEqualTo(int value) {
+      feedUrlEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'feedId',
+        property: r'feedUrl',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
-      feedIdGreaterThan(
-    int value, {
+      feedUrlGreaterThan(
+    String value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'feedId',
+        property: r'feedUrl',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
-      feedIdLessThan(
-    int value, {
+      feedUrlLessThan(
+    String value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'feedId',
+        property: r'feedUrl',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
-      feedIdBetween(
-    int lower,
-    int upper, {
+      feedUrlBetween(
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'feedId',
+        property: r'feedUrl',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      feedUrlStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'feedUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      feedUrlEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'feedUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      feedUrlContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'feedUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      feedUrlMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'feedUrl',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      feedUrlIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'feedUrl',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      feedUrlIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'feedUrl',
+        value: '',
       ));
     });
   }
@@ -1725,26 +1778,8 @@ extension FeedItemModelQueryFilter
   }
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
-      md5StringIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'md5String',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
-      md5StringIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'md5String',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
       md5StringEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1758,7 +1793,7 @@ extension FeedItemModelQueryFilter
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
       md5StringGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1774,7 +1809,7 @@ extension FeedItemModelQueryFilter
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
       md5StringLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1790,8 +1825,8 @@ extension FeedItemModelQueryFilter
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
       md5StringBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -2631,15 +2666,15 @@ extension FeedItemModelQuerySortBy
     });
   }
 
-  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> sortByFeedId() {
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> sortByFeedUrl() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'feedId', Sort.asc);
+      return query.addSortBy(r'feedUrl', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> sortByFeedIdDesc() {
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> sortByFeedUrlDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'feedId', Sort.desc);
+      return query.addSortBy(r'feedUrl', Sort.desc);
     });
   }
 
@@ -2809,15 +2844,15 @@ extension FeedItemModelQuerySortThenBy
     });
   }
 
-  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> thenByFeedId() {
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> thenByFeedUrl() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'feedId', Sort.asc);
+      return query.addSortBy(r'feedUrl', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> thenByFeedIdDesc() {
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> thenByFeedUrlDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'feedId', Sort.desc);
+      return query.addSortBy(r'feedUrl', Sort.desc);
     });
   }
 
@@ -2970,9 +3005,10 @@ extension FeedItemModelQueryWhereDistinct
     });
   }
 
-  QueryBuilder<FeedItemModel, FeedItemModel, QDistinct> distinctByFeedId() {
+  QueryBuilder<FeedItemModel, FeedItemModel, QDistinct> distinctByFeedUrl(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'feedId');
+      return query.addDistinctBy(r'feedUrl', caseSensitive: caseSensitive);
     });
   }
 
@@ -3075,9 +3111,9 @@ extension FeedItemModelQueryProperty
     });
   }
 
-  QueryBuilder<FeedItemModel, int, QQueryOperations> feedIdProperty() {
+  QueryBuilder<FeedItemModel, String, QQueryOperations> feedUrlProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'feedId');
+      return query.addPropertyName(r'feedUrl');
     });
   }
 
@@ -3099,7 +3135,7 @@ extension FeedItemModelQueryProperty
     });
   }
 
-  QueryBuilder<FeedItemModel, String?, QQueryOperations> md5StringProperty() {
+  QueryBuilder<FeedItemModel, String, QQueryOperations> md5StringProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'md5String');
     });

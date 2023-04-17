@@ -18,10 +18,10 @@ const FeedUpdateRecordModelSchema = CollectionSchema(
   name: r'FeedUpdateRecordModel',
   id: 3485920852919927359,
   properties: {
-    r'feedId': PropertySchema(
+    r'feedUrl': PropertySchema(
       id: 0,
-      name: r'feedId',
-      type: IsarType.long,
+      name: r'feedUrl',
+      type: IsarType.string,
     ),
     r'lastContentHash': PropertySchema(
       id: 1,
@@ -50,16 +50,16 @@ const FeedUpdateRecordModelSchema = CollectionSchema(
   deserializeProp: _feedUpdateRecordModelDeserializeProp,
   idName: r'id',
   indexes: {
-    r'feedId': IndexSchema(
-      id: -9093187642505315800,
-      name: r'feedId',
+    r'feedUrl': IndexSchema(
+      id: 2504832307170622621,
+      name: r'feedUrl',
       unique: true,
       replace: true,
       properties: [
         IndexPropertySchema(
-          name: r'feedId',
-          type: IndexType.value,
-          caseSensitive: false,
+          name: r'feedUrl',
+          type: IndexType.hash,
+          caseSensitive: true,
         )
       ],
     ),
@@ -91,6 +91,7 @@ int _feedUpdateRecordModelEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.feedUrl.length * 3;
   bytesCount += 3 + object.lastContentHash.length * 3;
   return bytesCount;
 }
@@ -101,7 +102,7 @@ void _feedUpdateRecordModelSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.feedId);
+  writer.writeString(offsets[0], object.feedUrl);
   writer.writeString(offsets[1], object.lastContentHash);
   writer.writeDateTime(offsets[2], object.lastItemPublishTime);
   writer.writeDateTime(offsets[3], object.lastUpdate);
@@ -115,7 +116,7 @@ FeedUpdateRecordModel _feedUpdateRecordModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = FeedUpdateRecordModel(
-    feedId: reader.readLong(offsets[0]),
+    feedUrl: reader.readString(offsets[0]),
     lastContentHash: reader.readString(offsets[1]),
     lastItemPublishTime: reader.readDateTimeOrNull(offsets[2]),
     lastUpdate: reader.readDateTime(offsets[3]),
@@ -133,7 +134,7 @@ P _feedUpdateRecordModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLong(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
@@ -163,57 +164,58 @@ void _feedUpdateRecordModelAttach(
 
 extension FeedUpdateRecordModelByIndex
     on IsarCollection<FeedUpdateRecordModel> {
-  Future<FeedUpdateRecordModel?> getByFeedId(int feedId) {
-    return getByIndex(r'feedId', [feedId]);
+  Future<FeedUpdateRecordModel?> getByFeedUrl(String feedUrl) {
+    return getByIndex(r'feedUrl', [feedUrl]);
   }
 
-  FeedUpdateRecordModel? getByFeedIdSync(int feedId) {
-    return getByIndexSync(r'feedId', [feedId]);
+  FeedUpdateRecordModel? getByFeedUrlSync(String feedUrl) {
+    return getByIndexSync(r'feedUrl', [feedUrl]);
   }
 
-  Future<bool> deleteByFeedId(int feedId) {
-    return deleteByIndex(r'feedId', [feedId]);
+  Future<bool> deleteByFeedUrl(String feedUrl) {
+    return deleteByIndex(r'feedUrl', [feedUrl]);
   }
 
-  bool deleteByFeedIdSync(int feedId) {
-    return deleteByIndexSync(r'feedId', [feedId]);
+  bool deleteByFeedUrlSync(String feedUrl) {
+    return deleteByIndexSync(r'feedUrl', [feedUrl]);
   }
 
-  Future<List<FeedUpdateRecordModel?>> getAllByFeedId(List<int> feedIdValues) {
-    final values = feedIdValues.map((e) => [e]).toList();
-    return getAllByIndex(r'feedId', values);
+  Future<List<FeedUpdateRecordModel?>> getAllByFeedUrl(
+      List<String> feedUrlValues) {
+    final values = feedUrlValues.map((e) => [e]).toList();
+    return getAllByIndex(r'feedUrl', values);
   }
 
-  List<FeedUpdateRecordModel?> getAllByFeedIdSync(List<int> feedIdValues) {
-    final values = feedIdValues.map((e) => [e]).toList();
-    return getAllByIndexSync(r'feedId', values);
+  List<FeedUpdateRecordModel?> getAllByFeedUrlSync(List<String> feedUrlValues) {
+    final values = feedUrlValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'feedUrl', values);
   }
 
-  Future<int> deleteAllByFeedId(List<int> feedIdValues) {
-    final values = feedIdValues.map((e) => [e]).toList();
-    return deleteAllByIndex(r'feedId', values);
+  Future<int> deleteAllByFeedUrl(List<String> feedUrlValues) {
+    final values = feedUrlValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'feedUrl', values);
   }
 
-  int deleteAllByFeedIdSync(List<int> feedIdValues) {
-    final values = feedIdValues.map((e) => [e]).toList();
-    return deleteAllByIndexSync(r'feedId', values);
+  int deleteAllByFeedUrlSync(List<String> feedUrlValues) {
+    final values = feedUrlValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'feedUrl', values);
   }
 
-  Future<Id> putByFeedId(FeedUpdateRecordModel object) {
-    return putByIndex(r'feedId', object);
+  Future<Id> putByFeedUrl(FeedUpdateRecordModel object) {
+    return putByIndex(r'feedUrl', object);
   }
 
-  Id putByFeedIdSync(FeedUpdateRecordModel object, {bool saveLinks = true}) {
-    return putByIndexSync(r'feedId', object, saveLinks: saveLinks);
+  Id putByFeedUrlSync(FeedUpdateRecordModel object, {bool saveLinks = true}) {
+    return putByIndexSync(r'feedUrl', object, saveLinks: saveLinks);
   }
 
-  Future<List<Id>> putAllByFeedId(List<FeedUpdateRecordModel> objects) {
-    return putAllByIndex(r'feedId', objects);
+  Future<List<Id>> putAllByFeedUrl(List<FeedUpdateRecordModel> objects) {
+    return putAllByIndex(r'feedUrl', objects);
   }
 
-  List<Id> putAllByFeedIdSync(List<FeedUpdateRecordModel> objects,
+  List<Id> putAllByFeedUrlSync(List<FeedUpdateRecordModel> objects,
       {bool saveLinks = true}) {
-    return putAllByIndexSync(r'feedId', objects, saveLinks: saveLinks);
+    return putAllByIndexSync(r'feedUrl', objects, saveLinks: saveLinks);
   }
 }
 
@@ -223,15 +225,6 @@ extension FeedUpdateRecordModelQueryWhereSort
       anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
-
-  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhere>
-      anyFeedId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'feedId'),
-      );
     });
   }
 
@@ -316,95 +309,47 @@ extension FeedUpdateRecordModelQueryWhere on QueryBuilder<FeedUpdateRecordModel,
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
-      feedIdEqualTo(int feedId) {
+      feedUrlEqualTo(String feedUrl) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'feedId',
-        value: [feedId],
+        indexName: r'feedUrl',
+        value: [feedUrl],
       ));
     });
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
-      feedIdNotEqualTo(int feedId) {
+      feedUrlNotEqualTo(String feedUrl) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'feedId',
+              indexName: r'feedUrl',
               lower: [],
-              upper: [feedId],
+              upper: [feedUrl],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'feedId',
-              lower: [feedId],
+              indexName: r'feedUrl',
+              lower: [feedUrl],
               includeLower: false,
               upper: [],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'feedId',
-              lower: [feedId],
+              indexName: r'feedUrl',
+              lower: [feedUrl],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'feedId',
+              indexName: r'feedUrl',
               lower: [],
-              upper: [feedId],
+              upper: [feedUrl],
               includeUpper: false,
             ));
       }
-    });
-  }
-
-  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
-      feedIdGreaterThan(
-    int feedId, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'feedId',
-        lower: [feedId],
-        includeLower: include,
-        upper: [],
-      ));
-    });
-  }
-
-  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
-      feedIdLessThan(
-    int feedId, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'feedId',
-        lower: [],
-        upper: [feedId],
-        includeUpper: include,
-      ));
-    });
-  }
-
-  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterWhereClause>
-      feedIdBetween(
-    int lowerFeedId,
-    int upperFeedId, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'feedId',
-        lower: [lowerFeedId],
-        includeLower: includeLower,
-        upper: [upperFeedId],
-        includeUpper: includeUpper,
-      ));
     });
   }
 
@@ -505,57 +450,139 @@ extension FeedUpdateRecordModelQueryWhere on QueryBuilder<FeedUpdateRecordModel,
 extension FeedUpdateRecordModelQueryFilter on QueryBuilder<
     FeedUpdateRecordModel, FeedUpdateRecordModel, QFilterCondition> {
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
-      QAfterFilterCondition> feedIdEqualTo(int value) {
+      QAfterFilterCondition> feedUrlEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'feedId',
+        property: r'feedUrl',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
-      QAfterFilterCondition> feedIdGreaterThan(
-    int value, {
+      QAfterFilterCondition> feedUrlGreaterThan(
+    String value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'feedId',
+        property: r'feedUrl',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
-      QAfterFilterCondition> feedIdLessThan(
-    int value, {
+      QAfterFilterCondition> feedUrlLessThan(
+    String value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'feedId',
+        property: r'feedUrl',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
-      QAfterFilterCondition> feedIdBetween(
-    int lower,
-    int upper, {
+      QAfterFilterCondition> feedUrlBetween(
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'feedId',
+        property: r'feedUrl',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> feedUrlStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'feedUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> feedUrlEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'feedUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+          QAfterFilterCondition>
+      feedUrlContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'feedUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+          QAfterFilterCondition>
+      feedUrlMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'feedUrl',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> feedUrlIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'feedUrl',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> feedUrlIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'feedUrl',
+        value: '',
       ));
     });
   }
@@ -950,16 +977,16 @@ extension FeedUpdateRecordModelQueryLinks on QueryBuilder<FeedUpdateRecordModel,
 extension FeedUpdateRecordModelQuerySortBy
     on QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QSortBy> {
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
-      sortByFeedId() {
+      sortByFeedUrl() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'feedId', Sort.asc);
+      return query.addSortBy(r'feedUrl', Sort.asc);
     });
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
-      sortByFeedIdDesc() {
+      sortByFeedUrlDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'feedId', Sort.desc);
+      return query.addSortBy(r'feedUrl', Sort.desc);
     });
   }
 
@@ -1023,16 +1050,16 @@ extension FeedUpdateRecordModelQuerySortBy
 extension FeedUpdateRecordModelQuerySortThenBy
     on QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QSortThenBy> {
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
-      thenByFeedId() {
+      thenByFeedUrl() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'feedId', Sort.asc);
+      return query.addSortBy(r'feedUrl', Sort.asc);
     });
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
-      thenByFeedIdDesc() {
+      thenByFeedUrlDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'feedId', Sort.desc);
+      return query.addSortBy(r'feedUrl', Sort.desc);
     });
   }
 
@@ -1110,9 +1137,9 @@ extension FeedUpdateRecordModelQuerySortThenBy
 extension FeedUpdateRecordModelQueryWhereDistinct
     on QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QDistinct> {
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QDistinct>
-      distinctByFeedId() {
+      distinctByFeedUrl({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'feedId');
+      return query.addDistinctBy(r'feedUrl', caseSensitive: caseSensitive);
     });
   }
 
@@ -1154,9 +1181,10 @@ extension FeedUpdateRecordModelQueryProperty on QueryBuilder<
     });
   }
 
-  QueryBuilder<FeedUpdateRecordModel, int, QQueryOperations> feedIdProperty() {
+  QueryBuilder<FeedUpdateRecordModel, String, QQueryOperations>
+      feedUrlProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'feedId');
+      return query.addPropertyName(r'feedUrl');
     });
   }
 

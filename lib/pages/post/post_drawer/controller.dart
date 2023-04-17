@@ -1,6 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:feed_inbox_app/pages/index.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PostDrawerController extends GetxController {
@@ -9,17 +8,17 @@ class PostDrawerController extends GetxController {
   final SubPage _subPage;
   Map<FeedGroupModel, List<FeedModel>> feedGroupedByGroup = {};
 
-  int? selectedFeedId;
+  String? selectedFeed;
 
   _initData() async {
     List<FeedModel> feeds = await DatabaseManager().getAllFeeds();
     List<FeedGroupModel> feedGroups = await DatabaseManager().getAllGroups();
-    Map<int, List<FeedModel>> feedGroupedByGroupId = {};
+    Map<String, List<FeedModel>> feedGroupedByGroupId = {};
     for (var feed in feeds) {
-      if (feedGroupedByGroupId[feed.groupId] == null) {
-        feedGroupedByGroupId[feed.groupId!] = [];
+      if (feedGroupedByGroupId[feed.groupName] == null) {
+        feedGroupedByGroupId[feed.groupName!] = [];
       }
-      feedGroupedByGroupId[feed.groupId]!.add(feed);
+      feedGroupedByGroupId[feed.groupName]!.add(feed);
     }
     for (var group in feedGroups) {
       feedGroupedByGroup[group] = feedGroupedByGroupId[group.id] ?? [];
@@ -33,15 +32,15 @@ class PostDrawerController extends GetxController {
     _initData();
   }
 
-  void onFeedSelect(int feedId) async {
-    if (selectedFeedId != null) {
-      selectedFeedId = null;
+  void onFeedSelect(String feedUrl) async {
+    if (selectedFeed != null) {
+      selectedFeed = null;
     } else {
-      selectedFeedId = feedId;
+      selectedFeed = feedUrl;
     }
     update(["post_drawer"]);
     if (_subPage == SubPage.explore) {
-      await Get.find<PostAllController>().onFeedSelect(selectedFeedId);
+      await Get.find<PostAllController>().onFeedSelect(selectedFeed);
     }
   }
 }

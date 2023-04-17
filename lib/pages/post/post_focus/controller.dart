@@ -17,13 +17,14 @@ class PostFocusController extends GetxController {
   _initData() async {
     _feedItems = await DatabaseManager().getFocusFeedItemsByPage(_page);
     _feeds = await DatabaseManager().getFeeds(
-      _feedItems.map((e) => e.feedId).toList(),
+      _feedItems.map((e) => e.feedUrl).toList(),
     );
     update(["post_focus"]);
   }
 
   void onTapItem(FeedItemModel feedItem) async {
-    var content = await DatabaseManager().getContentByFeedItemId(feedItem.id);
+    var content =
+        await DatabaseManager().getContentByFeedItemMd5(feedItem.md5String);
     Get.toNamed(RouteNames.postPostDetail,
         arguments: {'feedItem': feedItem, 'content': content});
   }

@@ -1,5 +1,4 @@
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/models/database/feed_update_record.dart';
 import 'package:isar/isar.dart';
 
 class DatabaseManager {
@@ -58,13 +57,14 @@ class DatabaseManager {
   }
 
   // get feeds last update record by feed id
-  Future<List<FeedUpdateRecordModel?>> getFeedLastUpdateRecord(feedIds) async {
-    return await _isar.feedUpdateRecordModels.getAllByFeedId(feedIds);
+  Future<List<FeedUpdateRecordModel?>> getFeedLastUpdateRecord(
+      List<String> feedUrl) async {
+    return await _isar.feedUpdateRecordModels.getAllByFeedUrl(feedUrl);
   }
 
   // query feed by ids
-  Future<List<FeedModel?>> getFeeds(List<int> ids) async {
-    return await _isar.feedModels.getAll(ids);
+  Future<List<FeedModel?>> getFeeds(List<String> urls) async {
+    return await _isar.feedModels.getAllByUrl(urls);
   }
 
   // FeedItem
@@ -74,7 +74,7 @@ class DatabaseManager {
       List<FeedItemModel> items, FeedUpdateRecordModel record) async {
     await _isar.writeTxn(() async {
       await _isar.feedItemModels.putAllByMd5String(items);
-      await _isar.feedUpdateRecordModels.putByFeedId(record);
+      await _isar.feedUpdateRecordModels.putByFeedUrl(record);
     });
   }
 
@@ -130,10 +130,11 @@ class DatabaseManager {
 
   // query feeditems by feed id
   // TODO  add page
-  Future<List<FeedItemModel>> getExploreFeedItemsByFeedId(int feedId) async {
+  Future<List<FeedItemModel>> getExploreFeedItemsByFeedId(
+      String feedUrl) async {
     var feedItems = await _isar.feedItemModels
         .filter()
-        .feedIdEqualTo(feedId)
+        .feedUrlEqualTo(feedUrl)
         .isFocusEqualTo(false)
         .sortByPublishTimeDesc()
         .findAll();
@@ -141,10 +142,10 @@ class DatabaseManager {
   }
 
   Future<List<FeedItemModel>> getExploreFeedItemsByPage(int page,
-      {int? feedId}) async {
+      {String? feedUrl}) async {
     var filter = _isar.feedItemModels.filter().isFocusEqualTo(false);
-    if (feedId != null) {
-      filter = filter.feedIdEqualTo(feedId);
+    if (feedUrl != null) {
+      filter = filter.feedUrlEqualTo(feedUrl);
     }
     return await filter
         .sortByPublishTimeDesc()
@@ -162,10 +163,10 @@ class DatabaseManager {
   }
 
   // get content by feeditem id
-  Future<ContentModel?> getContentByFeedItemId(int feedItemId) async {
+  Future<ContentModel?> getContentByFeedItemMd5(String md5String) async {
     var content = await _isar.contentModels
         .filter()
-        .feedItemIdEqualTo(feedItemId)
+        .feedItemMd5StringEqualTo(md5String)
         .findFirst();
     return content;
   }
@@ -201,7 +202,7 @@ class DatabaseManager {
         await _isar.feedGroupModels.putAllByName(feedGroups);
       }
       if (feedUpdateRecords.isNotEmpty) {
-        await _isar.feedUpdateRecordModels.putAllByFeedId(feedUpdateRecords);
+        await _isar.feedUpdateRecordModels.putAllByFeedUrl(feedUpdateRecords);
       }
       if (syncTimestampModels.isNotEmpty) {
         await _isar.syncTimestampModels.putAllByModelName(syncTimestampModels);
@@ -213,5 +214,56 @@ class DatabaseManager {
   Future<List<SyncTimestampModel?>> getSyncTimestampModel(
       List<ModelName> models) async {
     return await _isar.syncTimestampModels.getAllByModelName(models);
+  }
+
+  // get latest FeedModel filter by update time
+  Future<List<FeedModel>> getLatestFeedModelListSorted(int timestamp) async {
+    var time = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    return await _isar.feedModels
+        .filter()
+        .updateTimeGreaterThan(time)
+        .sortByUpdateTime()
+        .findAll();
+  }
+
+  // get latest FeedItemModel filter by update time
+  Future<List<FeedItemModel>> getLatestFeedItemModelListSorted(
+      int timestamp) async {
+    var time = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    return await _isar.feedItemModels
+        .filter()
+        .updateTimeGreaterThan(time)
+        .sortByUpdateTime()
+        .findAll();
+  }
+
+  // get latest FeedGroupModel filter by update time
+  Future<List<FeedGroupModel>> getLatestFeedGroupModelListSorted(
+      int timestamp) async {
+    var time = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    return await _isar.feedGroupModels
+        .filter()
+        .updateTimeGreaterThan(time)
+        .sortByUpdateTime()
+        .findAll();
+  }
+
+  // get latest FeedUpdateRecordModel filter by update time
+  Future<List<FeedUpdateRecordModel>> getLatestFeedUpdateRecordModelListSorted(
+      int timestamp) async {
+    var time = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    return await _isar.feedUpdateRecordModels
+        .filter()
+        .updateTimeGreaterThan(time)
+        .sortByUpdateTime()
+        .findAll();
+  }
+
+  // SyncTimestampModels save
+  Future<void> saveSyncTimestampModel(
+      List<SyncTimestampModel> syncTimestampModels) async {
+    await _isar.writeTxn(() async {
+      await _isar.syncTimestampModels.putAllByModelName(syncTimestampModels);
+    });
   }
 }

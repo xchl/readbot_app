@@ -42,10 +42,10 @@ const FeedModelSchema = CollectionSchema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'groupId': PropertySchema(
+    r'groupName': PropertySchema(
       id: 5,
-      name: r'groupId',
-      type: IsarType.long,
+      name: r'groupName',
+      type: IsarType.string,
     ),
     r'logo': PropertySchema(
       id: 6,
@@ -156,6 +156,12 @@ int _feedModelEstimateSize(
     }
   }
   {
+    final value = object.groupName;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.logo;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -195,7 +201,7 @@ void _feedModelSerialize(
   writer.writeString(offsets[2], object.customLogo);
   writer.writeString(offsets[3], object.customName);
   writer.writeString(offsets[4], object.description);
-  writer.writeLong(offsets[5], object.groupId);
+  writer.writeString(offsets[5], object.groupName);
   writer.writeString(offsets[6], object.logo);
   writer.writeString(offsets[7], object.name);
   writer.writeStringList(offsets[8], object.tags);
@@ -224,7 +230,7 @@ FeedModel _feedModelDeserialize(
     type: _FeedModeltypeValueEnumMap[reader.readIntOrNull(offsets[10])],
     updateTime: reader.readDateTime(offsets[11]),
   );
-  object.groupId = reader.readLongOrNull(offsets[5]);
+  object.groupName = reader.readStringOrNull(offsets[5]);
   object.id = id;
   return object;
 }
@@ -247,7 +253,7 @@ P _feedModelDeserializeProp<P>(
     case 4:
       return (reader.readStringOrNull(offset)) as P;
     case 5:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 6:
       return (reader.readStringOrNull(offset)) as P;
     case 7:
@@ -1227,71 +1233,151 @@ extension FeedModelQueryFilter
     });
   }
 
-  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupIdIsNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupNameIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'groupId',
+        property: r'groupName',
       ));
     });
   }
 
-  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupIdIsNotNull() {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      groupNameIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'groupId',
+        property: r'groupName',
       ));
     });
   }
 
-  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupIdEqualTo(
-      int? value) {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupNameEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'groupId',
+        property: r'groupName',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupIdGreaterThan(
-    int? value, {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      groupNameGreaterThan(
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'groupId',
+        property: r'groupName',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupIdLessThan(
-    int? value, {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupNameLessThan(
+    String? value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'groupId',
+        property: r'groupName',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupIdBetween(
-    int? lower,
-    int? upper, {
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupNameBetween(
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'groupId',
+        property: r'groupName',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupNameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'groupName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupNameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'groupName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupNameContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'groupName',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupNameMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'groupName',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> groupNameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'groupName',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      groupNameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'groupName',
+        value: '',
       ));
     });
   }
@@ -2328,15 +2414,15 @@ extension FeedModelQuerySortBy on QueryBuilder<FeedModel, FeedModel, QSortBy> {
     });
   }
 
-  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByGroupId() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByGroupName() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'groupId', Sort.asc);
+      return query.addSortBy(r'groupName', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByGroupIdDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByGroupNameDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'groupId', Sort.desc);
+      return query.addSortBy(r'groupName', Sort.desc);
     });
   }
 
@@ -2476,15 +2562,15 @@ extension FeedModelQuerySortThenBy
     });
   }
 
-  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByGroupId() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByGroupName() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'groupId', Sort.asc);
+      return query.addSortBy(r'groupName', Sort.asc);
     });
   }
 
-  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByGroupIdDesc() {
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByGroupNameDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'groupId', Sort.desc);
+      return query.addSortBy(r'groupName', Sort.desc);
     });
   }
 
@@ -2610,9 +2696,10 @@ extension FeedModelQueryWhereDistinct
     });
   }
 
-  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByGroupId() {
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByGroupName(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'groupId');
+      return query.addDistinctBy(r'groupName', caseSensitive: caseSensitive);
     });
   }
 
@@ -2702,9 +2789,9 @@ extension FeedModelQueryProperty
     });
   }
 
-  QueryBuilder<FeedModel, int?, QQueryOperations> groupIdProperty() {
+  QueryBuilder<FeedModel, String?, QQueryOperations> groupNameProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'groupId');
+      return query.addPropertyName(r'groupName');
     });
   }
 

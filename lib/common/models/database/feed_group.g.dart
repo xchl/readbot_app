@@ -73,12 +73,7 @@ int _feedGroupModelEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  {
-    final value = object.name;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.name.length * 3;
   return bytesCount;
 }
 
@@ -101,7 +96,7 @@ FeedGroupModel _feedGroupModelDeserialize(
 ) {
   final object = FeedGroupModel(
     description: reader.readStringOrNull(offsets[0]),
-    name: reader.readStringOrNull(offsets[1]),
+    name: reader.readString(offsets[1]),
     updateTime: reader.readDateTime(offsets[2]),
   );
   object.id = id;
@@ -118,7 +113,7 @@ P _feedGroupModelDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 2:
       return (reader.readDateTime(offset)) as P;
     default:
@@ -140,38 +135,38 @@ void _feedGroupModelAttach(
 }
 
 extension FeedGroupModelByIndex on IsarCollection<FeedGroupModel> {
-  Future<FeedGroupModel?> getByName(String? name) {
+  Future<FeedGroupModel?> getByName(String name) {
     return getByIndex(r'name', [name]);
   }
 
-  FeedGroupModel? getByNameSync(String? name) {
+  FeedGroupModel? getByNameSync(String name) {
     return getByIndexSync(r'name', [name]);
   }
 
-  Future<bool> deleteByName(String? name) {
+  Future<bool> deleteByName(String name) {
     return deleteByIndex(r'name', [name]);
   }
 
-  bool deleteByNameSync(String? name) {
+  bool deleteByNameSync(String name) {
     return deleteByIndexSync(r'name', [name]);
   }
 
-  Future<List<FeedGroupModel?>> getAllByName(List<String?> nameValues) {
+  Future<List<FeedGroupModel?>> getAllByName(List<String> nameValues) {
     final values = nameValues.map((e) => [e]).toList();
     return getAllByIndex(r'name', values);
   }
 
-  List<FeedGroupModel?> getAllByNameSync(List<String?> nameValues) {
+  List<FeedGroupModel?> getAllByNameSync(List<String> nameValues) {
     final values = nameValues.map((e) => [e]).toList();
     return getAllByIndexSync(r'name', values);
   }
 
-  Future<int> deleteAllByName(List<String?> nameValues) {
+  Future<int> deleteAllByName(List<String> nameValues) {
     final values = nameValues.map((e) => [e]).toList();
     return deleteAllByIndex(r'name', values);
   }
 
-  int deleteAllByNameSync(List<String?> nameValues) {
+  int deleteAllByNameSync(List<String> nameValues) {
     final values = nameValues.map((e) => [e]).toList();
     return deleteAllByIndexSync(r'name', values);
   }
@@ -274,29 +269,8 @@ extension FeedGroupModelQueryWhere
     });
   }
 
-  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhereClause> nameIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'name',
-        value: [null],
-      ));
-    });
-  }
-
-  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhereClause>
-      nameIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'name',
-        lower: [null],
-        includeLower: false,
-        upper: [],
-      ));
-    });
-  }
-
   QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhereClause> nameEqualTo(
-      String? name) {
+      String name) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'name',
@@ -306,7 +280,7 @@ extension FeedGroupModelQueryWhere
   }
 
   QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterWhereClause>
-      nameNotEqualTo(String? name) {
+      nameNotEqualTo(String name) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -553,26 +527,8 @@ extension FeedGroupModelQueryFilter
   }
 
   QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
-      nameIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'name',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
-      nameIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'name',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
       nameEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -586,7 +542,7 @@ extension FeedGroupModelQueryFilter
 
   QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
       nameGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -602,7 +558,7 @@ extension FeedGroupModelQueryFilter
 
   QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
       nameLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -618,8 +574,8 @@ extension FeedGroupModelQueryFilter
 
   QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
       nameBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -906,7 +862,7 @@ extension FeedGroupModelQueryProperty
     });
   }
 
-  QueryBuilder<FeedGroupModel, String?, QQueryOperations> nameProperty() {
+  QueryBuilder<FeedGroupModel, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
     });

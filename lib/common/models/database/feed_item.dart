@@ -30,15 +30,17 @@ class FeedItemModel {
   String? summaryAlgo;
   DateTime? createTime;
 
+  // md5(title + link)
   @Index(unique: true, replace: true)
-  String? md5String;
+  String md5String;
 
-  int feedId;
+  // use feedUrl instead of feedId to avoid different feedId in different device
+  String feedUrl;
 
   @Index()
   DateTime updateTime = DateTime.now();
 
-  FeedItemModel(this.feedId,
+  FeedItemModel(this.feedUrl,
       {this.isFocus = false,
       this.isSeen = false,
       this.title,
@@ -50,13 +52,14 @@ class FeedItemModel {
       this.category,
       this.description,
       this.summaryAlgo,
-      this.md5String,
       required this.updateTime,
-      required this.createTime});
+      required this.createTime})
+      : md5String =
+            md5.convert(utf8.encode((title ?? "") + (link ?? ""))).toString();
 
   factory FeedItemModel.fromRssItem(RssItem item, FeedModel feed) {
     var feedItem = FeedItemModel(
-      feed.id,
+      feed.url,
       isFocus: false,
       isSeen: false,
       title: item.title,
@@ -67,15 +70,12 @@ class FeedItemModel {
       createTime: DateTime.now(),
       updateTime: DateTime.now(),
     );
-    String idString = (feedItem.title == null ? "" : feedItem.title!) +
-        (feedItem.link == null ? "" : feedItem.link!);
-    feedItem.md5String = md5.convert(utf8.encode(idString)).toString();
     return feedItem;
   }
 
   factory FeedItemModel.fromAtomItem(AtomItem item, FeedModel feed) {
     var feedItem = FeedItemModel(
-      feed.id,
+      feed.url,
       isFocus: false,
       isSeen: false,
       title: item.title,
@@ -86,9 +86,6 @@ class FeedItemModel {
       createTime: DateTime.now(),
       updateTime: DateTime.now(),
     );
-    String idString = (feedItem.title == null ? "" : feedItem.title!) +
-        (feedItem.link == null ? "" : feedItem.link!);
-    feedItem.md5String = md5.convert(utf8.encode(idString)).toString();
     return feedItem;
   }
 }
@@ -96,7 +93,6 @@ class FeedItemModel {
 // function to convert FeedItemModel to FeedItem
 pb_model.FeedItem toFeedItem(FeedItemModel model) {
   return pb_model.FeedItem(
-      id: model.id,
       isFocus: model.isFocus,
       isSeen: model.isSeen,
       title: model.title,
@@ -115,7 +111,7 @@ pb_model.FeedItem toFeedItem(FeedItemModel model) {
           ? null
           : Int64(model.createTime!.millisecondsSinceEpoch),
       md5String: model.md5String,
-      feedId: model.feedId,
+      feedUrl: model.feedUrl,
       updateTime: Int64(model.updateTime.millisecondsSinceEpoch));
 }
 
@@ -127,7 +123,7 @@ List<pb_model.FeedItem> toFeedItemList(List<FeedItemModel> models) {
 // function to convert FeedItem to FeedItemModel
 FeedItemModel toFeedItemModel(pb_model.FeedItem feedItem) {
   return FeedItemModel(
-    feedItem.feedId,
+    feedItem.feedUrl,
     isFocus: feedItem.isFocus,
     isSeen: feedItem.isSeen,
     title: feedItem.title,
@@ -141,7 +137,6 @@ FeedItemModel toFeedItemModel(pb_model.FeedItem feedItem) {
     category: feedItem.category,
     description: feedItem.description,
     summaryAlgo: feedItem.summaryAlgo,
-    md5String: feedItem.md5String,
     createTime:
         DateTime.fromMillisecondsSinceEpoch(feedItem.createTime.toInt()),
     updateTime:

@@ -93,7 +93,7 @@ class FeedService extends GetxService {
             type: ContentType.html,
             content: pureContent,
             uri: url.toString(),
-            feedItemId: feedItems[idx].id);
+            feedItemMd5String: feedItems[idx].md5String);
 
         DatabaseManager().insertContent(content);
 
@@ -161,18 +161,22 @@ class FeedService extends GetxService {
         // create feed group
         var groupTitle = outline.getAttribute('title');
         var groupText = outline.getAttribute('text');
-        var group = FeedGroupModel(
-          name: groupTitle,
-          description: groupText,
-          updateTime: DateTime.now(),
-        );
-        await DatabaseManager().insertGroup(group);
+        if (groupTitle != null) {
+          var group = FeedGroupModel(
+            name: groupTitle,
+            description: groupText,
+            updateTime: DateTime.now(),
+          );
+          await DatabaseManager().insertGroup(group);
+        }
 
         // for each child outline, add feed
         for (var childOutline in childOutlines) {
           var feed = handleSingleOutline(childOutline);
           if (feed != null) {
-            feed.groupId = group.id;
+            if (groupTitle != null) {
+              feed.groupName = groupTitle;
+            }
             feeds.add(feed);
           }
         }
@@ -188,9 +192,9 @@ class FeedService extends GetxService {
   }
 
   Future<void> fetchFeeds(List<FeedModel> feeds) async {
-    var feedIds = feeds.map((feed) => feed.id).toList();
+    var feedUrls = feeds.map((feed) => feed.url).toList();
     List<FeedUpdateRecordModel?> feedLastUpdateRecords =
-        await DatabaseManager().getFeedLastUpdateRecord(feedIds);
+        await DatabaseManager().getFeedLastUpdateRecord(feedUrls);
 
     var feedsNeedUpdate = <int>[];
     // if there is no update record, feed need to update
@@ -252,7 +256,7 @@ class FeedService extends GetxService {
       }
 
       var newUpdateRecord = FeedUpdateRecordModel(
-          feedId: feed.id,
+          feedUrl: feed.url,
           lastUpdate: DateTime.now(),
           updateTime: DateTime.now(),
           lastContentHash: hash,

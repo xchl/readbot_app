@@ -1,6 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -29,9 +33,16 @@ class ConfigService extends GetxService {
     Storage().setBool(Constants.storageAlreadyOpen, true);
   }
 
-  void setClient() {
+  void setClient() async {
     //todo
-    clientInfo = ClientInfo.create()..clientName = "IOS";
+    String clientInfoStr = Storage().getString(Constants.clientInfo);
+    if (clientInfoStr == '') {
+      clientInfo = await getDeviceInfo();
+      await Storage().setString(
+          Constants.clientInfo, jsonEncode(clientInfo!.toProto3Json()));
+    } else {
+      clientInfo = ClientInfo()..mergeFromProto3Json(jsonDecode(clientInfoStr));
+    }
   }
 
   // 初始化
@@ -88,5 +99,29 @@ class ConfigService extends GetxService {
     Get.changeTheme(
       themeCode == "dark" ? AppTheme.dark : AppTheme.light,
     );
+  }
+
+  Future<ClientInfo> getDeviceInfo() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    var clientInfo = ClientInfo();
+    try {
+      if (Platform.isAndroid) {
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        clientInfo.clientName = androidInfo.model;
+      } else if (Platform.isIOS) {
+        IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+        clientInfo.clientName = iosInfo.name ?? "IOS";
+      } else if (Platform.isWindows) {
+        WindowsDeviceInfo windowsInfo = await deviceInfo.windowsInfo;
+        clientInfo.clientName = windowsInfo.computerName;
+      } else if (Platform.isMacOS) {
+        MacOsDeviceInfo macOsInfo = await deviceInfo.macOsInfo;
+        clientInfo.clientName = macOsInfo.computerName;
+      }
+    } catch (e) {
+      debugPrint('Failed to get device info: $e');
+      clientInfo.clientName = "Unknown";
+    }
+    return clientInfo;
   }
 }

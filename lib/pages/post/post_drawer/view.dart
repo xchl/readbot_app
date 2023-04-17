@@ -19,15 +19,15 @@ class PostDrawerPage extends GetView<PostDrawerController> {
     List<ExpansionPanelListItem<String, FeedItemWidget>> items =
         controller.feedGroupedByGroup.entries
             .map((e) => ExpansionPanelListItem(
-                headerValue: e.key.name!, // TODO
+                headerValue: e.key.name, // TODO
                 expandedValue: e.value
                     .map((e) => FeedItemWidget(
                           title: e.title,
                           logoUrl: e.logo,
-                          backgroud: e.id == controller.selectedFeedId
+                          backgroud: e.url == controller.selectedFeed
                               ? AppColors.primary.withOpacity(0.1)
                               : null,
-                          onTap: () => controller.onFeedSelect(e.id),
+                          onTap: () => controller.onFeedSelect(e.url),
                         ))
                     .toList()))
             .toList();

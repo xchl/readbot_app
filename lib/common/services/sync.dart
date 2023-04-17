@@ -61,5 +61,58 @@ class SyncService extends GetxService {
         syncTimestampModelsToSave);
   }
 
-  Future<void> syncPush() async {}
+  Future<void> syncPush() async {
+    List<SyncTimestampModel?> syncTimestampModels =
+        await DatabaseManager().getSyncTimestampModel(syncModels);
+
+    var syncTimestamp =
+        SyncTimestamp.fromSyncModels(syncModels, syncTimestampModels);
+
+    List<FeedModel> feedModels = syncTimestamp.feed == null
+        ? []
+        : await DatabaseManager()
+            .getLatestFeedModelListSorted(syncTimestamp.feed!);
+    List<FeedItemModel> feedItemModels = syncTimestamp.feedItem == null
+        ? []
+        : await DatabaseManager()
+            .getLatestFeedItemModelListSorted(syncTimestamp.feedItem!);
+    List<FeedGroupModel> feedGroupModels = syncTimestamp.feedGroup == null
+        ? []
+        : await DatabaseManager()
+            .getLatestFeedGroupModelListSorted(syncTimestamp.feedGroup!);
+    List<FeedUpdateRecordModel> feedUpdateRecordModels =
+        syncTimestamp.feedUpdateRecord == null
+            ? []
+            : await DatabaseManager().getLatestFeedUpdateRecordModelListSorted(
+                syncTimestamp.feedUpdateRecord!);
+
+    var contentPushRequest = ContentPushRequest(
+        feeds: toFeedList(feedModels),
+        feedItems: toFeedItemList(feedItemModels),
+        feedGroups: toFeedGroupList(feedGroupModels),
+        feedUpdateRecords: toFeedUpdateRecordList(feedUpdateRecordModels));
+
+    await ContentSyncApi.push(contentPushRequest);
+
+    List<SyncTimestampModel> syncTimestampModelsToSave = [];
+
+    if (feedModels.isNotEmpty) {
+      syncTimestampModelsToSave.add(SyncTimestampModel(ModelName.feed,
+          syncTime: feedModels.last.updateTime));
+    }
+    if (feedItemModels.isNotEmpty) {
+      syncTimestampModelsToSave.add(SyncTimestampModel(ModelName.feedItem,
+          syncTime: feedItemModels.last.updateTime));
+    }
+    if (feedGroupModels.isNotEmpty) {
+      syncTimestampModelsToSave.add(SyncTimestampModel(ModelName.feedGroup,
+          syncTime: feedGroupModels.last.updateTime));
+    }
+    if (feedUpdateRecordModels.isNotEmpty) {
+      syncTimestampModelsToSave.add(SyncTimestampModel(
+          ModelName.feedUpdateRecord,
+          syncTime: feedUpdateRecordModels.last.updateTime));
+    }
+    await DatabaseManager().saveSyncTimestampModel(syncTimestampModelsToSave);
+  }
 }

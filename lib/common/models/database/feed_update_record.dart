@@ -8,8 +8,8 @@ part 'feed_update_record.g.dart';
 class FeedUpdateRecordModel {
   Id id = Isar.autoIncrement;
 
-  @Index(unique: true, replace: true, name: 'feedId')
-  int feedId;
+  @Index(unique: true, replace: true)
+  String feedUrl;
 
   DateTime lastUpdate;
 
@@ -21,19 +21,18 @@ class FeedUpdateRecordModel {
   DateTime updateTime;
 
   FeedUpdateRecordModel({
-    required this.feedId,
     required this.lastUpdate,
     required this.lastContentHash,
     required this.lastItemPublishTime,
     required this.updateTime,
+    required this.feedUrl,
   });
 }
 
 // function to convert FeedUpdateRecordModel to FeedUpdateRecord
 pb_model.FeedUpdateRecord toFeedUpdateRecord(FeedUpdateRecordModel model) {
   return pb_model.FeedUpdateRecord(
-    id: model.id,
-    feedId: model.feedId,
+    feedUrl: model.feedUrl,
     lastUpdate: Int64(model.lastUpdate.millisecondsSinceEpoch),
     lastContentHash: model.lastContentHash,
     lastItemPublishTime: model.lastItemPublishTime == null
@@ -53,7 +52,7 @@ List<pb_model.FeedUpdateRecord> toFeedUpdateRecordList(
 FeedUpdateRecordModel toFeedUpdateRecordModel(
     pb_model.FeedUpdateRecord record) {
   return FeedUpdateRecordModel(
-    feedId: record.feedId,
+    feedUrl: record.feedUrl,
     lastUpdate: DateTime.fromMillisecondsSinceEpoch(record.lastUpdate.toInt()),
     lastContentHash: record.lastContentHash,
     lastItemPublishTime:

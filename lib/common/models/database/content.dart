@@ -18,11 +18,11 @@ class ContentModel {
 
   String content;
 
-  int feedItemId;
+  String feedItemMd5String;
 
   ContentModel(
       {required this.type,
       required this.uri,
       required this.content,
-      required this.feedItemId});
+      required this.feedItemMd5String});
 }

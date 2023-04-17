@@ -15,6 +15,7 @@ class Constants {
   static const storageAlreadyOpen = 'already_open'; // 首次打开
   static const pageSizeMobile = 20;
   static const pageSizePC = 50;
+  static const clientInfo = 'client_info';
 
   // Feed
   static const existUrlType = "exist";
