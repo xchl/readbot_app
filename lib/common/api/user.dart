@@ -4,9 +4,9 @@ import 'package:feed_inbox_app/common/index.dart';
 class UserApi {
   /// 注册
   static Future<bool> register(RegisterInfo info) async {
-    var request = RegisterRequest(
-            clientInfo: ConfigService.to.clientInfo, registerInfo: info)
-        .toProto3Json();
+    var request =
+        RegisterRequest(client: ConfigService.to.clientInfo, registerInfo: info)
+            .toProto3Json();
     var res = await HttpService.to.post('/user/register', data: request);
     if (res.statusCode == 201) {
       return true;
@@ -17,7 +17,7 @@ class UserApi {
   /// 登录
   static Future<AuthResponse> login(LoginInfo? info) async {
     var request =
-        LoginRequest(clientInfo: ConfigService.to.clientInfo, loginInfo: info)
+        LoginRequest(client: ConfigService.to.clientInfo, loginInfo: info)
             .toProto3Json();
     var res = await HttpService.to.post(
       '/user/login',
@@ -28,8 +28,10 @@ class UserApi {
   }
 
   static Future<AuthResponse> refreshToken(String refreshToken) async {
-    var res =
-        await HttpService.to.post('/user/refresh_token', data: refreshToken);
+    var request = RefreshTokenRequest(
+            client: ConfigService.to.clientInfo, refreshToken: refreshToken)
+        .toProto3Json();
+    var res = await HttpService.to.post('/user/refresh_token', data: request);
     return AuthResponse.fromJson(res.data);
   }
 }

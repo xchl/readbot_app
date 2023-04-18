@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/common/models/proto/model.pbserver.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -26,11 +27,16 @@ class ConfigService extends GetxService {
   // 是否首次打开
   bool get isAlreadyOpen => Storage().getBool(Constants.storageAlreadyOpen);
 
-  ClientInfo? clientInfo;
+  late ClientInfo clientInfo;
 
   // 标记已打开app
   void setAlreadyOpen() {
     Storage().setBool(Constants.storageAlreadyOpen, true);
+  }
+
+  Future<void> saveClientInfo() async {
+    await Storage()
+        .setString(Constants.clientInfo, jsonEncode(clientInfo.toProto3Json()));
   }
 
   void setClient() async {
@@ -38,8 +44,7 @@ class ConfigService extends GetxService {
     String clientInfoStr = Storage().getString(Constants.clientInfo);
     if (clientInfoStr == '') {
       clientInfo = await getDeviceInfo();
-      await Storage().setString(
-          Constants.clientInfo, jsonEncode(clientInfo!.toProto3Json()));
+      await saveClientInfo();
     } else {
       clientInfo = ClientInfo()..mergeFromProto3Json(jsonDecode(clientInfoStr));
     }

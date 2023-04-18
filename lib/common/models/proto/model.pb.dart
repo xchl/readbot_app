@@ -14,6 +14,67 @@ import 'model.pbenum.dart';
 
 export 'model.pbenum.dart';
 
+class ClientInfo extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ClientInfo', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'model'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'clientName')
+    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'clientId', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  ClientInfo._() : super();
+  factory ClientInfo({
+    $core.String? clientName,
+    $core.int? clientId,
+  }) {
+    final _result = create();
+    if (clientName != null) {
+      _result.clientName = clientName;
+    }
+    if (clientId != null) {
+      _result.clientId = clientId;
+    }
+    return _result;
+  }
+  factory ClientInfo.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ClientInfo.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ClientInfo clone() => ClientInfo()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ClientInfo copyWith(void Function(ClientInfo) updates) => super.copyWith((message) => updates(message as ClientInfo)) as ClientInfo; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ClientInfo create() => ClientInfo._();
+  ClientInfo createEmptyInstance() => create();
+  static $pb.PbList<ClientInfo> createRepeated() => $pb.PbList<ClientInfo>();
+  @$core.pragma('dart2js:noInline')
+  static ClientInfo getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ClientInfo>(create);
+  static ClientInfo? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get clientName => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set clientName($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasClientName() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearClientName() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get clientId => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set clientId($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasClientId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearClientId() => clearField(2);
+}
+
 class UserProfile extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'UserProfile', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'model'), createEmptyInstance: create)
     ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId', $pb.PbFieldType.O3)
@@ -117,15 +178,15 @@ class UserProfile extends $pb.GeneratedMessage {
   void clearProEndTime() => clearField(5);
 }
 
-class Tokens extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Tokens', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'model'), createEmptyInstance: create)
+class JwtTokens extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'JwtTokens', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'model'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accessToken')
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'refreshToken')
     ..hasRequiredFields = false
   ;
 
-  Tokens._() : super();
-  factory Tokens({
+  JwtTokens._() : super();
+  factory JwtTokens({
     $core.String? accessToken,
     $core.String? refreshToken,
   }) {
@@ -138,26 +199,26 @@ class Tokens extends $pb.GeneratedMessage {
     }
     return _result;
   }
-  factory Tokens.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory Tokens.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory JwtTokens.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory JwtTokens.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  Tokens clone() => Tokens()..mergeFromMessage(this);
+  JwtTokens clone() => JwtTokens()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  Tokens copyWith(void Function(Tokens) updates) => super.copyWith((message) => updates(message as Tokens)) as Tokens; // ignore: deprecated_member_use
+  JwtTokens copyWith(void Function(JwtTokens) updates) => super.copyWith((message) => updates(message as JwtTokens)) as JwtTokens; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static Tokens create() => Tokens._();
-  Tokens createEmptyInstance() => create();
-  static $pb.PbList<Tokens> createRepeated() => $pb.PbList<Tokens>();
+  static JwtTokens create() => JwtTokens._();
+  JwtTokens createEmptyInstance() => create();
+  static $pb.PbList<JwtTokens> createRepeated() => $pb.PbList<JwtTokens>();
   @$core.pragma('dart2js:noInline')
-  static Tokens getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Tokens>(create);
-  static Tokens? _defaultInstance;
+  static JwtTokens getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<JwtTokens>(create);
+  static JwtTokens? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get accessToken => $_getSZ(0);

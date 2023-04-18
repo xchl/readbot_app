@@ -32,6 +32,20 @@ const FeedType$json = const {
 
 /// Descriptor for `FeedType`. Decode as a `google.protobuf.EnumDescriptorProto`.
 final $typed_data.Uint8List feedTypeDescriptor = $convert.base64Decode('CghGZWVkVHlwZRIRCg1GRUVEX1RZUEVfUlNTEAASEgoORkVFRF9UWVBFX0FUT00QARIVChFGRUVEX1RZUEVfVU5LTk9XThAC');
+@$core.Deprecated('Use clientInfoDescriptor instead')
+const ClientInfo$json = const {
+  '1': 'ClientInfo',
+  '2': const [
+    const {'1': 'client_name', '3': 1, '4': 1, '5': 9, '10': 'clientName'},
+    const {'1': 'client_id', '3': 2, '4': 1, '5': 5, '9': 0, '10': 'clientId', '17': true},
+  ],
+  '8': const [
+    const {'1': '_client_id'},
+  ],
+};
+
+/// Descriptor for `ClientInfo`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List clientInfoDescriptor = $convert.base64Decode('CgpDbGllbnRJbmZvEh8KC2NsaWVudF9uYW1lGAEgASgJUgpjbGllbnROYW1lEiAKCWNsaWVudF9pZBgCIAEoBUgAUghjbGllbnRJZIgBAUIMCgpfY2xpZW50X2lk');
 @$core.Deprecated('Use userProfileDescriptor instead')
 const UserProfile$json = const {
   '1': 'UserProfile',
@@ -46,17 +60,17 @@ const UserProfile$json = const {
 
 /// Descriptor for `UserProfile`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List userProfileDescriptor = $convert.base64Decode('CgtVc2VyUHJvZmlsZRIXCgd1c2VyX2lkGAEgASgFUgZ1c2VySWQSGgoIdXNlcm5hbWUYAiABKAlSCHVzZXJuYW1lEhQKBWVtYWlsGAMgASgJUgVlbWFpbBIsCglwcm9fbGV2ZWwYBCABKA4yDy5tb2RlbC5Qcm9MZXZlbFIIcHJvTGV2ZWwSIAoMcHJvX2VuZF90aW1lGAUgASgDUgpwcm9FbmRUaW1l');
-@$core.Deprecated('Use tokensDescriptor instead')
-const Tokens$json = const {
-  '1': 'Tokens',
+@$core.Deprecated('Use jwtTokensDescriptor instead')
+const JwtTokens$json = const {
+  '1': 'JwtTokens',
   '2': const [
     const {'1': 'access_token', '3': 1, '4': 1, '5': 9, '10': 'accessToken'},
     const {'1': 'refresh_token', '3': 2, '4': 1, '5': 9, '10': 'refreshToken'},
   ],
 };
 
-/// Descriptor for `Tokens`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List tokensDescriptor = $convert.base64Decode('CgZUb2tlbnMSIQoMYWNjZXNzX3Rva2VuGAEgASgJUgthY2Nlc3NUb2tlbhIjCg1yZWZyZXNoX3Rva2VuGAIgASgJUgxyZWZyZXNoVG9rZW4=');
+/// Descriptor for `JwtTokens`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List jwtTokensDescriptor = $convert.base64Decode('CglKd3RUb2tlbnMSIQoMYWNjZXNzX3Rva2VuGAEgASgJUgthY2Nlc3NUb2tlbhIjCg1yZWZyZXNoX3Rva2VuGAIgASgJUgxyZWZyZXNoVG9rZW4=');
 @$core.Deprecated('Use feedGroupDescriptor instead')
 const FeedGroup$json = const {
   '1': 'FeedGroup',

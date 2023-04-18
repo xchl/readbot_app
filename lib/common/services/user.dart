@@ -82,7 +82,7 @@ class UserService extends GetxService {
   }
 
   /// 设置令牌
-  Future<void> setToken(Tokens token) async {
+  Future<void> setToken(JwtTokens token) async {
     await Storage().setString(Constants.storageAccessToken, token.accessToken);
     accessToken = token.accessToken;
 
@@ -113,8 +113,12 @@ class UserService extends GetxService {
   /// 登录
   Future<void> login(LoginInfo req) async {
     AuthResponse res = await UserApi.login(req);
-    var token = res.tokens;
+    var token = res.jwtTokens;
     await setToken(token);
+    if (ConfigService.to.clientInfo.clientId == 0) {
+      ConfigService.to.clientInfo.clientId = res.client.clientId;
+      await ConfigService.to.saveClientInfo();
+    }
     _isLogin.value = true;
   }
 
@@ -122,7 +126,7 @@ class UserService extends GetxService {
   Future<void> refreshTokenIfNeed() async {
     if (!hasActiveAccessToken() && hasActiveRefreshToken()) {
       AuthResponse res = await UserApi.refreshToken(refreshToken);
-      var token = res.tokens;
+      var token = res.jwtTokens;
       await setToken(token);
     }
   }

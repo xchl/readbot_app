@@ -13,17 +13,22 @@ import 'model.pb.dart' as $0;
 
 class AuthResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AuthResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'response'), createEmptyInstance: create)
-    ..aOM<$0.Tokens>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'tokens', subBuilder: $0.Tokens.create)
+    ..aOM<$0.JwtTokens>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'jwtTokens', subBuilder: $0.JwtTokens.create)
+    ..aOM<$0.ClientInfo>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'client', subBuilder: $0.ClientInfo.create)
     ..hasRequiredFields = false
   ;
 
   AuthResponse._() : super();
   factory AuthResponse({
-    $0.Tokens? tokens,
+    $0.JwtTokens? jwtTokens,
+    $0.ClientInfo? client,
   }) {
     final _result = create();
-    if (tokens != null) {
-      _result.tokens = tokens;
+    if (jwtTokens != null) {
+      _result.jwtTokens = jwtTokens;
+    }
+    if (client != null) {
+      _result.client = client;
     }
     return _result;
   }
@@ -49,15 +54,26 @@ class AuthResponse extends $pb.GeneratedMessage {
   static AuthResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $0.Tokens get tokens => $_getN(0);
+  $0.JwtTokens get jwtTokens => $_getN(0);
   @$pb.TagNumber(1)
-  set tokens($0.Tokens v) { setField(1, v); }
+  set jwtTokens($0.JwtTokens v) { setField(1, v); }
   @$pb.TagNumber(1)
-  $core.bool hasTokens() => $_has(0);
+  $core.bool hasJwtTokens() => $_has(0);
   @$pb.TagNumber(1)
-  void clearTokens() => clearField(1);
+  void clearJwtTokens() => clearField(1);
   @$pb.TagNumber(1)
-  $0.Tokens ensureTokens() => $_ensure(0);
+  $0.JwtTokens ensureJwtTokens() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $0.ClientInfo get client => $_getN(1);
+  @$pb.TagNumber(2)
+  set client($0.ClientInfo v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasClient() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearClient() => clearField(2);
+  @$pb.TagNumber(2)
+  $0.ClientInfo ensureClient() => $_ensure(1);
 }
 
 class ContentPullResponse extends $pb.GeneratedMessage {
@@ -67,6 +83,7 @@ class ContentPullResponse extends $pb.GeneratedMessage {
     ..pc<$0.FeedUpdateRecord>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'feedUpdateRecords', $pb.PbFieldType.PM, subBuilder: $0.FeedUpdateRecord.create)
     ..pc<$0.FeedGroup>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'feedGroups', $pb.PbFieldType.PM, subBuilder: $0.FeedGroup.create)
     ..pc<$0.FeedItem>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'feedItems', $pb.PbFieldType.PM, subBuilder: $0.FeedItem.create)
+    ..aOM<$0.ClientInfo>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'client', subBuilder: $0.ClientInfo.create)
     ..hasRequiredFields = false
   ;
 
@@ -77,6 +94,7 @@ class ContentPullResponse extends $pb.GeneratedMessage {
     $core.Iterable<$0.FeedUpdateRecord>? feedUpdateRecords,
     $core.Iterable<$0.FeedGroup>? feedGroups,
     $core.Iterable<$0.FeedItem>? feedItems,
+    $0.ClientInfo? client,
   }) {
     final _result = create();
     if (syncTimestamp != null) {
@@ -93,6 +111,9 @@ class ContentPullResponse extends $pb.GeneratedMessage {
     }
     if (feedItems != null) {
       _result.feedItems.addAll(feedItems);
+    }
+    if (client != null) {
+      _result.client = client;
     }
     return _result;
   }
@@ -139,19 +160,35 @@ class ContentPullResponse extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(5)
   $core.List<$0.FeedItem> get feedItems => $_getList(4);
+
+  @$pb.TagNumber(6)
+  $0.ClientInfo get client => $_getN(5);
+  @$pb.TagNumber(6)
+  set client($0.ClientInfo v) { setField(6, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasClient() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearClient() => clearField(6);
+  @$pb.TagNumber(6)
+  $0.ClientInfo ensureClient() => $_ensure(5);
 }
 
 class ContentPushResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ContentPushResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'response'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'message')
+    ..aOM<$0.ClientInfo>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'client', subBuilder: $0.ClientInfo.create)
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'message')
     ..hasRequiredFields = false
   ;
 
   ContentPushResponse._() : super();
   factory ContentPushResponse({
+    $0.ClientInfo? client,
     $core.String? message,
   }) {
     final _result = create();
+    if (client != null) {
+      _result.client = client;
+    }
     if (message != null) {
       _result.message = message;
     }
@@ -179,12 +216,23 @@ class ContentPushResponse extends $pb.GeneratedMessage {
   static ContentPushResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get message => $_getSZ(0);
+  $0.ClientInfo get client => $_getN(0);
   @$pb.TagNumber(1)
-  set message($core.String v) { $_setString(0, v); }
+  set client($0.ClientInfo v) { setField(1, v); }
   @$pb.TagNumber(1)
-  $core.bool hasMessage() => $_has(0);
+  $core.bool hasClient() => $_has(0);
   @$pb.TagNumber(1)
-  void clearMessage() => clearField(1);
+  void clearClient() => clearField(1);
+  @$pb.TagNumber(1)
+  $0.ClientInfo ensureClient() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $core.String get message => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set message($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasMessage() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearMessage() => clearField(2);
 }
 
