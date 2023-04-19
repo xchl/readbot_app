@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 class SyncService extends GetxService {
   static SyncService get to => Get.find();
 
+  final List<Function> _syncQueue = [];
+  bool _isSyncing = false;
+
   List<ModelName> syncModels = [];
 
   @override
@@ -18,42 +21,99 @@ class SyncService extends GetxService {
     ];
   }
 
+  Future<void> _processSyncQueue() async {
+    if (_isSyncing || _syncQueue.isEmpty) return;
+    _isSyncing = true;
+
+    await _syncQueue.first();
+    _syncQueue.removeAt(0);
+
+    _isSyncing = false;
+
+    _processSyncQueue();
+  }
+
+  void syncPull() {
+    _syncQueue.add(_syncPull);
+    _processSyncQueue();
+  }
+
+  void syncPush() {
+    _syncQueue.add(_syncPush);
+    _processSyncQueue();
+  }
+
+  // 从数据库中获取的SyncTimestampModel转换为SyncTimestamp
+  // 如果modelName不在syncModels中，默认是null，表示不会被同步
+  // 如果数据库中没有对应的SyncTimestampModel，则默认为0，表示从头开始同步
+  SyncTimestamp convertToSyncTimestamp(List<ModelName> syncModels,
+      List<SyncTimestampModel?> syncTimestampModels) {
+    SyncTimestamp syncTimestamp = SyncTimestamp();
+    for (var i = 0; i < syncModels.length; i++) {
+      var syncModel = syncModels[i];
+      var syncTimestampModel = syncTimestampModels[i];
+      switch (syncModel) {
+        case ModelName.feed:
+          syncTimestamp.feed = syncTimestampModel != null
+              ? syncTimestampModel.syncTime.millisecondsSinceEpoch
+              : 0;
+          break;
+        case ModelName.feedItem:
+          syncTimestamp.feedItem = syncTimestampModel != null
+              ? syncTimestampModel.syncTime.millisecondsSinceEpoch
+              : 0;
+          break;
+        case ModelName.feedGroup:
+          syncTimestamp.feedGroup = syncTimestampModel != null
+              ? syncTimestampModel.syncTime.millisecondsSinceEpoch
+              : 0;
+          break;
+        case ModelName.feedUpdateRecord:
+          syncTimestamp.feedUpdateRecord = syncTimestampModel != null
+              ? syncTimestampModel.syncTime.millisecondsSinceEpoch
+              : 0;
+          break;
+      }
+    }
+    return syncTimestamp;
+  }
+
   // sync pull from server
-  Future<void> syncPull() async {
+  Future<void> _syncPull() async {
     List<SyncTimestampModel?> syncTimestampModels =
         await DatabaseManager().getSyncTimestampModel(syncModels);
-    var syncTimestamp =
-        SyncTimestamp.fromSyncModels(syncModels, syncTimestampModels);
-    var contentPullRequest = ContentPullRequest(syncTimestamp: syncTimestamp);
+    var syncTimestamp = convertToSyncTimestamp(syncModels, syncTimestampModels);
+    var contentPullRequest = ContentPullRequest(
+        client: ConfigService.to.clientInfo, syncTimestamp: syncTimestamp);
 
     ContentPullResponse contentPullResponse =
         await ContentSyncApi.pull(contentPullRequest);
 
     List<SyncTimestampModel> syncTimestampModelsToSave = [];
 
-    if (contentPullResponse.syncTimestamp.feed != 0) {
+    if (contentPullResponse.feeds.isNotEmpty) {
       syncTimestampModelsToSave.add(SyncTimestampModel(ModelName.feed,
           syncTime: DateTime.fromMillisecondsSinceEpoch(
-              contentPullResponse.syncTimestamp.feed.toInt())));
+              contentPullResponse.syncTimestamp.feed!)));
     }
-    if (contentPullResponse.syncTimestamp.feedItem != 0) {
+    if (contentPullResponse.feedItems.isNotEmpty) {
       syncTimestampModelsToSave.add(SyncTimestampModel(ModelName.feedItem,
           syncTime: DateTime.fromMillisecondsSinceEpoch(
-              contentPullResponse.syncTimestamp.feedItem.toInt())));
+              contentPullResponse.syncTimestamp.feedItem!)));
     }
-    if (contentPullResponse.syncTimestamp.feedGroup != 0) {
+    if (contentPullResponse.feedGroups.isNotEmpty) {
       syncTimestampModelsToSave.add(SyncTimestampModel(ModelName.feedGroup,
           syncTime: DateTime.fromMillisecondsSinceEpoch(
-              contentPullResponse.syncTimestamp.feedGroup.toInt())));
+              contentPullResponse.syncTimestamp.feedGroup!)));
     }
-    if (contentPullResponse.syncTimestamp.feedUpdateRecord != 0) {
+    if (contentPullResponse.feedUpdateRecords.isNotEmpty) {
       syncTimestampModelsToSave.add(SyncTimestampModel(
           ModelName.feedUpdateRecord,
           syncTime: DateTime.fromMillisecondsSinceEpoch(
-              contentPullResponse.syncTimestamp.feedUpdateRecord.toInt())));
+              contentPullResponse.syncTimestamp.feedUpdateRecord!)));
     }
 
-    await DatabaseManager().syncSave(
+    await DatabaseManager().pullSyncSave(
         toFeedModelList(contentPullResponse.feeds),
         toFeedItemModelList(contentPullResponse.feedItems),
         toFeedGroupModelList(contentPullResponse.feedGroups),
@@ -61,58 +121,53 @@ class SyncService extends GetxService {
         syncTimestampModelsToSave);
   }
 
-  Future<void> syncPush() async {
-    List<SyncTimestampModel?> syncTimestampModels =
-        await DatabaseManager().getSyncTimestampModel(syncModels);
-
-    var syncTimestamp =
-        SyncTimestamp.fromSyncModels(syncModels, syncTimestampModels);
-
-    List<FeedModel> feedModels = syncTimestamp.feed == null
-        ? []
-        : await DatabaseManager()
-            .getLatestFeedModelListSorted(syncTimestamp.feed!);
-    List<FeedItemModel> feedItemModels = syncTimestamp.feedItem == null
-        ? []
-        : await DatabaseManager()
-            .getLatestFeedItemModelListSorted(syncTimestamp.feedItem!);
-    List<FeedGroupModel> feedGroupModels = syncTimestamp.feedGroup == null
-        ? []
-        : await DatabaseManager()
-            .getLatestFeedGroupModelListSorted(syncTimestamp.feedGroup!);
-    List<FeedUpdateRecordModel> feedUpdateRecordModels =
-        syncTimestamp.feedUpdateRecord == null
-            ? []
-            : await DatabaseManager().getLatestFeedUpdateRecordModelListSorted(
-                syncTimestamp.feedUpdateRecord!);
-
-    var contentPushRequest = ContentPushRequest(
-        feeds: toFeedList(feedModels),
-        feedItems: toFeedItemList(feedItemModels),
-        feedGroups: toFeedGroupList(feedGroupModels),
-        feedUpdateRecords: toFeedUpdateRecordList(feedUpdateRecordModels));
+  Future<void> _syncPush() async {
+    var contentPushRequest =
+        ContentPushRequest(client: ConfigService.to.clientInfo);
+    List<FeedModel> feedModels = [];
+    List<FeedItemModel> feedItemModels = [];
+    List<FeedGroupModel> feedGroupModels = [];
+    List<FeedUpdateRecordModel> feedUpdateRecordModels = [];
+    for (var syncModel in syncModels) {
+      switch (syncModel) {
+        case ModelName.feed:
+          feedModels = await DatabaseManager().getFeedsNotSynced();
+          contentPushRequest.feeds = toFeedList(feedModels);
+          break;
+        case ModelName.feedItem:
+          feedItemModels = await DatabaseManager().getFeedItemsNotSynced();
+          contentPushRequest.feedItems = toFeedItemList(feedItemModels);
+          break;
+        case ModelName.feedGroup:
+          feedGroupModels = await DatabaseManager().getFeedGroupsNotSynced();
+          contentPushRequest.feedGroups = toFeedGroupList(feedGroupModels);
+          break;
+        case ModelName.feedUpdateRecord:
+          feedUpdateRecordModels =
+              await DatabaseManager().getFeedUpdateRecordsNotSynced();
+          contentPushRequest.feedUpdateRecords =
+              toFeedUpdateRecordList(feedUpdateRecordModels);
+          break;
+      }
+    }
 
     await ContentSyncApi.push(contentPushRequest);
 
-    List<SyncTimestampModel> syncTimestampModelsToSave = [];
+    // change isSynced to true for all modfels and save
+    for (var feedModel in feedModels) {
+      feedModel.isSynced = true;
+    }
+    for (var feedItemModel in feedItemModels) {
+      feedItemModel.isSynced = true;
+    }
+    for (var feedGroupModel in feedGroupModels) {
+      feedGroupModel.isSynced = true;
+    }
+    for (var feedUpdateRecordModel in feedUpdateRecordModels) {
+      feedUpdateRecordModel.isSynced = true;
+    }
 
-    if (feedModels.isNotEmpty) {
-      syncTimestampModelsToSave.add(SyncTimestampModel(ModelName.feed,
-          syncTime: feedModels.last.updateTime));
-    }
-    if (feedItemModels.isNotEmpty) {
-      syncTimestampModelsToSave.add(SyncTimestampModel(ModelName.feedItem,
-          syncTime: feedItemModels.last.updateTime));
-    }
-    if (feedGroupModels.isNotEmpty) {
-      syncTimestampModelsToSave.add(SyncTimestampModel(ModelName.feedGroup,
-          syncTime: feedGroupModels.last.updateTime));
-    }
-    if (feedUpdateRecordModels.isNotEmpty) {
-      syncTimestampModelsToSave.add(SyncTimestampModel(
-          ModelName.feedUpdateRecord,
-          syncTime: feedUpdateRecordModels.last.updateTime));
-    }
-    await DatabaseManager().saveSyncTimestampModel(syncTimestampModelsToSave);
+    await DatabaseManager().pushSyncSave(
+        feedModels, feedItemModels, feedGroupModels, feedUpdateRecordModels);
   }
 }

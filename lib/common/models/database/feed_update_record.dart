@@ -1,5 +1,4 @@
-import 'package:feed_inbox_app/common/models/proto/model.pb.dart' as pb_model;
-import 'package:fixnum/fixnum.dart';
+import 'package:feed_inbox_app/common/index.dart';
 import 'package:isar/isar.dart';
 
 part 'feed_update_record.g.dart';
@@ -17,6 +16,8 @@ class FeedUpdateRecordModel {
 
   DateTime? lastItemPublishTime;
 
+  bool isSynced;
+
   @Index()
   DateTime updateTime;
 
@@ -26,43 +27,44 @@ class FeedUpdateRecordModel {
     required this.lastItemPublishTime,
     required this.updateTime,
     required this.feedUrl,
+    this.isSynced = false,
   });
 }
 
 // function to convert FeedUpdateRecordModel to FeedUpdateRecord
-pb_model.FeedUpdateRecord toFeedUpdateRecord(FeedUpdateRecordModel model) {
-  return pb_model.FeedUpdateRecord(
+FeedUpdateRecord toFeedUpdateRecord(FeedUpdateRecordModel model) {
+  return FeedUpdateRecord(
     feedUrl: model.feedUrl,
-    lastUpdate: Int64(model.lastUpdate.millisecondsSinceEpoch),
+    lastUpdate: model.lastUpdate.millisecondsSinceEpoch,
     lastContentHash: model.lastContentHash,
-    lastItemPublishTime: model.lastItemPublishTime == null
-        ? null
-        : Int64(model.lastItemPublishTime!.millisecondsSinceEpoch),
-    updateTime: Int64(model.updateTime.millisecondsSinceEpoch),
+    lastItemPublishTime: model.lastItemPublishTime?.millisecondsSinceEpoch,
+    updateTime: model.updateTime.millisecondsSinceEpoch,
   );
 }
 
 // function to convert FeedUpdateRecordModel list to FeedUpdateRecord list
-List<pb_model.FeedUpdateRecord> toFeedUpdateRecordList(
+List<FeedUpdateRecord> toFeedUpdateRecordList(
     List<FeedUpdateRecordModel> models) {
   return models.map((model) => toFeedUpdateRecord(model)).toList();
 }
 
 // function to convert FeedUpdateRecord to FeedUpdateRecordModel
-FeedUpdateRecordModel toFeedUpdateRecordModel(
-    pb_model.FeedUpdateRecord record) {
+FeedUpdateRecordModel toFeedUpdateRecordModel(FeedUpdateRecord record) {
   return FeedUpdateRecordModel(
-    feedUrl: record.feedUrl,
-    lastUpdate: DateTime.fromMillisecondsSinceEpoch(record.lastUpdate.toInt()),
-    lastContentHash: record.lastContentHash,
-    lastItemPublishTime:
-        DateTime.fromMillisecondsSinceEpoch(record.lastItemPublishTime.toInt()),
-    updateTime: DateTime.fromMillisecondsSinceEpoch(record.updateTime.toInt()),
-  );
+      feedUrl: record.feedUrl,
+      lastUpdate:
+          DateTime.fromMillisecondsSinceEpoch(record.lastUpdate.toInt()),
+      lastContentHash: record.lastContentHash,
+      lastItemPublishTime: record.lastItemPublishTime == null
+          ? null
+          : DateTime.fromMillisecondsSinceEpoch(record.lastItemPublishTime!),
+      updateTime:
+          DateTime.fromMillisecondsSinceEpoch(record.updateTime.toInt()),
+      isSynced: true);
 }
 
 // function to convert FeedUpdateRecord list to FeedUpdateRecordModel list
 List<FeedUpdateRecordModel> toFeedUpdateRecordModelList(
-    List<pb_model.FeedUpdateRecord> records) {
+    List<FeedUpdateRecord> records) {
   return records.map((record) => toFeedUpdateRecordModel(record)).toList();
 }

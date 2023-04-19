@@ -1,11 +1,14 @@
-import 'package:feed_inbox_app/common/models/proto/model.pb.dart' as pb_model;
-import 'package:fixnum/fixnum.dart';
+import 'package:feed_inbox_app/common/index.dart';
 import 'package:isar/isar.dart';
 import 'package:webfeed/webfeed.dart' as webfeed;
 
 part 'feed.g.dart';
 
-enum FeedType { rss, atom, unknown }
+enum FeedType {
+  rss,
+  atom,
+  unknown,
+}
 
 @collection
 class FeedModel {
@@ -23,8 +26,10 @@ class FeedModel {
 
   String? groupName;
 
-  List<String>? tags;
+  List<String> tags;
   DateTime createTime;
+
+  bool isSynced;
 
   @Enumerated(EnumType.ordinal32)
   FeedType? type;
@@ -41,11 +46,12 @@ class FeedModel {
     this.customName,
     this.logo,
     this.description,
-    this.tags,
+    this.tags = const [],
     this.customDescription,
     this.customLogo,
     required this.updateTime,
     required this.createTime,
+    this.isSynced = false,
   });
 
   completeByRssFeed(webfeed.RssFeed rssFeed) {
@@ -90,71 +96,70 @@ class FeedModel {
 }
 
 // function to convert Feed to FeedModel
-FeedModel toFeedModel(pb_model.Feed feed) {
-  return FeedModel(
-    feed.url,
-    type: convertTypeToFeedModel(feed.feedType),
-    name: feed.name,
-    logo: feed.logo,
-    description: feed.description,
-    tags: feed.tags,
-    customName: feed.customName,
-    customLogo: feed.customLogo,
-    customDescription: feed.customDescription,
-    createTime: DateTime.fromMillisecondsSinceEpoch(feed.createTime.toInt()),
-    updateTime: DateTime.fromMillisecondsSinceEpoch(feed.updateTime.toInt()),
-  );
+FeedModel toFeedModel(Feed feed) {
+  return FeedModel(feed.url,
+      type: convertFeedTypeServerToModel(feed.feedType),
+      name: feed.name,
+      logo: feed.logo,
+      description: feed.description,
+      tags: feed.tags,
+      customName: feed.customName,
+      customLogo: feed.customLogo,
+      customDescription: feed.customDescription,
+      createTime: DateTime.fromMillisecondsSinceEpoch(feed.createTime.toInt()),
+      updateTime: DateTime.fromMillisecondsSinceEpoch(feed.updateTime.toInt()),
+      isSynced: true);
 }
 
-// funtion to convert feed list to FeedModel list
-List<FeedModel> toFeedModelList(List<pb_model.Feed> feeds) {
-  return feeds.map((e) => toFeedModel(e)).toList();
-}
-
-// function to convert FeedModel to Feed
-pb_model.Feed toFeed(FeedModel feed) {
-  return pb_model.Feed(
-    url: feed.url,
-    feedType: convertTypeToPbFeed(feed.type),
-    name: feed.name,
-    logo: feed.logo,
-    description: feed.description,
-    tags: feed.tags,
-    customName: feed.customName,
-    customLogo: feed.customLogo,
-    customDescription: feed.customDescription,
-    createTime: Int64(feed.createTime.millisecondsSinceEpoch),
-    updateTime: Int64(feed.updateTime.millisecondsSinceEpoch),
-  );
-}
-
-// function to convert FeedModel list to Feed list
-List<pb_model.Feed> toFeedList(List<FeedModel> feeds) {
-  return feeds.map((e) => toFeed(e)).toList();
-}
-
-// convert feed type in FeedModel to FeedType in Feed
-pb_model.FeedType convertTypeToPbFeed(FeedType? type) {
+// convert FeedTypeServer to FeedType in FeedModel
+FeedType convertFeedTypeServerToModel(FeedTypeServer type) {
   switch (type) {
-    case FeedType.rss:
-      return pb_model.FeedType.FEED_TYPE_RSS;
-    case FeedType.atom:
-      return pb_model.FeedType.FEED_TYPE_ATOM;
-    default:
-      return pb_model.FeedType.FEED_TYPE_UNKNOWN;
-  }
-}
-
-// convert feed type in to FeedType in FeedModel
-FeedType convertTypeToFeedModel(pb_model.FeedType type) {
-  switch (type) {
-    case pb_model.FeedType.FEED_TYPE_RSS:
+    case FeedTypeServer.rss:
       return FeedType.rss;
-    case pb_model.FeedType.FEED_TYPE_ATOM:
+    case FeedTypeServer.atom:
       return FeedType.atom;
     default:
       return FeedType.unknown;
   }
+}
+
+// funtion to convert feed list to FeedModel list
+List<FeedModel> toFeedModelList(List<Feed> feeds) {
+  return feeds.map((e) => toFeedModel(e)).toList();
+}
+
+// function to convert FeedModel to Feed
+Feed toFeed(FeedModel feed) {
+  return Feed(
+    url: feed.url,
+    feedType: convertFeedTypeModelToServer(feed.type!),
+    name: feed.name,
+    logo: feed.logo,
+    description: feed.description,
+    tags: feed.tags,
+    customName: feed.customName,
+    customLogo: feed.customLogo,
+    customDescription: feed.customDescription,
+    createTime: feed.createTime.millisecondsSinceEpoch,
+    updateTime: feed.updateTime.millisecondsSinceEpoch,
+  );
+}
+
+// convert FeedType in FeedModel to FeedTypeServer
+FeedTypeServer convertFeedTypeModelToServer(FeedType type) {
+  switch (type) {
+    case FeedType.rss:
+      return FeedTypeServer.rss;
+    case FeedType.atom:
+      return FeedTypeServer.atom;
+    default:
+      return FeedTypeServer.unknown;
+  }
+}
+
+// function to convert FeedModel list to Feed list
+List<Feed> toFeedList(List<FeedModel> feeds) {
+  return feeds.map((e) => toFeed(e)).toList();
 }
 
 // convert webfeed feed type to feedtype in FeedModel

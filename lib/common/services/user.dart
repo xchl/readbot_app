@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:feed_inbox_app/common/models/proto/model.pb.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -14,7 +13,7 @@ class UserService extends GetxService {
   DateTime _accessTokenExpirTime = DateTime.fromMillisecondsSinceEpoch(0);
   DateTime _refreshTokenExpirTime = DateTime.fromMillisecondsSinceEpoch(0);
 
-  final _basicProfile = UserProfile().obs;
+  Rx<UserProfile>? _basicProfile;
   final _isLogin = false.obs;
 
   bool hasActiveAccessToken() {
@@ -37,7 +36,7 @@ class UserService extends GetxService {
     return _isLogin.value;
   }
 
-  UserProfile get basicProfile => _basicProfile.value;
+  UserProfile? get basicProfile => _basicProfile?.value;
   static bool get isLogin => UserService.to._isLogin.value;
 
   @override
@@ -63,8 +62,7 @@ class UserService extends GetxService {
   void parseProfile() {
     if (accessToken.isNotEmpty) {
       var decodedAccessToken = JwtDecoder.decode(accessToken);
-      _basicProfile(
-          UserProfile()..mergeFromProto3Json(decodedAccessToken['data']));
+      _basicProfile = UserProfile.fromJson(decodedAccessToken['data'])!.obs;
     }
   }
 
@@ -73,8 +71,7 @@ class UserService extends GetxService {
     _accessTokenExpirTime =
         DateTime.fromMillisecondsSinceEpoch(decodedAccessToken['exp']);
 
-    _basicProfile(
-        UserProfile()..mergeFromProto3Json(decodedAccessToken['data']));
+    _basicProfile = UserProfile.fromJson(decodedAccessToken['data'])!.obs;
 
     var decodedRefreshToken = JwtDecoder.decode(refreshToken);
     _refreshTokenExpirTime =
@@ -96,7 +93,7 @@ class UserService extends GetxService {
   /// 设置用户 profile
   Future<void> setProfile(UserProfile profile) async {
     if (accessToken.isEmpty) return;
-    _basicProfile(profile);
+    _basicProfile = profile.obs;
     Storage().setString(Constants.storageProfile, jsonEncode(profile));
   }
 
@@ -104,7 +101,7 @@ class UserService extends GetxService {
   Future<void> logout() async {
     await Storage().remove(Constants.storageAccessToken);
     await Storage().remove(Constants.storageRefreshToken);
-    _basicProfile(UserProfile());
+    _basicProfile = null;
     accessToken = '';
     refreshToken = '';
     _isLogin.value = false;

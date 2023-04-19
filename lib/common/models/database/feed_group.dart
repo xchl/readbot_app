@@ -1,5 +1,4 @@
-import 'package:feed_inbox_app/common/models/proto/model.pbserver.dart'
-    as pb_model;
+import 'package:feed_inbox_app/common/index.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:isar/isar.dart';
 
@@ -16,35 +15,40 @@ class FeedGroupModel {
 
   DateTime updateTime = DateTime.now();
 
+  bool isSynced;
+
   FeedGroupModel(
-      {required this.name, this.description, required this.updateTime});
+      {required this.name,
+      this.description,
+      required this.updateTime,
+      this.isSynced = false});
 }
 
 // function to convert FeedGroupModel to FeedGroup
-pb_model.FeedGroup toFeedGroup(FeedGroupModel model) {
-  return pb_model.FeedGroup(
+FeedGroup toFeedGroup(FeedGroupModel model) {
+  return FeedGroup(
     name: model.name,
     description: model.description,
-    updateTime: Int64(model.updateTime.millisecondsSinceEpoch),
+    updateTime: model.updateTime.millisecondsSinceEpoch,
   );
 }
 
 // function to convert FeedGroupModel list to FeedGroup list
-List<pb_model.FeedGroup> toFeedGroupList(List<FeedGroupModel> models) {
+List<FeedGroup> toFeedGroupList(List<FeedGroupModel> models) {
   return models.map((model) => toFeedGroup(model)).toList();
 }
 
 // function to convert FeedGroup to FeedGroupModel
-FeedGroupModel toFeedGroupModel(pb_model.FeedGroup feedGroup) {
+FeedGroupModel toFeedGroupModel(FeedGroup feedGroup) {
   return FeedGroupModel(
-    name: feedGroup.name,
-    description: feedGroup.description,
-    updateTime:
-        DateTime.fromMillisecondsSinceEpoch(feedGroup.updateTime.toInt()),
-  );
+      name: feedGroup.name,
+      description: feedGroup.description,
+      updateTime:
+          DateTime.fromMillisecondsSinceEpoch(feedGroup.updateTime.toInt()),
+      isSynced: true);
 }
 
 // function to convert FeedGroup list to FeedGroupModel list
-List<FeedGroupModel> toFeedGroupModelList(List<pb_model.FeedGroup> feedGroups) {
+List<FeedGroupModel> toFeedGroupModelList(List<FeedGroup> feedGroups) {
   return feedGroups.map((feedGroup) => toFeedGroupModel(feedGroup)).toList();
 }

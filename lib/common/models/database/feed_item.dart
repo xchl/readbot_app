@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/models/proto/model.pb.dart' as pb_model;
-import 'package:fixnum/fixnum.dart';
 import 'package:isar/isar.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:crypto/crypto.dart';
@@ -28,7 +26,9 @@ class FeedItemModel {
   String? category;
   String? description;
   String? summaryAlgo;
-  DateTime? createTime;
+  DateTime createTime;
+
+  bool isSynced;
 
   // md5(title + link)
   @Index(unique: true, replace: true)
@@ -53,7 +53,8 @@ class FeedItemModel {
       this.description,
       this.summaryAlgo,
       required this.updateTime,
-      required this.createTime})
+      required this.createTime,
+      this.isSynced = false})
       : md5String =
             md5.convert(utf8.encode((title ?? "") + (link ?? ""))).toString();
 
@@ -91,60 +92,56 @@ class FeedItemModel {
 }
 
 // function to convert FeedItemModel to FeedItem
-pb_model.FeedItem toFeedItem(FeedItemModel model) {
-  return pb_model.FeedItem(
+FeedItem toFeedItem(FeedItemModel model) {
+  return FeedItem(
       isFocus: model.isFocus,
       isSeen: model.isSeen,
       title: model.title,
       cover: model.cover,
       link: model.link,
       // Datetime to timestamp
-      publishTime: model.publishTime == null
-          ? null
-          : Int64(model.publishTime!.millisecondsSinceEpoch),
+      publishTime: model.publishTime?.millisecondsSinceEpoch,
       authors: model.authors,
       tags: model.tags,
       category: model.category,
       description: model.description,
       summaryAlgo: model.summaryAlgo,
-      createTime: model.createTime == null
-          ? null
-          : Int64(model.createTime!.millisecondsSinceEpoch),
+      createTime: model.createTime.millisecondsSinceEpoch,
       md5String: model.md5String,
       feedUrl: model.feedUrl,
-      updateTime: Int64(model.updateTime.millisecondsSinceEpoch));
+      updateTime: model.updateTime.millisecondsSinceEpoch);
 }
 
 // function to convert FeedItemModel list to FeedItem list
-List<pb_model.FeedItem> toFeedItemList(List<FeedItemModel> models) {
+List<FeedItem> toFeedItemList(List<FeedItemModel> models) {
   return models.map((model) => toFeedItem(model)).toList();
 }
 
 // function to convert FeedItem to FeedItemModel
-FeedItemModel toFeedItemModel(pb_model.FeedItem feedItem) {
-  return FeedItemModel(
-    feedItem.feedUrl,
-    isFocus: feedItem.isFocus,
-    isSeen: feedItem.isSeen,
-    title: feedItem.title,
-    cover: feedItem.cover,
-    link: feedItem.link,
-    // timestamp to Datetime
-    publishTime:
-        DateTime.fromMillisecondsSinceEpoch(feedItem.publishTime.toInt()),
-    authors: feedItem.authors,
-    tags: feedItem.tags,
-    category: feedItem.category,
-    description: feedItem.description,
-    summaryAlgo: feedItem.summaryAlgo,
-    createTime:
-        DateTime.fromMillisecondsSinceEpoch(feedItem.createTime.toInt()),
-    updateTime:
-        DateTime.fromMillisecondsSinceEpoch(feedItem.updateTime.toInt()),
-  );
+FeedItemModel toFeedItemModel(FeedItem feedItem) {
+  return FeedItemModel(feedItem.feedUrl,
+      isFocus: feedItem.isFocus,
+      isSeen: feedItem.isSeen,
+      title: feedItem.title,
+      cover: feedItem.cover,
+      link: feedItem.link,
+      // timestamp to Datetime
+      publishTime: feedItem.publishTime == null
+          ? null
+          : DateTime.fromMillisecondsSinceEpoch(feedItem.publishTime!),
+      authors: feedItem.authors,
+      tags: feedItem.tags,
+      category: feedItem.category,
+      description: feedItem.description,
+      summaryAlgo: feedItem.summaryAlgo,
+      createTime:
+          DateTime.fromMillisecondsSinceEpoch(feedItem.createTime.toInt()),
+      updateTime:
+          DateTime.fromMillisecondsSinceEpoch(feedItem.updateTime.toInt()),
+      isSynced: true);
 }
 
 // function to convert FeedItem list to FeedItemModel list
-List<FeedItemModel> toFeedItemModelList(List<pb_model.FeedItem> feedItems) {
+List<FeedItemModel> toFeedItemModelList(List<FeedItem> feedItems) {
   return feedItems.map((feedItem) => toFeedItemModel(feedItem)).toList();
 }

@@ -185,7 +185,7 @@ class DatabaseManager {
   }
 
   // save all content from sync pull
-  Future<void> syncSave(
+  Future<void> pullSyncSave(
       List<FeedModel> feeds,
       List<FeedItemModel> feedItems,
       List<FeedGroupModel> feedGroups,
@@ -210,60 +210,57 @@ class DatabaseManager {
     });
   }
 
+  Future<void> pushSyncSave(
+    List<FeedModel> feeds,
+    List<FeedItemModel> feedItems,
+    List<FeedGroupModel> feedGroups,
+    List<FeedUpdateRecordModel> feedUpdateRecords,
+  ) async {
+    await _isar.writeTxn(() async {
+      if (feeds.isNotEmpty) {
+        await _isar.feedModels.putAllByUrl(feeds);
+      }
+      if (feedItems.isNotEmpty) {
+        await _isar.feedItemModels.putAllByMd5String(feedItems);
+      }
+      if (feedGroups.isNotEmpty) {
+        await _isar.feedGroupModels.putAllByName(feedGroups);
+      }
+      if (feedUpdateRecords.isNotEmpty) {
+        await _isar.feedUpdateRecordModels.putAllByFeedUrl(feedUpdateRecords);
+      }
+    });
+  }
+
   // get SyncTimestampModel of models
   Future<List<SyncTimestampModel?>> getSyncTimestampModel(
       List<ModelName> models) async {
     return await _isar.syncTimestampModels.getAllByModelName(models);
   }
 
-  // get latest FeedModel filter by update time
-  Future<List<FeedModel>> getLatestFeedModelListSorted(int timestamp) async {
-    var time = DateTime.fromMillisecondsSinceEpoch(timestamp);
-    return await _isar.feedModels
-        .filter()
-        .updateTimeGreaterThan(time)
-        .sortByUpdateTime()
-        .findAll();
+  // get Feed not synced
+  Future<List<FeedModel>> getFeedsNotSynced() async {
+    return await _isar.feedModels.filter().isSyncedEqualTo(false).findAll();
   }
 
-  // get latest FeedItemModel filter by update time
-  Future<List<FeedItemModel>> getLatestFeedItemModelListSorted(
-      int timestamp) async {
-    var time = DateTime.fromMillisecondsSinceEpoch(timestamp);
-    return await _isar.feedItemModels
-        .filter()
-        .updateTimeGreaterThan(time)
-        .sortByUpdateTime()
-        .findAll();
-  }
-
-  // get latest FeedGroupModel filter by update time
-  Future<List<FeedGroupModel>> getLatestFeedGroupModelListSorted(
-      int timestamp) async {
-    var time = DateTime.fromMillisecondsSinceEpoch(timestamp);
+  // get FeedGroup not synced
+  Future<List<FeedGroupModel>> getFeedGroupsNotSynced() async {
     return await _isar.feedGroupModels
         .filter()
-        .updateTimeGreaterThan(time)
-        .sortByUpdateTime()
+        .isSyncedEqualTo(false)
         .findAll();
   }
 
-  // get latest FeedUpdateRecordModel filter by update time
-  Future<List<FeedUpdateRecordModel>> getLatestFeedUpdateRecordModelListSorted(
-      int timestamp) async {
-    var time = DateTime.fromMillisecondsSinceEpoch(timestamp);
+  // get FeedItem not synced
+  Future<List<FeedItemModel>> getFeedItemsNotSynced() async {
+    return await _isar.feedItemModels.filter().isSyncedEqualTo(false).findAll();
+  }
+
+  // get FeedUpdateRecord not synced
+  Future<List<FeedUpdateRecordModel>> getFeedUpdateRecordsNotSynced() async {
     return await _isar.feedUpdateRecordModels
         .filter()
-        .updateTimeGreaterThan(time)
-        .sortByUpdateTime()
+        .isSyncedEqualTo(false)
         .findAll();
-  }
-
-  // SyncTimestampModels save
-  Future<void> saveSyncTimestampModel(
-      List<SyncTimestampModel> syncTimestampModels) async {
-    await _isar.writeTxn(() async {
-      await _isar.syncTimestampModels.putAllByModelName(syncTimestampModels);
-    });
   }
 }

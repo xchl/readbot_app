@@ -57,38 +57,43 @@ const FeedItemModelSchema = CollectionSchema(
       name: r'isSeen',
       type: IsarType.bool,
     ),
-    r'link': PropertySchema(
+    r'isSynced': PropertySchema(
       id: 8,
+      name: r'isSynced',
+      type: IsarType.bool,
+    ),
+    r'link': PropertySchema(
+      id: 9,
       name: r'link',
       type: IsarType.string,
     ),
     r'md5String': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'md5String',
       type: IsarType.string,
     ),
     r'publishTime': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'publishTime',
       type: IsarType.dateTime,
     ),
     r'summaryAlgo': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'summaryAlgo',
       type: IsarType.string,
     ),
     r'tags': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'tags',
       type: IsarType.stringList,
     ),
     r'title': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'title',
       type: IsarType.string,
     ),
     r'updateTime': PropertySchema(
-      id: 14,
+      id: 15,
       name: r'updateTime',
       type: IsarType.dateTime,
     )
@@ -226,13 +231,14 @@ void _feedItemModelSerialize(
   writer.writeString(offsets[5], object.feedUrl);
   writer.writeBool(offsets[6], object.isFocus);
   writer.writeBool(offsets[7], object.isSeen);
-  writer.writeString(offsets[8], object.link);
-  writer.writeString(offsets[9], object.md5String);
-  writer.writeDateTime(offsets[10], object.publishTime);
-  writer.writeString(offsets[11], object.summaryAlgo);
-  writer.writeStringList(offsets[12], object.tags);
-  writer.writeString(offsets[13], object.title);
-  writer.writeDateTime(offsets[14], object.updateTime);
+  writer.writeBool(offsets[8], object.isSynced);
+  writer.writeString(offsets[9], object.link);
+  writer.writeString(offsets[10], object.md5String);
+  writer.writeDateTime(offsets[11], object.publishTime);
+  writer.writeString(offsets[12], object.summaryAlgo);
+  writer.writeStringList(offsets[13], object.tags);
+  writer.writeString(offsets[14], object.title);
+  writer.writeDateTime(offsets[15], object.updateTime);
 }
 
 FeedItemModel _feedItemModelDeserialize(
@@ -246,19 +252,20 @@ FeedItemModel _feedItemModelDeserialize(
     authors: reader.readStringOrNull(offsets[0]),
     category: reader.readStringOrNull(offsets[1]),
     cover: reader.readStringOrNull(offsets[2]),
-    createTime: reader.readDateTimeOrNull(offsets[3]),
+    createTime: reader.readDateTime(offsets[3]),
     description: reader.readStringOrNull(offsets[4]),
     isFocus: reader.readBoolOrNull(offsets[6]) ?? false,
     isSeen: reader.readBoolOrNull(offsets[7]) ?? false,
-    link: reader.readStringOrNull(offsets[8]),
-    publishTime: reader.readDateTimeOrNull(offsets[10]),
-    summaryAlgo: reader.readStringOrNull(offsets[11]),
-    tags: reader.readStringList(offsets[12]),
-    title: reader.readStringOrNull(offsets[13]),
-    updateTime: reader.readDateTime(offsets[14]),
+    isSynced: reader.readBoolOrNull(offsets[8]) ?? false,
+    link: reader.readStringOrNull(offsets[9]),
+    publishTime: reader.readDateTimeOrNull(offsets[11]),
+    summaryAlgo: reader.readStringOrNull(offsets[12]),
+    tags: reader.readStringList(offsets[13]),
+    title: reader.readStringOrNull(offsets[14]),
+    updateTime: reader.readDateTime(offsets[15]),
   );
   object.id = id;
-  object.md5String = reader.readString(offsets[9]);
+  object.md5String = reader.readString(offsets[10]);
   return object;
 }
 
@@ -276,7 +283,7 @@ P _feedItemModelDeserializeProp<P>(
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 4:
       return (reader.readStringOrNull(offset)) as P;
     case 5:
@@ -286,18 +293,20 @@ P _feedItemModelDeserializeProp<P>(
     case 7:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 8:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 9:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 10:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 11:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 12:
-      return (reader.readStringList(offset)) as P;
-    case 13:
       return (reader.readStringOrNull(offset)) as P;
+    case 13:
+      return (reader.readStringList(offset)) as P;
     case 14:
+      return (reader.readStringOrNull(offset)) as P;
+    case 15:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1187,25 +1196,7 @@ extension FeedItemModelQueryFilter
   }
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
-      createTimeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'createTime',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
-      createTimeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'createTime',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
-      createTimeEqualTo(DateTime? value) {
+      createTimeEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'createTime',
@@ -1216,7 +1207,7 @@ extension FeedItemModelQueryFilter
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
       createTimeGreaterThan(
-    DateTime? value, {
+    DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1230,7 +1221,7 @@ extension FeedItemModelQueryFilter
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
       createTimeLessThan(
-    DateTime? value, {
+    DateTime value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1244,8 +1235,8 @@ extension FeedItemModelQueryFilter
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
       createTimeBetween(
-    DateTime? lower,
-    DateTime? upper, {
+    DateTime lower,
+    DateTime upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -1619,6 +1610,16 @@ extension FeedItemModelQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isSeen',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      isSyncedEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isSynced',
         value: value,
       ));
     });
@@ -2702,6 +2703,19 @@ extension FeedItemModelQuerySortBy
     });
   }
 
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> sortByIsSynced() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy>
+      sortByIsSyncedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> sortByLink() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'link', Sort.asc);
@@ -2892,6 +2906,19 @@ extension FeedItemModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> thenByIsSynced() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy>
+      thenByIsSyncedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> thenByLink() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'link', Sort.asc);
@@ -3024,6 +3051,12 @@ extension FeedItemModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<FeedItemModel, FeedItemModel, QDistinct> distinctByIsSynced() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isSynced');
+    });
+  }
+
   QueryBuilder<FeedItemModel, FeedItemModel, QDistinct> distinctByLink(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -3098,8 +3131,7 @@ extension FeedItemModelQueryProperty
     });
   }
 
-  QueryBuilder<FeedItemModel, DateTime?, QQueryOperations>
-      createTimeProperty() {
+  QueryBuilder<FeedItemModel, DateTime, QQueryOperations> createTimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createTime');
     });
@@ -3126,6 +3158,12 @@ extension FeedItemModelQueryProperty
   QueryBuilder<FeedItemModel, bool, QQueryOperations> isSeenProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isSeen');
+    });
+  }
+
+  QueryBuilder<FeedItemModel, bool, QQueryOperations> isSyncedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isSynced');
     });
   }
 

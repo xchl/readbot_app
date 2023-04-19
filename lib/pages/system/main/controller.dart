@@ -46,7 +46,8 @@ class MainController extends GetxController {
   _initData() async {
     bool isLogin = await UserService.to.tryLogin();
     if (isLogin) {
-      await SyncService.to.syncPull();
+      SyncService.to.syncPull();
+      SyncService.to.syncPush();
     }
     update(["main"]);
   }

@@ -7,3 +7,4 @@ export 'validator.dart';
 export 'loading.dart';
 export 'encrypt.dart';
 export 'html.dart';
+export '../models/codegen/json.dart';

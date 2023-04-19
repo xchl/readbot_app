@@ -23,23 +23,28 @@ const FeedUpdateRecordModelSchema = CollectionSchema(
       name: r'feedUrl',
       type: IsarType.string,
     ),
-    r'lastContentHash': PropertySchema(
+    r'isSynced': PropertySchema(
       id: 1,
+      name: r'isSynced',
+      type: IsarType.bool,
+    ),
+    r'lastContentHash': PropertySchema(
+      id: 2,
       name: r'lastContentHash',
       type: IsarType.string,
     ),
     r'lastItemPublishTime': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'lastItemPublishTime',
       type: IsarType.dateTime,
     ),
     r'lastUpdate': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'lastUpdate',
       type: IsarType.dateTime,
     ),
     r'updateTime': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'updateTime',
       type: IsarType.dateTime,
     )
@@ -103,10 +108,11 @@ void _feedUpdateRecordModelSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.feedUrl);
-  writer.writeString(offsets[1], object.lastContentHash);
-  writer.writeDateTime(offsets[2], object.lastItemPublishTime);
-  writer.writeDateTime(offsets[3], object.lastUpdate);
-  writer.writeDateTime(offsets[4], object.updateTime);
+  writer.writeBool(offsets[1], object.isSynced);
+  writer.writeString(offsets[2], object.lastContentHash);
+  writer.writeDateTime(offsets[3], object.lastItemPublishTime);
+  writer.writeDateTime(offsets[4], object.lastUpdate);
+  writer.writeDateTime(offsets[5], object.updateTime);
 }
 
 FeedUpdateRecordModel _feedUpdateRecordModelDeserialize(
@@ -117,10 +123,11 @@ FeedUpdateRecordModel _feedUpdateRecordModelDeserialize(
 ) {
   final object = FeedUpdateRecordModel(
     feedUrl: reader.readString(offsets[0]),
-    lastContentHash: reader.readString(offsets[1]),
-    lastItemPublishTime: reader.readDateTimeOrNull(offsets[2]),
-    lastUpdate: reader.readDateTime(offsets[3]),
-    updateTime: reader.readDateTime(offsets[4]),
+    isSynced: reader.readBoolOrNull(offsets[1]) ?? false,
+    lastContentHash: reader.readString(offsets[2]),
+    lastItemPublishTime: reader.readDateTimeOrNull(offsets[3]),
+    lastUpdate: reader.readDateTime(offsets[4]),
+    updateTime: reader.readDateTime(offsets[5]),
   );
   object.id = id;
   return object;
@@ -136,12 +143,14 @@ P _feedUpdateRecordModelDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 2:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 3:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 4:
+      return (reader.readDateTime(offset)) as P;
+    case 5:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -644,6 +653,16 @@ extension FeedUpdateRecordModelQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> isSyncedEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isSynced',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
       QAfterFilterCondition> lastContentHashEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -991,6 +1010,20 @@ extension FeedUpdateRecordModelQuerySortBy
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
+      sortByIsSynced() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
+      sortByIsSyncedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       sortByLastContentHash() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastContentHash', Sort.asc);
@@ -1078,6 +1111,20 @@ extension FeedUpdateRecordModelQuerySortThenBy
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
+      thenByIsSynced() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
+      thenByIsSyncedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       thenByLastContentHash() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastContentHash', Sort.asc);
@@ -1144,6 +1191,13 @@ extension FeedUpdateRecordModelQueryWhereDistinct
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QDistinct>
+      distinctByIsSynced() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isSynced');
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QDistinct>
       distinctByLastContentHash({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastContentHash',
@@ -1185,6 +1239,13 @@ extension FeedUpdateRecordModelQueryProperty on QueryBuilder<
       feedUrlProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'feedUrl');
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, bool, QQueryOperations>
+      isSyncedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isSynced');
     });
   }
 

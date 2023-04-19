@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/models/proto/model.pbserver.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -36,7 +35,7 @@ class ConfigService extends GetxService {
 
   Future<void> saveClientInfo() async {
     await Storage()
-        .setString(Constants.clientInfo, jsonEncode(clientInfo.toProto3Json()));
+        .setString(Constants.clientInfo, jsonEncode(clientInfo.toJson()));
   }
 
   void setClient() async {
@@ -46,7 +45,7 @@ class ConfigService extends GetxService {
       clientInfo = await getDeviceInfo();
       await saveClientInfo();
     } else {
-      clientInfo = ClientInfo()..mergeFromProto3Json(jsonDecode(clientInfoStr));
+      clientInfo = ClientInfo.fromJson(jsonDecode(clientInfoStr))!;
     }
   }
 
@@ -108,25 +107,25 @@ class ConfigService extends GetxService {
 
   Future<ClientInfo> getDeviceInfo() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    var clientInfo = ClientInfo();
+    var name = '';
     try {
       if (Platform.isAndroid) {
         AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-        clientInfo.clientName = androidInfo.model;
+        name = androidInfo.model;
       } else if (Platform.isIOS) {
         IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-        clientInfo.clientName = iosInfo.name ?? "IOS";
+        name = iosInfo.name ?? "IOS";
       } else if (Platform.isWindows) {
         WindowsDeviceInfo windowsInfo = await deviceInfo.windowsInfo;
-        clientInfo.clientName = windowsInfo.computerName;
+        name = windowsInfo.computerName;
       } else if (Platform.isMacOS) {
         MacOsDeviceInfo macOsInfo = await deviceInfo.macOsInfo;
-        clientInfo.clientName = macOsInfo.computerName;
+        name = macOsInfo.computerName;
       }
     } catch (e) {
       debugPrint('Failed to get device info: $e');
       clientInfo.clientName = "Unknown";
     }
-    return clientInfo;
+    return ClientInfo(clientName: name);
   }
 }

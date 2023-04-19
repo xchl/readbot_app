@@ -124,6 +124,8 @@ class FeedService extends GetxService {
     if (result == null) {
       return;
     }
+
+    // TODO add feed update record
     var feedItems = parseCover(result.item2);
     await DatabaseManager().insertFeedAndItems(result.item1, feedItems);
     downloadHtml(feedItems);

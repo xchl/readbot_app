@@ -22,13 +22,18 @@ const FeedGroupModelSchema = CollectionSchema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'name': PropertySchema(
+    r'isSynced': PropertySchema(
       id: 1,
+      name: r'isSynced',
+      type: IsarType.bool,
+    ),
+    r'name': PropertySchema(
+      id: 2,
       name: r'name',
       type: IsarType.string,
     ),
     r'updateTime': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'updateTime',
       type: IsarType.dateTime,
     )
@@ -84,8 +89,9 @@ void _feedGroupModelSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.description);
-  writer.writeString(offsets[1], object.name);
-  writer.writeDateTime(offsets[2], object.updateTime);
+  writer.writeBool(offsets[1], object.isSynced);
+  writer.writeString(offsets[2], object.name);
+  writer.writeDateTime(offsets[3], object.updateTime);
 }
 
 FeedGroupModel _feedGroupModelDeserialize(
@@ -96,8 +102,9 @@ FeedGroupModel _feedGroupModelDeserialize(
 ) {
   final object = FeedGroupModel(
     description: reader.readStringOrNull(offsets[0]),
-    name: reader.readString(offsets[1]),
-    updateTime: reader.readDateTime(offsets[2]),
+    isSynced: reader.readBoolOrNull(offsets[1]) ?? false,
+    name: reader.readString(offsets[2]),
+    updateTime: reader.readDateTime(offsets[3]),
   );
   object.id = id;
   return object;
@@ -113,8 +120,10 @@ P _feedGroupModelDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -527,6 +536,16 @@ extension FeedGroupModelQueryFilter
   }
 
   QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      isSyncedEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isSynced',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
       nameEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -741,6 +760,19 @@ extension FeedGroupModelQuerySortBy
     });
   }
 
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> sortByIsSynced() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy>
+      sortByIsSyncedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -796,6 +828,19 @@ extension FeedGroupModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> thenByIsSynced() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy>
+      thenByIsSyncedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -832,6 +877,12 @@ extension FeedGroupModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QDistinct> distinctByIsSynced() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isSynced');
+    });
+  }
+
   QueryBuilder<FeedGroupModel, FeedGroupModel, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -859,6 +910,12 @@ extension FeedGroupModelQueryProperty
       descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, bool, QQueryOperations> isSyncedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isSynced');
     });
   }
 

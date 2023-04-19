@@ -6,7 +6,7 @@ class UserApi {
   static Future<bool> register(RegisterInfo info) async {
     var request =
         RegisterRequest(client: ConfigService.to.clientInfo, registerInfo: info)
-            .toProto3Json();
+            .toJson();
     var res = await HttpService.to.post('/user/register', data: request);
     if (res.statusCode == 201) {
       return true;
@@ -15,23 +15,25 @@ class UserApi {
   }
 
   /// 登录
-  static Future<AuthResponse> login(LoginInfo? info) async {
+  static Future<AuthResponse> login(LoginInfo info) async {
     var request =
         LoginRequest(client: ConfigService.to.clientInfo, loginInfo: info)
-            .toProto3Json();
+            .toJson();
     var res = await HttpService.to.post(
       '/user/login',
       data: request,
     );
-    var response = AuthResponse()..mergeFromProto3Json(res.data);
+    // TODO error handle
+    var response = AuthResponse.fromJson(res.data)!;
     return response;
   }
 
   static Future<AuthResponse> refreshToken(String refreshToken) async {
     var request = RefreshTokenRequest(
             client: ConfigService.to.clientInfo, refreshToken: refreshToken)
-        .toProto3Json();
+        .toJson();
     var res = await HttpService.to.post('/user/refresh_token', data: request);
-    return AuthResponse.fromJson(res.data);
+    // TODO error handle
+    return AuthResponse.fromJson(res.data)!;
   }
 }

@@ -47,39 +47,44 @@ const FeedModelSchema = CollectionSchema(
       name: r'groupName',
       type: IsarType.string,
     ),
-    r'logo': PropertySchema(
+    r'isSynced': PropertySchema(
       id: 6,
+      name: r'isSynced',
+      type: IsarType.bool,
+    ),
+    r'logo': PropertySchema(
+      id: 7,
       name: r'logo',
       type: IsarType.string,
     ),
     r'name': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'name',
       type: IsarType.string,
     ),
     r'tags': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'tags',
       type: IsarType.stringList,
     ),
     r'title': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'title',
       type: IsarType.string,
     ),
     r'type': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'type',
       type: IsarType.int,
       enumMap: _FeedModeltypeEnumValueMap,
     ),
     r'updateTime': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'updateTime',
       type: IsarType.dateTime,
     ),
     r'url': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'url',
       type: IsarType.string,
     )
@@ -173,16 +178,11 @@ int _feedModelEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.tags.length * 3;
   {
-    final list = object.tags;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount += value.length * 3;
-        }
-      }
+    for (var i = 0; i < object.tags.length; i++) {
+      final value = object.tags[i];
+      bytesCount += value.length * 3;
     }
   }
   bytesCount += 3 + object.title.length * 3;
@@ -202,13 +202,14 @@ void _feedModelSerialize(
   writer.writeString(offsets[3], object.customName);
   writer.writeString(offsets[4], object.description);
   writer.writeString(offsets[5], object.groupName);
-  writer.writeString(offsets[6], object.logo);
-  writer.writeString(offsets[7], object.name);
-  writer.writeStringList(offsets[8], object.tags);
-  writer.writeString(offsets[9], object.title);
-  writer.writeInt(offsets[10], object.type?.index);
-  writer.writeDateTime(offsets[11], object.updateTime);
-  writer.writeString(offsets[12], object.url);
+  writer.writeBool(offsets[6], object.isSynced);
+  writer.writeString(offsets[7], object.logo);
+  writer.writeString(offsets[8], object.name);
+  writer.writeStringList(offsets[9], object.tags);
+  writer.writeString(offsets[10], object.title);
+  writer.writeInt(offsets[11], object.type?.index);
+  writer.writeDateTime(offsets[12], object.updateTime);
+  writer.writeString(offsets[13], object.url);
 }
 
 FeedModel _feedModelDeserialize(
@@ -218,17 +219,18 @@ FeedModel _feedModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = FeedModel(
-    reader.readString(offsets[12]),
+    reader.readString(offsets[13]),
     createTime: reader.readDateTime(offsets[0]),
     customDescription: reader.readStringOrNull(offsets[1]),
     customLogo: reader.readStringOrNull(offsets[2]),
     customName: reader.readStringOrNull(offsets[3]),
     description: reader.readStringOrNull(offsets[4]),
-    logo: reader.readStringOrNull(offsets[6]),
-    name: reader.readStringOrNull(offsets[7]),
-    tags: reader.readStringList(offsets[8]),
-    type: _FeedModeltypeValueEnumMap[reader.readIntOrNull(offsets[10])],
-    updateTime: reader.readDateTime(offsets[11]),
+    isSynced: reader.readBoolOrNull(offsets[6]) ?? false,
+    logo: reader.readStringOrNull(offsets[7]),
+    name: reader.readStringOrNull(offsets[8]),
+    tags: reader.readStringList(offsets[9]) ?? const [],
+    type: _FeedModeltypeValueEnumMap[reader.readIntOrNull(offsets[11])],
+    updateTime: reader.readDateTime(offsets[12]),
   );
   object.groupName = reader.readStringOrNull(offsets[5]);
   object.id = id;
@@ -255,18 +257,20 @@ P _feedModelDeserializeProp<P>(
     case 5:
       return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 7:
       return (reader.readStringOrNull(offset)) as P;
     case 8:
-      return (reader.readStringList(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 9:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringList(offset) ?? const []) as P;
     case 10:
-      return (_FeedModeltypeValueEnumMap[reader.readIntOrNull(offset)]) as P;
+      return (reader.readString(offset)) as P;
     case 11:
-      return (reader.readDateTime(offset)) as P;
+      return (_FeedModeltypeValueEnumMap[reader.readIntOrNull(offset)]) as P;
     case 12:
+      return (reader.readDateTime(offset)) as P;
+    case 13:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1435,6 +1439,16 @@ extension FeedModelQueryFilter
     });
   }
 
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> isSyncedEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isSynced',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> logoIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1723,22 +1737,6 @@ extension FeedModelQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'name',
         value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'tags',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'tags',
       ));
     });
   }
@@ -2426,6 +2424,18 @@ extension FeedModelQuerySortBy on QueryBuilder<FeedModel, FeedModel, QSortBy> {
     });
   }
 
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByIsSynced() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByIsSyncedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByLogo() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'logo', Sort.asc);
@@ -2586,6 +2596,18 @@ extension FeedModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByIsSynced() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByIsSyncedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSynced', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByLogo() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'logo', Sort.asc);
@@ -2703,6 +2725,12 @@ extension FeedModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByIsSynced() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isSynced');
+    });
+  }
+
   QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByLogo(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2795,6 +2823,12 @@ extension FeedModelQueryProperty
     });
   }
 
+  QueryBuilder<FeedModel, bool, QQueryOperations> isSyncedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isSynced');
+    });
+  }
+
   QueryBuilder<FeedModel, String?, QQueryOperations> logoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'logo');
@@ -2807,7 +2841,7 @@ extension FeedModelQueryProperty
     });
   }
 
-  QueryBuilder<FeedModel, List<String>?, QQueryOperations> tagsProperty() {
+  QueryBuilder<FeedModel, List<String>, QQueryOperations> tagsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'tags');
     });
