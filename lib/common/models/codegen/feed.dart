@@ -18,7 +18,6 @@ class Feed {
     this.customName,
     this.description,
     required this.feedType,
-    this.groupId,
     this.logo,
     this.name,
     this.tags = const [],
@@ -38,13 +37,11 @@ class Feed {
 
   FeedTypeServer feedType;
 
-  int? groupId;
-
   String? logo;
 
   String? name;
 
-  List<String> tags;
+  List<String>? tags;
 
   int updateTime;
 
@@ -58,7 +55,6 @@ class Feed {
      other.customName == customName &&
      other.description == description &&
      other.feedType == feedType &&
-     other.groupId == groupId &&
      other.logo == logo &&
      other.name == name &&
      other.tags == tags &&
@@ -74,15 +70,14 @@ class Feed {
     (customName == null ? 0 : customName!.hashCode) +
     (description == null ? 0 : description!.hashCode) +
     (feedType.hashCode) +
-    (groupId == null ? 0 : groupId!.hashCode) +
     (logo == null ? 0 : logo!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
-    (tags.hashCode) +
+    (tags == null ? 0 : tags!.hashCode) +
     (updateTime.hashCode) +
     (url.hashCode);
 
   @override
-  String toString() => 'Feed[createTime=$createTime, customDescription=$customDescription, customLogo=$customLogo, customName=$customName, description=$description, feedType=$feedType, groupId=$groupId, logo=$logo, name=$name, tags=$tags, updateTime=$updateTime, url=$url]';
+  String toString() => 'Feed[createTime=$createTime, customDescription=$customDescription, customLogo=$customLogo, customName=$customName, description=$description, feedType=$feedType, logo=$logo, name=$name, tags=$tags, updateTime=$updateTime, url=$url]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -108,11 +103,6 @@ class Feed {
       json[r'description'] = null;
     }
       json[r'feedType'] = this.feedType;
-    if (this.groupId != null) {
-      json[r'groupId'] = this.groupId;
-    } else {
-      json[r'groupId'] = null;
-    }
     if (this.logo != null) {
       json[r'logo'] = this.logo;
     } else {
@@ -123,7 +113,11 @@ class Feed {
     } else {
       json[r'name'] = null;
     }
+    if (this.tags != null) {
       json[r'tags'] = this.tags;
+    } else {
+      json[r'tags'] = null;
+    }
       json[r'updateTime'] = this.updateTime;
       json[r'url'] = this.url;
     return json;
@@ -154,7 +148,6 @@ class Feed {
         customName: mapValueOfType<String>(json, r'customName'),
         description: mapValueOfType<String>(json, r'description'),
         feedType: FeedTypeServer.fromJson(json[r'feedType'])!,
-        groupId: mapValueOfType<int>(json, r'groupId'),
         logo: mapValueOfType<String>(json, r'logo'),
         name: mapValueOfType<String>(json, r'name'),
         tags: json[r'tags'] is List
@@ -213,7 +206,6 @@ class Feed {
   static const requiredKeys = <String>{
     'createTime',
     'feedType',
-    'tags',
     'updateTime',
     'url',
   };

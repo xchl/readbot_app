@@ -178,11 +178,16 @@ int _feedModelEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  bytesCount += 3 + object.tags.length * 3;
   {
-    for (var i = 0; i < object.tags.length; i++) {
-      final value = object.tags[i];
-      bytesCount += value.length * 3;
+    final list = object.tags;
+    if (list != null) {
+      bytesCount += 3 + list.length * 3;
+      {
+        for (var i = 0; i < list.length; i++) {
+          final value = list[i];
+          bytesCount += value.length * 3;
+        }
+      }
     }
   }
   bytesCount += 3 + object.title.length * 3;
@@ -228,7 +233,7 @@ FeedModel _feedModelDeserialize(
     isSynced: reader.readBoolOrNull(offsets[6]) ?? false,
     logo: reader.readStringOrNull(offsets[7]),
     name: reader.readStringOrNull(offsets[8]),
-    tags: reader.readStringList(offsets[9]) ?? const [],
+    tags: reader.readStringList(offsets[9]),
     type: _FeedModeltypeValueEnumMap[reader.readIntOrNull(offsets[11])],
     updateTime: reader.readDateTime(offsets[12]),
   );
@@ -263,7 +268,7 @@ P _feedModelDeserializeProp<P>(
     case 8:
       return (reader.readStringOrNull(offset)) as P;
     case 9:
-      return (reader.readStringList(offset) ?? const []) as P;
+      return (reader.readStringList(offset)) as P;
     case 10:
       return (reader.readString(offset)) as P;
     case 11:
@@ -1741,6 +1746,22 @@ extension FeedModelQueryFilter
     });
   }
 
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'tags',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'tags',
+      ));
+    });
+  }
+
   QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> tagsElementEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -2841,7 +2862,7 @@ extension FeedModelQueryProperty
     });
   }
 
-  QueryBuilder<FeedModel, List<String>, QQueryOperations> tagsProperty() {
+  QueryBuilder<FeedModel, List<String>?, QQueryOperations> tagsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'tags');
     });

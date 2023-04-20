@@ -15,8 +15,8 @@ class SyncService extends GetxService {
     // TODO 增加权限
     syncModels = [
       ModelName.feed,
-      // ModelName.feedItem,
-      // ModelName.feedUpdateRecord,
+      ModelName.feedItem,
+      ModelName.feedUpdateRecord,
       ModelName.feedGroup,
     ];
   }

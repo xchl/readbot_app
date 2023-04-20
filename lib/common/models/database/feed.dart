@@ -26,7 +26,7 @@ class FeedModel {
 
   String? groupName;
 
-  List<String> tags;
+  List<String>? tags;
   DateTime createTime;
 
   bool isSynced;

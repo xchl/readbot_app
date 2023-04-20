@@ -112,7 +112,7 @@ class UserService extends GetxService {
     AuthResponse res = await UserApi.login(req);
     var token = res.jwtTokens;
     await setToken(token);
-    if (ConfigService.to.clientInfo.clientId == 0) {
+    if (ConfigService.to.clientInfo.clientId == null) {
       ConfigService.to.clientInfo.clientId = res.client.clientId;
       await ConfigService.to.saveClientInfo();
     }

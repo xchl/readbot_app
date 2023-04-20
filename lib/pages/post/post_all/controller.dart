@@ -53,7 +53,7 @@ class PostAllController extends GetxController {
         Loading.show();
         await FeedService.to.addFeedFromUrl(urlController.text);
         Loading.success();
-        refreshFeedItem();
+        await refreshFeedItem();
         update(["post_all"]);
         Get.back(result: true);
       } finally {
