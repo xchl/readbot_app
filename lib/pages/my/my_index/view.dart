@@ -22,6 +22,9 @@ class MyIndexPage extends GetView<MyIndexController> {
         // 主题管理
         _buildThemeButtonsList().sliverBox,
 
+        // 系统设置
+        _buildAccountButtonsList().sliverBox,
+
         // 注销
         ButtonWidget.primary(
           LocaleKeys.myBtnLogout.tr,
@@ -72,6 +75,57 @@ class MyIndexPage extends GetView<MyIndexController> {
     ].toColumn().padding(top: 30.h, bottom: 10.h);
   }
 
+  Widget _buildAccountButtonsList() {
+    return <Widget>[
+      TextWidget.body1(LocaleKeys.myAccountPart.tr)
+          .alignLeft()
+          .padding(left: 10, bottom: 10),
+      <Widget>[
+        ButtonItemWidget(
+          title: LocaleKeys.myDestroyBth.tr,
+          onTap: () {
+            ActionDialog.normal(
+              context: Get.context!,
+              title: Text(LocaleKeys.myDestroyBth.tr),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    LocaleKeys.myDestroyAccountInfo.tr,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.secondary,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'YES',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.red,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  InputWidget(
+                    hintText: 'Input',
+                    fontSize: 14,
+                    controller: controller.destroyConfirmInput,
+                  ),
+                ],
+              ),
+              confirm: Text(LocaleKeys.commonBottomConfirm.tr),
+              confirmBackgroundColor: Colors.red,
+              onConfirm: controller.onDestroy,
+            );
+          },
+        ),
+      ].toColumn().card()
+    ].toColumn().padding(top: 30.h, bottom: 10.h);
+  }
+
   Widget _buildServiceButtonsList() {
     return <Widget>[
       TextWidget.body1(LocaleKeys.myServicePart.tr)
@@ -96,13 +150,13 @@ class MyIndexPage extends GetView<MyIndexController> {
       // 背景色
       backgroundColor: AppColors.background,
       // 固定在顶部
-      pinned: true,
+      pinned: false,
       // 浮动在顶部
-      floating: true,
+      floating: false,
       // 自动弹性显示
-      snap: true,
+      snap: false,
       // 是否应拉伸以填充过度滚动区域。
-      stretch: true,
+      stretch: false,
       // 高度
       expandedHeight: 200.h,
       // 此小组件堆叠在工具栏和选项卡栏后面。其高度将与应用栏的整体高度相同。
@@ -113,6 +167,7 @@ class MyIndexPage extends GetView<MyIndexController> {
           <Widget>[
             Obx(() => UserService.isLogin
                 ? TextWidget.title1(
+                    // TODO
                     "Hi, Sen",
                     color: AppColors.primary,
                     size: 26.sp,

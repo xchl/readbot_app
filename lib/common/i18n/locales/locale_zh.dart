@@ -87,6 +87,9 @@ Map<String, String> localeZh = {
   LocaleKeys.myAISetting: 'AI服务设置',
   LocaleKeys.myRuleSetting: '规则管理',
   LocaleKeys.myLoginBtn: '登录',
+  LocaleKeys.myDestroyBth: '销毁当前账户',
+  LocaleKeys.myDestroyAccountInfo: '如果销毁当前账户，保存在服务器上的所有数据都将被删除。请输入YES并确认',
+  LocaleKeys.myAccountPart: '账户',
 
   //Feed
   LocaleKeys.feedAddBtn: '添加',

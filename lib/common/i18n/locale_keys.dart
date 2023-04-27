@@ -87,6 +87,9 @@ class LocaleKeys {
   static const myAISetting = 'my_ai_setting';
   static const myRuleSetting = 'my_rule_setting';
   static const myLoginBtn = 'my_login_btn';
+  static const myDestroyBth = 'my_destroy_btn';
+  static const myDestroyAccountInfo = 'my_destroy_info';
+  static const myAccountPart = 'my_account_part';
 
   // Feed
   static const feedAddDesc = 'feed_add_desc';

@@ -15,6 +15,16 @@ class UserApi {
     }
   }
 
+  /// 注销用户
+  static Future<bool> destoryAccout() async {
+    try {
+      await HttpService.to.post('/user/destory');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   /// 登录
   static Future<AuthResponse> login(LoginInfo info) async {
     var request =

@@ -94,6 +94,10 @@ Map<String, String> localeEn = {
   LocaleKeys.myAISetting: 'AI Setting',
   LocaleKeys.myRuleSetting: 'Rule Setting',
   LocaleKeys.myLoginBtn: 'Login',
+  LocaleKeys.myDestroyBth: 'Destroy account',
+  LocaleKeys.myDestroyAccountInfo:
+      'If you destroy your current account, all information will be deleted and cannot be restored. Please input YES and confirm',
+  LocaleKeys.myAccountPart: 'Account',
 
   // Feed
   LocaleKeys.feedAddBtn: 'Add',
