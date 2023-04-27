@@ -96,4 +96,7 @@ class LocaleKeys {
   static const feedNoTitle = 'feed_no_title';
   static const focusTitle = 'feed_focus_title';
   static const exploreTitle = 'feed_explore_title';
+
+  static const registerUserAgreement = 'register_user_agreement';
+  static const registerUserAgreementError = 'register_user_agreement_error';
 }

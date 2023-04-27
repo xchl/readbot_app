@@ -54,7 +54,19 @@ class RegisterPage extends GetView<RegisterController> {
               ),
             ),
           ]),
-        ).paddingBottom(50),
+        ).paddingBottom(10),
+
+        // 用户协议
+        CheckBoxWidget(
+          value: controller.isAgree,
+          onChanged: controller.onCheckAgree,
+          textWidget: ButtonWidget.text(
+            LocaleKeys.registerUserAgreement.tr,
+            onTap: controller.onUserAgreement,
+            textSize: 14,
+            textColor: AppColors.primary,
+          ),
+        ).padding(left: 0, bottom: 10),
 
         // 注册按钮
         _buildBtnSignUp(),

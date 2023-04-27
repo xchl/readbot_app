@@ -16,17 +16,24 @@ class LoginController extends GetxController {
     update(["login"]);
   }
 
-  void onTap() {}
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
+  // 用户协议
+  bool isAgree = false;
 
   @override
   void onReady() {
     super.onReady();
     _initData();
+  }
+
+  // 选中用户协议
+  void onCheckAgree(value) {
+    isAgree = value;
+    update(['register']);
+  }
+
+  // 用户协议
+  void onUserAgreement() {
+    Get.toNamed(RouteNames.systemUserAgreement);
   }
 
   /// 释放
@@ -39,6 +46,10 @@ class LoginController extends GetxController {
 
   /// Sign In
   Future<void> onSignIn() async {
+    if (isAgree == false) {
+      Loading.toast(LocaleKeys.registerUserAgreementError.tr);
+      return;
+    }
     if ((formKey.currentState as FormState).validate()) {
       try {
         Loading.show();
@@ -63,6 +74,6 @@ class LoginController extends GetxController {
 
   /// Sign Up
   void onSignUp() {
-    Get.toNamed(RouteNames.systemRegister);
+    Get.offNamed(RouteNames.systemRegister);
   }
 }

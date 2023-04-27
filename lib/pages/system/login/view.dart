@@ -1,5 +1,4 @@
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -64,6 +63,18 @@ class LoginPage extends GetView<LoginController> {
             ),
           ]),
         ).paddingBottom(AppSpace.listRow.w * 3),
+
+        // 用户协议
+        CheckBoxWidget(
+          value: controller.isAgree,
+          onChanged: controller.onCheckAgree,
+          textWidget: ButtonWidget.text(
+            LocaleKeys.registerUserAgreement.tr,
+            onTap: controller.onUserAgreement,
+            textSize: 14,
+            textColor: AppColors.primary,
+          ),
+        ).padding(left: 0, bottom: 10),
 
         // 登录按钮
         ButtonWidget.primary(

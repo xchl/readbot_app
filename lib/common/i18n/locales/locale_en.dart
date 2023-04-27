@@ -103,4 +103,7 @@ Map<String, String> localeEn = {
   LocaleKeys.exploreTitle: 'Explore',
   LocaleKeys.feedAddFromUrl: 'RSS Url',
   LocaleKeys.feedAddFromOpml: 'Import Opml',
+
+  LocaleKeys.registerUserAgreement: 'Read user agreement',
+  LocaleKeys.registerUserAgreementError: 'Please confirm the user agreement',
 };

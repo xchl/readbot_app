@@ -32,4 +32,9 @@ class Constants {
   static const storageArchivePost = 'history_archive_post';
   static const storageLatestPostId = 'history_latest_post_id';
   static const storagePostCache = 'postCache';
+
+  // External link
+  // TODO: 临时使用，后续需要修改
+  static const userAgreement =
+      'https://www.yuque.com/hanxiaoxiannv/mn1e48/fs4rer';
 }

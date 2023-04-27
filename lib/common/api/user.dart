@@ -7,11 +7,12 @@ class UserApi {
     var request =
         RegisterRequest(client: ConfigService.to.clientInfo, registerInfo: info)
             .toJson();
-    var res = await HttpService.to.post('/user/register', data: request);
-    if (res.statusCode == 201) {
+    try {
+      await HttpService.to.post('/user/register', data: request);
       return true;
+    } catch (e) {
+      return false;
     }
-    return false;
   }
 
   /// 登录

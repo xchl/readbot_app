@@ -96,4 +96,7 @@ Map<String, String> localeZh = {
   LocaleKeys.exploreTitle: '发现',
   LocaleKeys.feedAddFromUrl: '添加RSS链接',
   LocaleKeys.feedAddFromOpml: '从Opml导入',
+
+  LocaleKeys.registerUserAgreement: '阅读用户协议',
+  LocaleKeys.registerUserAgreementError: '请确认用户协议',
 };
