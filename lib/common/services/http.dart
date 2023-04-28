@@ -24,15 +24,15 @@ class HttpService extends GetxService {
 
     // 初始 dio
     var options = BaseOptions(
-      baseUrl: Constants.feedBoxServerUrl,
+      baseUrl: ConfigService.to.serverUrl,
       connectTimeout: const Duration(seconds: 10), // 10秒
       receiveTimeout: const Duration(seconds: 5), // 5秒
       headers: {},
       contentType: 'application/json; charset=utf-8',
       responseType: ResponseType.json,
     );
-    _dio = Dio(options);
 
+    _dio = Dio(options);
     // 拦截器
     _dio.interceptors.add(RequestInterceptors());
   }
@@ -143,23 +143,6 @@ class RequestInterceptors extends Interceptor {
     handler.next(options);
   }
 
-  // @override
-  // void onResponse(Response response, ResponseInterceptorHandler handler) {
-  //   // 200 请求成功, 201 添加成功
-  //   if (response.statusCode != 200 && response.statusCode != 201) {
-  //     handler.reject(
-  //       DioError(
-  //         requestOptions: response.requestOptions,
-  //         response: response,
-  //         type: DioErrorType.badResponse,
-  //       ),
-  //       true,
-  //     );
-  //   } else {
-  //     handler.next(response);
-  //   }
-  // }
-
   @override
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
     // final exception = HttpException(err.message);
@@ -167,7 +150,7 @@ class RequestInterceptors extends Interceptor {
       case DioErrorType.badResponse: // 服务端自定义错误体处理
         {
           final response = err.response;
-          final errorMessage = ErrorMessageModel.fromJson(response?.data);
+          String errorMessage = response?.data;
           switch (response?.statusCode) {
             case 401:
               Get.toNamed(RouteNames.systemLogin);
@@ -181,7 +164,8 @@ class RequestInterceptors extends Interceptor {
             default:
               break;
           }
-          Loading.error(errorMessage.message);
+          Loading.error(errorMessage);
+          LogService.to.e(errorMessage);
         }
         break;
       case DioErrorType.cancel:

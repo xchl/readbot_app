@@ -168,7 +168,7 @@ class MyIndexPage extends GetView<MyIndexController> {
             Obx(() => UserService.isLogin
                 ? TextWidget.title1(
                     // TODO
-                    "Hi, Sen",
+                    "Hi, ${UserService.to.basicProfile?.username}",
                     color: AppColors.primary,
                     size: 26.sp,
                   )

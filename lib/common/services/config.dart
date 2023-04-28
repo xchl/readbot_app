@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -15,6 +16,9 @@ class ConfigService extends GetxService {
 
   PackageInfo? _platform;
   String get version => _platform?.version ?? '-';
+
+  late String serverUrl;
+  late String privacyUrl;
 
   // 多语言
   Locale locale = PlatformDispatcher.instance.locale;
@@ -49,19 +53,28 @@ class ConfigService extends GetxService {
     }
   }
 
-  // 初始化
-  Future<ConfigService> init() async {
-    await getPlatform();
-    return this;
+  loadConfig() async {
+    // if assets/configs/config.json exist read config.json from assets/configs
+    try {
+      var configString = await rootBundle.loadString(Constants.configFile);
+      var config = jsonDecode(configString);
+      serverUrl = config[Constants.serverUrlField];
+      privacyUrl = config[Constants.privacyUrlField];
+    } catch (e) {
+      LogService.to
+          .e('Error occur when loading assets/configs/config.json: $e');
+    }
   }
 
   @override
-  void onInit() {
+  Future<ConfigService> onInit() async {
     super.onInit();
     setClient();
     getPlatform();
     initLocale();
     initTheme();
+    await loadConfig();
+    return this;
   }
 
   Future<void> getPlatform() async {

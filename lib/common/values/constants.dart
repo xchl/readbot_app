@@ -9,7 +9,6 @@ class Constants {
   static const storageRefreshToken = 'refresh_token'; // 登录成功后 refresh token
 
   // System
-  static const feedBoxServerUrl = 'http://127.0.0.1:8000';
   static const storageLanguageCode = 'language_code';
   static const storageThemeCode = 'theme_code';
   static const storageAlreadyOpen = 'already_open'; // 首次打开
@@ -33,8 +32,8 @@ class Constants {
   static const storageLatestPostId = 'history_latest_post_id';
   static const storagePostCache = 'postCache';
 
-  // External link
-  // TODO: 临时使用，后续需要修改
-  static const userAgreement =
-      'https://www.yuque.com/hanxiaoxiannv/mn1e48/fs4rer';
+  // Config
+  static const configFile = 'assets/configs/config.json';
+  static const serverUrlField = 'server_url';
+  static const privacyUrlField = 'privacy_policy_url';
 }

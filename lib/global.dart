@@ -1,4 +1,3 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -22,11 +21,11 @@ class Global {
     Loading();
 
     // 初始化服务
-    Get.put<ConfigService>(ConfigService());
+    Get.put<LogService>(LogService());
+    await Get.putAsync<ConfigService>(() => ConfigService().onInit());
     Get.put<HttpService>(HttpService());
     Get.put<UserService>(UserService());
     Get.put<FeedService>(FeedService());
-    Get.put<LogService>(LogService());
     Get.put<SyncService>(SyncService());
 
     // 阅读模式

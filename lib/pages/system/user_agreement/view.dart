@@ -1,5 +1,4 @@
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
@@ -14,7 +13,8 @@ class UserAgreementPage extends GetView<UserAgreementController> {
     return InAppWebView(
       key: controller.webViewKey,
       initialOptions: controller.options,
-      initialUrlRequest: URLRequest(url: Uri.parse(Constants.userAgreement)),
+      initialUrlRequest:
+          URLRequest(url: Uri.parse(ConfigService.to.privacyUrl)),
     );
   }
 
