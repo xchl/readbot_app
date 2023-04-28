@@ -17,7 +17,6 @@ class ButtonItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var color = this.color ?? AppColors.primary;
     return ListTileWidget(
       // 标题
       title: TextWidget.body1(

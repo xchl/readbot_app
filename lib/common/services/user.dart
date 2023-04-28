@@ -36,7 +36,7 @@ class UserService extends GetxService {
     return _isLogin.value;
   }
 
-  UserProfile? get basicProfile => _basicProfile?.value;
+  String? get username => _basicProfile?.value.username;
   static bool get isLogin => UserService.to._isLogin.value;
 
   @override

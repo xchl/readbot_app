@@ -14,7 +14,7 @@ class MyIndexPage extends GetView<MyIndexController> {
     return CustomScrollView(
       slivers: <Widget>[
         // 顶部 APP 导航栏
-        _buildAppBar(),
+        _buildHeader().sliverBox,
         // 服务相关
         _buildServiceButtonsList().sliverBox,
         // 订阅源管理
@@ -39,6 +39,33 @@ class MyIndexPage extends GetView<MyIndexController> {
             .sliverBox,
       ],
     );
+  }
+
+  Widget _buildHeader() {
+    return <Widget>[
+      // 用户信息
+      <Widget>[
+        Obx(() => UserService.isLogin
+            ? TextWidget.title1(
+                "Hi, ${UserService.to.username}",
+                color: AppColors.primary,
+                size: 26.sp,
+              )
+            : ButtonWidget.text(
+                LocaleKeys.myLoginBtn.tr,
+                onTap: () => Get.toNamed(RouteNames.systemLogin),
+                textSize: 26.sp,
+                textColor: AppColors.primary,
+              )),
+      ].toRow().paddingHorizontal(AppSpace.card),
+    ]
+        .toColumn(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        )
+        .padding(
+          top: AppSpace.card,
+          bottom: AppSpace.card,
+        );
   }
 
   Widget _buildFeedButtonsList() {
@@ -144,48 +171,6 @@ class MyIndexPage extends GetView<MyIndexController> {
     ].toColumn().padding(top: 30.h, bottom: 10.h);
   }
 
-  // 顶部 APP 导航栏
-  Widget _buildAppBar() {
-    return SliverAppBar(
-      // 背景色
-      backgroundColor: AppColors.background,
-      // 固定在顶部
-      pinned: false,
-      // 浮动在顶部
-      floating: false,
-      // 自动弹性显示
-      snap: false,
-      // 是否应拉伸以填充过度滚动区域。
-      stretch: false,
-      // 高度
-      expandedHeight: 200.h,
-      // 此小组件堆叠在工具栏和选项卡栏后面。其高度将与应用栏的整体高度相同。
-      flexibleSpace: FlexibleSpaceBar(
-        // 背景
-        background: <Widget>[
-          // 用户信息
-          <Widget>[
-            Obx(() => UserService.isLogin
-                ? TextWidget.title1(
-                    // TODO
-                    "Hi, ${UserService.to.basicProfile?.username}",
-                    color: AppColors.primary,
-                    size: 26.sp,
-                  )
-                : ButtonWidget.text(
-                    LocaleKeys.myLoginBtn.tr,
-                    onTap: () => Get.toNamed(RouteNames.systemLogin),
-                    textSize: 26.sp,
-                    textColor: AppColors.primary,
-                  )),
-          ].toRow().paddingHorizontal(AppSpace.card),
-        ].toColumn(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MyIndexController>(
@@ -193,7 +178,7 @@ class MyIndexPage extends GetView<MyIndexController> {
       id: "my_index",
       builder: (_) {
         return Scaffold(
-          body: _buildView(),
+          body: SafeArea(child: _buildView()),
         );
       },
     );

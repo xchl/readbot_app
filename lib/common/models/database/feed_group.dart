@@ -1,5 +1,4 @@
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:fixnum/fixnum.dart';
 import 'package:isar/isar.dart';
 
 part 'feed_group.g.dart';

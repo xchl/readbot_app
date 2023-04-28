@@ -37,7 +37,7 @@ class PostDrawerPage extends GetView<PostDrawerController> {
   Widget _buildPostFocusDrawer() {
     return ListView(
       padding: EdgeInsets.zero,
-      children: <Widget>[Text('Focus')],
+      children: const <Widget>[Text('Focus')],
     );
   }
 
