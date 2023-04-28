@@ -18,7 +18,7 @@ class UserApi {
   /// 注销用户
   static Future<bool> destoryAccout() async {
     try {
-      await HttpService.to.post('/user/destory');
+      await HttpService.to.delete('/user/destroy');
       return true;
     } catch (e) {
       return false;

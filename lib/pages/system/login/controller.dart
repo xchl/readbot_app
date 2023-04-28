@@ -28,7 +28,7 @@ class LoginController extends GetxController {
   // 选中用户协议
   void onCheckAgree(value) {
     isAgree = value;
-    update(['register']);
+    update(['login']);
   }
 
   // 用户协议
