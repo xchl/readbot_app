@@ -1,5 +1,6 @@
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DatabaseManager {
   static final DatabaseManager _instance = DatabaseManager._internal();
@@ -9,6 +10,7 @@ class DatabaseManager {
   late final Isar _isar;
 
   Future<void> init() async {
+    var directory = await getApplicationDocumentsDirectory();
     _isar = await Isar.open([
       FeedModelSchema,
       FeedItemModelSchema,
@@ -16,7 +18,7 @@ class DatabaseManager {
       FeedUpdateRecordModelSchema,
       FeedGroupModelSchema,
       SyncTimestampModelSchema,
-    ]);
+    ], directory: directory.path);
   }
 
   // FeedGroup

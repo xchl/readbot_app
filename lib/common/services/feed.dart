@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:feed_inbox_app/common/index.dart';
@@ -78,6 +79,7 @@ class FeedService extends GetxService {
     if (feedItems.isEmpty) return;
     int idx = 0;
     var headlessWebView = HeadlessInAppWebView(
+      // TODO: link不为空优化
       initialUrlRequest: URLRequest(url: Uri.parse(feedItems[idx].link!)),
       onLoadStop: (controller, url) async {
         final String htmlContent = await controller.getHtml() ?? "";
@@ -89,6 +91,13 @@ class FeedService extends GetxService {
             content: pureContent,
             uri: url.toString(),
             feedItemMd5String: feedItems[idx].md5String);
+
+        //TODO delete
+
+        if (kDebugMode) {
+          File file = File("/Users/luosen/Desktop/html/$idx.html");
+          file.writeAsString(htmlContent);
+        }
 
         DatabaseManager().insertContent(content);
 

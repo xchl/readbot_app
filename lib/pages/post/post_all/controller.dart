@@ -85,11 +85,15 @@ class PostAllController extends GetxController {
 
   Future<void> refreshFeedItem() async {
     _page = 0;
-    _feedItems = await DatabaseManager()
+    _feedItems.clear();
+    _feed.clear();
+    var feedItems = await DatabaseManager()
         .getExploreFeedItemsByPage(_page, feedUrl: _feedUrl);
-    _feed = await DatabaseManager().getFeedsByUrls(
-      _feedItems.map((e) => e.feedUrl).toList(),
+    var feed = await DatabaseManager().getFeedsByUrls(
+      feedItems.map((e) => e.feedUrl).toList(),
     );
+    _feedItems.addAll(feedItems);
+    _feed.addAll(feed);
     update(["post_all"]);
   }
 

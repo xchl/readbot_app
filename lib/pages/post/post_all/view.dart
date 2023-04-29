@@ -101,7 +101,6 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
               LocaleKeys.exploreTitle.tr,
               color: AppColors.secondary,
             ),
-            // TODO 抽象出一个widget
             actions: [
               PopupMenuButton(
                 icon: IconWidget.svg(

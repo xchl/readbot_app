@@ -12,7 +12,6 @@ class SyncService extends GetxService {
   @override
   void onInit() async {
     super.onInit();
-    // TODO 增加权限
     syncModels = [
       ModelName.feed,
       ModelName.feedItem,
