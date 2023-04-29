@@ -26,15 +26,17 @@ class PostAllController extends GetxController {
   String? _feedUrl;
 
   _initData() async {
-    _feedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
-    _feed = await DatabaseManager().getFeedsByUrls(
-      _feedItems.map((e) => e.feedUrl).toList(),
+    var feedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
+    var feed = await DatabaseManager().getFeedsByUrls(
+      feedItems.map((e) => e.feedUrl).toList(),
     );
+    _feedItems.addAll(feedItems);
+    _feed.addAll(feed);
     update(["post_all"]);
   }
 
-  List<FeedItemModel> _feedItems = [];
-  List<FeedModel?> _feed = [];
+  List<FeedItemModel> _feedItems = List.empty(growable: true);
+  List<FeedModel?> _feed = List.empty(growable: true);
 
   List<FeedItemModel> get feedItems => _feedItems;
   List<FeedModel?> get feed => _feed;
