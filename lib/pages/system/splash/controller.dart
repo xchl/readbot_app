@@ -5,23 +5,14 @@ import 'package:get/get.dart';
 class SplashController extends GetxController {
   SplashController();
 
-  // _initData() {
-  //   update(["splash"]);
-  // }
-
   void onTap() {}
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
 
   _jumpToPage() {
     Future.delayed(const Duration(seconds: 1)).then((_) {
       if (!ConfigService.to.isAlreadyOpen) {
         Get.offAllNamed(RouteNames.systemWelcome);
       } else {
-        Get.offAllNamed(RouteNames.main);
+        Get.offAllNamed(RouteNames.systemMain);
       }
     });
   }
@@ -32,9 +23,4 @@ class SplashController extends GetxController {
     FlutterNativeSplash.remove();
     _jumpToPage();
   }
-
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
 }

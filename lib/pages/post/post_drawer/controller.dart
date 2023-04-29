@@ -36,8 +36,8 @@ class PostDrawerController extends GetxController {
   }
 
   @override
-  void onInit() {
-    super.onInit();
+  void onReady() {
+    super.onReady();
     _initData();
   }
 

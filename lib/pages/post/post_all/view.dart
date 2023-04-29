@@ -5,8 +5,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class PostAllPage extends GetView<PostAllController> {
+class PostAllPage extends StatefulWidget {
   const PostAllPage({Key? key}) : super(key: key);
+
+  @override
+  State<PostAllPage> createState() => _PostAllPageState();
+}
+
+class _PostAllPageState extends State<PostAllPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return const _PostAllPageViewGetX();
+  }
+}
+
+class _PostAllPageViewGetX extends GetView<PostAllController> {
+  const _PostAllPageViewGetX({Key? key}) : super(key: key);
 
   Widget _buildFeedAddFromUrlForm() {
     return Form(
@@ -68,7 +87,7 @@ class PostAllPage extends GetView<PostAllController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PostAllController>(
-      init: PostAllController(),
+      init: Get.find<PostAllController>(),
       id: "post_all",
       builder: (_) {
         return Scaffold(

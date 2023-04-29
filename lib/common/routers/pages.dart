@@ -8,15 +8,9 @@ import 'index.dart';
 class RoutePages {
   static final RouteObservers<Route> observer = RouteObservers();
   static List<String> history = [];
-
   // 列表
   static List<GetPage> list = [
     // app 首页
-    GetPage(
-      name: RouteNames.main,
-      page: () => const MainPage(),
-      // binding: MainBinding(),
-    ),
     GetPage(
       name: RouteNames.myMyFeeds,
       page: () => const MyFeedsPage(),
@@ -92,6 +86,7 @@ class RoutePages {
     GetPage(
       name: RouteNames.systemMain,
       page: () => const MainPage(),
+      binding: MainBinding(),
     ),
     GetPage(
       name: RouteNames.systemRegister,

@@ -5,8 +5,27 @@ import 'package:get/get.dart';
 
 import 'index.dart';
 
-class PostFocusPage extends GetView<PostFocusController> {
+class PostFocusPage extends StatefulWidget {
   const PostFocusPage({Key? key}) : super(key: key);
+
+  @override
+  State<PostFocusPage> createState() => _PostFocusPageState();
+}
+
+class _PostFocusPageState extends State<PostFocusPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return const _PostFocusPageViewGetX();
+  }
+}
+
+class _PostFocusPageViewGetX extends GetView<PostFocusController> {
+  const _PostFocusPageViewGetX({Key? key}) : super(key: key);
 
   // 主视图
   Widget _buildView() {
@@ -30,7 +49,7 @@ class PostFocusPage extends GetView<PostFocusController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PostFocusController>(
-      init: PostFocusController(),
+      init: Get.find<PostFocusController>(),
       id: "post_focus",
       builder: (_) {
         return Scaffold(

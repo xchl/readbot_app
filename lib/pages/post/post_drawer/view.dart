@@ -7,13 +7,31 @@ import 'package:get/get.dart';
 
 import 'index.dart';
 
-class PostDrawerPage extends GetView<PostDrawerController> {
-  const PostDrawerPage(this.subPage, {Key? key, this.backgroud, this.width})
-      : super(key: key);
+class PostDrawerPage extends StatefulWidget {
+  const PostDrawerPage(this.subPage, {Key? key}) : super(key: key);
 
   final SubPage subPage;
-  final Color? backgroud;
-  final double? width;
+
+  @override
+  State<PostDrawerPage> createState() => _PostDrawerPageState();
+}
+
+class _PostDrawerPageState extends State<PostDrawerPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return _PostDrawerPageViewGetX(widget.subPage);
+  }
+}
+
+class _PostDrawerPageViewGetX extends GetView<PostDrawerController> {
+  const _PostDrawerPageViewGetX(this.subPage, {Key? key}) : super(key: key);
+
+  final SubPage subPage;
 
   Widget _buildPostExploreDrawer() {
     List<ExpansionPanelListItem<String, FeedItemWidget>> items =
@@ -56,12 +74,12 @@ class PostDrawerPage extends GetView<PostDrawerController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PostDrawerController>(
-        init: PostDrawerController(subPage),
+        init: Get.find<PostDrawerController>(tag: 'explore'),
         id: "post_drawer",
         builder: (_) {
           return Drawer(
-              width: width ?? 150.w,
-              backgroundColor: backgroud ?? AppColors.onPrimary,
+              width: 150.w,
+              backgroundColor: AppColors.onPrimary,
               child: _buildView());
         });
   }
