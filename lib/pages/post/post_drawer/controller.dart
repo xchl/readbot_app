@@ -8,7 +8,6 @@ class PostDrawerController extends GetxController {
   final SubPage _subPage;
   Map<FeedGroupModel, List<FeedModel>> feedGroupedByGroup = {};
 
-  // TODO 状态保持
   String? selectedFeed;
 
   _initData() async {
