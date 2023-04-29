@@ -100,9 +100,9 @@ class LocaleKeys {
   static const focusTitle = 'feed_focus_title';
   static const exploreTitle = 'feed_explore_title';
   static const feedAlreadyExists = 'feed_already_exists';
-
   static const registerUserAgreement = 'register_user_agreement';
   static const registerUserAgreementError = 'register_user_agreement_error';
+  static const unnameFeedGroup = 'unname_feed_group';
 
   // Error
   static const syncPullError = 'sync_pull_error';

@@ -110,11 +110,7 @@ class PostAllController extends GetxController {
   }
 
   void onLoadMore() async {
-    try {
-      appendFeedItem();
-    } catch (error) {
-      // do nothing
-    }
+    appendFeedItem();
   }
 
   Future<void> onFeedSelect(String? feedUrl) async {

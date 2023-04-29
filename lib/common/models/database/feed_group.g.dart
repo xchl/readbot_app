@@ -104,9 +104,9 @@ FeedGroupModel _feedGroupModelDeserialize(
     description: reader.readStringOrNull(offsets[0]),
     isSynced: reader.readBoolOrNull(offsets[1]) ?? false,
     name: reader.readString(offsets[2]),
-    updateTime: reader.readDateTime(offsets[3]),
   );
   object.id = id;
+  object.updateTime = reader.readDateTime(offsets[3]);
   return object;
 }
 

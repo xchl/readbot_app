@@ -8,20 +8,29 @@ class PostDrawerController extends GetxController {
   final SubPage _subPage;
   Map<FeedGroupModel, List<FeedModel>> feedGroupedByGroup = {};
 
+  // TODO 状态保持
   String? selectedFeed;
 
   _initData() async {
     List<FeedModel> feeds = await DatabaseManager().getAllFeeds();
     List<FeedGroupModel> feedGroups = await DatabaseManager().getAllGroups();
-    Map<String, List<FeedModel>> feedGroupedByGroupId = {};
+    Map<String, List<FeedModel>> feedGroupedByGroupName = {};
+    FeedGroupModel unnamedGroup = FeedGroupModel(
+      name: LocaleKeys.unnameFeedGroup.tr,
+    );
+    feedGroupedByGroup[unnamedGroup] = [];
     for (var feed in feeds) {
-      if (feedGroupedByGroupId[feed.groupName] == null) {
-        feedGroupedByGroupId[feed.groupName!] = [];
+      if (feed.groupName == null) {
+        feedGroupedByGroup[unnamedGroup]!.add(feed);
+        continue;
       }
-      feedGroupedByGroupId[feed.groupName]!.add(feed);
+      if (feedGroupedByGroupName[feed.groupName] == null) {
+        feedGroupedByGroupName[feed.groupName!] = [];
+      }
+      feedGroupedByGroupName[feed.groupName]!.add(feed);
     }
     for (var group in feedGroups) {
-      feedGroupedByGroup[group] = feedGroupedByGroupId[group.id] ?? [];
+      feedGroupedByGroup[group] = feedGroupedByGroupName[group.id] ?? [];
     }
     update(["post_drawer"]);
   }
@@ -33,7 +42,7 @@ class PostDrawerController extends GetxController {
   }
 
   void onFeedSelect(String feedUrl) async {
-    if (selectedFeed != null) {
+    if (selectedFeed == feedUrl) {
       selectedFeed = null;
     } else {
       selectedFeed = feedUrl;

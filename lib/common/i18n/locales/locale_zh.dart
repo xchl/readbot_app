@@ -103,6 +103,7 @@ Map<String, String> localeZh = {
 
   LocaleKeys.registerUserAgreement: '阅读用户协议',
   LocaleKeys.registerUserAgreementError: '请确认用户协议',
+  LocaleKeys.unnameFeedGroup: '未命名分组',
 
   //Error
   LocaleKeys.syncPullError: '从服务器同步内容失败',

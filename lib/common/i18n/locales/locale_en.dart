@@ -111,6 +111,7 @@ Map<String, String> localeEn = {
 
   LocaleKeys.registerUserAgreement: 'Read user agreement',
   LocaleKeys.registerUserAgreementError: 'Please confirm the user agreement',
+  LocaleKeys.unnameFeedGroup: 'Unname Group',
 
   // Error
   LocaleKeys.syncPullError: 'Error occurs when pull content from server',

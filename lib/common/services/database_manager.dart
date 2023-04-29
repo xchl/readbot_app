@@ -123,28 +123,17 @@ class DatabaseManager {
   }
 
   // query focus FeedItem by page
-  Future<List<FeedItemModel>> getFocusFeedItemsByPage(int page) async {
-    var feedItems = await _isar.feedItemModels
-        .filter()
-        .isFocusEqualTo(true)
+  Future<List<FeedItemModel>> getFocusFeedItemsByPage(int page,
+      {String? feedUrl}) async {
+    var filter = _isar.feedItemModels.filter().isFocusEqualTo(true);
+    if (feedUrl != null) {
+      filter = filter.feedUrlEqualTo(feedUrl);
+    }
+    return await filter
         .sortByPublishTimeDesc()
         .offset(page * Constants.pageSizeMobile)
         .limit(Constants.pageSizeMobile)
         .findAll();
-    return feedItems;
-  }
-
-  // query feeditems by feed id
-  // TODO  add page
-  Future<List<FeedItemModel>> getExploreFeedItemsByFeedId(
-      String feedUrl) async {
-    var feedItems = await _isar.feedItemModels
-        .filter()
-        .feedUrlEqualTo(feedUrl)
-        .isFocusEqualTo(false)
-        .sortByPublishTimeDesc()
-        .findAll();
-    return feedItems;
   }
 
   Future<List<FeedItemModel>> getExploreFeedItemsByPage(int page,

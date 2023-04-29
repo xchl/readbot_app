@@ -12,15 +12,15 @@ class FeedGroupModel {
 
   String? description;
 
-  DateTime updateTime = DateTime.now();
+  DateTime updateTime;
 
   bool isSynced;
 
-  FeedGroupModel(
-      {required this.name,
-      this.description,
-      required this.updateTime,
-      this.isSynced = false});
+  FeedGroupModel({
+    required this.name,
+    this.description,
+    this.isSynced = false,
+  }) : updateTime = DateTime.now();
 }
 
 // function to convert FeedGroupModel to FeedGroup
@@ -40,11 +40,9 @@ List<FeedGroup> toFeedGroupList(List<FeedGroupModel> models) {
 // function to convert FeedGroup to FeedGroupModel
 FeedGroupModel toFeedGroupModel(FeedGroup feedGroup) {
   return FeedGroupModel(
-      name: feedGroup.name,
-      description: feedGroup.description,
-      updateTime:
-          DateTime.fromMillisecondsSinceEpoch(feedGroup.updateTime.toInt()),
-      isSynced: true);
+      name: feedGroup.name, description: feedGroup.description, isSynced: true)
+    ..updateTime =
+        DateTime.fromMillisecondsSinceEpoch(feedGroup.updateTime.toInt());
 }
 
 // function to convert FeedGroup list to FeedGroupModel list

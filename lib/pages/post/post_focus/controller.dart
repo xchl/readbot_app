@@ -4,21 +4,22 @@ import 'package:get/get.dart';
 class PostFocusController extends GetxController {
   PostFocusController();
 
-  List<FeedItemModel> _feedItems = [];
-  List<FeedModel?> _feeds = [];
+  final List<FeedItemModel> _feedItems = List.empty(growable: true);
+  final List<FeedModel?> _feeds = List.empty(growable: true);
 
   int _page = 0;
-
-  // TODO 新增功能对齐explore
+  String? _feedUrl;
 
   List<FeedItemModel> get feedItems => _feedItems;
   List<FeedModel?> get feeds => _feeds;
 
   _initData() async {
-    _feedItems = await DatabaseManager().getFocusFeedItemsByPage(_page);
-    _feeds = await DatabaseManager().getFeedsByUrls(
-      _feedItems.map((e) => e.feedUrl).toList(),
+    var feedItems = await DatabaseManager().getFocusFeedItemsByPage(_page);
+    var feeds = await DatabaseManager().getFeedsByUrls(
+      feedItems.map((e) => e.feedUrl).toList(),
     );
+    _feedItems.addAll(feedItems);
+    _feeds.addAll(feeds);
     update(["post_focus"]);
   }
 
@@ -27,6 +28,26 @@ class PostFocusController extends GetxController {
         await DatabaseManager().getContentByFeedItemMd5(feedItem.md5String);
     Get.toNamed(RouteNames.postPostDetail,
         arguments: {'feedItem': feedItem, 'content': content});
+  }
+
+  Future<void> appendFeedItem() async {
+    _page++;
+    var newFeedItems = await DatabaseManager()
+        .getFocusFeedItemsByPage(_page, feedUrl: _feedUrl);
+    if (newFeedItems.isEmpty) {
+      _page--;
+      return;
+    }
+    var newFeed = await DatabaseManager().getFeedsByUrls(
+      newFeedItems.map((e) => e.feedUrl).toList(),
+    );
+    _feedItems.addAll(newFeedItems);
+    _feeds.addAll(newFeed);
+    update(["post_focus"]);
+  }
+
+  void onLoadMore() async {
+    appendFeedItem();
   }
 
   @override

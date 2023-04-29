@@ -11,33 +11,15 @@ class PostFocusPage extends GetView<PostFocusController> {
   // 主视图
   Widget _buildView() {
     return ListView.builder(
-            // separatorBuilder: (_, __) => const Divider(
-            //       height: 0,
-            //     ),
             itemBuilder: (context, i) {
               final feedItem = controller.feedItems[i];
               final feed = controller.feeds[i];
-              return Dismissible(
-                background: Container(
-                  color: AppColors.primary,
-                  child: const Icon(Icons.check),
-                ),
-                secondaryBackground: Container(
-                  color: AppColors.secondary,
-                  child: const Icon(Icons.cancel),
-                ),
-                key: ValueKey<int>(feedItem.id),
-                onDismissed: (direction) {
-                  if (direction == DismissDirection.startToEnd) {
-                  } else {}
-                },
-                child: PostItemListWidget(
-                  feedItem: feedItem,
-                  feed: feed!,
-                ).inkWell(onTap: () {
-                  controller.onTapItem(feedItem);
-                }),
-              );
+              return PostItemListWidget(
+                feedItem: feedItem,
+                feed: feed!,
+              ).inkWell(onTap: () {
+                controller.onTapItem(feedItem);
+              });
             },
             itemCount: controller.feedItems.length)
         .paddingLeft(5.w)
@@ -60,12 +42,6 @@ class PostFocusPage extends GetView<PostFocusController> {
               LocaleKeys.focusTitle.tr,
               color: AppColors.secondary,
             ),
-            // actions: [
-            //   // 图标
-            //   IconWidget.svg(
-            //     AssetsSvgs.plusLgSvg,
-            //   ).paddingRight(AppSpace.listItem)
-            // ],
           ),
           body: SafeArea(
             child: _buildView(),

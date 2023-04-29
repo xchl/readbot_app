@@ -164,7 +164,6 @@ class FeedService extends GetxService {
           var group = FeedGroupModel(
             name: groupTitle,
             description: groupText,
-            updateTime: DateTime.now(),
           );
           await DatabaseManager().insertGroup(group);
         }
