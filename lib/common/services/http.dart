@@ -12,7 +12,6 @@ class HttpService extends GetxService {
       var res = await HttpService.to.get(url);
       return res.data;
     } catch (e) {
-      // TODO
       return null;
     }
   }

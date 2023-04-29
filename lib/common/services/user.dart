@@ -109,7 +109,8 @@ class UserService extends GetxService {
 
   /// 登录
   Future<void> login(LoginInfo req) async {
-    AuthResponse res = await UserApi.login(req);
+    AuthResponse? res = await UserApi.login(req);
+    if (res == null) return;
     var token = res.jwtTokens;
     await setToken(token);
     if (ConfigService.to.clientInfo.clientId == null) {
@@ -122,7 +123,8 @@ class UserService extends GetxService {
   /// 刷新token
   Future<void> refreshTokenIfNeed() async {
     if (!hasActiveAccessToken() && hasActiveRefreshToken()) {
-      AuthResponse res = await UserApi.refreshToken(refreshToken);
+      AuthResponse? res = await UserApi.refreshToken(refreshToken);
+      if (res == null) return;
       var token = res.jwtTokens;
       await setToken(token);
     }

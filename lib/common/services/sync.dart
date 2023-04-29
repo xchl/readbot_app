@@ -86,8 +86,10 @@ class SyncService extends GetxService {
     var contentPullRequest = ContentPullRequest(
         client: ConfigService.to.clientInfo, syncTimestamp: syncTimestamp);
 
-    ContentPullResponse contentPullResponse =
+    ContentPullResponse? contentPullResponse =
         await ContentSyncApi.pull(contentPullRequest);
+
+    if (contentPullResponse == null) return;
 
     List<SyncTimestampModel> syncTimestampModelsToSave = [];
 

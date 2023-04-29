@@ -102,4 +102,11 @@ Map<String, String> localeZh = {
 
   LocaleKeys.registerUserAgreement: '阅读用户协议',
   LocaleKeys.registerUserAgreementError: '请确认用户协议',
+
+  //Error
+  LocaleKeys.syncPullError: '从服务器同步内容失败',
+  LocaleKeys.syncPushError: '向服务器同步内容失败',
+  LocaleKeys.loginError: '登录失败',
+  LocaleKeys.registerError: '注册失败',
+  LocaleKeys.destoryAccoutError: '销毁账户失败',
 };

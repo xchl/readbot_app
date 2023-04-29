@@ -102,4 +102,11 @@ class LocaleKeys {
 
   static const registerUserAgreement = 'register_user_agreement';
   static const registerUserAgreementError = 'register_user_agreement_error';
+
+  // Error
+  static const syncPullError = 'sync_pull_error';
+  static const syncPushError = 'sync_push_error';
+  static const loginError = 'login_error';
+  static const registerError = 'register_error';
+  static const destoryAccoutError = 'destory_accout_error';
 }
