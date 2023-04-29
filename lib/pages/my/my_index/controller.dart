@@ -22,8 +22,14 @@ class MyIndexController extends GetxController {
 
   Future<void> destory() async {
     if (UserService.isLogin) {
-      await UserApi.destoryAccout();
-      await UserService.to.logout();
+      Loading.show();
+      bool res = await UserApi.destoryAccout();
+      if (!res) {
+        Loading.error(LocaleKeys.destoryAccoutError.tr);
+      } else {
+        Loading.success();
+      }
+      Loading.dismiss();
     }
   }
 

@@ -60,12 +60,12 @@ class PostFocusPage extends GetView<PostFocusController> {
               LocaleKeys.focusTitle.tr,
               color: AppColors.secondary,
             ),
-            actions: [
-              // 图标
-              IconWidget.svg(
-                AssetsSvgs.plusLgSvg,
-              ).paddingRight(AppSpace.listItem)
-            ],
+            // actions: [
+            //   // 图标
+            //   IconWidget.svg(
+            //     AssetsSvgs.plusLgSvg,
+            //   ).paddingRight(AppSpace.listItem)
+            // ],
           ),
           body: SafeArea(
             child: _buildView(),

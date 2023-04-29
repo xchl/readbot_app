@@ -107,6 +107,7 @@ Map<String, String> localeEn = {
   LocaleKeys.exploreTitle: 'Explore',
   LocaleKeys.feedAddFromUrl: 'RSS Url',
   LocaleKeys.feedAddFromOpml: 'Import Opml',
+  LocaleKeys.feedAlreadyExists: 'Feed already exists',
 
   LocaleKeys.registerUserAgreement: 'Read user agreement',
   LocaleKeys.registerUserAgreementError: 'Please confirm the user agreement',
@@ -117,4 +118,5 @@ Map<String, String> localeEn = {
   LocaleKeys.loginError: 'Error occurs when login',
   LocaleKeys.registerError: 'Error occurs when register',
   LocaleKeys.destoryAccoutError: 'Error occurs when destory account',
+  LocaleKeys.importFromOpmlError: 'Error occurs when import from opml',
 };

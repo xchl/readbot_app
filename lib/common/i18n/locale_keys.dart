@@ -99,6 +99,7 @@ class LocaleKeys {
   static const feedNoTitle = 'feed_no_title';
   static const focusTitle = 'feed_focus_title';
   static const exploreTitle = 'feed_explore_title';
+  static const feedAlreadyExists = 'feed_already_exists';
 
   static const registerUserAgreement = 'register_user_agreement';
   static const registerUserAgreementError = 'register_user_agreement_error';
@@ -109,4 +110,5 @@ class LocaleKeys {
   static const loginError = 'login_error';
   static const registerError = 'register_error';
   static const destoryAccoutError = 'destory_accout_error';
+  static const importFromOpmlError = 'import_from_opml_error';
 }

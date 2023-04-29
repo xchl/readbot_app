@@ -27,7 +27,7 @@ class PostAllController extends GetxController {
 
   _initData() async {
     _feedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
-    _feed = await DatabaseManager().getFeeds(
+    _feed = await DatabaseManager().getFeedsByUrls(
       _feedItems.map((e) => e.feedUrl).toList(),
     );
     update(["post_all"]);
@@ -49,12 +49,17 @@ class PostAllController extends GetxController {
 
   void onAddFeed() async {
     if ((urlFromKey.currentState as FormState).validate()) {
+      // check url whether already exists
+      var feed = await DatabaseManager().getFeedByUrl(urlController.text);
+      if (feed != null) {
+        Loading.toast(LocaleKeys.feedAlreadyExists.tr);
+        return;
+      }
       try {
         Loading.show();
         await FeedService.to.addFeedFromUrl(urlController.text);
         Loading.success();
         await refreshFeedItem();
-        update(["post_all"]);
         Get.back(result: true);
       } finally {
         Loading.dismiss();
@@ -81,7 +86,7 @@ class PostAllController extends GetxController {
     _page = 0;
     _feedItems = await DatabaseManager()
         .getExploreFeedItemsByPage(_page, feedUrl: _feedUrl);
-    _feed = await DatabaseManager().getFeeds(
+    _feed = await DatabaseManager().getFeedsByUrls(
       _feedItems.map((e) => e.feedUrl).toList(),
     );
     update(["post_all"]);
@@ -91,7 +96,7 @@ class PostAllController extends GetxController {
     _page++;
     var newFeedItems = await DatabaseManager()
         .getExploreFeedItemsByPage(_page, feedUrl: _feedUrl);
-    var newFeed = await DatabaseManager().getFeeds(
+    var newFeed = await DatabaseManager().getFeedsByUrls(
       newFeedItems.map((e) => e.feedUrl).toList(),
     );
     _feedItems.addAll(newFeedItems);
@@ -137,8 +142,7 @@ class PostAllController extends GetxController {
         Loading.success();
         refreshFeedItem();
       } catch (error) {
-        // TODO 处理错误
-        debugPrint(error.toString());
+        Loading.error(LocaleKeys.importFromOpmlError.tr);
       }
     }
   }

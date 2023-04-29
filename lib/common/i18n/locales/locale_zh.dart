@@ -99,6 +99,7 @@ Map<String, String> localeZh = {
   LocaleKeys.exploreTitle: '发现',
   LocaleKeys.feedAddFromUrl: '添加RSS链接',
   LocaleKeys.feedAddFromOpml: '从Opml导入',
+  LocaleKeys.feedAlreadyExists: '订阅源已经存在',
 
   LocaleKeys.registerUserAgreement: '阅读用户协议',
   LocaleKeys.registerUserAgreementError: '请确认用户协议',
@@ -109,4 +110,5 @@ Map<String, String> localeZh = {
   LocaleKeys.loginError: '登录失败',
   LocaleKeys.registerError: '注册失败',
   LocaleKeys.destoryAccoutError: '销毁账户失败',
+  LocaleKeys.importFromOpmlError: '从OPML导入失败',
 };

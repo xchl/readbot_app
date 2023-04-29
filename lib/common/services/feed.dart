@@ -30,26 +30,24 @@ class FeedService extends GetxService {
         : [];
   }
 
-  Tuple2<FeedModel, List<FeedItemModel>> _parseFeed(String xml, String url) {
-    var feedType = getFeedType(xml);
-    if (feedType == webfeed.FeedType.Rss) {
-      var feedRaw = webfeed.RssFeed.parse(xml);
-      var feed = FeedModel.fromRssFeed(feedRaw, url, webfeed.FeedType.Rss);
-      var feedItems = _parseRssItem(feed, feedRaw.items);
-      return Tuple2(feed, feedItems);
-    } else if (feedType == webfeed.FeedType.Atom) {
-      var feedRaw = webfeed.AtomFeed.parse(xml);
-      var feed = FeedModel.fromAtomFeed(feedRaw, url, webfeed.FeedType.Atom);
-      var feedItems = _parseAtomItem(feed, feedRaw.items);
-      return Tuple2(feed, feedItems);
+  Tuple2<FeedModel, List<FeedItemModel>>? _parseFeed(String xml, String url) {
+    try {
+      var feedType = getFeedType(xml);
+      if (feedType == webfeed.FeedType.Rss) {
+        var feedRaw = webfeed.RssFeed.parse(xml);
+        var feed = FeedModel.fromRssFeed(feedRaw, url, webfeed.FeedType.Rss);
+        var feedItems = _parseRssItem(feed, feedRaw.items);
+        return Tuple2(feed, feedItems);
+      } else if (feedType == webfeed.FeedType.Atom) {
+        var feedRaw = webfeed.AtomFeed.parse(xml);
+        var feed = FeedModel.fromAtomFeed(feedRaw, url, webfeed.FeedType.Atom);
+        var feedItems = _parseAtomItem(feed, feedRaw.items);
+        return Tuple2(feed, feedItems);
+      }
+    } catch (e) {
+      LogService.to.e('parse feed error, $url, $e');
     }
-    // TODO Error handle
-    return Tuple2(
-        FeedModel(url,
-            type: FeedType.unknown,
-            createTime: DateTime.now(),
-            updateTime: DateTime.now()),
-        []);
+    return null;
   }
 
   static List<FeedItemModel> parseCover(List<FeedItemModel> items) {
@@ -82,9 +80,6 @@ class FeedService extends GetxService {
     var headlessWebView = HeadlessInAppWebView(
       initialUrlRequest: URLRequest(url: Uri.parse(feedItems[idx].link!)),
       onLoadStop: (controller, url) async {
-        // final String htmlContent = await controller.evaluateJavascript(
-        //     source: 'document.documentElement.outerHTML');
-
         final String htmlContent = await controller.getHtml() ?? "";
 
         String pureContent = await compute(extractReadableContent, htmlContent);
@@ -109,25 +104,27 @@ class FeedService extends GetxService {
     debugPrint("Download Stop! ${feedItems.length} Page");
   }
 
-  Future<Tuple2<FeedModel, List<FeedItemModel>>?> _fetchFeedFromUrl(
-      String url) async {
-    String? xml = await HttpService.request(url);
-    if (xml == null) {
-      return null;
-    }
-    return _parseFeed(xml, url);
-  }
-
   Future<void> addFeedFromUrl(String url) async {
-    Tuple2<FeedModel, List<FeedItemModel>>? result =
-        await _fetchFeedFromUrl(url);
-    if (result == null) {
-      return;
-    }
+    String? xml = await HttpService.request(url);
+    if (xml == null) return;
+    Tuple2<FeedModel, List<FeedItemModel>>? res = _parseFeed(xml, url);
+    if (res == null) return;
 
-    // TODO add feed update record
-    var feedItems = parseCover(result.item2);
-    await DatabaseManager().insertFeedAndItems(result.item1, feedItems);
+    var hash = md5.convert(utf8.encode(xml)).toString();
+
+    var newLastItemPublishTime = res.item2.isNotEmpty
+        ? res.item2.first.publishTime ?? DateTime.now()
+        : DateTime.now();
+
+    var newUpdateRecord = FeedUpdateRecordModel(
+        feedUrl: url,
+        lastUpdate: DateTime.now(),
+        updateTime: DateTime.now(),
+        lastContentHash: hash,
+        lastItemPublishTime: newLastItemPublishTime);
+    var feedItems = parseCover(res.item2);
+    await DatabaseManager()
+        .insertFeedAndItems(res.item1, feedItems, newUpdateRecord);
     downloadHtml(feedItems);
   }
 
@@ -217,7 +214,6 @@ class FeedService extends GetxService {
     for (var i in feedsNeedUpdate) {
       var feed = feeds[i];
       var lastUpdateRecord = feedLastUpdateRecords[i];
-      // TODO add error handle
       var content = await HttpService.request(feed.url);
       if (content == null) {
         continue;

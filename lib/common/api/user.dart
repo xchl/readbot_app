@@ -22,9 +22,9 @@ class UserApi {
   static Future<bool> destoryAccout() async {
     try {
       await HttpService.to.delete('/user/destroy');
+      await UserService.to.logout();
       return true;
     } catch (e) {
-      Loading.toast(LocaleKeys.destoryAccoutError.tr);
       LogService.to.e(e);
       return false;
     }
@@ -42,7 +42,6 @@ class UserApi {
       );
       return AuthResponse.fromJson(res.data);
     } catch (e) {
-      Loading.toast(LocaleKeys.loginError.tr);
       LogService.to.e(e);
       return null;
     }

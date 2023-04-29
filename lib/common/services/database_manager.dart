@@ -62,9 +62,14 @@ class DatabaseManager {
     return await _isar.feedUpdateRecordModels.getAllByFeedUrl(feedUrl);
   }
 
-  // query feed by ids
-  Future<List<FeedModel?>> getFeeds(List<String> urls) async {
+  // query feed by urls
+  Future<List<FeedModel?>> getFeedsByUrls(List<String> urls) async {
     return await _isar.feedModels.getAllByUrl(urls);
+  }
+
+  // get feed by url
+  Future<FeedModel?> getFeedByUrl(String url) async {
+    return await _isar.feedModels.getByUrl(url);
   }
 
   // FeedItem
@@ -93,11 +98,12 @@ class DatabaseManager {
   }
 
   // save Feed and FeedItems
-  Future<void> insertFeedAndItems(
-      FeedModel feed, List<FeedItemModel> items) async {
+  Future<void> insertFeedAndItems(FeedModel feed, List<FeedItemModel> items,
+      FeedUpdateRecordModel feedUpdateRecordModel) async {
     await _isar.writeTxn(() async {
       await _isar.feedModels.putByUrl(feed);
       await _isar.feedItemModels.putAllByMd5String(items);
+      await _isar.feedUpdateRecordModels.putByFeedUrl(feedUpdateRecordModel);
     });
   }
 

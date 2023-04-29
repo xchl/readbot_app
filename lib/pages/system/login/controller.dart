@@ -53,10 +53,8 @@ class LoginController extends GetxController {
     if ((formKey.currentState as FormState).validate()) {
       try {
         Loading.show();
-
         //sha2密码加密
         var password = EncryptUtil.sha256Encode(passwordController.text);
-
         await UserService.to.login(LoginInfo(
           email: emailController.text,
           password: password,
@@ -64,8 +62,7 @@ class LoginController extends GetxController {
         Loading.success();
         Get.back(result: true);
       } catch (e) {
-        // TODO 异常处理
-        Loading.error(e.toString());
+        Loading.error(LocaleKeys.loginError.tr);
       } finally {
         Loading.dismiss();
       }
