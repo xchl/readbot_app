@@ -6,7 +6,6 @@ class HttpService extends GetxService {
   static HttpService get to => Get.find();
 
   late final Dio _dio;
-  // final CancelToken _cancelToken = CancelToken(); // 默认去掉
 
   static Future<String?> request(String url) async {
     try {
@@ -21,7 +20,6 @@ class HttpService extends GetxService {
   @override
   void onInit() {
     super.onInit();
-
     // 初始 dio
     var options = BaseOptions(
       baseUrl: ConfigService.to.serverUrl,
@@ -101,33 +99,6 @@ class HttpService extends GetxService {
       cancelToken: cancelToken,
     );
     return response;
-  }
-}
-
-class AuthInterceptors extends Interceptor {
-  @override
-  Future<void> onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
-    if (options.path == '/user/login' ||
-        options.path == '/user/register' ||
-        options.path == '/user/refresh_token') {
-      handler.next(options);
-    } else {
-      await UserService.to.refreshTokenIfNeed();
-      if (UserService.to.hasActiveAccessToken()) {
-        options.headers['Authorization'] =
-            'Bearer ${UserService.to.accessToken}';
-        handler.next(options);
-      } else {
-        handler.reject(DioError.badResponse(
-            statusCode: 401,
-            requestOptions: options,
-            response: Response(
-                data: null,
-                statusCode: 401,
-                requestOptions: RequestOptions(path: 'some url'))));
-      }
-    }
   }
 }
 

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +12,17 @@ import 'global.dart';
 
 Future<void> main() async {
   await Global.init();
+  // if error occur in release mode, exit app
+  FlutterError.onError = (details) {
+    FlutterError.presentError(details);
+    LogService.to.e(details);
+    if (kReleaseMode) exit(1);
+  };
+  // catch async error
+  PlatformDispatcher.instance.onError = (error, stack) {
+    LogService.to.e(error);
+    return true;
+  };
   runApp(const MyApp());
 }
 

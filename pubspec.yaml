@@ -40,7 +40,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   package_info_plus: ^3.0.3
-  shared_preferences: ^0.5.7+3
   dio: ^5.0.1
   flutter_svg: ^2.0.0
   badges: ^3.0.2
@@ -75,6 +74,7 @@ dependencies:
   file_picker: ^5.2.7
   fixnum: ^1.1.0
   device_info_plus: ^8.2.0
+  shared_preferences: ^2.1.0
   
 dev_dependencies:
   flutter_test:

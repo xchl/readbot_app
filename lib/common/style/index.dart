@@ -6,4 +6,4 @@ export 'colors.dart';
 export 'space.dart';
 export 'radius.dart';
 export 'text.dart';
-export 'readMode.dart';
+export 'read_mode.dart';
