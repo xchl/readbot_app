@@ -63,7 +63,7 @@ class MyIndexPage extends GetView<MyIndexController> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         )
         .padding(
-          top: AppSpace.card,
+          top: AppSpace.card * 3,
           bottom: AppSpace.card,
         );
   }

@@ -108,9 +108,9 @@ class UserService extends GetxService {
   }
 
   /// 登录
-  Future<void> login(LoginInfo req) async {
+  Future<bool> login(LoginInfo req) async {
     AuthResponse? res = await UserApi.login(req);
-    if (res == null) return;
+    if (res == null) return false;
     var token = res.jwtTokens;
     await setToken(token);
     if (ConfigService.to.clientInfo.clientId == null) {
@@ -118,6 +118,7 @@ class UserService extends GetxService {
       await ConfigService.to.saveClientInfo();
     }
     _isLogin.value = true;
+    return true;
   }
 
   /// 刷新token

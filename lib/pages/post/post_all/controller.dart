@@ -49,7 +49,6 @@ class PostAllController extends GetxController {
 
   void onAddFeed() async {
     if ((urlFromKey.currentState as FormState).validate()) {
-      // check url whether already exists
       var feed = await DatabaseManager().getFeedByUrl(urlController.text);
       if (feed != null) {
         Loading.toast(LocaleKeys.feedAlreadyExists.tr);
@@ -96,6 +95,10 @@ class PostAllController extends GetxController {
     _page++;
     var newFeedItems = await DatabaseManager()
         .getExploreFeedItemsByPage(_page, feedUrl: _feedUrl);
+    if (newFeedItems.isEmpty) {
+      _page--;
+      return;
+    }
     var newFeed = await DatabaseManager().getFeedsByUrls(
       newFeedItems.map((e) => e.feedUrl).toList(),
     );
