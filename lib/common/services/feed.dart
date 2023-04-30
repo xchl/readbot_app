@@ -57,7 +57,6 @@ class FeedService extends GetxService {
         return item;
       }
       var desc = item.description!;
-      // var imgSrc = matchImgSrcInHtml(desc);
       try {
         var imgSrc = findCoverImageInHtml(desc);
         item.cover = imgSrc;
@@ -130,7 +129,8 @@ class FeedService extends GetxService {
         lastUpdate: DateTime.now(),
         updateTime: DateTime.now(),
         lastContentHash: hash,
-        lastItemPublishTime: newLastItemPublishTime);
+        lastItemPublishTime: newLastItemPublishTime,
+        isSynced: false);
     var feedItems = parseCover(res.item2);
     await DatabaseManager()
         .insertFeedAndItems(res.item1, feedItems, newUpdateRecord);
@@ -153,7 +153,8 @@ class FeedService extends GetxService {
         customName: feedName,
         customDescription: feedDescription,
         updateTime: DateTime.now(),
-        createTime: DateTime.now());
+        createTime: DateTime.now(),
+        isSynced: false);
   }
 
   Future<void> importFeedFromOpml(String opmlContent) async {
@@ -171,9 +172,7 @@ class FeedService extends GetxService {
         var groupText = outline.getAttribute('text');
         if (groupTitle != null) {
           var group = FeedGroupModel(
-            name: groupTitle,
-            description: groupText,
-          );
+              name: groupTitle, description: groupText, isSynced: false);
           await DatabaseManager().insertGroup(group);
         }
 
@@ -266,7 +265,8 @@ class FeedService extends GetxService {
           lastUpdate: DateTime.now(),
           updateTime: DateTime.now(),
           lastContentHash: hash,
-          lastItemPublishTime: newLastItemPublishTime);
+          lastItemPublishTime: newLastItemPublishTime,
+          isSynced: false);
       feedItemsNeedInsert = parseCover(feedItemsNeedInsert);
       await DatabaseManager()
           .insertFeedItems(feedItemsNeedInsert, newUpdateRecord);

@@ -14,9 +14,9 @@ class PostDrawerController extends GetxController {
     List<FeedModel> feeds = await DatabaseManager().getAllFeeds();
     List<FeedGroupModel> feedGroups = await DatabaseManager().getAllGroups();
     Map<String, List<FeedModel>> feedGroupedByGroupName = {};
-    FeedGroupModel unnamedGroup = FeedGroupModel(
-      name: LocaleKeys.unnameFeedGroup.tr,
-    );
+    // TODO 优化
+    FeedGroupModel unnamedGroup =
+        FeedGroupModel(name: LocaleKeys.unnameFeedGroup.tr, isSynced: false);
     feedGroupedByGroup[unnamedGroup] = [];
     for (var feed in feeds) {
       if (feed.groupName == null) {

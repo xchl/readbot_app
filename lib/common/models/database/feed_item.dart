@@ -54,39 +54,37 @@ class FeedItemModel {
       this.summaryAlgo,
       required this.updateTime,
       required this.createTime,
-      this.isSynced = false})
+      required this.isSynced})
       : md5String =
             md5.convert(utf8.encode((title ?? "") + (link ?? ""))).toString();
 
   factory FeedItemModel.fromRssItem(RssItem item, FeedModel feed) {
-    var feedItem = FeedItemModel(
-      feed.url,
-      isFocus: false,
-      isSeen: false,
-      title: item.title,
-      link: item.link,
-      publishTime: item.pubDate,
-      authors: item.author,
-      description: item.description,
-      createTime: DateTime.now(),
-      updateTime: DateTime.now(),
-    );
+    var feedItem = FeedItemModel(feed.url,
+        isFocus: false,
+        isSeen: false,
+        title: item.title,
+        link: item.link,
+        publishTime: item.pubDate,
+        authors: item.author,
+        description: item.description,
+        createTime: DateTime.now(),
+        updateTime: DateTime.now(),
+        isSynced: false);
     return feedItem;
   }
 
   factory FeedItemModel.fromAtomItem(AtomItem item, FeedModel feed) {
-    var feedItem = FeedItemModel(
-      feed.url,
-      isFocus: false,
-      isSeen: false,
-      title: item.title,
-      link: item.links?.first.href,
-      publishTime: item.updated,
-      authors: item.authors?.map((e) => e.name).join(', '),
-      description: item.summary,
-      createTime: DateTime.now(),
-      updateTime: DateTime.now(),
-    );
+    var feedItem = FeedItemModel(feed.url,
+        isFocus: false,
+        isSeen: false,
+        title: item.title,
+        link: item.links?.first.href,
+        publishTime: item.updated,
+        authors: item.authors?.map((e) => e.name).join(', '),
+        description: item.summary,
+        createTime: DateTime.now(),
+        updateTime: DateTime.now(),
+        isSynced: false);
     return feedItem;
   }
 }

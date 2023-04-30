@@ -51,7 +51,7 @@ class FeedModel {
     this.customLogo,
     required this.updateTime,
     required this.createTime,
-    this.isSynced = false,
+    required this.isSynced,
   });
 
   completeByRssFeed(webfeed.RssFeed rssFeed) {
@@ -78,20 +78,20 @@ class FeedModel {
       description: feed.description,
       createTime: DateTime.now(),
       updateTime: DateTime.now(),
+      isSynced: false,
     );
   }
 
   factory FeedModel.fromAtomFeed(
       webfeed.AtomFeed feed, String url, webfeed.FeedType type) {
-    return FeedModel(
-      url,
-      type: convertTypeWebFeedToFeedModel(type),
-      name: feed.title,
-      logo: feed.logo,
-      description: feed.subtitle,
-      createTime: DateTime.now(),
-      updateTime: DateTime.now(),
-    );
+    return FeedModel(url,
+        type: convertTypeWebFeedToFeedModel(type),
+        name: feed.title,
+        logo: feed.logo,
+        description: feed.subtitle,
+        createTime: DateTime.now(),
+        updateTime: DateTime.now(),
+        isSynced: false);
   }
 }
 

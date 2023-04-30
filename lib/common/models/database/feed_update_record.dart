@@ -27,7 +27,7 @@ class FeedUpdateRecordModel {
     required this.lastItemPublishTime,
     required this.updateTime,
     required this.feedUrl,
-    this.isSynced = false,
+    required this.isSynced,
   });
 }
 

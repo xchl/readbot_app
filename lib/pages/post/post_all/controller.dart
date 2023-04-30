@@ -35,8 +35,8 @@ class PostAllController extends GetxController {
     update(["post_all"]);
   }
 
-  List<FeedItemModel> _feedItems = List.empty(growable: true);
-  List<FeedModel?> _feed = List.empty(growable: true);
+  final List<FeedItemModel> _feedItems = List.empty(growable: true);
+  final List<FeedModel?> _feed = List.empty(growable: true);
 
   List<FeedItemModel> get feedItems => _feedItems;
   List<FeedModel?> get feed => _feed;
@@ -60,8 +60,10 @@ class PostAllController extends GetxController {
         Loading.show();
         await FeedService.to.addFeedFromUrl(urlController.text);
         Loading.success();
-        await refreshFeedItem();
-        Get.back(result: true);
+        refreshFeedItem();
+        if (UserService.isLogin) {
+          SyncService.to.syncPush();
+        }
       } finally {
         Loading.dismiss();
       }
@@ -73,6 +75,9 @@ class PostAllController extends GetxController {
     await DatabaseManager().updateFeedItem(_feedItems[index]);
     _feedItems.removeAt(index);
     _feed.removeAt(index);
+    if (UserService.isLogin) {
+      SyncService.to.syncPush();
+    }
     update(["post_all"]);
   }
 
@@ -146,6 +151,9 @@ class PostAllController extends GetxController {
         await FeedService.to.importFeedFromOpml(contents);
         Loading.success();
         refreshFeedItem();
+        if (UserService.isLogin) {
+          SyncService.to.syncPush();
+        }
       } catch (error) {
         Loading.error(LocaleKeys.importFromOpmlError.tr);
       }
@@ -156,6 +164,9 @@ class PostAllController extends GetxController {
     try {
       await FeedService.to.fetchAllFeed();
       refreshFeedItem();
+      if (UserService.isLogin) {
+        SyncService.to.syncPush();
+      }
     } catch (error) {
       debugPrint(error.toString());
     }

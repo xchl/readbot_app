@@ -123,8 +123,6 @@ class SyncService extends GetxService {
   }
 
   Future<void> _syncPush() async {
-    var contentPushRequest =
-        ContentPushRequest(client: ConfigService.to.clientInfo);
     List<FeedModel> feedModels = [];
     List<FeedItemModel> feedItemModels = [];
     List<FeedGroupModel> feedGroupModels = [];
@@ -133,24 +131,32 @@ class SyncService extends GetxService {
       switch (syncModel) {
         case ModelName.feed:
           feedModels = await DatabaseManager().getFeedsNotSynced();
-          contentPushRequest.feeds = toFeedList(feedModels);
           break;
         case ModelName.feedItem:
           feedItemModels = await DatabaseManager().getFeedItemsNotSynced();
-          contentPushRequest.feedItems = toFeedItemList(feedItemModels);
           break;
         case ModelName.feedGroup:
           feedGroupModels = await DatabaseManager().getFeedGroupsNotSynced();
-          contentPushRequest.feedGroups = toFeedGroupList(feedGroupModels);
           break;
         case ModelName.feedUpdateRecord:
           feedUpdateRecordModels =
               await DatabaseManager().getFeedUpdateRecordsNotSynced();
-          contentPushRequest.feedUpdateRecords =
-              toFeedUpdateRecordList(feedUpdateRecordModels);
           break;
       }
     }
+
+    if (feedModels.isEmpty &&
+        feedItemModels.isEmpty &&
+        feedGroupModels.isEmpty &&
+        feedUpdateRecordModels.isEmpty) return;
+
+    var contentPushRequest =
+        ContentPushRequest(client: ConfigService.to.clientInfo);
+    contentPushRequest.feeds = toFeedList(feedModels);
+    contentPushRequest.feedItems = toFeedItemList(feedItemModels);
+    contentPushRequest.feedGroups = toFeedGroupList(feedGroupModels);
+    contentPushRequest.feedUpdateRecords =
+        toFeedUpdateRecordList(feedUpdateRecordModels);
 
     await ContentSyncApi.push(contentPushRequest);
 
