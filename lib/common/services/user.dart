@@ -32,6 +32,7 @@ class UserService extends GetxService {
     await refreshTokenIfNeed();
     if (hasActiveAccessToken()) {
       _isLogin(true);
+      SyncService.to.syncPull();
     }
     return _isLogin.value;
   }
@@ -118,6 +119,7 @@ class UserService extends GetxService {
       await ConfigService.to.saveClientInfo();
     }
     _isLogin.value = true;
+    SyncService.to.syncPull();
     return true;
   }
 
