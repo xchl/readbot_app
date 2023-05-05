@@ -77,11 +77,22 @@ class FeedService extends GetxService {
   Future<void> downloadHtml(List<FeedItemModel> feedItems) async {
     if (feedItems.isEmpty) return;
     int idx = 0;
+    while (idx < feedItems.length && feedItems[idx].link == null) {
+      idx += 1;
+    }
     var headlessWebView = HeadlessInAppWebView(
-      // TODO: link不为空优化
       initialUrlRequest: URLRequest(url: Uri.parse(feedItems[idx].link!)),
       onLoadStop: (controller, url) async {
-        final String htmlContent = await controller.getHtml() ?? "";
+        // replace code text with textContent to preserve style
+        String htmlContent = await controller.evaluateJavascript(source: '''
+        var codeElements = document.querySelectorAll('pre > code');
+        for (var i = 0; i < codeElements.length; i++) {
+          var codeElement = codeElements[i];
+          var textContent = codeElement.textContent;
+          codeElement.textContent = textContent;
+        }
+        document.documentElement.outerHTML;
+        ''') ?? "";
 
         String pureContent = await compute(extractReadableContent, htmlContent);
 
@@ -95,13 +106,16 @@ class FeedService extends GetxService {
 
         if (kDebugMode) {
           File file = File("/Users/luosen/Desktop/html/$idx.html");
-          file.writeAsString(htmlContent);
+          file.writeAsString(pureContent);
         }
 
         DatabaseManager().insertContent(content);
 
-        if (idx < feedItems.length - 1) {
+        idx += 1;
+        while (idx < feedItems.length && feedItems[idx].link == null) {
           idx += 1;
+        }
+        if (idx < feedItems.length) {
           controller.loadUrl(
               urlRequest: URLRequest(url: Uri.parse(feedItems[idx].link!)));
         }

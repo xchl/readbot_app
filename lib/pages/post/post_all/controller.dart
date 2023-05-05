@@ -61,6 +61,7 @@ class PostAllController extends GetxController {
         await FeedService.to.addFeedFromUrl(urlController.text);
         Loading.success();
         refreshFeedItem();
+        Get.back();
         if (UserService.isLogin) {
           SyncService.to.syncPush();
         }

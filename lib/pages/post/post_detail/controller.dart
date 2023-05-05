@@ -60,6 +60,7 @@ class PostDetailController extends GetxController {
     isReadMode = !isReadMode;
     if (isReadMode && html != null) {
       webView.loadData(data: html!);
+      debugPrint(html);
     } else {
       webView.loadUrl(urlRequest: URLRequest(url: Uri.parse(feedItem.link!)));
     }

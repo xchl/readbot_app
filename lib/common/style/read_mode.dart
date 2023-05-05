@@ -85,6 +85,17 @@ class ReadModeStyle {
             font-weight: bold;
           }
 
+          pre {
+            overflow: auto;
+            white-space: pre;
+            background-color: #f0f0f0;
+          }
+
+          code {
+            
+            display: block;
+          }
+
           blockquote {
             margin: 1.5em 2em;
             padding: 0.5em 1em;
