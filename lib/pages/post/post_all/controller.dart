@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/pages/system/main/index.dart';
+import 'package:feed_inbox_app/pages/index.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,15 +25,15 @@ class PostAllController extends GetxController {
 
   String? _feedUrl;
 
-  _initData() async {
-    var feedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
-    var feed = await DatabaseManager().getFeedsByUrls(
-      feedItems.map((e) => e.feedUrl).toList(),
-    );
-    _feedItems.addAll(feedItems);
-    _feed.addAll(feed);
-    update(["post_all"]);
-  }
+  // _initData() async {
+  //   var feedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
+  //   var feed = await DatabaseManager().getFeedsByUrls(
+  //     feedItems.map((e) => e.feedUrl).toList(),
+  //   );
+  //   _feedItems.addAll(feedItems);
+  //   _feed.addAll(feed);
+  //   update(["post_all"]);
+  // }
 
   final List<FeedItemModel> _feedItems = List.empty(growable: true);
   final List<FeedModel?> _feed = List.empty(growable: true);
@@ -46,7 +46,7 @@ class PostAllController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    _initData();
+    refreshFeedItem();
   }
 
   void onAddFeed() async {
@@ -80,6 +80,7 @@ class PostAllController extends GetxController {
       SyncService.to.syncPush();
     }
     update(["post_all"]);
+    Get.find<PostFocusController>().refreshFeedItem();
   }
 
   void onTapItem(FeedItemModel feedItem) async {

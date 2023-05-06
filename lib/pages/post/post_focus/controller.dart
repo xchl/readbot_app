@@ -13,7 +13,11 @@ class PostFocusController extends GetxController {
   List<FeedItemModel> get feedItems => _feedItems;
   List<FeedModel?> get feeds => _feeds;
 
-  _initData() async {
+  // 是否不应该按找时间排？
+  refreshFeedItem() async {
+    _page = 0;
+    _feedItems.clear();
+    _feeds.clear();
     var feedItems = await DatabaseManager().getFocusFeedItemsByPage(_page);
     var feeds = await DatabaseManager().getFeedsByUrls(
       feedItems.map((e) => e.feedUrl).toList(),
@@ -53,6 +57,6 @@ class PostFocusController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    _initData();
+    refreshFeedItem();
   }
 }
