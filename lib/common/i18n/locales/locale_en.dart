@@ -120,4 +120,8 @@ Map<String, String> localeEn = {
   LocaleKeys.registerError: 'Error occurs when register',
   LocaleKeys.destoryAccoutError: 'Error occurs when destory account',
   LocaleKeys.importFromOpmlError: 'Error occurs when import from opml',
+
+  // time
+  LocaleKeys.yesterday: 'Yesterday',
+  LocaleKeys.daysAgo: '@day days ago',
 };

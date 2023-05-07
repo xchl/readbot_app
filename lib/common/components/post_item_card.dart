@@ -25,7 +25,7 @@ class PostItemCardWidget extends StatelessWidget {
 
   Widget _buildTitleBlock() {
     return TextWidget.title3(
-      feedItem.title!,
+      feedItem.title,
       maxLines: 2,
       softWrap: true,
     ).paddingTop(5.h);
@@ -34,8 +34,13 @@ class PostItemCardWidget extends StatelessWidget {
   Widget _buildDescriptionBlock() {
     return <Widget>[
       TextWidget.body2(feed.title),
-      TextWidget.body2(DateFormat("M/d").format(feedItem.publishTime!))
-          .paddingLeft(5.w)
+      feedItem.publishTime == null
+          ? const SizedBox(
+              width: 0,
+              height: 0,
+            )
+          : TextWidget.body2(displayDatetime(feedItem.publishTime!))
+              .paddingLeft(10.w),
     ].toRow(crossAxisAlignment: CrossAxisAlignment.start);
   }
 

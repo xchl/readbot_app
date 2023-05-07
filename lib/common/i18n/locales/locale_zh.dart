@@ -112,4 +112,8 @@ Map<String, String> localeZh = {
   LocaleKeys.registerError: '注册失败',
   LocaleKeys.destoryAccoutError: '销毁账户失败',
   LocaleKeys.importFromOpmlError: '从OPML导入失败',
+
+  // Time
+  LocaleKeys.yesterday: '昨天',
+  LocaleKeys.daysAgo: '@day天前',
 };

@@ -102,7 +102,7 @@ FeedGroupModel _feedGroupModelDeserialize(
 ) {
   final object = FeedGroupModel(
     description: reader.readStringOrNull(offsets[0]),
-    isSynced: reader.readBoolOrNull(offsets[1]) ?? false,
+    isSynced: reader.readBool(offsets[1]),
     name: reader.readString(offsets[2]),
   );
   object.id = id;
@@ -120,7 +120,7 @@ P _feedGroupModelDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readBool(offset)) as P;
     case 2:
       return (reader.readString(offset)) as P;
     case 3:

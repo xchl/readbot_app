@@ -230,7 +230,7 @@ FeedModel _feedModelDeserialize(
     customLogo: reader.readStringOrNull(offsets[2]),
     customName: reader.readStringOrNull(offsets[3]),
     description: reader.readStringOrNull(offsets[4]),
-    isSynced: reader.readBoolOrNull(offsets[6]) ?? false,
+    isSynced: reader.readBool(offsets[6]),
     logo: reader.readStringOrNull(offsets[7]),
     name: reader.readStringOrNull(offsets[8]),
     tags: reader.readStringList(offsets[9]),
@@ -262,7 +262,7 @@ P _feedModelDeserializeProp<P>(
     case 5:
       return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readBool(offset)) as P;
     case 7:
       return (reader.readStringOrNull(offset)) as P;
     case 8:

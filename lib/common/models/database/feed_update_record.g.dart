@@ -123,7 +123,7 @@ FeedUpdateRecordModel _feedUpdateRecordModelDeserialize(
 ) {
   final object = FeedUpdateRecordModel(
     feedUrl: reader.readString(offsets[0]),
-    isSynced: reader.readBoolOrNull(offsets[1]) ?? false,
+    isSynced: reader.readBool(offsets[1]),
     lastContentHash: reader.readString(offsets[2]),
     lastItemPublishTime: reader.readDateTimeOrNull(offsets[3]),
     lastUpdate: reader.readDateTime(offsets[4]),
@@ -143,7 +143,7 @@ P _feedUpdateRecordModelDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readBool(offset)) as P;
     case 2:
       return (reader.readString(offset)) as P;
     case 3:

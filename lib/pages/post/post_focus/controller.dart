@@ -13,7 +13,7 @@ class PostFocusController extends GetxController {
   List<FeedItemModel> get feedItems => _feedItems;
   List<FeedModel?> get feeds => _feeds;
 
-  // 是否不应该按找时间排？
+  // TODO 是否不应该按找时间排？
   refreshFeedItem() async {
     _page = 0;
     _feedItems.clear();

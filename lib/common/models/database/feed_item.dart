@@ -13,7 +13,7 @@ class FeedItemModel {
   bool isFocus;
   bool isSeen;
 
-  String? title;
+  String title;
 
   String? cover;
   String? link;
@@ -43,7 +43,7 @@ class FeedItemModel {
   FeedItemModel(this.feedUrl,
       {this.isFocus = false,
       this.isSeen = false,
-      this.title,
+      required this.title,
       this.cover,
       this.link,
       this.publishTime,
@@ -55,14 +55,13 @@ class FeedItemModel {
       required this.updateTime,
       required this.createTime,
       required this.isSynced})
-      : md5String =
-            md5.convert(utf8.encode((title ?? "") + (link ?? ""))).toString();
+      : md5String = md5.convert(utf8.encode(title + (link ?? ""))).toString();
 
   factory FeedItemModel.fromRssItem(RssItem item, FeedModel feed) {
     var feedItem = FeedItemModel(feed.url,
         isFocus: false,
         isSeen: false,
-        title: item.title,
+        title: item.title ?? '',
         link: item.link,
         publishTime: item.pubDate,
         authors: item.author,
@@ -77,7 +76,7 @@ class FeedItemModel {
     var feedItem = FeedItemModel(feed.url,
         isFocus: false,
         isSeen: false,
-        title: item.title,
+        title: item.title ?? '',
         link: item.links?.first.href,
         publishTime: item.updated,
         authors: item.authors?.map((e) => e.name).join(', '),
@@ -120,7 +119,7 @@ FeedItemModel toFeedItemModel(FeedItem feedItem) {
   return FeedItemModel(feedItem.feedUrl,
       isFocus: feedItem.isFocus,
       isSeen: feedItem.isSeen,
-      title: feedItem.title,
+      title: feedItem.title ?? '',
       cover: feedItem.cover,
       link: feedItem.link,
       // timestamp to Datetime

@@ -6,20 +6,6 @@ class AppColors {
   /// *******************************************
   /// 自定义 颜色
   /// *******************************************
-
-  /// 强调
-  static Color get highlight =>
-      Get.isDarkMode ? const Color(0xFFFFB4A9) : const Color(0xFFF77866);
-
-  /// Success
-  /// Warning
-  /// Danger
-  /// Info
-
-  /// *******************************************
-  /// Material System
-  /// *******************************************
-
   static Color get background => Get.theme.colorScheme.background;
 
   static Brightness get brightness => Get.theme.colorScheme.brightness;

@@ -208,12 +208,7 @@ int _feedItemModelEstimateSize(
       }
     }
   }
-  {
-    final value = object.title;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.title.length * 3;
   return bytesCount;
 }
 
@@ -256,12 +251,12 @@ FeedItemModel _feedItemModelDeserialize(
     description: reader.readStringOrNull(offsets[4]),
     isFocus: reader.readBoolOrNull(offsets[6]) ?? false,
     isSeen: reader.readBoolOrNull(offsets[7]) ?? false,
-    isSynced: reader.readBoolOrNull(offsets[8]) ?? false,
+    isSynced: reader.readBool(offsets[8]),
     link: reader.readStringOrNull(offsets[9]),
     publishTime: reader.readDateTimeOrNull(offsets[11]),
     summaryAlgo: reader.readStringOrNull(offsets[12]),
     tags: reader.readStringList(offsets[13]),
-    title: reader.readStringOrNull(offsets[14]),
+    title: reader.readString(offsets[14]),
     updateTime: reader.readDateTime(offsets[15]),
   );
   object.id = id;
@@ -293,7 +288,7 @@ P _feedItemModelDeserializeProp<P>(
     case 7:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 8:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readBool(offset)) as P;
     case 9:
       return (reader.readStringOrNull(offset)) as P;
     case 10:
@@ -305,7 +300,7 @@ P _feedItemModelDeserializeProp<P>(
     case 13:
       return (reader.readStringList(offset)) as P;
     case 14:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 15:
       return (reader.readDateTime(offset)) as P;
     default:
@@ -2386,26 +2381,8 @@ extension FeedItemModelQueryFilter
   }
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
-      titleIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'title',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
-      titleIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'title',
-      ));
-    });
-  }
-
-  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
       titleEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2419,7 +2396,7 @@ extension FeedItemModelQueryFilter
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
       titleGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -2435,7 +2412,7 @@ extension FeedItemModelQueryFilter
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
       titleLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -2451,8 +2428,8 @@ extension FeedItemModelQueryFilter
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
       titleBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -3198,7 +3175,7 @@ extension FeedItemModelQueryProperty
     });
   }
 
-  QueryBuilder<FeedItemModel, String?, QQueryOperations> titleProperty() {
+  QueryBuilder<FeedItemModel, String, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });

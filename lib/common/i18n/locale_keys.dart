@@ -111,4 +111,8 @@ class LocaleKeys {
   static const registerError = 'register_error';
   static const destoryAccoutError = 'destory_accout_error';
   static const importFromOpmlError = 'import_from_opml_error';
+
+  // Time
+  static const yesterday = 'yesterday';
+  static const daysAgo = 'days_ago';
 }
