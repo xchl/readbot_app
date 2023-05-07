@@ -41,6 +41,15 @@ class PostFocusController extends GetxController {
     });
   }
 
+  void handleCoverUpdate(Map<int, FeedItemModel> feedItemMap) {
+    for (var item in _feedItems) {
+      if (feedItemMap.containsKey(item.id)) {
+        item.cover = feedItemMap[item.id]!.cover;
+      }
+    }
+    update(["post_focus"]);
+  }
+
   Future<void> appendFeedItem() async {
     _page++;
     var newFeedItems = await DatabaseManager()

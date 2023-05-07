@@ -9,10 +9,6 @@ class DatabaseManager {
 
   late final Isar _isar;
 
-  Stream<FeedItemModel?> watchFeedItems(FeedItemModel feedItem) {
-    return _isar.feedItemModels.watchObject(feedItem.id);
-  }
-
   Future<void> init() async {
     var directory = await getApplicationDocumentsDirectory();
     _isar = await Isar.open([

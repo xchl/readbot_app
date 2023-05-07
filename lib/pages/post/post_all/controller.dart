@@ -92,8 +92,18 @@ class PostAllController extends GetxController {
     Get.toNamed(RouteNames.postPostDetail, arguments: {
       'feedItem': feedItem,
       'content': content,
-      'fromPage': Page.explore
+      'fromPage': PageType.explore
     });
+  }
+
+  void handleCoverUpdate(Map<int, FeedItemModel> feedItemMap) {
+    for (var item in _feedItems) {
+      debugPrint("update cover");
+      if (feedItemMap.containsKey(item.id)) {
+        item.cover = feedItemMap[item.id]!.cover;
+      }
+    }
+    update(["post_all"]);
   }
 
   void handleRead(FeedItemModel feedItem) {

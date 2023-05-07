@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/pages/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart' hide Storage;
 import 'package:get/get.dart';
@@ -13,6 +14,8 @@ import 'package:xml/xml.dart';
 /// 用户服务
 class FeedService extends GetxService {
   static FeedService get to => Get.find();
+
+  Map<int, FeedItemModel> _coverUpdateItems = {};
 
   List<FeedItemModel> _parseRssItem(
       FeedModel feed, List<webfeed.RssItem>? items) {
@@ -55,12 +58,7 @@ class FeedService extends GetxService {
         return item;
       }
       var desc = item.description!;
-      try {
-        var imgSrc = findCoverImageInHtml(desc);
-        item.cover = imgSrc;
-      } catch (exception) {
-        // do nothing
-      }
+      item.cover = findCoverImageInHtml(desc);
       return item;
     }).toList();
   }
@@ -83,13 +81,13 @@ class FeedService extends GetxService {
       onLoadStop: (controller, url) async {
         // replace code text with textContent to preserve style
         String htmlContent = await controller.evaluateJavascript(source: '''
-        var codeElements = document.querySelectorAll('pre > code');
-        for (var i = 0; i < codeElements.length; i++) {
-          var codeElement = codeElements[i];
-          var textContent = codeElement.textContent;
-          codeElement.textContent = textContent;
-        }
-        document.documentElement.outerHTML;
+          var codeElements = document.querySelectorAll('pre > code');
+          for (var i = 0; i < codeElements.length; i++) {
+            var codeElement = codeElements[i];
+            var textContent = codeElement.textContent;
+            codeElement.textContent = textContent;
+          }
+          document.documentElement.outerHTML;
         ''') ?? "";
 
         String pureContent = await compute(extractReadableContent, htmlContent);
@@ -102,6 +100,13 @@ class FeedService extends GetxService {
 
         DatabaseManager().insertContent(content);
 
+        if (feedItems[idx].cover == null) {
+          feedItems[idx].cover = findCoverImageInHtml(pureContent);
+          _coverUpdateItems[feedItems[idx].id] = feedItems[idx];
+        }
+
+        DatabaseManager().updateFeedItem(feedItems[idx]);
+
         idx += 1;
         while (idx < feedItems.length && feedItems[idx].link == null) {
           idx += 1;
@@ -109,12 +114,18 @@ class FeedService extends GetxService {
         if (idx < feedItems.length) {
           controller.loadUrl(
               urlRequest: URLRequest(url: Uri.parse(feedItems[idx].link!)));
+        } else {
+          // after all items downloaded, update cover
+          if (_coverUpdateItems.isNotEmpty) {
+            Get.find<PostAllController>().handleCoverUpdate(_coverUpdateItems);
+            Get.find<PostFocusController>()
+                .handleCoverUpdate(_coverUpdateItems);
+            _coverUpdateItems.clear();
+          }
         }
       },
     );
-    debugPrint("Download Started!");
     headlessWebView.run();
-    debugPrint("Download Stop! ${feedItems.length} Page");
   }
 
   Future<void> addFeedFromUrl(String url) async {

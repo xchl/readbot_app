@@ -29,7 +29,10 @@ class _PostFocusPageViewGetX extends GetView<PostFocusController> {
 
   // 主视图
   Widget _buildView() {
-    return ListView.builder(
+    return ListView.separated(
+            separatorBuilder: (_, __) => const Divider(
+                  height: 0,
+                ),
             itemBuilder: (context, i) {
               final feedItem = controller.feedItems[i];
               final feed = controller.feeds[i];

@@ -2,10 +2,13 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 
 String? findCoverImageInHtml(String htmlContent) {
-  Document document = parse(htmlContent);
-  List<Element> imgElements = document.getElementsByTagName('img');
-
-  return imgElements.isNotEmpty ? imgElements.first.attributes['src'] : null;
+  try {
+    Document document = parse(htmlContent);
+    List<Element> imgElements = document.getElementsByTagName('img');
+    return imgElements.isNotEmpty ? imgElements.first.attributes['src'] : null;
+  } catch (e) {
+    return null;
+  }
 }
 
 String injectCss(String htmlContent, String css) {

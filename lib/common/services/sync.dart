@@ -114,6 +114,9 @@ class SyncService extends GetxService {
               contentPullResponse.syncTimestamp.feedUpdateRecord!)));
     }
 
+    var feedItemList = toFeedItemModelList(contentPullResponse.feedItems);
+    FeedService().downloadHtml(feedItemList);
+
     await DatabaseManager().pullSyncSave(
         toFeedModelList(contentPullResponse.feeds),
         toFeedItemModelList(contentPullResponse.feedItems),
