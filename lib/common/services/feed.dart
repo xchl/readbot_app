@@ -15,7 +15,7 @@ import 'package:xml/xml.dart';
 class FeedService extends GetxService {
   static FeedService get to => Get.find();
 
-  Map<int, FeedItemModel> _coverUpdateItems = {};
+  final Map<int, FeedItemModel> _coverUpdateItems = {};
 
   List<FeedItemModel> _parseRssItem(
       FeedModel feed, List<webfeed.RssItem>? items) {
@@ -116,6 +116,7 @@ class FeedService extends GetxService {
               urlRequest: URLRequest(url: Uri.parse(feedItems[idx].link!)));
         } else {
           // after all items downloaded, update cover
+          // TODO is need push
           if (_coverUpdateItems.isNotEmpty) {
             Get.find<PostAllController>().handleCoverUpdate(_coverUpdateItems);
             Get.find<PostFocusController>()

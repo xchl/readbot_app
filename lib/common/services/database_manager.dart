@@ -48,6 +48,7 @@ class DatabaseManager {
 
   // update Feed
   Future<void> updateFeed(FeedModel feed) async {
+    feed.isSynced = false;
     await _isar.writeTxn(() async {
       await _isar.feedModels.putByUrl(feed);
     });
@@ -95,6 +96,7 @@ class DatabaseManager {
 
   // update FeedItem
   Future<void> updateFeedItem(FeedItemModel item) async {
+    item.isSynced = false;
     await _isar.writeTxn(() async {
       await _isar.feedItemModels.putByMd5String(item);
     });
@@ -102,6 +104,9 @@ class DatabaseManager {
 
   // update FeedItems
   Future<void> updateFeedItems(List<FeedItemModel> items) async {
+    for (var item in items) {
+      item.isSynced = false;
+    }
     await _isar.writeTxn(() async {
       await _isar.feedItemModels.putAllByMd5String(items);
     });
