@@ -1,7 +1,6 @@
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 /// 功能栏项
 class PostItemListWidget extends StatelessWidget {
@@ -18,24 +17,32 @@ class PostItemListWidget extends StatelessWidget {
 
   Widget _buildTextBlock() {
     return <Widget>[
-      TextWidget.title3(
-        feedItem.title,
-        maxLines: 2,
-        softWrap: true,
-      ).paddingBottom(10.h).alignLeft(),
+      TextWidget.title3(feedItem.title,
+              maxLines: 2,
+              softWrap: true,
+              color: feedItem.isSeen
+                  ? AppColors.seenTextColor
+                  : AppColors.textColor)
+          .paddingBottom(10.h)
+          .alignLeft(),
       _buildDescriptionBlock()
     ].toColumn();
   }
 
   Widget _buildDescriptionBlock() {
     return <Widget>[
-      TextWidget.body2(feed.title),
+      TextWidget.body2(feed.title,
+          color:
+              feedItem.isSeen ? AppColors.seenTextColor : AppColors.textColor),
       feedItem.publishTime == null
           ? const SizedBox(
               width: 0,
               height: 0,
             )
-          : TextWidget.body2(displayDatetime(feedItem.publishTime!))
+          : TextWidget.body2(displayDatetime(feedItem.publishTime!),
+                  color: feedItem.isSeen
+                      ? AppColors.seenTextColor
+                      : AppColors.textColor)
               .paddingLeft(10.w),
     ].toRow();
   }

@@ -1,4 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/pages/index.dart';
 import 'package:get/get.dart';
 
 class PostFocusController extends GetxController {
@@ -12,6 +13,8 @@ class PostFocusController extends GetxController {
 
   List<FeedItemModel> get feedItems => _feedItems;
   List<FeedModel?> get feeds => _feeds;
+
+  int lastTapIdx = -1;
 
   // TODO 是否不应该按找时间排？
   refreshFeedItem() async {
@@ -27,11 +30,15 @@ class PostFocusController extends GetxController {
     update(["post_focus"]);
   }
 
-  void onTapItem(FeedItemModel feedItem) async {
+  void onTapItem(FeedItemModel feedItem, int itemIdx) async {
     var content =
         await DatabaseManager().getContentByFeedItemMd5(feedItem.md5String);
-    Get.toNamed(RouteNames.postPostDetail,
-        arguments: {'feedItem': feedItem, 'content': content});
+    lastTapIdx = itemIdx;
+    Get.toNamed(RouteNames.postPostDetail, arguments: {
+      'feedItem': feedItem,
+      'content': content,
+      'fromPage': PageType.focus
+    });
   }
 
   Future<void> appendFeedItem() async {
@@ -47,6 +54,13 @@ class PostFocusController extends GetxController {
     );
     _feedItems.addAll(newFeedItems);
     _feeds.addAll(newFeed);
+    update(["post_focus"]);
+  }
+
+  void handleRead(FeedItemModel feedItem) {
+    if (lastTapIdx >= 0) {
+      feedItems[lastTapIdx] = feedItem;
+    }
     update(["post_focus"]);
   }
 

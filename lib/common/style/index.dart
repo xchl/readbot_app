@@ -1,7 +1,7 @@
 library style;
 
 export 'theme.dart';
-export 'color_schemes.g.dart';
+export 'color_schemes.dart';
 export 'colors.dart';
 export 'space.dart';
 export 'radius.dart';

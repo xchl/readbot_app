@@ -1,7 +1,6 @@
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 /// 功能栏项
 class PostItemCardWidget extends StatelessWidget {

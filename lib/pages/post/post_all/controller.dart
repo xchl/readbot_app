@@ -41,6 +41,8 @@ class PostAllController extends GetxController {
   List<FeedItemModel> get feedItems => _feedItems;
   List<FeedModel?> get feed => _feed;
 
+  int lastTapIdx = -1;
+
   void onTap() {}
 
   @override
@@ -83,11 +85,23 @@ class PostAllController extends GetxController {
     Get.find<PostFocusController>().refreshFeedItem();
   }
 
-  void onTapItem(FeedItemModel feedItem) async {
+  void onTapItem(FeedItemModel feedItem, int itemIdx) async {
     var content =
         await DatabaseManager().getContentByFeedItemMd5(feedItem.md5String);
-    Get.toNamed(RouteNames.postPostDetail,
-        arguments: {'feedItem': feedItem, 'content': content});
+    lastTapIdx = itemIdx;
+    Get.toNamed(RouteNames.postPostDetail, arguments: {
+      'feedItem': feedItem,
+      'content': content,
+      'fromPage': Page.explore
+    });
+  }
+
+  void handleRead(FeedItemModel feedItem) {
+    if (lastTapIdx >= 0) {
+      feedItems[lastTapIdx] = feedItem;
+      debugPrint("read");
+    }
+    update(["post_all"]);
   }
 
   Future<void> refreshFeedItem() async {

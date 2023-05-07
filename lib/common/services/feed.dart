@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:crypto/crypto.dart';
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/foundation.dart';
@@ -101,13 +99,6 @@ class FeedService extends GetxService {
             content: pureContent,
             uri: url.toString(),
             feedItemMd5String: feedItems[idx].md5String);
-
-        //TODO delete
-
-        if (kDebugMode) {
-          File file = File("/Users/luosen/Desktop/html/$idx.html");
-          file.writeAsString(pureContent);
-        }
 
         DatabaseManager().insertContent(content);
 

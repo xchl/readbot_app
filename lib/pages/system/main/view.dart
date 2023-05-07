@@ -23,7 +23,7 @@ class _MainPageState extends State<MainPage>
   }
 }
 
-enum SubPage {
+enum PageType {
   focus,
   explore,
   setting,

@@ -72,9 +72,9 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
                 direction: DismissDirection.startToEnd,
                 child: PostItemListWidget(
                   feedItem: feedItem,
-                  feed: feed!,
+                  feed: feed!, // TODO
                 ).inkWell(onTap: () {
-                  controller.onTapItem(feedItem);
+                  controller.onTapItem(feedItem, i);
                 }),
               );
             },
@@ -91,7 +91,7 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
       id: "post_all",
       builder: (_) {
         return Scaffold(
-          endDrawer: const PostDrawerPage(SubPage.explore),
+          endDrawer: const PostDrawerPage(PageType.explore),
           onEndDrawerChanged: controller.onEndDrawerChanged,
           appBar: AppBar(
             toolbarHeight: 44.h,

@@ -6,6 +6,11 @@ class AppColors {
   /// *******************************************
   /// 自定义 颜色
   /// *******************************************
+
+  static Color get seenTextColor =>
+      Get.isDarkMode ? Colors.grey[600]! : Colors.grey[400]!;
+  static Color get textColor => Get.isDarkMode ? Colors.white : Colors.black;
+
   static Color get background => Get.theme.colorScheme.background;
 
   static Brightness get brightness => Get.theme.colorScheme.brightness;

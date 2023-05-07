@@ -9,6 +9,10 @@ class DatabaseManager {
 
   late final Isar _isar;
 
+  Stream<FeedItemModel?> watchFeedItems(FeedItemModel feedItem) {
+    return _isar.feedItemModels.watchObject(feedItem.id);
+  }
+
   Future<void> init() async {
     var directory = await getApplicationDocumentsDirectory();
     _isar = await Isar.open([
@@ -82,6 +86,14 @@ class DatabaseManager {
     await _isar.writeTxn(() async {
       await _isar.feedItemModels.putAllByMd5String(items);
       await _isar.feedUpdateRecordModels.putByFeedUrl(record);
+    });
+  }
+
+  // set FeedItems read
+  Future<void> setFeedItemRead(FeedItemModel item) async {
+    item.isSeen = true;
+    await _isar.writeTxn(() async {
+      await _isar.feedItemModels.putByMd5String(item);
     });
   }
 

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 class PostDrawerController extends GetxController {
   PostDrawerController(this._subPage);
 
-  final SubPage _subPage;
+  final PageType _subPage;
   Map<FeedGroupModel, List<FeedModel>> feedGroupedByGroup = {};
 
   String? selectedFeed;
@@ -47,7 +47,7 @@ class PostDrawerController extends GetxController {
       selectedFeed = feedUrl;
     }
     update(["post_drawer"]);
-    if (_subPage == SubPage.explore) {
+    if (_subPage == PageType.explore) {
       await Get.find<PostAllController>().onFeedSelect(selectedFeed);
     }
   }

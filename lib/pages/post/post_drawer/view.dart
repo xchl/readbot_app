@@ -10,7 +10,7 @@ import 'index.dart';
 class PostDrawerPage extends StatefulWidget {
   const PostDrawerPage(this.subPage, {Key? key}) : super(key: key);
 
-  final SubPage subPage;
+  final PageType subPage;
 
   @override
   State<PostDrawerPage> createState() => _PostDrawerPageState();
@@ -31,7 +31,7 @@ class _PostDrawerPageState extends State<PostDrawerPage>
 class _PostDrawerPageViewGetX extends GetView<PostDrawerController> {
   const _PostDrawerPageViewGetX(this.subPage, {Key? key}) : super(key: key);
 
-  final SubPage subPage;
+  final PageType subPage;
 
   Widget _buildPostExploreDrawer() {
     List<ExpansionPanelListItem<String, FeedItemWidget>> items =
@@ -62,9 +62,9 @@ class _PostDrawerPageViewGetX extends GetView<PostDrawerController> {
   // 主视图
   Widget _buildView() {
     switch (subPage) {
-      case SubPage.focus:
+      case PageType.focus:
         return _buildPostFocusDrawer();
-      case SubPage.explore:
+      case PageType.explore:
         return _buildPostExploreDrawer();
       default:
         return const SizedBox();

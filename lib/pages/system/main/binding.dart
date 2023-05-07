@@ -11,7 +11,7 @@ class MainBinding implements Bindings {
     Get.lazyPut<MainController>(() => MainController());
     Get.lazyPut<MyIndexController>(() => MyIndexController());
     Get.lazyPut<PostDrawerController>(
-        () => PostDrawerController(SubPage.explore),
+        () => PostDrawerController(PageType.explore),
         tag: 'explore');
   }
 }

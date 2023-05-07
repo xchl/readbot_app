@@ -1,4 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/pages/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
@@ -30,14 +31,32 @@ class PostDetailController extends GetxController {
 
   FeedItemModel feedItem = Get.arguments['feedItem'];
   ContentModel? content = Get.arguments['content'];
+  PageType fromPage = Get.arguments['fromPage'];
 
   String? html;
 
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
     if (content != null && content!.type == ContentType.html) {
       html = injectCss(content!.content, ReadModeStyle().css);
+    }
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    handleRead();
+  }
+
+  void handleRead() async {
+    feedItem.isSeen = true;
+    DatabaseManager().updateFeedItem(feedItem);
+    if (fromPage == PageType.focus) {
+      Get.find<PostFocusController>().handleRead(feedItem);
+    }
+    if (fromPage == PageType.explore) {
+      Get.find<PostAllController>().handleRead(feedItem);
     }
   }
 
@@ -60,7 +79,6 @@ class PostDetailController extends GetxController {
     isReadMode = !isReadMode;
     if (isReadMode && html != null) {
       webView.loadData(data: html!);
-      debugPrint(html);
     } else {
       webView.loadUrl(urlRequest: URLRequest(url: Uri.parse(feedItem.link!)));
     }
