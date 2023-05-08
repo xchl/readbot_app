@@ -20,6 +20,8 @@ class ContentModel {
 
   String feedItemMd5String;
 
+  DateTime createTime = DateTime.now();
+
   ContentModel(
       {required this.type,
       required this.uri,

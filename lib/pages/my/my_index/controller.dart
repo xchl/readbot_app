@@ -7,6 +7,14 @@ class MyIndexController extends GetxController {
 
   bool isNightMode = ConfigService().isDarkModel;
 
+  bool enableSync = ConfigService().enableSync;
+
+  bool enableReadMode = ConfigService().enableReadMode;
+
+  bool enableAutoDeleteData = ConfigService().enableAutoDeleteData;
+
+  int onlySaveDataDays = ConfigService().onlySaveDataDays;
+
   /// 定义输入控制器
   TextEditingController destroyConfirmInput = TextEditingController();
 
@@ -17,6 +25,31 @@ class MyIndexController extends GetxController {
   void onChangeTheme(bool isOn) async {
     isNightMode = isOn;
     await ConfigService().switchThemeModel();
+    update(["my_index"]);
+  }
+
+  void onSyncChange(bool isOn) async {
+    enableSync = isOn;
+    await ConfigService().saveSycnOption(enableSync);
+    update(["my_index"]);
+  }
+
+  void onReadModeChange(bool isOn) async {
+    enableReadMode = isOn;
+    await ConfigService().saveReadModeOption(enableReadMode);
+    update(["my_index"]);
+  }
+
+  void onAutoDeleteDataChange(bool isOn) async {
+    enableAutoDeleteData = isOn;
+    await ConfigService().saveAutoDeleteDataOption(enableAutoDeleteData);
+    update(["my_index"]);
+  }
+
+  void onSelectAutoDeleteDay(int? days) async {
+    if (days == null) return;
+    onlySaveDataDays = days;
+    await ConfigService().saveOnlySaveDataDays(onlySaveDataDays);
     update(["my_index"]);
   }
 

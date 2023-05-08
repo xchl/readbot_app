@@ -8,7 +8,9 @@ class PostDetailController extends GetxController {
   PostDetailController();
 
   final GlobalKey webViewKey = GlobalKey();
-  bool isReadMode = false;
+
+  bool isReadMode = ConfigService().enableReadMode;
+
   double _lastScrollPosition = 0;
   final double _scrollThreshhold = 20;
   bool isShowBottomBar = true;
@@ -30,22 +32,18 @@ class PostDetailController extends GetxController {
   );
 
   FeedItemModel feedItem = Get.arguments['feedItem'];
+  // TODO 需要加载的时候再加载
   ContentModel? content = Get.arguments['content'];
   PageType fromPage = Get.arguments['fromPage'];
 
   String? html;
 
   @override
-  void onInit() {
-    super.onInit();
+  void onReady() {
+    super.onReady();
     if (content != null && content!.type == ContentType.html) {
       html = injectCss(content!.content, ReadModeStyle().css);
     }
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
     handleRead();
   }
 
@@ -75,12 +73,16 @@ class PostDetailController extends GetxController {
     }
   }
 
-  void toggleReadMode() {
-    isReadMode = !isReadMode;
+  void loadContent() {
     if (isReadMode && html != null) {
       webView.loadData(data: html!);
     } else {
       webView.loadUrl(urlRequest: URLRequest(url: Uri.parse(feedItem.link!)));
     }
+  }
+
+  void toggleReadMode() {
+    isReadMode = !isReadMode;
+    loadContent();
   }
 }

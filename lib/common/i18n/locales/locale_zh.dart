@@ -84,12 +84,16 @@ Map<String, String> localeZh = {
   LocaleKeys.myFeedPart: '信息流',
   LocaleKeys.myDartTheme: '夜间模式',
   LocaleKeys.myIsNeedSync: '内容同步',
-  LocaleKeys.myAISetting: 'AI服务设置',
+  LocaleKeys.myAISetting: 'AI服务',
   LocaleKeys.myRuleSetting: '规则管理',
   LocaleKeys.myLoginBtn: '登录',
   LocaleKeys.myDestroyBth: '销毁当前账户',
   LocaleKeys.myDestroyAccountInfo: '如果销毁当前账户，保存在服务器上的所有数据都将被删除。请输入YES并确认',
   LocaleKeys.myAccountPart: '账户',
+  LocaleKeys.mySystemSetting: '系统设置',
+  LocaleKeys.mySystemAutoReadmode: '自动开启阅读模式',
+  LocaleKeys.mySystemAutoDeleteData: '自动删除历史数据',
+  LocaleKeys.mySystemAutoDeleteDay: '保留近期数据天数',
 
   //Feed
   LocaleKeys.feedAddBtn: '添加',

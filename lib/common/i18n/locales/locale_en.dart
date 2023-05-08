@@ -91,13 +91,17 @@ Map<String, String> localeEn = {
   LocaleKeys.myFeedPart: 'RSS',
   LocaleKeys.myDartTheme: 'Dart Mode',
   LocaleKeys.myIsNeedSync: 'Content Sync',
-  LocaleKeys.myAISetting: 'AI Setting',
+  LocaleKeys.myAISetting: 'AI Service',
   LocaleKeys.myRuleSetting: 'Rule Setting',
   LocaleKeys.myLoginBtn: 'Login',
   LocaleKeys.myDestroyBth: 'Destroy account',
   LocaleKeys.myDestroyAccountInfo:
       'If you destroy your current account, all information will be deleted and cannot be restored. Please input YES and confirm',
   LocaleKeys.myAccountPart: 'Account',
+  LocaleKeys.mySystemSetting: 'System Setting',
+  LocaleKeys.mySystemAutoReadmode: 'Auto Open Read Mode',
+  LocaleKeys.mySystemAutoDeleteData: 'Auto Deleta History Feed',
+  LocaleKeys.mySystemAutoDeleteDay: 'Only Save Data in Recent Days',
 
   // Feed
   LocaleKeys.feedAddBtn: 'Add',

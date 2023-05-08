@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -28,7 +29,21 @@ class ConfigService extends GetxService {
   bool get isDarkModel => _isDarkModel.value;
 
   // 是否首次打开
-  bool get isAlreadyOpen => Storage().getBool(Constants.storageAlreadyOpen);
+  bool get isAlreadyOpen =>
+      Storage().getBool(Constants.storageAlreadyOpen) ?? false;
+
+  // 是否开启同步
+  bool get enableSync =>
+      Storage().getBool(Constants.storageEnableSync) ?? false;
+
+  bool get enableReadMode =>
+      Storage().getBool(Constants.storageEnableReadMode) ?? true;
+
+  bool get enableAutoDeleteData =>
+      Storage().getBool(Constants.storageAutoDeleteData) ?? false;
+
+  int get onlySaveDataDays =>
+      Storage().getInt(Constants.storageSaveDataDays) ?? 90;
 
   late ClientInfo clientInfo;
 
@@ -64,6 +79,22 @@ class ConfigService extends GetxService {
       LogService.to
           .e('Error occur when loading assets/configs/config.json: $e');
     }
+  }
+
+  Future<void> saveSycnOption(bool value) async {
+    Storage().setBool(Constants.storageEnableSync, value);
+  }
+
+  Future<void> saveReadModeOption(bool value) async {
+    Storage().setBool(Constants.storageEnableReadMode, value);
+  }
+
+  Future<void> saveAutoDeleteDataOption(bool value) async {
+    Storage().setBool(Constants.storageAutoDeleteData, value);
+  }
+
+  Future<void> saveOnlySaveDataDays(int value) async {
+    Storage().setInt(Constants.storageSaveDataDays, value);
   }
 
   @override

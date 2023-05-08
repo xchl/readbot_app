@@ -90,6 +90,10 @@ class LocaleKeys {
   static const myDestroyBth = 'my_destroy_btn';
   static const myDestroyAccountInfo = 'my_destroy_info';
   static const myAccountPart = 'my_account_part';
+  static const mySystemSetting = 'my_system_setting';
+  static const mySystemAutoReadmode = 'my_system_auto_readmode';
+  static const mySystemAutoDeleteData = 'my_system_auto_clear_data';
+  static const mySystemAutoDeleteDay = 'my_system_auto_delete_day';
 
   // Feed
   static const feedAddDesc = 'feed_add_desc';

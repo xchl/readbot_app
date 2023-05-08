@@ -22,19 +22,24 @@ const ContentModelSchema = CollectionSchema(
       name: r'content',
       type: IsarType.string,
     ),
-    r'feedItemMd5String': PropertySchema(
+    r'createTime': PropertySchema(
       id: 1,
+      name: r'createTime',
+      type: IsarType.dateTime,
+    ),
+    r'feedItemMd5String': PropertySchema(
+      id: 2,
       name: r'feedItemMd5String',
       type: IsarType.string,
     ),
     r'type': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'type',
       type: IsarType.byte,
       enumMap: _ContentModeltypeEnumValueMap,
     ),
     r'uri': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'uri',
       type: IsarType.string,
     )
@@ -86,9 +91,10 @@ void _contentModelSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.content);
-  writer.writeString(offsets[1], object.feedItemMd5String);
-  writer.writeByte(offsets[2], object.type.index);
-  writer.writeString(offsets[3], object.uri);
+  writer.writeDateTime(offsets[1], object.createTime);
+  writer.writeString(offsets[2], object.feedItemMd5String);
+  writer.writeByte(offsets[3], object.type.index);
+  writer.writeString(offsets[4], object.uri);
 }
 
 ContentModel _contentModelDeserialize(
@@ -99,11 +105,12 @@ ContentModel _contentModelDeserialize(
 ) {
   final object = ContentModel(
     content: reader.readString(offsets[0]),
-    feedItemMd5String: reader.readString(offsets[1]),
-    type: _ContentModeltypeValueEnumMap[reader.readByteOrNull(offsets[2])] ??
+    feedItemMd5String: reader.readString(offsets[2]),
+    type: _ContentModeltypeValueEnumMap[reader.readByteOrNull(offsets[3])] ??
         ContentType.html,
-    uri: reader.readString(offsets[3]),
+    uri: reader.readString(offsets[4]),
   );
+  object.createTime = reader.readDateTime(offsets[1]);
   object.id = id;
   return object;
 }
@@ -118,11 +125,13 @@ P _contentModelDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
       return (_ContentModeltypeValueEnumMap[reader.readByteOrNull(offset)] ??
           ContentType.html) as P;
-    case 3:
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -462,6 +471,62 @@ extension ContentModelQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'content',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      createTimeEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      createTimeGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'createTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      createTimeLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'createTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      createTimeBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'createTime',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -862,6 +927,19 @@ extension ContentModelQuerySortBy
     });
   }
 
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByCreateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy>
+      sortByCreateTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createTime', Sort.desc);
+    });
+  }
+
   QueryBuilder<ContentModel, ContentModel, QAfterSortBy>
       sortByFeedItemMd5String() {
     return QueryBuilder.apply(this, (query) {
@@ -912,6 +990,19 @@ extension ContentModelQuerySortThenBy
   QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByContentDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'content', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByCreateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy>
+      thenByCreateTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createTime', Sort.desc);
     });
   }
 
@@ -975,6 +1066,12 @@ extension ContentModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<ContentModel, ContentModel, QDistinct> distinctByCreateTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'createTime');
+    });
+  }
+
   QueryBuilder<ContentModel, ContentModel, QDistinct>
       distinctByFeedItemMd5String({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1008,6 +1105,12 @@ extension ContentModelQueryProperty
   QueryBuilder<ContentModel, String, QQueryOperations> contentProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'content');
+    });
+  }
+
+  QueryBuilder<ContentModel, DateTime, QQueryOperations> createTimeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'createTime');
     });
   }
 

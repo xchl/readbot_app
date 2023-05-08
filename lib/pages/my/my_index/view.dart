@@ -1,4 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:feed_inbox_app/pages/my/my_index/widgets/number_select_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -20,7 +21,7 @@ class MyIndexPage extends GetView<MyIndexController> {
         // 订阅源管理
         _buildFeedButtonsList().sliverBox,
         // 主题管理
-        _buildThemeButtonsList().sliverBox,
+        _buildSystemButtonsList().sliverBox,
 
         // 系统设置
         _buildAccountButtonsList().sliverBox,
@@ -70,9 +71,9 @@ class MyIndexPage extends GetView<MyIndexController> {
 
   Widget _buildFeedButtonsList() {
     return <Widget>[
-      TextWidget.body1(LocaleKeys.myFeedPart.tr)
-          .alignLeft()
-          .padding(left: 10, bottom: 10),
+      // TextWidget.body1(LocaleKeys.myFeedPart.tr)
+      //     .alignLeft()
+      //     .padding(left: 10, bottom: 10),
       <Widget>[
         // 订阅源列表
         ButtonItemWidget(
@@ -84,29 +85,46 @@ class MyIndexPage extends GetView<MyIndexController> {
         ),
         // end
       ].toColumn().card()
-    ].toColumn().padding(top: 30.h, bottom: 10.h);
+    ].toColumn().padding(top: 10.h, bottom: 10.h);
   }
 
-  Widget _buildThemeButtonsList() {
+  Widget _buildSystemButtonsList() {
     return <Widget>[
-      TextWidget.body1(LocaleKeys.myThemePart.tr)
-          .alignLeft()
-          .padding(left: 10, bottom: 10),
+      // TextWidget.body1(LocaleKeys.mySystemSetting.tr)
+      //     .alignLeft()
+      //     .padding(left: 10, bottom: 10),
       <Widget>[
         SwitchItemWidget(
           title: LocaleKeys.myDartTheme.tr,
           statu: controller.isNightMode,
           onTap: (bool value) => controller.onChangeTheme(value),
-        )
+        ),
+        SwitchItemWidget(
+          title: LocaleKeys.mySystemAutoReadmode.tr,
+          statu: controller.enableReadMode,
+          onTap: (bool value) => controller.onReadModeChange(value),
+        ),
+        SwitchItemWidget(
+          title: LocaleKeys.mySystemAutoDeleteData.tr,
+          statu: controller.enableAutoDeleteData,
+          onTap: (bool value) => controller.onAutoDeleteDataChange(value),
+        ),
+        controller.enableAutoDeleteData
+            ? NumberSelectItemWidget(
+                title: LocaleKeys.mySystemAutoDeleteDay.tr,
+                onTap: controller.onSelectAutoDeleteDay,
+                selectValue: controller.onlySaveDataDays,
+                options: [30, 60, 90, 180].toList())
+            : const SizedBox()
       ].toColumn().card()
-    ].toColumn().padding(top: 30.h, bottom: 10.h);
+    ].toColumn().padding(top: 10.h, bottom: 10.h);
   }
 
   Widget _buildAccountButtonsList() {
     return <Widget>[
-      TextWidget.body1(LocaleKeys.myAccountPart.tr)
-          .alignLeft()
-          .padding(left: 10, bottom: 10),
+      // TextWidget.body1(LocaleKeys.myAccountPart.tr)
+      //     .alignLeft()
+      //     .padding(left: 10, bottom: 10),
       <Widget>[
         ButtonItemWidget(
           title: LocaleKeys.myDestroyBth.tr,
@@ -150,19 +168,19 @@ class MyIndexPage extends GetView<MyIndexController> {
           },
         ),
       ].toColumn().card()
-    ].toColumn().padding(top: 30.h, bottom: 10.h);
+    ].toColumn().padding(top: 10.h, bottom: 10.h);
   }
 
   Widget _buildServiceButtonsList() {
     return <Widget>[
-      TextWidget.body1(LocaleKeys.myServicePart.tr)
-          .alignLeft()
-          .padding(left: 10, bottom: 10),
+      // TextWidget.body1(LocaleKeys.myServicePart.tr)
+      //     .alignLeft()
+      //     .padding(left: 10, bottom: 10),
       <Widget>[
         SwitchItemWidget(
           title: LocaleKeys.myIsNeedSync.tr,
-          statu: controller.isNightMode,
-          onTap: (bool value) => controller.onChangeTheme(value),
+          statu: controller.enableSync,
+          onTap: (bool value) => controller.onSyncChange(value),
         ),
         ButtonItemWidget(
           title: LocaleKeys.myAISetting.tr,

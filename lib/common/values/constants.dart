@@ -36,4 +36,8 @@ class Constants {
   static const configFile = 'assets/configs/config.json';
   static const serverUrlField = 'server_url';
   static const privacyUrlField = 'privacy_policy_url';
+  static const storageEnableSync = 'enable_sync';
+  static const storageEnableReadMode = 'enable_read_mode';
+  static const storageAutoDeleteData = 'enable_auto_delete_data';
+  static const storageSaveDataDays = 'save_data_days';
 }

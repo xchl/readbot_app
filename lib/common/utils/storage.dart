@@ -27,6 +27,10 @@ class Storage {
     return await _prefs.setBool(key, value);
   }
 
+  Future<bool> setInt(String key, int value) async {
+    return await _prefs.setInt(key, value);
+  }
+
   Future<bool> setList(String key, List<String> value) async {
     return await _prefs.setStringList(key, value);
   }
@@ -35,8 +39,12 @@ class Storage {
     return _prefs.getString(key) ?? '';
   }
 
-  bool getBool(String key) {
-    return _prefs.getBool(key) ?? false;
+  int? getInt(String key) {
+    return _prefs.getInt(key);
+  }
+
+  bool? getBool(String key) {
+    return _prefs.getBool(key);
   }
 
   List<String> getList(String key) {

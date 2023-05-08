@@ -18,7 +18,6 @@ class Global {
     // 工具类
     await Storage().init();
     await DatabaseManager().init();
-    Loading();
 
     // 初始化服务
     Get.put<LogService>(LogService());
@@ -32,6 +31,11 @@ class Global {
     ReadModeStyle.fromConfig(
       fontSize: 16,
     );
+
+    // 删除历史数据
+    if (ConfigService.to.enableAutoDeleteData) {
+      DatabaseManager().deleteHistoryData(ConfigService.to.onlySaveDataDays);
+    }
 
     // 默认语言
     ConfigService.to.onLocaleUpdate(Translation.fallbackLocale);

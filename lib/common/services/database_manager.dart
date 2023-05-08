@@ -21,6 +21,22 @@ class DatabaseManager {
     ], directory: directory.path);
   }
 
+  // delete data which create time is days ago
+  Future<void> deleteHistoryData(int days) async {
+    var now = DateTime.now();
+    var deleteTime = now.subtract(Duration(days: days));
+    await _isar.writeTxn(() async {
+      await _isar.feedItemModels
+          .filter()
+          .createTimeLessThan(deleteTime)
+          .deleteAll();
+      await _isar.contentModels
+          .filter()
+          .createTimeLessThan(deleteTime)
+          .deleteAll();
+    });
+  }
+
   // FeedGroup
   // insert Feed Groups
   Future<void> insertFeedGroups(List<FeedGroupModel> groups) async {
