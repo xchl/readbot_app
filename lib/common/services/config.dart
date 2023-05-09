@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -32,6 +31,11 @@ class ConfigService extends GetxService {
   bool get isAlreadyOpen =>
       Storage().getBool(Constants.storageAlreadyOpen) ?? false;
 
+  bool get enableAi => Storage().getBool(Constants.storageEnableAi) ?? false;
+
+  String get openAIToken =>
+      Storage().getString(Constants.storageOpenAIToken) ?? '';
+
   // 是否开启同步
   bool get enableSync =>
       Storage().getBool(Constants.storageEnableSync) ?? false;
@@ -44,6 +48,9 @@ class ConfigService extends GetxService {
 
   int get onlySaveDataDays =>
       Storage().getInt(Constants.storageSaveDataDays) ?? 90;
+
+  String get aiService =>
+      Storage().getString(Constants.storageAiService) ?? Constants.openAI;
 
   late ClientInfo clientInfo;
 
@@ -59,8 +66,8 @@ class ConfigService extends GetxService {
 
   void setClient() async {
     //todo
-    String clientInfoStr = Storage().getString(Constants.clientInfo);
-    if (clientInfoStr == '') {
+    String? clientInfoStr = Storage().getString(Constants.clientInfo);
+    if (clientInfoStr == null) {
       clientInfo = await getDeviceInfo();
       await saveClientInfo();
     } else {
@@ -97,6 +104,18 @@ class ConfigService extends GetxService {
     Storage().setInt(Constants.storageSaveDataDays, value);
   }
 
+  Future<void> saveEnableAiOption(bool value) async {
+    Storage().setBool(Constants.storageEnableAi, value);
+  }
+
+  Future<void> saveAiService(String value) async {
+    Storage().setString(Constants.storageAiService, value);
+  }
+
+  Future<void> saveOpenAIToken(String value) async {
+    Storage().setString(Constants.storageOpenAIToken, value);
+  }
+
   @override
   Future<ConfigService> onInit() async {
     super.onInit();
@@ -114,8 +133,8 @@ class ConfigService extends GetxService {
 
   // 初始语言
   void initLocale() {
-    var langCode = Storage().getString(Constants.storageLanguageCode);
-    if (langCode.isEmpty) return;
+    String? langCode = Storage().getString(Constants.storageLanguageCode);
+    if (langCode == null) return;
     var index = Translation.supportedLocales.indexWhere((element) {
       return element.languageCode == langCode;
     });

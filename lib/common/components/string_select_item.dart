@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 按钮列表项
-class NumberSelectItemWidget extends StatelessWidget {
+class StringSelectItemWidget extends StatelessWidget {
   final String title;
-  final List<int> options;
-  final int selectValue;
-  final Function(int?) onTap;
+  final List<String> options;
+  final String selectValue;
+  final Function(String?) onTap;
 
-  const NumberSelectItemWidget({
+  const StringSelectItemWidget({
     Key? key,
     required this.title,
     required this.onTap,
@@ -28,12 +28,12 @@ class NumberSelectItemWidget extends StatelessWidget {
 
         // 右侧箭头
         trailing: [
-          DropdownButton<int>(
+          DropdownButton<String>(
             value: selectValue,
             icon: null,
-            onChanged: (int? value) => onTap(value),
-            items: options.map<DropdownMenuItem<int>>((int value) {
-              return DropdownMenuItem<int>(
+            onChanged: (String? value) => onTap(value),
+            items: options.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value.toString()),
               );

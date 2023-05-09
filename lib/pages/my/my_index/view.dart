@@ -1,5 +1,5 @@
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/pages/my/my_index/widgets/number_select_item.dart';
+import 'package:feed_inbox_app/common/components/number_select_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -114,7 +114,7 @@ class MyIndexPage extends GetView<MyIndexController> {
                 title: LocaleKeys.mySystemAutoDeleteDay.tr,
                 onTap: controller.onSelectAutoDeleteDay,
                 selectValue: controller.onlySaveDataDays,
-                options: [30, 60, 90, 180].toList())
+                options: controller.onlySaveDataDaysList)
             : const SizedBox()
       ].toColumn().card()
     ].toColumn().padding(top: 10.h, bottom: 10.h);
@@ -184,6 +184,7 @@ class MyIndexPage extends GetView<MyIndexController> {
         ),
         ButtonItemWidget(
           title: LocaleKeys.myAISetting.tr,
+          onTap: () => Get.toNamed(RouteNames.myAiSetting),
         ),
       ].toColumn().card()
     ].toColumn().padding(top: 30.h, bottom: 10.h);

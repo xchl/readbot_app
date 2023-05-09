@@ -44,8 +44,8 @@ class UserService extends GetxService {
   void onInit() async {
     super.onInit();
     // 读 token
-    accessToken = Storage().getString(Constants.storageAccessToken);
-    refreshToken = Storage().getString(Constants.storageRefreshToken);
+    accessToken = Storage().getString(Constants.storageAccessToken) ?? '';
+    refreshToken = Storage().getString(Constants.storageRefreshToken) ?? '';
 
     // 解析Token
     if (accessToken.isNotEmpty && refreshToken.isNotEmpty) {

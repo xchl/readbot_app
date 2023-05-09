@@ -40,4 +40,10 @@ class Constants {
   static const storageEnableReadMode = 'enable_read_mode';
   static const storageAutoDeleteData = 'enable_auto_delete_data';
   static const storageSaveDataDays = 'save_data_days';
+  static const storageEnableAi = 'enable_ai';
+  static const storageAiService = 'ai_service';
+
+  // AI
+  static const openAI = 'openAI';
+  static const storageOpenAIToken = 'storage_open_ai_token';
 }

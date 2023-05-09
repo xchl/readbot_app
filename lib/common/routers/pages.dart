@@ -15,6 +15,7 @@ class RoutePages {
       name: RouteNames.myMyFeeds,
       page: () => const MyFeedsPage(),
     ),
+    GetPage(name: RouteNames.myAiSetting, page: () => const AiSettingPage()),
     GetPage(
       name: RouteNames.myMyIndex,
       page: () => const MyIndexPage(),

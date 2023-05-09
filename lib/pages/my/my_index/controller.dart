@@ -15,6 +15,8 @@ class MyIndexController extends GetxController {
 
   int onlySaveDataDays = ConfigService().onlySaveDataDays;
 
+  final List<int> onlySaveDataDaysList = [30, 60, 90, 180];
+
   /// 定义输入控制器
   TextEditingController destroyConfirmInput = TextEditingController();
 
@@ -24,32 +26,32 @@ class MyIndexController extends GetxController {
 
   void onChangeTheme(bool isOn) async {
     isNightMode = isOn;
-    await ConfigService().switchThemeModel();
+    await ConfigService.to.switchThemeModel();
     update(["my_index"]);
   }
 
   void onSyncChange(bool isOn) async {
     enableSync = isOn;
-    await ConfigService().saveSycnOption(enableSync);
+    await ConfigService.to.saveSycnOption(enableSync);
     update(["my_index"]);
   }
 
   void onReadModeChange(bool isOn) async {
     enableReadMode = isOn;
-    await ConfigService().saveReadModeOption(enableReadMode);
+    await ConfigService.to.saveReadModeOption(enableReadMode);
     update(["my_index"]);
   }
 
   void onAutoDeleteDataChange(bool isOn) async {
     enableAutoDeleteData = isOn;
-    await ConfigService().saveAutoDeleteDataOption(enableAutoDeleteData);
+    await ConfigService.to.saveAutoDeleteDataOption(enableAutoDeleteData);
     update(["my_index"]);
   }
 
   void onSelectAutoDeleteDay(int? days) async {
     if (days == null) return;
     onlySaveDataDays = days;
-    await ConfigService().saveOnlySaveDataDays(onlySaveDataDays);
+    await ConfigService.to.saveOnlySaveDataDays(onlySaveDataDays);
     update(["my_index"]);
   }
 

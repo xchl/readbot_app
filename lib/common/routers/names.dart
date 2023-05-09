@@ -2,6 +2,7 @@ class RouteNames {
   static const main = '/';
   static const myMyFeeds = '/my_my_feeds';
   static const myMyIndex = '/my_my_index';
+  static const myAiSetting = '/my_ai_setting';
   static const postPostAll = '/post_post_all';
   static const postPostDetail = '/post_post_detail';
   static const postPostFocus = '/post_post_focus';

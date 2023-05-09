@@ -35,8 +35,8 @@ class Storage {
     return await _prefs.setStringList(key, value);
   }
 
-  String getString(String key) {
-    return _prefs.getString(key) ?? '';
+  String? getString(String key) {
+    return _prefs.getString(key);
   }
 
   int? getInt(String key) {
