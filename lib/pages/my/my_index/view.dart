@@ -18,8 +18,6 @@ class MyIndexPage extends GetView<MyIndexController> {
         _buildHeader().sliverBox,
         // 服务相关
         _buildServiceButtonsList().sliverBox,
-        // 订阅源管理
-        _buildFeedButtonsList().sliverBox,
         // 主题管理
         _buildSystemButtonsList().sliverBox,
 
@@ -67,25 +65,6 @@ class MyIndexPage extends GetView<MyIndexController> {
           top: AppSpace.card * 3,
           bottom: AppSpace.card,
         );
-  }
-
-  Widget _buildFeedButtonsList() {
-    return <Widget>[
-      // TextWidget.body1(LocaleKeys.myFeedPart.tr)
-      //     .alignLeft()
-      //     .padding(left: 10, bottom: 10),
-      <Widget>[
-        // 订阅源列表
-        ButtonItemWidget(
-          title: LocaleKeys.myBtnSourceManager.tr,
-          onTap: () => Get.toNamed(RouteNames.myMyFeeds),
-        ),
-        ButtonItemWidget(
-          title: LocaleKeys.myRuleSetting.tr,
-        ),
-        // end
-      ].toColumn().card()
-    ].toColumn().padding(top: 10.h, bottom: 10.h);
   }
 
   Widget _buildSystemButtonsList() {

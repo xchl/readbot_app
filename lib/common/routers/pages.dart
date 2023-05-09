@@ -12,8 +12,8 @@ class RoutePages {
   static List<GetPage> list = [
     // app 首页
     GetPage(
-      name: RouteNames.myMyFeeds,
-      page: () => const MyFeedsPage(),
+      name: RouteNames.feeds,
+      page: () => const FeedListPage(),
     ),
     GetPage(name: RouteNames.myAiSetting, page: () => const AiSettingPage()),
     GetPage(

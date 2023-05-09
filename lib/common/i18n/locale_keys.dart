@@ -69,6 +69,7 @@ class LocaleKeys {
   static const tabBarFocus = 'tab_bar_focus';
   static const tabBarAll = 'tab_bar_all';
   static const tabBarSetting = 'tab_bar_setting';
+  static const tabFeed = 'tab_feed';
 
   // 我的
   static const myBtnLogout = "my_btn_logout";
@@ -107,6 +108,7 @@ class LocaleKeys {
   static const feedNoTitle = 'feed_no_title';
   static const focusTitle = 'feed_focus_title';
   static const exploreTitle = 'feed_explore_title';
+  static const feedPageTitle = 'feed_page_title';
   static const feedAlreadyExists = 'feed_already_exists';
   static const registerUserAgreement = 'register_user_agreement';
   static const registerUserAgreementError = 'register_user_agreement_error';

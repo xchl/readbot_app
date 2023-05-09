@@ -3,6 +3,7 @@ library pages;
 // export './xxxx.dart';
 
 export 'my/index.dart';
+export 'feed/feed_list/index.dart';
 export 'post/post_all/index.dart';
 export 'post/post_detail/index.dart';
 export 'post/post_focus/index.dart';

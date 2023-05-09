@@ -27,28 +27,6 @@ class _PostAllPageState extends State<PostAllPage>
 class _PostAllPageViewGetX extends GetView<PostAllController> {
   const _PostAllPageViewGetX({Key? key}) : super(key: key);
 
-  Widget _buildFeedAddFromUrlForm() {
-    return Form(
-      key: controller.urlFromKey, //设置globalKey，用于后面获取FormState
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      child: <Widget>[
-        // url
-        TextFormWidget(
-          autofocus: true,
-          keyboardType: TextInputType.url,
-          controller: controller.urlController,
-          labelText: LocaleKeys.feedAddDesc.tr,
-        ).paddingBottom(30),
-
-        // 添加按钮
-        ButtonWidget.text(
-          LocaleKeys.feedAddBtn.tr,
-          onTap: controller.onAddFeed,
-        ).paddingBottom(AppSpace.listRow.w),
-      ].toColumn(),
-    ).paddingAll(AppSpace.card).height(200);
-  }
-
   // 主视图
   Widget _buildView() {
     return ListView.separated(
@@ -101,43 +79,6 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
               LocaleKeys.exploreTitle.tr,
               color: AppColors.secondary,
             ),
-            actions: [
-              PopupMenuButton(
-                icon: IconWidget.svg(
-                  AssetsSvgs.plusLgSvg,
-                  color: AppColors.secondary,
-                ).paddingRight(AppSpace.listItem),
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: FeedAddButtonFunc.addFromUrl,
-                    child: TextWidget.body1(
-                      LocaleKeys.feedAddFromUrl.tr,
-                      color: AppColors.secondary,
-                    ),
-                  ),
-                  PopupMenuItem(
-                    value: FeedAddButtonFunc.importFromOpml,
-                    child: TextWidget.body1(
-                      LocaleKeys.feedAddFromOpml.tr,
-                      color: AppColors.secondary,
-                    ),
-                  ),
-                ],
-                onSelected: (value) {
-                  switch (value) {
-                    case FeedAddButtonFunc.addFromUrl:
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return _buildFeedAddFromUrlForm();
-                          });
-                      break;
-                    case FeedAddButtonFunc.importFromOpml:
-                      controller.onImportFromOpml();
-                  }
-                },
-              )
-            ],
           ),
           body: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification notification) {

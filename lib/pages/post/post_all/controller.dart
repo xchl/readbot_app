@@ -1,39 +1,14 @@
-import 'dart:io';
-
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:feed_inbox_app/pages/index.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-enum FeedAddButtonFunc {
-  addFromUrl,
-  importFromOpml,
-}
 
 class PostAllController extends GetxController {
   PostAllController();
 
-  /// 定义输入控制器
-  TextEditingController urlController = TextEditingController();
-
-  /// 表单 key
-  GlobalKey urlFromKey = GlobalKey<FormState>();
-  GlobalKey opmlFormKey = GlobalKey<FormState>();
-
   int _page = 0;
 
   String? _feedUrl;
-
-  // _initData() async {
-  //   var feedItems = await DatabaseManager().getExploreFeedItemsByPage(_page);
-  //   var feed = await DatabaseManager().getFeedsByUrls(
-  //     feedItems.map((e) => e.feedUrl).toList(),
-  //   );
-  //   _feedItems.addAll(feedItems);
-  //   _feed.addAll(feed);
-  //   update(["post_all"]);
-  // }
 
   final List<FeedItemModel> _feedItems = List.empty(growable: true);
   final List<FeedModel?> _feed = List.empty(growable: true);
@@ -49,28 +24,6 @@ class PostAllController extends GetxController {
   void onReady() {
     super.onReady();
     refreshFeedItem();
-  }
-
-  void onAddFeed() async {
-    if ((urlFromKey.currentState as FormState).validate()) {
-      var feed = await DatabaseManager().getFeedByUrl(urlController.text);
-      if (feed != null) {
-        Loading.toast(LocaleKeys.feedAlreadyExists.tr);
-        return;
-      }
-      try {
-        Loading.show();
-        await FeedService.to.addFeedFromUrl(urlController.text);
-        Loading.success();
-        refreshFeedItem();
-        Get.back();
-        if (UserService.isLogin) {
-          SyncService.to.syncPush();
-        }
-      } finally {
-        Loading.dismiss();
-      }
-    }
   }
 
   void turnToFocus(int index) async {
@@ -160,29 +113,6 @@ class PostAllController extends GetxController {
     } else {
       var mainController = Get.find<MainController>();
       mainController.toShowBottomBar();
-    }
-  }
-
-  Future<void> onImportFromOpml() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['xml', 'opml'],
-    );
-
-    if (result != null) {
-      File file = File(result.files.single.path!);
-      String contents = await file.readAsString();
-      try {
-        Loading.show();
-        await FeedService.to.importFeedFromOpml(contents);
-        Loading.success();
-        refreshFeedItem();
-        if (UserService.isLogin) {
-          SyncService.to.syncPush();
-        }
-      } catch (error) {
-        Loading.error(LocaleKeys.importFromOpmlError.tr);
-      }
     }
   }
 

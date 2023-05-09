@@ -67,7 +67,8 @@ Map<String, String> localeZh = {
 
   // APP 导航
   LocaleKeys.tabBarFocus: '聚焦',
-  LocaleKeys.tabBarAll: '所有',
+  LocaleKeys.tabBarAll: '发现',
+  LocaleKeys.tabFeed: '订阅',
   LocaleKeys.tabBarSetting: '设置',
 
   // 我的
@@ -105,6 +106,7 @@ Map<String, String> localeZh = {
   LocaleKeys.feedNoTitle: '无标题',
   LocaleKeys.focusTitle: '聚焦',
   LocaleKeys.exploreTitle: '发现',
+  LocaleKeys.feedPageTitle: '订阅',
   LocaleKeys.feedAddFromUrl: '添加RSS链接',
   LocaleKeys.feedAddFromOpml: '从Opml导入',
   LocaleKeys.feedAlreadyExists: '订阅源已经存在',

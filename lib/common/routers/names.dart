@@ -1,6 +1,6 @@
 class RouteNames {
   static const main = '/';
-  static const myMyFeeds = '/my_my_feeds';
+  static const feeds = '/feeds';
   static const myMyIndex = '/my_my_index';
   static const myAiSetting = '/my_ai_setting';
   static const postPostAll = '/post_post_all';

@@ -74,8 +74,9 @@ Map<String, String> localeEn = {
 
   // APP 导航
   LocaleKeys.tabBarFocus: 'Focus',
-  LocaleKeys.tabBarAll: 'ALL',
+  LocaleKeys.tabBarAll: 'Explore',
   LocaleKeys.tabBarSetting: 'Setting',
+  LocaleKeys.tabFeed: 'Source',
 
   // 我的
   LocaleKeys.myBtnLogout: 'Logout',
@@ -113,6 +114,7 @@ Map<String, String> localeEn = {
   LocaleKeys.feedNoTitle: 'Unkonwn Title',
   LocaleKeys.focusTitle: 'Focus',
   LocaleKeys.exploreTitle: 'Explore',
+  LocaleKeys.feedPageTitle: 'Source',
   LocaleKeys.feedAddFromUrl: 'RSS Url',
   LocaleKeys.feedAddFromOpml: 'Import Opml',
   LocaleKeys.feedAlreadyExists: 'Feed already exists',

@@ -26,6 +26,7 @@ class _MainPageState extends State<MainPage>
 enum PageType {
   focus,
   explore,
+  feed,
   setting,
 }
 
@@ -68,6 +69,10 @@ class _MainViewGetX extends GetView<MainController> {
                         icon: AssetsSvgs.navHomeSvg,
                       ),
                       NavigationItemModel(
+                        label: LocaleKeys.tabFeed.tr,
+                        icon: AssetsSvgs.rssSvg,
+                      ),
+                      NavigationItemModel(
                         label: LocaleKeys.tabBarSetting.tr,
                         icon: AssetsSvgs.navProfileSvg,
                       ),
@@ -86,6 +91,7 @@ class _MainViewGetX extends GetView<MainController> {
             // 加入空页面占位
             PostFocusPage(),
             PostAllPage(),
+            FeedListPage(),
             MyIndexPage()
           ],
         ),
