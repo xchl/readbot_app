@@ -29,9 +29,7 @@ class FeedListController extends GetxController {
   FeedGroupModel? selectedFeedGroup;
   FeedModel? selectedFeed;
 
-  List<FeedGroupModel> get allGroup => feedGroupedByGroup.keys
-      .where((element) => element != defaultFeedGroup)
-      .toList();
+  List<FeedGroupModel> get allGroup => feedGroupedByGroup.keys.toList();
 
   final defaultFeedGroup = FeedGroupModel(
     name: LocaleKeys.unnameFeedGroup.tr,
@@ -130,7 +128,9 @@ class FeedListController extends GetxController {
       }
       selectedFeed!.name = feedNameController.text;
       selectedFeed!.description = feedDescController.text;
-      selectedFeed!.groupName = modifiedFeedGroup!.name;
+      selectedFeed!.groupName = modifiedFeedGroup == defaultFeedGroup
+          ? modifiedFeedGroup!.name
+          : null;
       DatabaseManager().updateFeed(selectedFeed!);
 
       update(["feed_list"]);
@@ -139,6 +139,11 @@ class FeedListController extends GetxController {
         SyncService.to.syncPush();
       }
     }
+  }
+
+  // refresh current page
+  void refreshCurrentPage() {
+    _initData();
   }
 
   void refreshFeedItemPage() {
@@ -192,8 +197,10 @@ class FeedListController extends GetxController {
       try {
         Loading.show();
         await FeedService.to.addFeedFromUrl(urlController.text);
+        selectedFeedGroup = defaultFeedGroup;
         Loading.success();
-        Get.find<PostAllController>().refreshFeedItem();
+        refreshFeedItemPage();
+        refreshCurrentPage();
         Get.back();
         if (UserService.isLogin) {
           SyncService.to.syncPush();
