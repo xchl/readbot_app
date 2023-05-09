@@ -29,7 +29,7 @@ class PostDrawerController extends GetxController {
       feedGroupedByGroupName[feed.groupName]!.add(feed);
     }
     for (var group in feedGroups) {
-      feedGroupedByGroup[group] = feedGroupedByGroupName[group.id] ?? [];
+      feedGroupedByGroup[group] = feedGroupedByGroupName[group.name] ?? [];
     }
     update(["post_drawer"]);
   }

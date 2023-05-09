@@ -130,6 +130,19 @@ const FeedItemModelSchema = CollectionSchema(
         )
       ],
     ),
+    r'feedUrl': IndexSchema(
+      id: 2504832307170622621,
+      name: r'feedUrl',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'feedUrl',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    ),
     r'updateTime': IndexSchema(
       id: 397922507239516479,
       name: r'updateTime',
@@ -626,6 +639,51 @@ extension FeedItemModelQueryWhere
               indexName: r'md5String',
               lower: [],
               upper: [md5String],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterWhereClause> feedUrlEqualTo(
+      String feedUrl) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'feedUrl',
+        value: [feedUrl],
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterWhereClause>
+      feedUrlNotEqualTo(String feedUrl) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'feedUrl',
+              lower: [],
+              upper: [feedUrl],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'feedUrl',
+              lower: [feedUrl],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'feedUrl',
+              lower: [feedUrl],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'feedUrl',
+              lower: [],
+              upper: [feedUrl],
               includeUpper: false,
             ));
       }

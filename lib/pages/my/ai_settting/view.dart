@@ -42,7 +42,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
 
         // 添加按钮
         ButtonWidget.text(
-          LocaleKeys.feedAddBtn.tr,
+          LocaleKeys.addBtn.tr,
           onTap: controller.onAddToken,
         ).paddingBottom(AppSpace.listRow.w),
       ].toColumn(),

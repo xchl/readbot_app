@@ -10,4 +10,10 @@ class Validators {
         if ((v?.length ?? 0) > max) return m;
         return null;
       };
+
+  /// Validatorless.notEmpty('input is required')
+  static FormFieldValidator<String> notEmpty(String m) => (v) {
+        if (v?.isEmpty ?? true) return m;
+        return null;
+      };
 }

@@ -11,23 +11,41 @@ class FeedListController extends GetxController {
 
   TextEditingController urlController = TextEditingController();
 
+  TextEditingController groupNameController = TextEditingController();
+  TextEditingController groupDescController = TextEditingController();
+
+  TextEditingController feedNameController = TextEditingController();
+  TextEditingController feedDescController = TextEditingController();
+  FeedGroupModel? modifiedFeedGroup;
+
   /// 表单 key
-  GlobalKey urlFromKey = GlobalKey<FormState>();
+  GlobalKey urlFormKey = GlobalKey<FormState>();
+  GlobalKey addGroupKey = GlobalKey<FormState>();
   GlobalKey opmlFormKey = GlobalKey<FormState>();
+  GlobalKey feedFormKey = GlobalKey<FormState>();
 
   Map<FeedGroupModel, List<FeedModel>> feedGroupedByGroup = {};
+
+  FeedGroupModel? selectedFeedGroup;
+  FeedModel? selectedFeed;
+
+  List<FeedGroupModel> get allGroup => feedGroupedByGroup.keys
+      .where((element) => element != defaultFeedGroup)
+      .toList();
+
+  final defaultFeedGroup = FeedGroupModel(
+    name: LocaleKeys.unnameFeedGroup.tr,
+  );
 
   _initData() async {
     List<FeedModel> feeds = await DatabaseManager().getAllFeeds();
     List<FeedGroupModel> feedGroups = await DatabaseManager().getAllGroups();
     Map<String, List<FeedModel>> feedGroupedByGroupName = {};
-    // TODO 优化
-    FeedGroupModel unnamedGroup =
-        FeedGroupModel(name: LocaleKeys.unnameFeedGroup.tr, isSynced: false);
-    feedGroupedByGroup[unnamedGroup] = [];
+
+    feedGroupedByGroup[defaultFeedGroup] = [];
     for (var feed in feeds) {
       if (feed.groupName == null) {
-        feedGroupedByGroup[unnamedGroup]!.add(feed);
+        feedGroupedByGroup[defaultFeedGroup]!.add(feed);
         continue;
       }
       if (feedGroupedByGroupName[feed.groupName] == null) {
@@ -36,7 +54,10 @@ class FeedListController extends GetxController {
       feedGroupedByGroupName[feed.groupName]!.add(feed);
     }
     for (var group in feedGroups) {
-      feedGroupedByGroup[group] = feedGroupedByGroupName[group.id] ?? [];
+      feedGroupedByGroup[group] = feedGroupedByGroupName[group.name] ?? [];
+    }
+    if (feedGroupedByGroup.isNotEmpty) {
+      selectedFeedGroup = feedGroupedByGroup.keys.first;
     }
     update(["feed_list"]);
   }
@@ -64,8 +85,105 @@ class FeedListController extends GetxController {
     }
   }
 
+  Future<void> onGroupSave() async {
+    var group = FeedGroupModel(
+      name: groupNameController.text,
+      description: groupDescController.text,
+    );
+    if ((addGroupKey.currentState as FormState).validate()) {
+      if (selectedFeedGroup != null && selectedFeedGroup!.name != group.name) {
+        await DatabaseManager().updateFeedGroup(group, selectedFeedGroup!);
+        // TODO 如何不改变顺序
+        feedGroupedByGroup[group] = feedGroupedByGroup[selectedFeedGroup] ?? [];
+        feedGroupedByGroup.remove(selectedFeedGroup);
+      } else {
+        await DatabaseManager().insertFeedGroup(group);
+        feedGroupedByGroup[group] = [];
+      }
+      selectedFeedGroup = group;
+      Get.back();
+      if (UserService.isLogin) {
+        SyncService.to.syncPush();
+      }
+      update(["feed_list"]);
+    }
+  }
+
+  void onModifyFeedGroupName(FeedGroupModel? feedGroup) {
+    modifiedFeedGroup = feedGroup;
+  }
+
+  void onUnsubscribeFeed() {
+    if (selectedFeed == null) return;
+    DatabaseManager().deleteFeed(selectedFeed!);
+    feedGroupedByGroup[selectedFeedGroup]!.remove(selectedFeed);
+    update(["feed_list"]);
+    refreshFeedItemPage();
+    Get.back();
+  }
+
+  void onFeedSave() {
+    if ((feedFormKey.currentState as FormState).validate()) {
+      if (selectedFeedGroup != modifiedFeedGroup) {
+        feedGroupedByGroup[selectedFeedGroup]!.remove(selectedFeed);
+        feedGroupedByGroup[modifiedFeedGroup!]!.add(selectedFeed!);
+      }
+      selectedFeed!.name = feedNameController.text;
+      selectedFeed!.description = feedDescController.text;
+      selectedFeed!.groupName = modifiedFeedGroup!.name;
+      DatabaseManager().updateFeed(selectedFeed!);
+
+      update(["feed_list"]);
+      Get.back();
+      if (UserService.isLogin) {
+        SyncService.to.syncPush();
+      }
+    }
+  }
+
+  void refreshFeedItemPage() {
+    Get.find<PostAllController>().refreshFeedItem();
+    Get.find<PostFocusController>().refreshFeedItem();
+  }
+
+  void onGroupSelected(FeedGroupModel group) {
+    selectedFeedGroup = group;
+    update(["feed_list"]);
+  }
+
+  void onFeedSelected(FeedModel feed) {
+    selectedFeed = feed;
+    update(["feed_list"]);
+  }
+
+  void onGroupDelete() async {
+    if (selectedFeedGroup == null) return;
+    await DatabaseManager().deleteFeedGroup(selectedFeedGroup!);
+    feedGroupedByGroup.remove(selectedFeedGroup);
+    if (feedGroupedByGroup.isNotEmpty) {
+      selectedFeedGroup = feedGroupedByGroup.keys.first;
+    }
+    Get.back();
+    update(["feed_list"]);
+    // TODO 数据库删除同步
+    if (UserService.isLogin) {
+      SyncService.to.syncPush();
+    }
+  }
+
+  void initGroupForm(FeedGroupModel? feedGroup) {
+    if (feedGroup == null) return;
+    groupNameController.text = feedGroup.name;
+    groupDescController.text = feedGroup.description ?? "";
+  }
+
+  void initFeedForm(FeedModel feed) {
+    feedNameController.text = feed.name ?? "";
+    feedDescController.text = feed.description ?? "";
+  }
+
   void onAddFeed() async {
-    if ((urlFromKey.currentState as FormState).validate()) {
+    if ((urlFormKey.currentState as FormState).validate()) {
       var feed = await DatabaseManager().getFeedByUrl(urlController.text);
       if (feed != null) {
         Loading.toast(LocaleKeys.feedAlreadyExists.tr);

@@ -8,7 +8,7 @@ Map<String, String> localeZh = {
   LocaleKeys.commonBottomRemove: '删除',
   LocaleKeys.commonBottomCancel: '取消',
   LocaleKeys.commonBottomConfirm: '确认',
-  LocaleKeys.commonBottomApply: '应用',
+  LocaleKeys.commonBottomApply: '修改',
   LocaleKeys.commonBottomBack: '返回',
   LocaleKeys.commonSelectTips: '请选择',
   LocaleKeys.commonMessageSuccess: '@method 成功',
@@ -101,19 +101,25 @@ Map<String, String> localeZh = {
   LocaleKeys.mySystemAutoDeleteDay: '保留近期数据天数',
 
   //Feed
-  LocaleKeys.feedAddBtn: '添加',
+  LocaleKeys.addBtn: '添加',
+  LocaleKeys.feedTitle: '订阅源名称',
   LocaleKeys.feedAddDesc: '把url粘贴在这里',
   LocaleKeys.feedNoTitle: '无标题',
   LocaleKeys.focusTitle: '聚焦',
   LocaleKeys.exploreTitle: '发现',
   LocaleKeys.feedPageTitle: '订阅',
+  LocaleKeys.feedDesc: '订阅源描述',
+  LocaleKeys.feedAddGroup: '添加分组',
+  LocaleKeys.feedAddGroupLabel: '请输入分组名称',
+  LocaleKeys.feedAddGroupDescptionLabel: '请输入分组描述，非必须',
   LocaleKeys.feedAddFromUrl: '添加RSS链接',
   LocaleKeys.feedAddFromOpml: '从Opml导入',
   LocaleKeys.feedAlreadyExists: '订阅源已经存在',
-
   LocaleKeys.registerUserAgreement: '阅读用户协议',
   LocaleKeys.registerUserAgreementError: '请确认用户协议',
   LocaleKeys.unnameFeedGroup: '未命名分组',
+  LocaleKeys.feedDelete: '取消订阅',
+  LocaleKeys.feedGroupDelete: '删除分组',
 
   //Error
   LocaleKeys.syncPullError: '从服务器同步内容失败',

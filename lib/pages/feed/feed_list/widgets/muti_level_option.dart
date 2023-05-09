@@ -2,39 +2,38 @@ import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MyMultiLevelOptions extends StatefulWidget {
+class MyMultiLevelOptions extends StatelessWidget {
   final Map<FeedGroupModel, List<FeedModel>> options;
+  final FeedGroupModel selectedOption;
+  final Function(FeedGroupModel) onOptionSelect;
+  final Function(FeedGroupModel) onOptionLongPress;
+  final Function(FeedModel) onSubOptionSelect;
 
-  const MyMultiLevelOptions({Key? key, required this.options})
+  const MyMultiLevelOptions(
+      {Key? key,
+      required this.options,
+      required this.selectedOption,
+      required this.onOptionSelect,
+      required this.onSubOptionSelect,
+      required this.onOptionLongPress})
       : super(key: key);
 
   @override
-  MyMultiLevelOptionsState createState() => MyMultiLevelOptionsState();
-}
-
-class MyMultiLevelOptionsState extends State<MyMultiLevelOptions> {
-  FeedGroupModel? selectedOption;
-
-  @override
   Widget build(BuildContext context) {
-    if (widget.options.isEmpty) {
+    if (options.isEmpty) {
       return const SizedBox(
         width: 0,
         height: 0,
       );
     }
-    selectedOption = widget.options.keys.first;
     return Row(
       children: <Widget>[
         Column(
-          children: widget.options.keys.map((feedGroup) {
+          children: options.keys.map((feedGroup) {
             return ListTile(
-              title: Text(feedGroup.name),
-              onTap: () {
-                setState(() {
-                  selectedOption = feedGroup;
-                });
-              },
+              title: TextWidget.body1(feedGroup.name),
+              onTap: () => onOptionSelect(feedGroup),
+              onLongPress: () => onOptionLongPress(feedGroup),
             );
           }).toList(),
         ).width(120.w),
@@ -44,11 +43,10 @@ class MyMultiLevelOptionsState extends State<MyMultiLevelOptions> {
         ),
         Expanded(
           child: ListView(
-            children:
-                (selectedOption == null ? [] : widget.options[selectedOption]!)
-                    .map((feed) {
+            children: options[selectedOption]!.map((feed) {
               return ListTile(
-                title: Text(feed.title),
+                title: TextWidget.body1(feed.title),
+                onTap: () => onSubOptionSelect(feed),
               );
             }).toList(),
           ),

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../locale_keys.dart';
 
 /// 多语言 英文
@@ -109,15 +111,22 @@ Map<String, String> localeEn = {
   LocaleKeys.mySystemAutoDeleteDay: 'Only Save Data in Recent Days',
 
   // Feed
-  LocaleKeys.feedAddBtn: 'Add',
+  LocaleKeys.addBtn: 'Add',
+  LocaleKeys.feedTitle: 'Feed Name',
   LocaleKeys.feedAddDesc: 'Paste feed url here',
   LocaleKeys.feedNoTitle: 'Unkonwn Title',
   LocaleKeys.focusTitle: 'Focus',
+  LocaleKeys.feedDesc: 'Feed Description',
   LocaleKeys.exploreTitle: 'Explore',
+  LocaleKeys.feedAddGroup: 'Add Group',
+  LocaleKeys.feedAddGroupLabel: 'Input Group Name',
+  LocaleKeys.feedAddGroupDescptionLabel: 'Input Group Description, optional',
   LocaleKeys.feedPageTitle: 'Source',
   LocaleKeys.feedAddFromUrl: 'RSS Url',
   LocaleKeys.feedAddFromOpml: 'Import Opml',
   LocaleKeys.feedAlreadyExists: 'Feed already exists',
+  LocaleKeys.feedDelete: 'Not Subscribe',
+  LocaleKeys.feedGroupDelete: 'Delete Group',
 
   LocaleKeys.registerUserAgreement: 'Read user agreement',
   LocaleKeys.registerUserAgreementError: 'Please confirm the user agreement',

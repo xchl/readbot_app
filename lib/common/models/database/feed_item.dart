@@ -35,6 +35,7 @@ class FeedItemModel {
   String md5String;
 
   // use feedUrl instead of feedId to avoid different feedId in different device
+  @Index()
   String feedUrl;
 
   @Index()

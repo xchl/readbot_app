@@ -102,9 +102,14 @@ class LocaleKeys {
 
   // Feed
   static const feedAddDesc = 'feed_add_desc';
-  static const feedAddBtn = 'feed_add_btn';
+  static const feedTitle = 'feed_title';
+  static const addBtn = 'add_btn';
   static const feedAddFromUrl = 'feed_add_from_url';
   static const feedAddFromOpml = 'feed_add_from_opml';
+  static const feedAddGroup = 'feed_add_group';
+  static const feedDesc = 'feed_desc';
+  static const feedAddGroupLabel = 'feed_add_group_label';
+  static const feedAddGroupDescptionLabel = 'feed_add_group_desc_label';
   static const feedNoTitle = 'feed_no_title';
   static const focusTitle = 'feed_focus_title';
   static const exploreTitle = 'feed_explore_title';
@@ -113,6 +118,8 @@ class LocaleKeys {
   static const registerUserAgreement = 'register_user_agreement';
   static const registerUserAgreementError = 'register_user_agreement_error';
   static const unnameFeedGroup = 'unname_feed_group';
+  static const feedGroupDelete = 'feed_group_delete';
+  static const feedDelete = 'feed_delete';
 
   // Error
   static const syncPullError = 'sync_pull_error';

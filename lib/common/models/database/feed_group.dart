@@ -19,7 +19,7 @@ class FeedGroupModel {
   FeedGroupModel({
     required this.name,
     this.description,
-    required this.isSynced,
+    this.isSynced = false,
   }) : updateTime = DateTime.now();
 }
 
