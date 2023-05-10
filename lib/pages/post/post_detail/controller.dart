@@ -10,6 +10,7 @@ class PostDetailController extends GetxController {
   final GlobalKey webViewKey = GlobalKey();
 
   bool isReadMode = ConfigService().enableReadMode;
+  bool get isReadAble => content != null;
 
   double _lastScrollPosition = 0;
   final double _scrollThreshhold = 20;
@@ -37,6 +38,7 @@ class PostDetailController extends GetxController {
   PageType fromPage = Get.arguments['fromPage'];
 
   String? html;
+  String? summary;
 
   @override
   void onReady() {
@@ -85,5 +87,19 @@ class PostDetailController extends GetxController {
   void toggleReadMode() {
     isReadMode = !isReadMode;
     loadContent();
+  }
+
+  void summaryText() async {
+    if (html == null) return;
+    if (ConfigService.to.isAIReady()) {
+      summary = await AiApi.summary(html!);
+      if (summary != null) {
+        debugPrint(summary);
+        //TODO error handle
+        update(['post_detail']);
+      }
+    } else {
+      // todo
+    }
   }
 }

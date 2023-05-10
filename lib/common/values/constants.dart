@@ -1,7 +1,3 @@
-import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/models/index.dart';
-import 'package:get/get.dart';
-
 /// 常量
 class Constants {
   // User
@@ -46,6 +42,7 @@ class Constants {
   static const storageSaveDataDays = 'save_data_days';
   static const storageEnableAi = 'enable_ai';
   static const storageAiService = 'ai_service';
+  static const storageAIModel = 'ai_model';
 
   // AI
   static const openAI = 'openAI';

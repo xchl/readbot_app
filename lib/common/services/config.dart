@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
@@ -49,8 +50,19 @@ class ConfigService extends GetxService {
   int get onlySaveDataDays =>
       Storage().getInt(Constants.storageSaveDataDays) ?? 90;
 
-  String get aiService =>
-      Storage().getString(Constants.storageAiService) ?? Constants.openAI;
+  String? get aiModel => Storage().getString(Constants.storageAIModel);
+
+  AIService get aiService =>
+      Storage().getString(Constants.storageAiService)?.parseAIService() ??
+      AIService.openai;
+
+  bool isAIReady() {
+    if (enableAi == false) return false;
+    if (aiService == AIService.openai) {
+      return openAIToken.isNotEmpty;
+    }
+    return false;
+  }
 
   late ClientInfo clientInfo;
 

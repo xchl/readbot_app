@@ -3,11 +3,15 @@ import 'package:get/get.dart';
 
 /// 订阅源API
 class ContentSyncApi {
+  final ApiType apiType = ApiType.system;
+
   /// 拉取
   static Future<ContentPullResponse?> pull(ContentPullRequest request) async {
     try {
-      var res =
-          await HttpService.to.get('/content/pull', data: request.toJson());
+      var res = await HttpService.to.get(
+        '/content/pull',
+        data: request.toJson(),
+      );
       return ContentPullResponse.fromJson(res.data)!;
     } catch (e) {
       Loading.toast(LocaleKeys.syncPullError.tr);

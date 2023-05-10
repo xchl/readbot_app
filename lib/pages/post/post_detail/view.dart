@@ -38,14 +38,43 @@ class PostDetailPage extends GetView<PostDetailController> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
+                        Expanded(child: Container()),
                         ButtonWidget.icon(
-                            Icon(
-                              Icons.public,
-                              color: AppColors.secondary,
-                            ),
-                            onTap: () => controller.toggleReadMode()),
+                          Icon(
+                            Icons.edit,
+                            color: AppColors.secondary,
+                          ),
+                        ),
+                        ButtonWidget.icon(
+                          Icon(
+                            Icons.star,
+                            color: AppColors.secondary,
+                          ),
+                        ),
+                        controller.isReadAble
+                            ? ButtonWidget.icon(
+                                Icon(
+                                  Icons.public,
+                                  color: AppColors.secondary,
+                                ),
+                                onTap: () => controller.toggleReadMode())
+                            : const SizedBox(
+                                width: 0,
+                                height: 0,
+                              ),
+                        controller.isReadAble
+                            ? ButtonWidget.icon(
+                                Icon(
+                                  Icons.smart_toy,
+                                  color: AppColors.secondary,
+                                ),
+                                onTap: () => controller.summaryText())
+                            : const SizedBox(
+                                width: 0,
+                                height: 0,
+                              ),
                       ],
-                    ).height(40.h))
+                    ).height(40.h).padding(left: 10.w, right: 10.w))
                   : null);
         });
   }

@@ -3,13 +3,18 @@ import 'package:get/get.dart';
 
 /// 用户 api
 class UserApi {
+  final ApiType apiType = ApiType.system;
+
   /// 注册
   static Future<bool> register(RegisterInfo info) async {
     var request =
         RegisterRequest(client: ConfigService.to.clientInfo, registerInfo: info)
             .toJson();
     try {
-      await HttpService.to.post('/user/register', data: request);
+      await HttpService.to.post(
+        '/user/register',
+        data: request,
+      );
       return true;
     } catch (e) {
       Loading.toast(LocaleKeys.registerError.tr);

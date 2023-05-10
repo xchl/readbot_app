@@ -7,16 +7,6 @@ class HttpService extends GetxService {
 
   late final Dio _dio;
 
-  static Future<String?> request(String url) async {
-    try {
-      var res = await HttpService.to.get(url);
-      return res.data;
-    } catch (e) {
-      LogService.to.e(e);
-      return null;
-    }
-  }
-
   @override
   void onInit() {
     super.onInit();
@@ -24,7 +14,7 @@ class HttpService extends GetxService {
     var options = BaseOptions(
       baseUrl: ConfigService.to.serverUrl,
       connectTimeout: const Duration(seconds: 10), // 10秒
-      receiveTimeout: const Duration(seconds: 5), // 5秒
+      receiveTimeout: const Duration(seconds: 10), // 10秒
       headers: {},
       contentType: 'application/json; charset=utf-8',
       responseType: ResponseType.json,
@@ -51,6 +41,17 @@ class HttpService extends GetxService {
       cancelToken: cancelToken,
     );
     return response;
+  }
+
+  // TODO 与get融合
+  static Future<String?> request(String url) async {
+    try {
+      var res = await HttpService.to.get(url);
+      return res.data;
+    } catch (e) {
+      LogService.to.e(e);
+      return null;
+    }
   }
 
   Future<Response> post(
@@ -107,9 +108,15 @@ class RequestInterceptors extends Interceptor {
   @override
   Future<void> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    await UserService.to.refreshTokenIfNeed();
-    if (UserService.to.hasActiveAccessToken()) {
-      options.headers['Authorization'] = 'Bearer ${UserService.to.accessToken}';
+    // 如果提供了authorization，就不再添加
+    // 如果是绝对路径，即不是系统api，也不添加
+    if (!options.headers.containsKey('Authorization') &&
+        !Uri.parse(options.path).isAbsolute) {
+      await UserService.to.refreshTokenIfNeed();
+      if (UserService.to.hasActiveAccessToken()) {
+        options.headers['Authorization'] =
+            'Bearer ${UserService.to.accessToken}';
+      }
     }
     handler.next(options);
   }

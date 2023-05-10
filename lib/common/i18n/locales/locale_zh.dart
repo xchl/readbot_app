@@ -90,6 +90,7 @@ Map<String, String> localeZh = {
   LocaleKeys.myAIServiceSelect: 'AI服务选择',
   LocaleKeys.myAIServiceApiToken: 'API Token',
   LocaleKeys.myAIServiceApiTokenAddDesc: '输入API Token',
+  LocaleKeys.myAIServiceModel: '模型',
   LocaleKeys.myRuleSetting: '规则管理',
   LocaleKeys.myLoginBtn: '登录',
   LocaleKeys.myDestroyBth: '销毁当前账户',

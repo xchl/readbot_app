@@ -89,6 +89,7 @@ class LocaleKeys {
   static const myAISettingEnableAI = 'my_ai_setting_enable_ai';
   static const myAIServiceSelect = 'my_ai_service_select';
   static const myAIServiceApiToken = 'my_ai_service_api_token';
+  static const myAIServiceModel = 'my_ai_service_model';
   static const myAIServiceApiTokenAddDesc = 'my_ai_service_api_token_add_desc';
   static const myRuleSetting = 'my_rule_setting';
   static const myLoginBtn = 'my_login_btn';

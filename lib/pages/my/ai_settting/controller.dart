@@ -1,5 +1,4 @@
-import 'package:feed_inbox_app/common/services/index.dart';
-import 'package:feed_inbox_app/common/values/index.dart';
+import 'package:feed_inbox_app/common/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,13 +14,9 @@ class AiSetttingController extends GetxController {
   /// 表单 key
   GlobalKey tokenFromKey = GlobalKey<FormState>();
 
-  String selectAiService = ConfigService.to.aiService == ''
-      ? Constants.openAI
-      : ConfigService.to.aiService;
+  String selectAiService = ConfigService.to.aiService.name;
 
-  final List<String> aiService = [
-    Constants.openAI,
-  ];
+  final List<String> aiService = AIService.values.map((e) => e.name).toList();
 
   _initData() {
     update(["ai_settting"]);

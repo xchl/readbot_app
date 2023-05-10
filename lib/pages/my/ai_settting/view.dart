@@ -75,7 +75,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
     return SingleChildScrollView(
         child: <Widget>[
       _buildAiChoiceSetting(),
-      controller.enableAI && controller.selectAiService == Constants.openAI
+      controller.enableAI && controller.selectAiService == AIService.openai.name
           ? _buildOpenAISetting()
           : const SizedBox()
     ].toColumn());
