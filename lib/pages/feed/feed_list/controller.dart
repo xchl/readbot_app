@@ -184,9 +184,20 @@ class FeedListController extends GetxController {
     groupDescController.text = feedGroup.description ?? "";
   }
 
+  // clear Group form
+  void clearGroupForm() {
+    groupNameController.text = "";
+    groupDescController.text = "";
+  }
+
   void initFeedForm(FeedModel feed) {
     feedNameController.text = feed.name ?? "";
     feedDescController.text = feed.description ?? "";
+  }
+
+  // clear Url form
+  void clearUrlForm() {
+    urlController.text = "";
   }
 
   void onAddFeed() async {

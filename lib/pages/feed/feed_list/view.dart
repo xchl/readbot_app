@@ -54,6 +54,7 @@ class FeedListPage extends GetView<FeedListController> {
   }
 
   Widget _buildFeedAddFromUrlForm() {
+    controller.clearUrlForm();
     return Form(
       key: controller.urlFormKey, //设置globalKey，用于后面获取FormState
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -229,6 +230,7 @@ class FeedListPage extends GetView<FeedListController> {
                       controller.onImportFromOpml();
                       break;
                     case FeedAddButtonFunc.addGroup:
+                      controller.clearGroupForm();
                       showModalBottomSheet(
                           isScrollControlled: true,
                           context: context,
