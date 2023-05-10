@@ -40,13 +40,13 @@ class ReadModeStyle {
             font-size: 30px;
             color: #333333;
             margin: 0;
-            padding: 1em;
+            padding: 2em;
             background-color: #f9f9f9;
           }
 
           h1, h2, h3, h4, h5, h6 {
             font-weight: bold;
-            margin: 1.2em 0;
+            margin: 1em 0;
           }
 
           h1 {
@@ -73,8 +73,14 @@ class ReadModeStyle {
             font-size: 1em;
           }
 
+          a {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+          }
+
           p {
-            margin: 2em 0;
+            font-size: 1.2em;
+            margin: 0.8em 0;
           }
 
           i {
@@ -92,7 +98,6 @@ class ReadModeStyle {
           }
 
           code {
-            
             display: block;
           }
 
@@ -111,7 +116,7 @@ class ReadModeStyle {
             max-width: 100%;
             height: auto;
             display: block;
-            margin: 1em auto;
+            margin: 1em 0;
           }
     ''';
   }

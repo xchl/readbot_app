@@ -42,6 +42,7 @@ class PostDetailController extends GetxController {
   void onReady() {
     super.onReady();
     if (content != null && content!.type == ContentType.html) {
+      //TODO 性能是否有问题
       html = injectCss(content!.content, ReadModeStyle().css);
     }
     handleRead();

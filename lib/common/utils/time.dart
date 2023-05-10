@@ -17,14 +17,15 @@ String displayDatetime(DateTime dateTime) {
   final days = today.difference(dateTime).inDays;
 
   if (dateTime.isAfter(today)) {
-    return '${dateTime.hour}:${dateTime.minute}';
+    // display hour:minute, 7:6 => 07:06
+    return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
   } else if (dateTime.isAfter(yesterday)) {
     return LocaleKeys.yesterday.tr;
   } else if (dateTime.isAfter(lastWeek)) {
     return LocaleKeys.daysAgo.trParams({"day": days.toString()});
   } else if (dateTime.isAfter(lastYear)) {
-    return '${dateTime.month}/${dateTime.day}';
+    return '${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')}';
   } else {
-    return '${dateTime.year}/${dateTime.month}/${dateTime.day}';
+    return '${dateTime.year}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')}';
   }
 }
