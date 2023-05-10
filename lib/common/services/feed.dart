@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:feed_inbox_app/pages/index.dart';
@@ -66,8 +67,10 @@ class FeedService extends GetxService {
   // extract content from html
   static String extractReadableContent(String html) {
     var doc = HtmlDocument(input: html);
-    doc.parse();
-    return doc.pureHtml;
+    if (doc.parse()) {
+      return doc.pureHtml;
+    }
+    return '';
   }
 
   Future<void> downloadHtml(List<FeedItemModel> feedItems) async {
@@ -92,18 +95,27 @@ class FeedService extends GetxService {
 
         String pureContent = await compute(extractReadableContent, htmlContent);
 
-        var content = ContentModel(
+        if (pureContent != '') {
+          var content = ContentModel(
             type: ContentType.html,
             content: pureContent,
             uri: url.toString(),
-            feedItemMd5String: feedItems[idx].md5String);
+            feedItemMd5String: feedItems[idx].md5String,
+            feedUrl: feedItems[idx].feedUrl,
+          );
 
-        DatabaseManager().insertContent(content);
+          DatabaseManager().insertContent(content);
+        }
 
         if (feedItems[idx].cover == null) {
           feedItems[idx].cover = findCoverImageInHtml(pureContent);
           _coverUpdateItems[feedItems[idx].id] = feedItems[idx];
         }
+
+        // if (kDebugMode) {
+        //   File file = File("/Users/luosen/Desktop/html/$idx.html");
+        //   file.writeAsString(htmlContent);
+        // }
 
         DatabaseManager().updateFeedItem(feedItems[idx]);
 

@@ -73,7 +73,7 @@ class FeedListPage extends GetView<FeedListController> {
           onTap: controller.onAddFeed,
         ).paddingBottom(AppSpace.listRow.w),
       ].toColumn(),
-    ).paddingAll(AppSpace.card).height(200);
+    ).paddingAll(AppSpace.card).height(250);
   }
 
   Widget _buildFeedModifyForm(FeedModel feed) {
@@ -110,7 +110,7 @@ class FeedListPage extends GetView<FeedListController> {
           // 取消订阅
           ButtonWidget.text(
             LocaleKeys.feedDelete.tr,
-            onTap: () => controller.onUnsubscribeFeed,
+            onTap: controller.onUnsubscribeFeed,
           ).paddingRight(20.w),
           // 修改
           ButtonWidget.text(
@@ -223,7 +223,8 @@ class FeedListPage extends GetView<FeedListController> {
                                     bottom: MediaQuery.of(context)
                                         .viewInsets
                                         .bottom),
-                                child: _buildFeedAddFromUrlForm());
+                                child: SingleChildScrollView(
+                                    child: _buildFeedAddFromUrlForm()));
                           });
                       break;
                     case FeedAddButtonFunc.importFromOpml:

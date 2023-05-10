@@ -18,7 +18,11 @@ class ContentModel {
 
   String content;
 
+  @Index()
   String feedItemMd5String;
+
+  @Index()
+  String feedUrl;
 
   DateTime createTime = DateTime.now();
 
@@ -26,5 +30,6 @@ class ContentModel {
       {required this.type,
       required this.uri,
       required this.content,
-      required this.feedItemMd5String});
+      required this.feedItemMd5String,
+      required this.feedUrl});
 }

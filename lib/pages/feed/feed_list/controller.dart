@@ -111,9 +111,9 @@ class FeedListController extends GetxController {
     modifiedFeedGroup = feedGroup;
   }
 
-  void onUnsubscribeFeed() {
+  void onUnsubscribeFeed() async {
     if (selectedFeed == null) return;
-    DatabaseManager().deleteFeed(selectedFeed!);
+    await DatabaseManager().deleteFeed(selectedFeed!);
     feedGroupedByGroup[selectedFeedGroup]!.remove(selectedFeed);
     update(["feed_list"]);
     refreshFeedItemPage();

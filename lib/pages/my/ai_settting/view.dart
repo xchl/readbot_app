@@ -57,8 +57,13 @@ class AiSettingPage extends GetView<AiSetttingController> {
           content: controller.openAIToken,
           onTap: () => showModalBottomSheet(
               context: Get.context!,
+              isScrollControlled: true,
               builder: (context) {
-                return _buildAddTokenForm();
+                return SingleChildScrollView(
+                    child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: _buildAddTokenForm()));
               }),
         ),
       ].toColumn().card()

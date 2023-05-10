@@ -118,6 +118,8 @@ class DatabaseManager {
     });
     // delete all feed items
     await deleteAllFeedItemByFeed(feed);
+    // delete all feed content
+    await deleteAllFeedContentByFeed(feed);
   }
 
   // query all feed
@@ -250,6 +252,13 @@ class DatabaseManager {
   Future<void> insertContent(ContentModel content) async {
     await _isar.writeTxn(() async {
       await _isar.contentModels.putByUri(content);
+    });
+  }
+
+  // delete all feed content by feed
+  Future<void> deleteAllFeedContentByFeed(FeedModel feed) async {
+    await _isar.writeTxn(() async {
+      await _isar.contentModels.filter().feedUrlEqualTo(feed.url).deleteAll();
     });
   }
 

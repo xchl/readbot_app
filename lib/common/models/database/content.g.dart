@@ -32,14 +32,19 @@ const ContentModelSchema = CollectionSchema(
       name: r'feedItemMd5String',
       type: IsarType.string,
     ),
-    r'type': PropertySchema(
+    r'feedUrl': PropertySchema(
       id: 3,
+      name: r'feedUrl',
+      type: IsarType.string,
+    ),
+    r'type': PropertySchema(
+      id: 4,
       name: r'type',
       type: IsarType.byte,
       enumMap: _ContentModeltypeEnumValueMap,
     ),
     r'uri': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'uri',
       type: IsarType.string,
     )
@@ -62,6 +67,32 @@ const ContentModelSchema = CollectionSchema(
           caseSensitive: true,
         )
       ],
+    ),
+    r'feedItemMd5String': IndexSchema(
+      id: -1313747200448885681,
+      name: r'feedItemMd5String',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'feedItemMd5String',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    ),
+    r'feedUrl': IndexSchema(
+      id: 2504832307170622621,
+      name: r'feedUrl',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'feedUrl',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
     )
   },
   links: {},
@@ -80,6 +111,7 @@ int _contentModelEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.content.length * 3;
   bytesCount += 3 + object.feedItemMd5String.length * 3;
+  bytesCount += 3 + object.feedUrl.length * 3;
   bytesCount += 3 + object.uri.length * 3;
   return bytesCount;
 }
@@ -93,8 +125,9 @@ void _contentModelSerialize(
   writer.writeString(offsets[0], object.content);
   writer.writeDateTime(offsets[1], object.createTime);
   writer.writeString(offsets[2], object.feedItemMd5String);
-  writer.writeByte(offsets[3], object.type.index);
-  writer.writeString(offsets[4], object.uri);
+  writer.writeString(offsets[3], object.feedUrl);
+  writer.writeByte(offsets[4], object.type.index);
+  writer.writeString(offsets[5], object.uri);
 }
 
 ContentModel _contentModelDeserialize(
@@ -106,9 +139,10 @@ ContentModel _contentModelDeserialize(
   final object = ContentModel(
     content: reader.readString(offsets[0]),
     feedItemMd5String: reader.readString(offsets[2]),
-    type: _ContentModeltypeValueEnumMap[reader.readByteOrNull(offsets[3])] ??
+    feedUrl: reader.readString(offsets[3]),
+    type: _ContentModeltypeValueEnumMap[reader.readByteOrNull(offsets[4])] ??
         ContentType.html,
-    uri: reader.readString(offsets[4]),
+    uri: reader.readString(offsets[5]),
   );
   object.createTime = reader.readDateTime(offsets[1]);
   object.id = id;
@@ -129,9 +163,11 @@ P _contentModelDeserializeProp<P>(
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
       return (_ContentModeltypeValueEnumMap[reader.readByteOrNull(offset)] ??
           ContentType.html) as P;
-    case 4:
+    case 5:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -330,6 +366,96 @@ extension ContentModelQueryWhere
               indexName: r'uri',
               lower: [],
               upper: [uri],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause>
+      feedItemMd5StringEqualTo(String feedItemMd5String) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'feedItemMd5String',
+        value: [feedItemMd5String],
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause>
+      feedItemMd5StringNotEqualTo(String feedItemMd5String) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'feedItemMd5String',
+              lower: [],
+              upper: [feedItemMd5String],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'feedItemMd5String',
+              lower: [feedItemMd5String],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'feedItemMd5String',
+              lower: [feedItemMd5String],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'feedItemMd5String',
+              lower: [],
+              upper: [feedItemMd5String],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause> feedUrlEqualTo(
+      String feedUrl) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'feedUrl',
+        value: [feedUrl],
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause> feedUrlNotEqualTo(
+      String feedUrl) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'feedUrl',
+              lower: [],
+              upper: [feedUrl],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'feedUrl',
+              lower: [feedUrl],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'feedUrl',
+              lower: [feedUrl],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'feedUrl',
+              lower: [],
+              upper: [feedUrl],
               includeUpper: false,
             ));
       }
@@ -667,6 +793,142 @@ extension ContentModelQueryFilter
     });
   }
 
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedUrlEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'feedUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedUrlGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'feedUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedUrlLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'feedUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedUrlBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'feedUrl',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedUrlStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'feedUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedUrlEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'feedUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedUrlContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'feedUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedUrlMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'feedUrl',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedUrlIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'feedUrl',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      feedUrlIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'feedUrl',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
@@ -954,6 +1216,18 @@ extension ContentModelQuerySortBy
     });
   }
 
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByFeedUrl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'feedUrl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByFeedUrlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'feedUrl', Sort.desc);
+    });
+  }
+
   QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
@@ -1020,6 +1294,18 @@ extension ContentModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByFeedUrl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'feedUrl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByFeedUrlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'feedUrl', Sort.desc);
+    });
+  }
+
   QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -1080,6 +1366,13 @@ extension ContentModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<ContentModel, ContentModel, QDistinct> distinctByFeedUrl(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'feedUrl', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<ContentModel, ContentModel, QDistinct> distinctByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'type');
@@ -1118,6 +1411,12 @@ extension ContentModelQueryProperty
       feedItemMd5StringProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'feedItemMd5String');
+    });
+  }
+
+  QueryBuilder<ContentModel, String, QQueryOperations> feedUrlProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'feedUrl');
     });
   }
 
