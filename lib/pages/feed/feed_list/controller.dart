@@ -107,7 +107,7 @@ class FeedListController extends GetxController {
     }
   }
 
-  void onModifyFeedGroupName(FeedGroupModel? feedGroup) {
+  void onModifyFeedGroup(FeedGroupModel? feedGroup) {
     modifiedFeedGroup = feedGroup;
   }
 
@@ -122,15 +122,15 @@ class FeedListController extends GetxController {
 
   void onFeedSave() {
     if ((feedFormKey.currentState as FormState).validate()) {
-      if (selectedFeedGroup != modifiedFeedGroup) {
+      selectedFeed!.name = feedNameController.text;
+      selectedFeed!.description = feedDescController.text;
+      if (modifiedFeedGroup != null && selectedFeedGroup != modifiedFeedGroup) {
+        selectedFeed!.groupName = modifiedFeedGroup == defaultFeedGroup
+            ? modifiedFeedGroup!.name
+            : null;
         feedGroupedByGroup[selectedFeedGroup]!.remove(selectedFeed);
         feedGroupedByGroup[modifiedFeedGroup!]!.add(selectedFeed!);
       }
-      selectedFeed!.name = feedNameController.text;
-      selectedFeed!.description = feedDescController.text;
-      selectedFeed!.groupName = modifiedFeedGroup == defaultFeedGroup
-          ? modifiedFeedGroup!.name
-          : null;
       DatabaseManager().updateFeed(selectedFeed!);
 
       update(["feed_list"]);
@@ -153,11 +153,13 @@ class FeedListController extends GetxController {
 
   void onGroupSelected(FeedGroupModel group) {
     selectedFeedGroup = group;
+    initGroupForm(group);
     update(["feed_list"]);
   }
 
   void onFeedSelected(FeedModel feed) {
     selectedFeed = feed;
+    initFeedForm(feed);
     update(["feed_list"]);
   }
 

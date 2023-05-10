@@ -28,7 +28,7 @@ class MyMultiLevelOptions extends StatelessWidget {
     }
     return Row(
       children: <Widget>[
-        Column(
+        ListView(
           children: options.keys.map((feedGroup) {
             return ListTile(
               title: TextWidget.body1(feedGroup.name),

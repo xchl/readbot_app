@@ -17,34 +17,40 @@ class FeedListPage extends GetView<FeedListController> {
 
   // 主视图
   Widget _buildView(BuildContext context) {
-    return Center(
-      child: controller.feedGroupedByGroup.isEmpty
-          ? const SizedBox()
-          : MyMultiLevelOptions(
-              options: controller.feedGroupedByGroup,
-              selectedOption: controller.selectedFeedGroup!,
-              onOptionSelect: controller.onGroupSelected,
-              onSubOptionSelect: (feed) {
-                controller.onFeedSelected(feed);
-                return showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return _buildFeedModifyForm(feed);
-                    });
-              },
-              onOptionLongPress: (feedGroup) {
-                // 默认分组不允许修改
-                if (feedGroup == controller.defaultFeedGroup) {
-                  return null;
-                }
-                controller.onGroupSelected(feedGroup);
-                return showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return _buildFeedAddGroupForm(feedGroup, isEdit: true);
-                    });
-              }),
-    );
+    return controller.feedGroupedByGroup.isEmpty
+        ? const SizedBox()
+        : MyMultiLevelOptions(
+            options: controller.feedGroupedByGroup,
+            selectedOption: controller.selectedFeedGroup!,
+            onOptionSelect: controller.onGroupSelected,
+            onSubOptionSelect: (feed) {
+              controller.onFeedSelected(feed);
+              return showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: _buildFeedModifyForm(feed));
+                  });
+            },
+            onOptionLongPress: (feedGroup) {
+              // 默认分组不允许修改
+              if (feedGroup == controller.defaultFeedGroup) {
+                return null;
+              }
+              controller.onGroupSelected(feedGroup);
+              return showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: _buildFeedAddGroupForm(isEdit: true));
+                  });
+            });
   }
 
   Widget _buildFeedAddFromUrlForm() {
@@ -54,7 +60,6 @@ class FeedListPage extends GetView<FeedListController> {
       child: <Widget>[
         // url
         TextFormWidget(
-                autofocus: true,
                 keyboardType: TextInputType.url,
                 controller: controller.urlController,
                 labelText: LocaleKeys.feedAddDesc.tr,
@@ -71,21 +76,18 @@ class FeedListPage extends GetView<FeedListController> {
   }
 
   Widget _buildFeedModifyForm(FeedModel feed) {
-    controller.initFeedForm(feed);
     return Form(
       key: controller.feedFormKey, //设置globalKey，用于后面获取FormState
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: <Widget>[
         TextFormWidget(
                 // TODO 预填充文字大小
-                autofocus: true,
                 keyboardType: TextInputType.text,
                 controller: controller.feedNameController,
                 labelText: LocaleKeys.feedTitle.tr,
                 validator: Validators.notEmpty(LocaleKeys.validatorRequired.tr))
             .paddingBottom(10),
         TextFormWidget(
-                autofocus: true,
                 keyboardType: TextInputType.text,
                 controller: controller.feedDescController,
                 labelText: LocaleKeys.feedDesc.tr)
@@ -100,7 +102,7 @@ class FeedListPage extends GetView<FeedListController> {
               child: TextWidget.body1(feedGroup.name),
             );
           }).toList(),
-          onChanged: (value) => {controller.onModifyFeedGroupName(value)},
+          onChanged: (value) => {controller.onModifyFeedGroup(value)},
         ).paddingBottom(20.h),
         // url
         <Widget>[
@@ -119,21 +121,18 @@ class FeedListPage extends GetView<FeedListController> {
     ).paddingAll(AppSpace.card).height(350.h);
   }
 
-  Widget _buildFeedAddGroupForm(FeedGroupModel? feedGroup, {required isEdit}) {
-    controller.initGroupForm(feedGroup);
+  Widget _buildFeedAddGroupForm({required isEdit}) {
     return Form(
       key: controller.addGroupKey, //设置globalKey，用于后面获取FormState
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: <Widget>[
         TextFormWidget(
-                autofocus: true,
                 keyboardType: TextInputType.text,
                 controller: controller.groupNameController,
                 labelText: LocaleKeys.feedAddGroupLabel.tr,
                 validator: Validators.notEmpty(LocaleKeys.validatorRequired.tr))
             .paddingBottom(10),
         TextFormWidget(
-          autofocus: true,
           keyboardType: TextInputType.text,
           controller: controller.groupDescController,
           labelText: LocaleKeys.feedAddGroupDescptionLabel.tr,
@@ -215,9 +214,15 @@ class FeedListPage extends GetView<FeedListController> {
                   switch (value) {
                     case FeedAddButtonFunc.addFromUrl:
                       showModalBottomSheet(
+                          isScrollControlled: true,
                           context: context,
                           builder: (context) {
-                            return _buildFeedAddFromUrlForm();
+                            return Container(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                child: _buildFeedAddFromUrlForm());
                           });
                       break;
                     case FeedAddButtonFunc.importFromOpml:
@@ -225,9 +230,15 @@ class FeedListPage extends GetView<FeedListController> {
                       break;
                     case FeedAddButtonFunc.addGroup:
                       showModalBottomSheet(
+                          isScrollControlled: true,
                           context: context,
                           builder: (context) {
-                            return _buildFeedAddGroupForm(null, isEdit: false);
+                            return Container(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                child: _buildFeedAddGroupForm(isEdit: false));
                           });
                       break;
                   }
