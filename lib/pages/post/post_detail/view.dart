@@ -37,28 +37,27 @@ class PostDetailPage extends GetView<PostDetailController> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Expanded(child: Container()),
                   ButtonWidget.icon(
                     Icon(
                       Icons.edit,
                       color: AppColors.secondary,
                       size: 30.h,
                     ),
-                  ).paddingRight(20.w),
+                  ),
                   ButtonWidget.icon(
                     Icon(
                       Icons.star,
                       color: AppColors.secondary,
                       size: 30.h,
                     ),
-                  ).paddingRight(20.w),
+                  ),
                   controller.isReadAble
                       ? ButtonWidget.icon(
                           Icon(
                             Icons.public,
                             color: AppColors.secondary,
                             size: 30.h,
-                          ).paddingRight(20.w),
+                          ),
                           onTap: () => controller.toggleReadMode())
                       : const SizedBox(
                           width: 0,

@@ -39,7 +39,13 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
               return Dismissible(
                 background: Container(
                   color: AppColors.primary,
-                  child: const Icon(Icons.check),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextWidget.body1(
+                      LocaleKeys.turnToFocusTip.tr,
+                      color: AppColors.onPrimary,
+                    ).paddingLeft(20.w),
+                  ),
                 ),
                 key: ValueKey<int>(feedItem.id),
                 onDismissed: (direction) {

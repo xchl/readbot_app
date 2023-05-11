@@ -134,6 +134,9 @@ Map<String, String> localeEn = {
   LocaleKeys.registerUserAgreementError: 'Please confirm the user agreement',
   LocaleKeys.unnameFeedGroup: 'Unname Group',
 
+  // Read
+  LocaleKeys.turnToFocusTip: 'Focus Read',
+
   // Error
   LocaleKeys.syncPullError: 'Error occurs when pull content from server',
   LocaleKeys.syncPushError: 'Error occurs when push content to server',

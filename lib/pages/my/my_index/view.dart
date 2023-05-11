@@ -69,15 +69,12 @@ class MyIndexPage extends GetView<MyIndexController> {
 
   Widget _buildSystemButtonsList() {
     return <Widget>[
-      // TextWidget.body1(LocaleKeys.mySystemSetting.tr)
-      //     .alignLeft()
-      //     .padding(left: 10, bottom: 10),
       <Widget>[
-        SwitchItemWidget(
-          title: LocaleKeys.myDartTheme.tr,
-          statu: controller.isNightMode,
-          onTap: (bool value) => controller.onChangeTheme(value),
-        ),
+        // SwitchItemWidget(
+        //   title: LocaleKeys.myDartTheme.tr,
+        //   statu: controller.isNightMode,
+        //   onTap: (bool value) => controller.onChangeTheme(value),
+        // ),
         SwitchItemWidget(
           title: LocaleKeys.mySystemAutoReadmode.tr,
           statu: controller.enableReadMode,
@@ -101,9 +98,6 @@ class MyIndexPage extends GetView<MyIndexController> {
 
   Widget _buildAccountButtonsList() {
     return <Widget>[
-      // TextWidget.body1(LocaleKeys.myAccountPart.tr)
-      //     .alignLeft()
-      //     .padding(left: 10, bottom: 10),
       <Widget>[
         ButtonItemWidget(
           title: LocaleKeys.myDestroyBth.tr,
@@ -152,9 +146,6 @@ class MyIndexPage extends GetView<MyIndexController> {
 
   Widget _buildServiceButtonsList() {
     return <Widget>[
-      // TextWidget.body1(LocaleKeys.myServicePart.tr)
-      //     .alignLeft()
-      //     .padding(left: 10, bottom: 10),
       <Widget>[
         SwitchItemWidget(
           title: LocaleKeys.myIsNeedSync.tr,

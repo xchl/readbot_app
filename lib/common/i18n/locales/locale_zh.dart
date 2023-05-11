@@ -123,6 +123,9 @@ Map<String, String> localeZh = {
   LocaleKeys.feedDelete: '取消订阅',
   LocaleKeys.feedGroupDelete: '删除分组',
 
+  // Read
+  LocaleKeys.turnToFocusTip: '聚焦阅读',
+
   //Error
   LocaleKeys.syncPullError: '从服务器同步内容失败',
   LocaleKeys.syncPushError: '向服务器同步内容失败',

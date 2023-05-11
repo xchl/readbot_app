@@ -1,11 +1,16 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:feed_inbox_app/common/index.dart';
+import 'package:retry/retry.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 
 class HttpService extends GetxService {
   static HttpService get to => Get.find();
 
   late final Dio _dio;
+
+  final retryOption = const RetryOptions(maxAttempts: 2);
 
   @override
   void onInit() {

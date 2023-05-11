@@ -123,6 +123,9 @@ class LocaleKeys {
   static const feedGroupDelete = 'feed_group_delete';
   static const feedDelete = 'feed_delete';
 
+  // Read
+  static const turnToFocusTip = 'turn_to_focus_tip';
+
   // Error
   static const syncPullError = 'sync_pull_error';
   static const syncPushError = 'sync_push_error';
