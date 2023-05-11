@@ -2,15 +2,12 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:feed_inbox_app/common/index.dart';
-import 'package:retry/retry.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 
 class HttpService extends GetxService {
   static HttpService get to => Get.find();
 
   late final Dio _dio;
-
-  final retryOption = const RetryOptions(maxAttempts: 2);
 
   @override
   void onInit() {
@@ -49,7 +46,7 @@ class HttpService extends GetxService {
   }
 
   // TODO 与get融合
-  Future<String?> request(String url) async {
+  Future<String?> requestGet(String url) async {
     try {
       var res = await HttpService.to.get(url);
       return res.data;
@@ -57,6 +54,26 @@ class HttpService extends GetxService {
       LogService.to.e(e);
       return null;
     }
+  }
+
+  Future<Response> retry(RequestOptions requestOptions) async {
+    Options options = Options(
+      headers: requestOptions.headers,
+      extra: requestOptions.extra,
+      method: requestOptions.method,
+      responseType: requestOptions.responseType,
+      contentType: requestOptions.contentType,
+      validateStatus: requestOptions.validateStatus,
+      receiveTimeout: requestOptions.receiveTimeout,
+    );
+    options.extra ??= {};
+    options.extra!['retried'] = true;
+
+    Response response = await _dio.request(requestOptions.path,
+        data: requestOptions.data,
+        queryParameters: requestOptions.queryParameters,
+        options: options);
+    return response;
   }
 
   Future<Response> post(
@@ -126,15 +143,23 @@ class RequestInterceptors extends Interceptor {
     handler.next(options);
   }
 
-  @override
-  Future<void> onResponse(
-      Response response, ResponseInterceptorHandler handler) async {
-    handler.next(response);
+  bool _shouldRetry(DioError err, RequestOptions requestOptions) {
+    if (requestOptions.extra.containsKey('retried') &&
+        requestOptions.extra['retried'] == true) {
+      return false;
+    }
+    return err.type == DioErrorType.receiveTimeout ||
+        err.type == DioErrorType.sendTimeout ||
+        err.type == DioErrorType.connectionTimeout ||
+        err.type == DioErrorType.unknown;
   }
 
   @override
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
-    // final exception = HttpException(err.message);
+    if (_shouldRetry(err, err.requestOptions)) {
+      HttpService.to.retry(err.requestOptions);
+      return;
+    }
     switch (err.type) {
       case DioErrorType.badResponse: // 服务端自定义错误体处理
         {
@@ -158,8 +183,6 @@ class RequestInterceptors extends Interceptor {
         }
         break;
       case DioErrorType.cancel:
-        break;
-      case DioErrorType.connectionTimeout:
         break;
       default:
         break;

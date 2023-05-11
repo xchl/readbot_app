@@ -141,7 +141,7 @@ class FeedService extends GetxService {
   }
 
   Future<void> addFeedFromUrl(String url) async {
-    String? xml = await HttpService.to.request(url);
+    String? xml = await HttpService.to.requestGet(url);
     if (xml == null) return;
     Tuple2<FeedModel, List<FeedItemModel>>? res = _parseFeed(xml, url);
     if (res == null) return;
@@ -249,7 +249,7 @@ class FeedService extends GetxService {
     for (var i in feedsNeedUpdate) {
       var feed = feeds[i];
       var lastUpdateRecord = feedLastUpdateRecords[i];
-      var content = await HttpService.to.request(feed.url);
+      var content = await HttpService.to.requestGet(feed.url);
       if (content == null) {
         continue;
       }
