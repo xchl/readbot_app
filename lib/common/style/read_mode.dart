@@ -41,7 +41,6 @@ class ReadModeStyle {
             color: #333333;
             margin: 0;
             padding: 2em;
-            letter-spacing: 0.15em;
             background-color: #f9f9f9;
           }
 

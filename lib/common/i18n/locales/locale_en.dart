@@ -110,6 +110,11 @@ Map<String, String> localeEn = {
   LocaleKeys.mySystemAutoDeleteData: 'Auto Deleta History Feed',
   LocaleKeys.mySystemAutoDeleteDay: 'Only Save Data in Recent Days',
 
+  LocaleKeys.pageNotSupportAI: 'This page does not support AI service',
+  LocaleKeys.aiServiceNotReady: 'AI service need to be configured first',
+  LocaleKeys.pageTooLongNotSupportAI:
+      'This page is too long, not supported by AI',
+
   // Feed
   LocaleKeys.addBtn: 'Add',
   LocaleKeys.feedTitle: 'Feed Name',

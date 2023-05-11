@@ -12,6 +12,13 @@ extension AIServiceExtension on AIService {
     }
   }
 
+  int get maxToken {
+    switch (this) {
+      case AIService.openai:
+        return 3000;
+    }
+  }
+
   static AIService? parse(String serviceName) {
     switch (serviceName.toLowerCase()) {
       case 'openai':

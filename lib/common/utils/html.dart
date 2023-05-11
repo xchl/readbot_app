@@ -22,3 +22,12 @@ String injectCss(String htmlContent, String css) {
   head.append(styleElement);
   return document.outerHtml;
 }
+
+String? extractHtmlText(String htmlContent) {
+  try {
+    Document document = parse(htmlContent);
+    return document.body?.text;
+  } catch (e) {
+    return null;
+  }
+}

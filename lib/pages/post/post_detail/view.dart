@@ -44,39 +44,40 @@ class PostDetailPage extends GetView<PostDetailController> {
                       size: 30.h,
                     ),
                   ),
+                  const Expanded(child: SizedBox()),
                   ButtonWidget.icon(
                     Icon(
-                      Icons.star,
+                      Icons.star_outline,
                       color: AppColors.secondary,
                       size: 30.h,
                     ),
-                  ),
-                  controller.isReadAble
+                  ).paddingRight(15.w),
+                  controller.isReadMode
                       ? ButtonWidget.icon(
-                          Icon(
-                            Icons.public,
-                            color: AppColors.secondary,
-                            size: 30.h,
-                          ),
-                          onTap: () => controller.toggleReadMode())
-                      : const SizedBox(
-                          width: 0,
-                          height: 0,
-                        ),
-                  controller.isReadAble
-                      ? ButtonWidget.icon(
-                          Icon(
-                            Icons.smart_toy,
-                            color: AppColors.secondary,
-                            size: 30.h,
-                          ),
-                          onTap: () => controller.summaryText())
-                      : const SizedBox(
-                          width: 0,
-                          height: 0,
-                        ),
+                              Icon(
+                                Icons.feed_outlined,
+                                color: AppColors.secondary,
+                                size: 30.h,
+                              ),
+                              onTap: () => controller.toggleReadMode())
+                          .paddingRight(15.w)
+                      : ButtonWidget.icon(
+                              Icon(
+                                Icons.public_outlined,
+                                color: AppColors.secondary,
+                                size: 30.h,
+                              ),
+                              onTap: () => controller.toggleReadMode())
+                          .paddingRight(15.w),
+                  ButtonWidget.icon(
+                      Icon(
+                        Icons.smart_toy_outlined,
+                        color: AppColors.secondary,
+                        size: 30.h,
+                      ),
+                      onTap: () => controller.summaryText())
                 ],
-              ).height(50.h).padding(left: 10.w, right: 10.w)));
+              ).height(50.h).padding(left: 15.w, right: 15.w)));
         });
   }
 }

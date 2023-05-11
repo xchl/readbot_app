@@ -1,5 +1,6 @@
 import 'package:feed_inbox_app/common/index.dart';
 import 'package:feed_inbox_app/pages/index.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
@@ -88,19 +89,28 @@ class PostDetailController extends GetxController {
   void toggleReadMode() {
     isReadMode = !isReadMode;
     loadContent();
+    update(['post_detail']);
   }
 
   void summaryText() async {
-    if (html == null) return;
-    if (ConfigService.to.isAIReady()) {
-      summary = await AiApi.summary(html!);
-      if (summary != null) {
-        debugPrint(summary);
-        //TODO error handle
-        update(['post_detail']);
-      }
-    } else {
-      // todo
+    if (!ConfigService.to.isAIReady()) {
+      Loading.toast(LocaleKeys.aiServiceNotReady.tr);
+      return;
+    }
+    if (html == null) {
+      Loading.toast(LocaleKeys.pageNotSupportAI.tr);
+      return;
+    }
+    String? text = await compute(extractHtmlText, html!);
+
+    if (text == null) {
+      Loading.toast(LocaleKeys.pageNotSupportAI.tr);
+      return;
+    }
+    summary = await AiApi.summary(text);
+    if (summary != null) {
+      debugPrint(summary);
+      update(['post_detail']);
     }
   }
 }

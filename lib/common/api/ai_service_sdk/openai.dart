@@ -10,6 +10,13 @@ extension OpenAIModelExtension on OpenAIModel {
         return 'gpt-3.5-turbo';
     }
   }
+
+  int get maxToken {
+    switch (this) {
+      case OpenAIModel.gpt35:
+        return 4000;
+    }
+  }
 }
 
 class OpenAI {

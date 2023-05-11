@@ -139,7 +139,8 @@ class RequestInterceptors extends Interceptor {
       case DioErrorType.badResponse: // 服务端自定义错误体处理
         {
           final response = err.response;
-          String errorMessage = response?.data;
+          // TODO 区分不同服务的错误
+          var errorMessage = response?.data;
           switch (response?.statusCode) {
             case 401:
               Get.toNamed(RouteNames.systemLogin);
@@ -153,7 +154,6 @@ class RequestInterceptors extends Interceptor {
             default:
               break;
           }
-          Loading.error(errorMessage);
           LogService.to.e(errorMessage);
         }
         break;

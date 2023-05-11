@@ -10,9 +10,12 @@ class AiApi {
   }
 
   static AIRequest createAIRequest(String prompt) {
+    AIService service = ConfigService.to.aiService;
     return AIRequest(
-      service: ConfigService.to.aiService,
-      prompt: prompt,
+      service: service,
+      prompt: prompt.length > service.maxToken
+          ? prompt.substring(0, service.maxToken)
+          : prompt,
       headers: Map.from({
         'Authorization': 'Bearer ${ConfigService.to.openAIToken}',
       }),
@@ -21,7 +24,7 @@ class AiApi {
 
   static String createSummaryPrompt(content) {
     return """
-    请以列表的形式返回下面文章的主要内容，语言尽量简洁
+    请以列表的方式返回下面文章的主要内容，语言尽量简洁，最多5条总结。
 
     $content
     """;
