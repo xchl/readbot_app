@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import '../locale_keys.dart';
 
 /// 多语言 英文

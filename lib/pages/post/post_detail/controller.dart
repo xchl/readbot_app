@@ -12,8 +12,9 @@ class PostDetailController extends GetxController {
   bool isReadMode = ConfigService().enableReadMode;
   bool get isReadAble => content != null;
 
-  double _lastScrollPosition = 0;
-  final double _scrollThreshhold = 20;
+  // double _lastScrollPosition = 0;
+  // final double _scrollThreshhold = 20;
+
   bool isShowBottomBar = true;
   late InAppWebViewController webView;
 
