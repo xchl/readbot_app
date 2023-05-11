@@ -20,13 +20,10 @@ class AiApi {
   }
 
   static String createSummaryPrompt(content) {
-    // return """
-    // 请以列表的形式返回下面文章的主要内容，语言尽量简洁
+    return """
+    请以列表的形式返回下面文章的主要内容，语言尽量简洁
 
-    // $content
-    // """;
-    return '''
-      你好，请问你能干什么
-    ''';
+    $content
+    """;
   }
 }

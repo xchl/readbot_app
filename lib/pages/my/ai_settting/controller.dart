@@ -6,13 +6,16 @@ class AiSetttingController extends GetxController {
   AiSetttingController();
 
   bool enableAI = ConfigService.to.enableAi;
-  String openAIToken = ConfigService.to.openAIToken;
+  String openAIToken = ConfigService.to.openAIToken ?? '';
+  String openAIProxyServer = ConfigService.to.openAIProxyUrl ?? '';
 
   /// 定义输入控制器
   TextEditingController tokenController = TextEditingController();
+  TextEditingController proxyServerController = TextEditingController();
 
   /// 表单 key
   GlobalKey tokenFromKey = GlobalKey<FormState>();
+  GlobalKey proxyServerFromKey = GlobalKey<FormState>();
 
   String selectAiService = ConfigService.to.aiService.name;
 
@@ -38,10 +41,20 @@ class AiSetttingController extends GetxController {
 
   void onAddToken() async {
     if ((tokenFromKey.currentState as FormState).validate()) {
-      openAIToken = tokenController.text;
+      openAIToken = tokenController.text.trim();
       await ConfigService.to.saveOpenAIToken(openAIToken);
       update(["ai_settting"]);
     }
+    Get.back();
+  }
+
+  void onAddProxyServer() async {
+    if ((proxyServerFromKey.currentState as FormState).validate()) {
+      openAIProxyServer = proxyServerController.text.trim();
+      await ConfigService.to.saveOpenAIProxyUrl(openAIProxyServer);
+      update(["ai_settting"]);
+    }
+    Get.back();
   }
 
   void onAiServiceChange(String? val) async {

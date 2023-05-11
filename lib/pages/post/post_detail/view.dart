@@ -16,9 +16,9 @@ class PostDetailPage extends GetView<PostDetailController> {
         controller.webView = webController;
         controller.loadContent();
       },
-      onScrollChanged: (webController, x, y) {
-        controller.handleScrollChange(x, y);
-      },
+      // onScrollChanged: (webController, x, y) {
+      //   controller.handleScrollChange(x, y);
+      // },
     );
   }
 
@@ -32,50 +32,52 @@ class PostDetailPage extends GetView<PostDetailController> {
               body: SafeArea(
                 child: _buildView(),
               ),
-              bottomNavigationBar: controller.isShowBottomBar
-                  ? BottomAppBar(
-                      child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(child: Container()),
-                        ButtonWidget.icon(
+              bottomNavigationBar: BottomAppBar(
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(child: Container()),
+                  ButtonWidget.icon(
+                    Icon(
+                      Icons.edit,
+                      color: AppColors.secondary,
+                      size: 30.h,
+                    ),
+                  ).paddingRight(20.w),
+                  ButtonWidget.icon(
+                    Icon(
+                      Icons.star,
+                      color: AppColors.secondary,
+                      size: 30.h,
+                    ),
+                  ).paddingRight(20.w),
+                  controller.isReadAble
+                      ? ButtonWidget.icon(
                           Icon(
-                            Icons.edit,
+                            Icons.public,
                             color: AppColors.secondary,
-                          ),
+                            size: 30.h,
+                          ).paddingRight(20.w),
+                          onTap: () => controller.toggleReadMode())
+                      : const SizedBox(
+                          width: 0,
+                          height: 0,
                         ),
-                        ButtonWidget.icon(
+                  controller.isReadAble
+                      ? ButtonWidget.icon(
                           Icon(
-                            Icons.star,
+                            Icons.smart_toy,
                             color: AppColors.secondary,
+                            size: 30.h,
                           ),
+                          onTap: () => controller.summaryText())
+                      : const SizedBox(
+                          width: 0,
+                          height: 0,
                         ),
-                        controller.isReadAble
-                            ? ButtonWidget.icon(
-                                Icon(
-                                  Icons.public,
-                                  color: AppColors.secondary,
-                                ),
-                                onTap: () => controller.toggleReadMode())
-                            : const SizedBox(
-                                width: 0,
-                                height: 0,
-                              ),
-                        controller.isReadAble
-                            ? ButtonWidget.icon(
-                                Icon(
-                                  Icons.smart_toy,
-                                  color: AppColors.secondary,
-                                ),
-                                onTap: () => controller.summaryText())
-                            : const SizedBox(
-                                width: 0,
-                                height: 0,
-                              ),
-                      ],
-                    ).height(40.h).padding(left: 10.w, right: 10.w))
-                  : null);
+                ],
+              ).height(50.h).padding(left: 10.w, right: 10.w)));
         });
   }
 }

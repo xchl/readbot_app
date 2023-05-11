@@ -18,20 +18,18 @@ class ButtonShowItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTileWidget(
-      // 标题
-      title: TextWidget.body1(
-        title,
-        size: 15.sp,
-        weight: FontWeight.w400,
-      ),
+        // 标题
+        leading: TextWidget.body1(
+          title,
+          size: 15.sp,
+          weight: FontWeight.w400,
+        ),
+        leadingSpace: 10.w,
 
-      // 右侧箭头
-      trailing: <Widget>[
-        TextWidget.body1(
+        // 右侧箭头
+        title: TextWidget.body1(
           content,
-        ).width(120.w)
-      ],
-    ).inkWell(
+        )).inkWell(
       onTap: onTap,
     );
   }

@@ -24,8 +24,18 @@ class AIRequest {
     this.otherParms,
   });
 
-  OpenAIRequest toOpenAI() {
-    return OpenAIRequest(
+  OpenAIChatRequest toOpenAIChat() {
+    return OpenAIChatRequest(
+      // TODO
+      messages: [Message(content: prompt, role: 'user')],
+      header: headers,
+      maxTokens: otherParms?['maxTokens'],
+      temperature: otherParms?['temperature'],
+    );
+  }
+
+  OpenAICompleteRequest toOpenAIComplete() {
+    return OpenAICompleteRequest(
       prompt: prompt,
       header: headers,
       maxTokens: otherParms?['maxTokens'],

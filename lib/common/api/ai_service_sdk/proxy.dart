@@ -30,9 +30,9 @@ extension ParseAIServiceExtension on String {
 class AIProxy {
   static Future<AIResponse?> summary(AIRequest request) async {
     if (request.service == AIService.openai) {
-      OpenAIResponse? response = await OpenAI.complete(request.toOpenAI());
+      OpenAIChatResponse? response = await OpenAI.chat(request.toOpenAIChat());
       if (response != null) {
-        return AIResponse.fromOpenAI(response);
+        return AIResponse.fromOpenAIChat(response);
       }
     }
     return null;

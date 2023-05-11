@@ -13,17 +13,32 @@ extension OpenAIModelExtension on OpenAIModel {
 }
 
 class OpenAI {
-  static final completeApi = Api(
-      url: 'https://api.openai.com/v1/completions', method: HttpMethod.post);
-  static final chatApi = Api(
-      url: 'https://api.openai.com/v1/chat/completions',
-      method: HttpMethod.post);
+  static final completeApi =
+      Api(url: '$baseUrl/v1/completions', method: HttpMethod.post);
+  static final chatApi =
+      Api(url: '$baseUrl/v1/chat/completions', method: HttpMethod.post);
 
-  static Future<OpenAIResponse?> complete(OpenAIRequest request) async {
+  static final baseUrl =
+      ConfigService.to.openAIProxyUrl ?? 'https://api.openai-proxy.com';
+
+  static Future<OpenAICompleteResponse?> complete(
+      OpenAICompleteRequest request) async {
     try {
       var res = await HttpService.to.post(completeApi.url,
           data: request.toJson(), options: Options(headers: request.header));
-      return OpenAIResponse.fromJson(res.data);
+      return OpenAICompleteResponse.fromJson(res.data);
+    } catch (e) {
+      Loading.toast('Openai request error');
+      LogService.to.e(e);
+      return null;
+    }
+  }
+
+  static Future<OpenAIChatResponse?> chat(OpenAIChatRequest request) async {
+    try {
+      var res = await HttpService.to.post(chatApi.url,
+          data: request.toJson(), options: Options(headers: request.header));
+      return OpenAIChatResponse.fromJson(res.data);
     } catch (e) {
       Loading.toast('Openai request error');
       LogService.to.e(e);
@@ -32,14 +47,14 @@ class OpenAI {
   }
 }
 
-class OpenAIRequest {
+class OpenAICompleteRequest {
   final OpenAIModel model;
   final String prompt;
   final int? maxTokens;
   final int? temperature;
   final Map<String, String> header;
 
-  OpenAIRequest(
+  OpenAICompleteRequest(
       {this.model = OpenAIModel.gpt35,
       required this.prompt,
       this.maxTokens,
@@ -56,22 +71,80 @@ class OpenAIRequest {
   }
 }
 
-class Choice {
+class Message {
+  final String role;
+  final String content;
+
+  Message({required this.role, required this.content});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'role': role,
+      'content': content,
+    };
+  }
+
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(role: json['role'], content: json['content']);
+  }
+}
+
+class OpenAIChatRequest {
+  final OpenAIModel model;
+  final List<Message> messages;
+  final int? maxTokens;
+  final int? temperature;
+  final Map<String, String> header;
+
+  OpenAIChatRequest(
+      {this.model = OpenAIModel.gpt35,
+      required this.messages,
+      this.maxTokens,
+      this.temperature,
+      required this.header});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'model': model.name,
+      'messages': messages.map((e) => e.toJson()).toList(),
+      'max_tokens': maxTokens,
+      'temperature': temperature,
+    };
+  }
+}
+
+class CompleteChoice {
   final String text;
   final double? logprobs;
   final int index;
   final String finishReason;
 
-  Choice(
+  CompleteChoice(
       {required this.text,
       this.logprobs,
       required this.finishReason,
       required this.index});
 
-  factory Choice.fromJson(Map<String, dynamic> json) {
-    return Choice(
+  factory CompleteChoice.fromJson(Map<String, dynamic> json) {
+    return CompleteChoice(
         text: json['text'],
         logprobs: json['logprobs'],
+        finishReason: json['finish_reason'],
+        index: json['index']);
+  }
+}
+
+class ChatChoice {
+  final Message message;
+  final int index;
+  final String finishReason;
+
+  ChatChoice(
+      {required this.message, required this.finishReason, required this.index});
+
+  factory ChatChoice.fromJson(Map<String, dynamic> json) {
+    return ChatChoice(
+        message: Message.fromJson(json['message']),
         finishReason: json['finish_reason'],
         index: json['index']);
   }
@@ -95,15 +168,15 @@ class Usage {
   }
 }
 
-class OpenAIResponse {
+class OpenAICompleteResponse {
   final String id;
   final String object;
   final int created;
   final int model;
-  final List<Choice> choicesList;
+  final List<CompleteChoice> choicesList;
   final Usage usage;
 
-  OpenAIResponse(
+  OpenAICompleteResponse(
       {required this.id,
       required this.object,
       required this.created,
@@ -111,14 +184,14 @@ class OpenAIResponse {
       required this.choicesList,
       required this.usage});
 
-  factory OpenAIResponse.fromJson(Map<String, dynamic> json) {
-    return OpenAIResponse(
+  factory OpenAICompleteResponse.fromJson(Map<String, dynamic> json) {
+    return OpenAICompleteResponse(
         id: json['id'],
         object: json['object'],
         created: json['created'],
         model: json['model'],
         choicesList: json['choices']
-            .map<Choice>((choice) => Choice.fromJson(choice))
+            .map<CompleteChoice>((choice) => CompleteChoice.fromJson(choice))
             .toList(),
         usage: Usage.fromJson(json['usage']));
   }
@@ -127,6 +200,45 @@ class OpenAIResponse {
     for (var choice in choicesList) {
       if (choice.finishReason == 'stop') {
         return choice.text;
+      }
+    }
+    return null;
+  }
+}
+
+class OpenAIChatResponse {
+  final String id;
+  final String object;
+  final int created;
+  final String model;
+  final List<ChatChoice> choicesList;
+  final Usage usage;
+
+  OpenAIChatResponse({
+    required this.id,
+    required this.object,
+    required this.created,
+    required this.choicesList,
+    required this.usage,
+    required this.model,
+  });
+
+  factory OpenAIChatResponse.fromJson(Map<String, dynamic> json) {
+    return OpenAIChatResponse(
+        id: json['id'],
+        object: json['object'],
+        created: json['created'],
+        model: json['model'],
+        choicesList: json['choices']
+            .map<ChatChoice>((choice) => ChatChoice.fromJson(choice))
+            .toList(),
+        usage: Usage.fromJson(json['usage']));
+  }
+
+  String? get text {
+    for (var choice in choicesList) {
+      if (choice.finishReason == 'stop') {
+        return choice.message.content;
       }
     }
     return null;

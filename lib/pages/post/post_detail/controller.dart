@@ -61,20 +61,20 @@ class PostDetailController extends GetxController {
     }
   }
 
-  void handleScrollChange(int x, int y) {
-    double delta = (y - _lastScrollPosition);
-    if (delta > _scrollThreshhold) {
-      // 上滑
-      isShowBottomBar = false;
-      _lastScrollPosition = y.toDouble();
-      update(['post_detail']);
-    } else if (delta < -_scrollThreshhold) {
-      // 下滑
-      isShowBottomBar = true;
-      _lastScrollPosition = y.toDouble();
-      update(['post_detail']);
-    }
-  }
+  // void handleScrollChange(int x, int y) {
+  //   double delta = (y - _lastScrollPosition);
+  //   if (delta > _scrollThreshhold) {
+  //     // 上滑
+  //     isShowBottomBar = false;
+  //     _lastScrollPosition = y.toDouble();
+  //     update(['post_detail']);
+  //   } else if (delta < -_scrollThreshhold) {
+  //     // 下滑
+  //     isShowBottomBar = true;
+  //     _lastScrollPosition = y.toDouble();
+  //     update(['post_detail']);
+  //   }
+  // }
 
   void loadContent() {
     if (isReadMode && html != null) {

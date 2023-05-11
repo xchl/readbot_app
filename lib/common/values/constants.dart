@@ -47,4 +47,5 @@ class Constants {
   // AI
   static const openAI = 'openAI';
   static const storageOpenAIToken = 'storage_open_ai_token';
+  static const storageOpenAIProxyUrl = 'storage_open_ai_proxy_url';
 }

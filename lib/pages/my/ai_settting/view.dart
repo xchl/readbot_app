@@ -49,6 +49,28 @@ class AiSettingPage extends GetView<AiSetttingController> {
     ).paddingAll(AppSpace.card).height(200);
   }
 
+  Widget _buildAddProxyServerForm() {
+    return Form(
+      key: controller.proxyServerFromKey, //设置globalKey，用于后面获取FormState
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: <Widget>[
+        // url
+        TextFormWidget(
+          autofocus: true,
+          keyboardType: TextInputType.text,
+          controller: controller.proxyServerController,
+          labelText: LocaleKeys.myAIServiceProxyServer.tr,
+        ).paddingBottom(30),
+
+        // 添加按钮
+        ButtonWidget.text(
+          LocaleKeys.addBtn.tr,
+          onTap: controller.onAddProxyServer,
+        ).paddingBottom(AppSpace.listRow.w),
+      ].toColumn(),
+    ).paddingAll(AppSpace.card).height(200);
+  }
+
   Widget _buildOpenAISetting() {
     return <Widget>[
       <Widget>[
@@ -64,6 +86,20 @@ class AiSettingPage extends GetView<AiSetttingController> {
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).viewInsets.bottom),
                         child: _buildAddTokenForm()));
+              }),
+        ),
+        ButtonShowItemWidget(
+          title: LocaleKeys.myAIServiceProxyServer.tr,
+          content: controller.openAIProxyServer,
+          onTap: () => showModalBottomSheet(
+              context: Get.context!,
+              isScrollControlled: true,
+              builder: (context) {
+                return SingleChildScrollView(
+                    child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: _buildAddProxyServerForm()));
               }),
         ),
       ].toColumn().card()

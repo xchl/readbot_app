@@ -44,7 +44,7 @@ class HttpService extends GetxService {
   }
 
   // TODO 与get融合
-  static Future<String?> request(String url) async {
+  Future<String?> request(String url) async {
     try {
       var res = await HttpService.to.get(url);
       return res.data;
@@ -119,6 +119,12 @@ class RequestInterceptors extends Interceptor {
       }
     }
     handler.next(options);
+  }
+
+  @override
+  Future<void> onResponse(
+      Response response, ResponseInterceptorHandler handler) async {
+    handler.next(response);
   }
 
   @override

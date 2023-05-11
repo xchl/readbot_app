@@ -9,7 +9,14 @@ class AIResponse {
     this.message,
   });
 
-  factory AIResponse.fromOpenAI(OpenAIResponse response) {
+  factory AIResponse.fromOpenAIComplte(OpenAICompleteResponse response) {
+    return AIResponse(
+      service: AIService.openai,
+      message: response.text,
+    );
+  }
+
+  factory AIResponse.fromOpenAIChat(OpenAIChatResponse response) {
     return AIResponse(
       service: AIService.openai,
       message: response.text,

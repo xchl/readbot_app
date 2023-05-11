@@ -34,8 +34,7 @@ class ConfigService extends GetxService {
 
   bool get enableAi => Storage().getBool(Constants.storageEnableAi) ?? false;
 
-  String get openAIToken =>
-      Storage().getString(Constants.storageOpenAIToken) ?? '';
+  String? get openAIToken => Storage().getString(Constants.storageOpenAIToken);
 
   // 是否开启同步
   bool get enableSync =>
@@ -50,6 +49,9 @@ class ConfigService extends GetxService {
   int get onlySaveDataDays =>
       Storage().getInt(Constants.storageSaveDataDays) ?? 90;
 
+  String? get openAIProxyUrl =>
+      Storage().getString(Constants.storageOpenAIProxyUrl);
+
   String? get aiModel => Storage().getString(Constants.storageAIModel);
 
   AIService get aiService =>
@@ -59,7 +61,7 @@ class ConfigService extends GetxService {
   bool isAIReady() {
     if (enableAi == false) return false;
     if (aiService == AIService.openai) {
-      return openAIToken.isNotEmpty;
+      return openAIToken != null && openAIToken!.isNotEmpty;
     }
     return false;
   }
@@ -126,6 +128,10 @@ class ConfigService extends GetxService {
 
   Future<void> saveOpenAIToken(String value) async {
     Storage().setString(Constants.storageOpenAIToken, value);
+  }
+
+  Future<void> saveOpenAIProxyUrl(String value) async {
+    Storage().setString(Constants.storageOpenAIProxyUrl, value);
   }
 
   @override
