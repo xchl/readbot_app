@@ -40,7 +40,10 @@ class PostDetailController extends GetxController {
   PageType fromPage = Get.arguments['fromPage'];
 
   String? html;
-  String? summary;
+
+  final RxString _summary = "".obs;
+
+  String get summary => _summary.value;
 
   @override
   void onReady() {
@@ -49,6 +52,7 @@ class PostDetailController extends GetxController {
       //TODO 性能是否有问题
       html = injectCss(content!.content, ReadModeStyle().css);
     }
+    _summary(feedItem.summaryAlgo);
     handleRead();
   }
 
@@ -92,7 +96,10 @@ class PostDetailController extends GetxController {
     update(['post_detail']);
   }
 
-  void summaryText() async {
+  void summaryText({required bool redo}) async {
+    if (!redo && summary.isNotEmpty) {
+      return;
+    }
     if (!ConfigService.to.isAIReady()) {
       Loading.toast(LocaleKeys.aiServiceNotReady.tr);
       return;
@@ -107,10 +114,12 @@ class PostDetailController extends GetxController {
       Loading.toast(LocaleKeys.pageNotSupportAI.tr);
       return;
     }
-    summary = await AiApi.summary(text);
-    if (summary != null) {
-      debugPrint(summary);
-      update(['post_detail']);
+    String? result = await AiApi.summary(text);
+    if (result != null) {
+      feedItem.summaryAlgo = result;
+      DatabaseManager().updateFeedItem(feedItem);
+      _summary(result);
+      debugPrint(result);
     }
   }
 }

@@ -92,6 +92,8 @@ Map<String, String> localeZh = {
   LocaleKeys.myAIServiceApiTokenAddDesc: '输入API Token',
   LocaleKeys.myAIServiceModel: '模型',
   LocaleKeys.myAIServiceProxyServer: '代理服务器',
+  LocaleKeys.aiSummaryTitle: '摘要',
+  LocaleKeys.aiLoading: 'AI服务正在处理中...',
   LocaleKeys.pageNotSupportAI: '暂时无法解析当前页面，不支持AI服务',
   LocaleKeys.aiServiceNotReady: 'AI服务没有配置',
   LocaleKeys.pageTooLongNotSupportAI: '当前页面内容过长，不支持AI服务',

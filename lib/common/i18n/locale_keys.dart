@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 /// 多语言 keys
 class LocaleKeys {
   // 通用
@@ -92,6 +94,8 @@ class LocaleKeys {
   static const myAIServiceModel = 'my_ai_service_model';
   static const myAIServiceApiTokenAddDesc = 'my_ai_service_api_token_add_desc';
   static const myAIServiceProxyServer = 'my_ai_proxy';
+  static const aiSummaryTitle = 'ai_summary_title';
+  static const aiLoading = 'ai_loading';
   static const myRuleSetting = 'my_rule_setting';
   static const myLoginBtn = 'my_login_btn';
   static const myDestroyBth = 'my_destroy_btn';

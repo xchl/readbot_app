@@ -98,8 +98,8 @@ class TextWidget extends StatelessWidget {
   const TextWidget.body1(
     this.text, {
     Key? key,
-    this.maxLines = 1,
-    this.softWrap = false,
+    this.maxLines,
+    this.softWrap = true,
     this.overflow = TextOverflow.clip,
     this.color,
     this.size,

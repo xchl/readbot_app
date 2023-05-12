@@ -99,6 +99,8 @@ Map<String, String> localeEn = {
   LocaleKeys.myAIServiceProxyServer: 'Proxy Server',
   LocaleKeys.myAIServiceApiTokenAddDesc: 'Input API Token',
   LocaleKeys.myAIServiceModel: 'Model',
+  LocaleKeys.aiSummaryTitle: 'Summary',
+  LocaleKeys.aiLoading: 'Analyzing...',
   LocaleKeys.myRuleSetting: 'Rule Setting',
   LocaleKeys.myLoginBtn: 'Login',
   LocaleKeys.myDestroyBth: 'Destroy account',
