@@ -1,6 +1,6 @@
-import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/pages/index.dart';
-import 'package:feed_inbox_app/pages/post/post_drawer/widgets/feed_filter.dart';
+import 'package:readbot/common/index.dart';
+import 'package:readbot/pages/index.dart';
+import 'package:readbot/pages/post/post_drawer/widgets/feed_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

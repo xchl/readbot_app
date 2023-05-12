@@ -1,4 +1,4 @@
-import 'package:feed_inbox_app/common/index.dart';
+import 'package:readbot/common/index.dart';
 
 class AiApi {
   final ApiType apiType = ApiType.thirdPart;

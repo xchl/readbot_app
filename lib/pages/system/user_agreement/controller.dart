@@ -1,15 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class UserAgreementController extends GetxController {
   UserAgreementController();
-
-  final Completer<WebViewController> webViewController =
-      Completer<WebViewController>();
 
   final GlobalKey webViewKey = GlobalKey();
 

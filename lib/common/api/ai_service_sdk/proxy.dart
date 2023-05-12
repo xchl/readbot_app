@@ -1,4 +1,4 @@
-import 'package:feed_inbox_app/common/api/ai_service_sdk/index.dart';
+import 'package:readbot/common/api/ai_service_sdk/index.dart';
 
 enum AIService {
   openai,

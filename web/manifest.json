@@ -1,6 +1,6 @@
 {
-    "name": "feed_inbox_app",
-    "short_name": "feed_inbox_app",
+    "name": "readbot",
+    "short_name": "readbot",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

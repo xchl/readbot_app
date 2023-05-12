@@ -62,8 +62,6 @@ PODS:
   - smart_auth (0.0.1):
     - Flutter
   - SwiftyGif (5.4.4)
-  - webview_flutter_wkwebview (0.0.1):
-    - Flutter
   - workmanager (0.0.1):
     - Flutter
 
@@ -78,7 +76,6 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - smart_auth (from `.symlinks/plugins/smart_auth/ios`)
-  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
   - workmanager (from `.symlinks/plugins/workmanager/ios`)
 
 SPEC REPOS:
@@ -110,8 +107,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_foundation/ios"
   smart_auth:
     :path: ".symlinks/plugins/smart_auth/ios"
-  webview_flutter_wkwebview:
-    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
   workmanager:
     :path: ".symlinks/plugins/workmanager/ios"
 
@@ -131,7 +126,6 @@ SPEC CHECKSUMS:
   shared_preferences_foundation: e2dae3258e06f44cc55f49d42024fd8dd03c590c
   smart_auth: 4bedbc118723912d0e45a07e8ab34039c19e04f2
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
-  webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
   workmanager: 0afdcf5628bbde6924c21af7836fed07b42e30e6
 
 PODFILE CHECKSUM: 9b0e41e099602ee8ff0d8009f5c65aad8dfa42dc

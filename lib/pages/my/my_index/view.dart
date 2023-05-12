@@ -1,5 +1,5 @@
-import 'package:feed_inbox_app/common/index.dart';
-import 'package:feed_inbox_app/common/components/number_select_item.dart';
+import 'package:readbot/common/index.dart';
+import 'package:readbot/common/components/number_select_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

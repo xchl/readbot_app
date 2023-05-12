@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:feed_inbox_app/common/index.dart';
+import 'package:readbot/common/index.dart';
 import 'package:isar/isar.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:crypto/crypto.dart';

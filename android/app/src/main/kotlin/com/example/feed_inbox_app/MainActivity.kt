@@ -1,4 +1,4 @@
-package com.example.feed_inbox_app
+package com.example.readbot
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,4 +1,4 @@
-import 'package:feed_inbox_app/common/index.dart';
+import 'package:readbot/common/index.dart';
 import 'package:flutter/material.dart';
 
 class FeedFilterWidget extends StatelessWidget {

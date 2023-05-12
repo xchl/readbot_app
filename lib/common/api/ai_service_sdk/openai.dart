@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:feed_inbox_app/common/index.dart';
+import 'package:readbot/common/index.dart';
 
 enum OpenAIModel { gpt35 }
 

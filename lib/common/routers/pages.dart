@@ -1,4 +1,4 @@
-import 'package:feed_inbox_app/pages/index.dart';
+import 'package:readbot/pages/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

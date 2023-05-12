@@ -1,5 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:feed_inbox_app/common/index.dart';
+import 'package:readbot/common/index.dart';
 import 'package:get/get.dart';
 
 class WelcomeController extends GetxController {

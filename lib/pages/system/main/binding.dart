@@ -1,5 +1,5 @@
-import 'package:feed_inbox_app/pages/index.dart';
-import 'package:feed_inbox_app/pages/post/post_drawer/controller.dart';
+import 'package:readbot/pages/index.dart';
+import 'package:readbot/pages/post/post_drawer/controller.dart';
 import 'package:get/get.dart';
 
 /// 主界面依赖
