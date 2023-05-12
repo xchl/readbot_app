@@ -47,10 +47,13 @@ class RegisterPage extends GetView<RegisterController> {
           validator: Validatorless.multiple([
             Validatorless.required(LocaleKeys.validatorRequired.tr),
             Validators.password(
-              8,
-              20,
+              Constants.passwordMinLength,
+              Constants.passwordMaxLength,
               LocaleKeys.validatorPassword.trParams(
-                {"min": "8", "max": "20"},
+                {
+                  "min": "${Constants.passwordMinLength}",
+                  "max": "${Constants.passwordMaxLength}}"
+                },
               ),
             ),
           ]),

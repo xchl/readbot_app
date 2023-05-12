@@ -147,7 +147,6 @@ Map<String, String> localeEn = {
   LocaleKeys.syncPullError: 'Error occurs when pull content from server',
   LocaleKeys.syncPushError: 'Error occurs when push content to server',
   LocaleKeys.loginError: 'Error occurs when login',
-  LocaleKeys.registerError: 'Error occurs when register',
   LocaleKeys.destoryAccoutError: 'Error occurs when destory account',
   LocaleKeys.importFromOpmlError: 'Error occurs when import from opml',
 

@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-
 /// 多语言 keys
 class LocaleKeys {
   // 通用

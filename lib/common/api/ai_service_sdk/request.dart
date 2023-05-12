@@ -26,7 +26,6 @@ class AIRequest {
 
   OpenAIChatRequest toOpenAIChat() {
     return OpenAIChatRequest(
-      // TODO
       messages: [Message(content: prompt, role: 'user')],
       header: headers,
       maxTokens: otherParms?['maxTokens'],

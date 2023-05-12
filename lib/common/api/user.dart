@@ -1,5 +1,4 @@
 import 'package:readbot/common/index.dart';
-import 'package:get/get.dart';
 
 /// 用户 api
 class UserApi {

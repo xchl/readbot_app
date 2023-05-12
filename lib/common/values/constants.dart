@@ -15,6 +15,8 @@ class Constants {
   static const pageSizeMobile = 20;
   static const pageSizePC = 50;
   static const clientInfo = 'client_info';
+  static const passwordMinLength = 8;
+  static const passwordMaxLength = 20;
 
   // Feed
   static const existUrlType = "exist";
