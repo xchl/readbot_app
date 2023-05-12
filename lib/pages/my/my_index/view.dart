@@ -24,18 +24,18 @@ class MyIndexPage extends GetView<MyIndexController> {
         // 系统设置
         _buildAccountButtonsList().sliverBox,
 
-        // 注销
-        ButtonWidget.primary(
-          LocaleKeys.myBtnLogout.tr,
-          height: 60,
-          onTap: () => controller.onLogout(),
-        )
-            .padding(
-              left: AppSpace.page,
-              right: AppSpace.page,
-              top: AppSpace.listRow * 2,
-            )
-            .sliverBox,
+        // // 注销
+        // ButtonWidget.primary(
+        //   LocaleKeys.myBtnLogout.tr,
+        //   height: 60,
+        //   onTap: () => controller.onLogout(),
+        // )
+        //     .padding(
+        //       left: AppSpace.page,
+        //       right: AppSpace.page,
+        //       top: AppSpace.listRow * 2,
+        //     )
+        //     .sliverBox
       ],
     );
   }
@@ -99,6 +99,10 @@ class MyIndexPage extends GetView<MyIndexController> {
   Widget _buildAccountButtonsList() {
     return <Widget>[
       <Widget>[
+        ButtonItemWidget(
+          title: LocaleKeys.myBtnLogout.tr,
+          onTap: () => controller.onLogout(),
+        ),
         ButtonItemWidget(
           title: LocaleKeys.myDestroyBth.tr,
           onTap: () {

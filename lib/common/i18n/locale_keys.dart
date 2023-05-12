@@ -47,6 +47,7 @@ class LocaleKeys {
   static const registerFormFirstName = 'register_form_first_name';
   static const registerFormLastName = 'register_form_last_name';
   static const registerHaveAccount = 'register_have_account';
+  static const registerError = 'register_error';
 
   // 验证提示
   static const validatorRequired = 'validator_required';
@@ -138,7 +139,6 @@ class LocaleKeys {
   static const syncPullError = 'sync_pull_error';
   static const syncPushError = 'sync_push_error';
   static const loginError = 'login_error';
-  static const registerError = 'register_error';
   static const destoryAccoutError = 'destory_accout_error';
   static const importFromOpmlError = 'import_from_opml_error';
 

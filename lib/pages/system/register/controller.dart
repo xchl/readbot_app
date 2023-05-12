@@ -47,7 +47,7 @@ class RegisterController extends GetxController {
   }
 
   // 注册
-  void onSignUp() {
+  void onSignUp() async {
     if (isAgree == false) {
       Loading.toast(LocaleKeys.registerUserAgreementError.tr);
       return;
@@ -57,14 +57,24 @@ class RegisterController extends GetxController {
       var password = EncryptUtil.sha256Encode(passwordController.text);
 
       //验证通过
-      Get.offNamed(
-        RouteNames.systemRegisterPin,
-        arguments: RegisterInfo(
-          username: userNameController.text,
-          email: emailController.text,
-          password: password,
-        ),
+      var req = RegisterInfo(
+        username: userNameController.text,
+        email: emailController.text,
+        password: password,
       );
+      try {
+        Loading.show();
+        bool isOk = await UserApi.register(req);
+        if (isOk) {
+          Loading.success(
+              LocaleKeys.commonMessageSuccess.trParams({"method": "Register"}));
+          Get.back(result: true);
+        } else {
+          Loading.error(LocaleKeys.registerError.tr);
+        }
+      } finally {
+        Loading.dismiss();
+      }
     }
   }
 

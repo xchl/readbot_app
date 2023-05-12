@@ -54,11 +54,12 @@ class LoginPage extends GetView<LoginController> {
           isObscure: true,
           validator: Validatorless.multiple([
             Validatorless.required(LocaleKeys.validatorRequired.tr),
+            // TODO 常量化
             Validators.password(
-              6,
+              8,
               18,
               LocaleKeys.validatorPassword.trParams(
-                {"min": "6", "max": "18"},
+                {"min": "8", "max": "18"},
               ),
             ),
           ]),

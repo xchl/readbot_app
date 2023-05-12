@@ -17,7 +17,6 @@ class UserApi {
       );
       return true;
     } catch (e) {
-      Loading.toast(LocaleKeys.registerError.tr);
       LogService.to.e(e);
       return false;
     }

@@ -51,21 +51,20 @@ class LoginController extends GetxController {
       return;
     }
     if ((formKey.currentState as FormState).validate()) {
-      try {
-        Loading.show();
-        //sha2密码加密
-        var password = EncryptUtil.sha256Encode(passwordController.text);
-        await UserService.to.login(LoginInfo(
-          email: emailController.text,
-          password: password,
-        ));
-        Loading.success();
-        Get.back(result: true);
-      } catch (e) {
+      Loading.show();
+      //sha2密码加密
+      var password = EncryptUtil.sha256Encode(passwordController.text);
+      bool isLogin = await UserService.to.login(LoginInfo(
+        email: emailController.text,
+        password: password,
+      ));
+      if (!isLogin) {
         Loading.error(LocaleKeys.loginError.tr);
-      } finally {
-        Loading.dismiss();
+        return;
       }
+      Loading.success();
+      Get.back(result: true);
+      Loading.dismiss();
     }
   }
 
