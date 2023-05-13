@@ -56,7 +56,10 @@ class DatabaseManager {
   // delete feed group
   Future<void> deleteFeedGroup(FeedGroupModel group) async {
     await _isar.writeTxn(() async {
-      await _isar.feedGroupModels.deleteByName(group.name);
+      group.isDeleted = true;
+      group.isSynced = false;
+      group.updateTime = DateTime.now();
+      await _isar.feedGroupModels.putByName(group);
     });
   }
 
@@ -64,11 +67,12 @@ class DatabaseManager {
   Future<void> updateFeedGroup(
       FeedGroupModel newGroup, FeedGroupModel oldGroup) async {
     newGroup.isSynced = false;
+    newGroup.updateTime = DateTime.now();
     await _isar.writeTxn(() async {
       await _isar.feedGroupModels.putByName(newGroup);
     });
     // update feed group name in feed
-    await updateFeedGroupInFeed(oldGroup.name, newGroup.name);
+    await updateFeedGroupInFeed(oldGroup, newGroup);
   }
 
   // Feed!
@@ -83,13 +87,14 @@ class DatabaseManager {
 
   // update group in feed
   Future<void> updateFeedGroupInFeed(
-      String oldGroupName, String newGroupName) async {
+      FeedGroupModel oldGroup, FeedGroupModel newGroup) async {
     // read all feed by old group name
-    List<FeedModel> feeds = await getFeedsByGroupName(oldGroupName);
+    List<FeedModel> feeds = await getFeedsByGroupName(oldGroup.name);
     // update feed group name
     for (var feed in feeds) {
-      feed.groupName = newGroupName;
+      feed.groupName = newGroup.name;
       feed.isSynced = false;
+      feed.updateTime = DateTime.now();
     }
     await _isar.writeTxn(() async {
       await _isar.feedModels.putAllByUrl(feeds);
@@ -106,6 +111,7 @@ class DatabaseManager {
   // update Feed
   Future<void> updateFeed(FeedModel feed) async {
     feed.isSynced = false;
+    feed.updateTime = DateTime.now();
     await _isar.writeTxn(() async {
       await _isar.feedModels.putByUrl(feed);
     });
@@ -114,7 +120,10 @@ class DatabaseManager {
   // delete feed
   Future<void> deleteFeed(FeedModel feed) async {
     await _isar.writeTxn(() async {
-      await _isar.feedModels.deleteByUrl(feed.url);
+      feed.isDeleted = true;
+      feed.isSynced = false;
+      feed.updateTime = DateTime.now();
+      await _isar.feedModels.putByUrl(feed);
     });
     // delete all feed items
     await deleteAllFeedItemByFeed(feed);
@@ -124,18 +133,20 @@ class DatabaseManager {
 
   // query all feed
   Future<List<FeedModel>> getAllFeeds() async {
-    return await _isar.feedModels.where().findAll();
+    return await _isar.feedModels.filter().isDeletedEqualTo(false).findAll();
   }
 
   // get feeds last update record by feed id
   Future<List<FeedUpdateRecordModel?>> getFeedLastUpdateRecord(
-      List<String> feedUrl) async {
-    return await _isar.feedUpdateRecordModels.getAllByFeedUrl(feedUrl);
+      List<FeedModel> feeds) async {
+    List<String> feedUrls = feeds.map((e) => e.url).toList();
+    return await _isar.feedUpdateRecordModels.getAllByFeedUrl(feedUrls);
   }
 
   // query feed by urls
   Future<List<FeedModel?>> getFeedsByUrls(List<String> urls) async {
-    return await _isar.feedModels.getAllByUrl(urls);
+    List<FeedModel?> feeds = await _isar.feedModels.getAllByUrl(urls);
+    return feeds.where((e) => e != null && e.isDeleted == false).toList();
   }
 
   // query feed by group name
@@ -143,12 +154,17 @@ class DatabaseManager {
     return await _isar.feedModels
         .filter()
         .groupNameEqualTo(groupName)
+        .isDeletedEqualTo(false)
         .findAll();
   }
 
   // get feed by url
   Future<FeedModel?> getFeedByUrl(String url) async {
-    return await _isar.feedModels.getByUrl(url);
+    FeedModel? feed = await _isar.feedModels.getByUrl(url);
+    if (feed == null || feed.isDeleted == true) {
+      return null;
+    }
+    return feed;
   }
 
   // FeedItem
@@ -173,6 +189,7 @@ class DatabaseManager {
   // update FeedItem
   Future<void> updateFeedItem(FeedItemModel item) async {
     item.isSynced = false;
+    item.updateTime = DateTime.now();
     await _isar.writeTxn(() async {
       await _isar.feedItemModels.putByMd5String(item);
     });
@@ -181,7 +198,16 @@ class DatabaseManager {
   // delete all feeditem by feed
   Future<void> deleteAllFeedItemByFeed(FeedModel feed) async {
     await _isar.writeTxn(() async {
-      await _isar.feedItemModels.filter().feedUrlEqualTo(feed.url).deleteAll();
+      List<FeedItemModel> feedItems = await _isar.feedItemModels
+          .filter()
+          .feedUrlEqualTo(feed.url)
+          .findAll();
+      for (var item in feedItems) {
+        item.isDeleted = true;
+        item.isSynced = false;
+        item.updateTime = DateTime.now();
+      }
+      await _isar.feedItemModels.putAllByMd5String(feedItems);
     });
   }
 
@@ -189,6 +215,7 @@ class DatabaseManager {
   Future<void> updateFeedItems(List<FeedItemModel> items) async {
     for (var item in items) {
       item.isSynced = false;
+      item.updateTime = DateTime.now();
     }
     await _isar.writeTxn(() async {
       await _isar.feedItemModels.putAllByMd5String(items);
@@ -207,23 +234,37 @@ class DatabaseManager {
 
   // query all FeedItem
   Future<List<FeedItemModel>> getAllFeedItems() async {
-    return await _isar.feedItemModels.where().findAll();
+    return await _isar.feedItemModels
+        .filter()
+        .isDeletedEqualTo(false)
+        .findAll();
   }
 
   // query all explore feeditems
   Future<List<FeedItemModel>> getAllExploreFeedItems() async {
-    return await _isar.feedItemModels.filter().isFocusEqualTo(false).findAll();
+    return await _isar.feedItemModels
+        .filter()
+        .isFocusEqualTo(false)
+        .isDeletedEqualTo(false)
+        .findAll();
   }
 
   // query all focus feeditems
   Future<List<FeedItemModel>> getAllFocusFeedItems() async {
-    return await _isar.feedItemModels.filter().isFocusEqualTo(true).findAll();
+    return await _isar.feedItemModels
+        .filter()
+        .isFocusEqualTo(true)
+        .isDeletedEqualTo(false)
+        .findAll();
   }
 
   // query focus FeedItem by page
   Future<List<FeedItemModel>> getFocusFeedItemsByPage(int page,
       {String? feedUrl}) async {
-    var filter = _isar.feedItemModels.filter().isFocusEqualTo(true);
+    var filter = _isar.feedItemModels
+        .filter()
+        .isFocusEqualTo(true)
+        .isDeletedEqualTo(false);
     if (feedUrl != null) {
       filter = filter.feedUrlEqualTo(feedUrl);
     }
@@ -236,7 +277,10 @@ class DatabaseManager {
 
   Future<List<FeedItemModel>> getExploreFeedItemsByPage(int page,
       {String? feedUrl}) async {
-    var filter = _isar.feedItemModels.filter().isFocusEqualTo(false);
+    var filter = _isar.feedItemModels
+        .filter()
+        .isFocusEqualTo(false)
+        .isDeletedEqualTo(false);
     if (feedUrl != null) {
       filter = filter.feedUrlEqualTo(feedUrl);
     }
@@ -274,7 +318,10 @@ class DatabaseManager {
   // Group
   // query all group
   Future<List<FeedGroupModel>> getAllGroups() async {
-    return await _isar.feedGroupModels.where().findAll();
+    return await _isar.feedGroupModels
+        .filter()
+        .isDeletedEqualTo(false)
+        .findAll();
   }
 
   // insert group

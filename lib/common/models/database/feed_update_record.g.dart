@@ -23,28 +23,33 @@ const FeedUpdateRecordModelSchema = CollectionSchema(
       name: r'feedUrl',
       type: IsarType.string,
     ),
-    r'isSynced': PropertySchema(
+    r'isDeleted': PropertySchema(
       id: 1,
+      name: r'isDeleted',
+      type: IsarType.bool,
+    ),
+    r'isSynced': PropertySchema(
+      id: 2,
       name: r'isSynced',
       type: IsarType.bool,
     ),
     r'lastContentHash': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'lastContentHash',
       type: IsarType.string,
     ),
     r'lastItemPublishTime': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'lastItemPublishTime',
       type: IsarType.dateTime,
     ),
     r'lastUpdate': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'lastUpdate',
       type: IsarType.dateTime,
     ),
     r'updateTime': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'updateTime',
       type: IsarType.dateTime,
     )
@@ -108,11 +113,12 @@ void _feedUpdateRecordModelSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.feedUrl);
-  writer.writeBool(offsets[1], object.isSynced);
-  writer.writeString(offsets[2], object.lastContentHash);
-  writer.writeDateTime(offsets[3], object.lastItemPublishTime);
-  writer.writeDateTime(offsets[4], object.lastUpdate);
-  writer.writeDateTime(offsets[5], object.updateTime);
+  writer.writeBool(offsets[1], object.isDeleted);
+  writer.writeBool(offsets[2], object.isSynced);
+  writer.writeString(offsets[3], object.lastContentHash);
+  writer.writeDateTime(offsets[4], object.lastItemPublishTime);
+  writer.writeDateTime(offsets[5], object.lastUpdate);
+  writer.writeDateTime(offsets[6], object.updateTime);
 }
 
 FeedUpdateRecordModel _feedUpdateRecordModelDeserialize(
@@ -123,13 +129,14 @@ FeedUpdateRecordModel _feedUpdateRecordModelDeserialize(
 ) {
   final object = FeedUpdateRecordModel(
     feedUrl: reader.readString(offsets[0]),
-    isSynced: reader.readBool(offsets[1]),
-    lastContentHash: reader.readString(offsets[2]),
-    lastItemPublishTime: reader.readDateTimeOrNull(offsets[3]),
-    lastUpdate: reader.readDateTime(offsets[4]),
-    updateTime: reader.readDateTime(offsets[5]),
+    isSynced: reader.readBool(offsets[2]),
+    lastContentHash: reader.readString(offsets[3]),
+    lastItemPublishTime: reader.readDateTimeOrNull(offsets[4]),
+    lastUpdate: reader.readDateTime(offsets[5]),
+    updateTime: reader.readDateTime(offsets[6]),
   );
   object.id = id;
+  object.isDeleted = reader.readBool(offsets[1]);
   return object;
 }
 
@@ -145,12 +152,14 @@ P _feedUpdateRecordModelDeserializeProp<P>(
     case 1:
       return (reader.readBool(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 3:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 4:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 5:
+      return (reader.readDateTime(offset)) as P;
+    case 6:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -653,6 +662,16 @@ extension FeedUpdateRecordModelQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
+      QAfterFilterCondition> isDeletedEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isDeleted',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel,
       QAfterFilterCondition> isSyncedEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1010,6 +1029,20 @@ extension FeedUpdateRecordModelQuerySortBy
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
+      sortByIsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
+      sortByIsDeletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       sortByIsSynced() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSynced', Sort.asc);
@@ -1111,6 +1144,20 @@ extension FeedUpdateRecordModelQuerySortThenBy
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
+      thenByIsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
+      thenByIsDeletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QAfterSortBy>
       thenByIsSynced() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSynced', Sort.asc);
@@ -1191,6 +1238,13 @@ extension FeedUpdateRecordModelQueryWhereDistinct
   }
 
   QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QDistinct>
+      distinctByIsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isDeleted');
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, FeedUpdateRecordModel, QDistinct>
       distinctByIsSynced() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isSynced');
@@ -1239,6 +1293,13 @@ extension FeedUpdateRecordModelQueryProperty on QueryBuilder<
       feedUrlProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'feedUrl');
+    });
+  }
+
+  QueryBuilder<FeedUpdateRecordModel, bool, QQueryOperations>
+      isDeletedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isDeleted');
     });
   }
 

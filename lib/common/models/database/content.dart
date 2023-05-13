@@ -26,6 +26,8 @@ class ContentModel {
 
   DateTime createTime = DateTime.now();
 
+  bool isDeleted = false;
+
   ContentModel(
       {required this.type,
       required this.uri,

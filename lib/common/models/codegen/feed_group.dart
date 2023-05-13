@@ -13,11 +13,14 @@ class FeedGroup {
   /// Returns a new [FeedGroup] instance.
   FeedGroup({
     this.description,
+    required this.isDeleted,
     required this.name,
     required this.updateTime,
   });
 
   String? description;
+
+  bool isDeleted;
 
   String name;
 
@@ -26,6 +29,7 @@ class FeedGroup {
   @override
   bool operator ==(Object other) => identical(this, other) || other is FeedGroup &&
      other.description == description &&
+     other.isDeleted == isDeleted &&
      other.name == name &&
      other.updateTime == updateTime;
 
@@ -33,11 +37,12 @@ class FeedGroup {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (description == null ? 0 : description!.hashCode) +
+    (isDeleted.hashCode) +
     (name.hashCode) +
     (updateTime.hashCode);
 
   @override
-  String toString() => 'FeedGroup[description=$description, name=$name, updateTime=$updateTime]';
+  String toString() => 'FeedGroup[description=$description, isDeleted=$isDeleted, name=$name, updateTime=$updateTime]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -46,6 +51,7 @@ class FeedGroup {
     } else {
       json[r'description'] = null;
     }
+      json[r'isDeleted'] = this.isDeleted;
       json[r'name'] = this.name;
       json[r'updateTime'] = this.updateTime;
     return json;
@@ -71,6 +77,7 @@ class FeedGroup {
 
       return FeedGroup(
         description: mapValueOfType<String>(json, r'description'),
+        isDeleted: mapValueOfType<bool>(json, r'isDeleted')!,
         name: mapValueOfType<String>(json, r'name')!,
         updateTime: mapValueOfType<int>(json, r'updateTime')!,
       );
@@ -122,6 +129,7 @@ class FeedGroup {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
+    'isDeleted',
     'name',
     'updateTime',
   };

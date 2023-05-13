@@ -16,6 +16,8 @@ class FeedGroupModel {
 
   bool isSynced;
 
+  bool isDeleted = false;
+
   FeedGroupModel({
     required this.name,
     this.description,
@@ -26,10 +28,10 @@ class FeedGroupModel {
 // function to convert FeedGroupModel to FeedGroup
 FeedGroup toFeedGroup(FeedGroupModel model) {
   return FeedGroup(
-    name: model.name,
-    description: model.description,
-    updateTime: model.updateTime.millisecondsSinceEpoch,
-  );
+      name: model.name,
+      description: model.description,
+      updateTime: model.updateTime.millisecondsSinceEpoch,
+      isDeleted: model.isDeleted);
 }
 
 // function to convert FeedGroupModel list to FeedGroup list

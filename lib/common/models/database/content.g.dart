@@ -37,14 +37,19 @@ const ContentModelSchema = CollectionSchema(
       name: r'feedUrl',
       type: IsarType.string,
     ),
-    r'type': PropertySchema(
+    r'isDeleted': PropertySchema(
       id: 4,
+      name: r'isDeleted',
+      type: IsarType.bool,
+    ),
+    r'type': PropertySchema(
+      id: 5,
       name: r'type',
       type: IsarType.byte,
       enumMap: _ContentModeltypeEnumValueMap,
     ),
     r'uri': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'uri',
       type: IsarType.string,
     )
@@ -93,6 +98,19 @@ const ContentModelSchema = CollectionSchema(
           caseSensitive: true,
         )
       ],
+    ),
+    r'isDeleted': IndexSchema(
+      id: -786475870904832312,
+      name: r'isDeleted',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'isDeleted',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
     )
   },
   links: {},
@@ -126,8 +144,9 @@ void _contentModelSerialize(
   writer.writeDateTime(offsets[1], object.createTime);
   writer.writeString(offsets[2], object.feedItemMd5String);
   writer.writeString(offsets[3], object.feedUrl);
-  writer.writeByte(offsets[4], object.type.index);
-  writer.writeString(offsets[5], object.uri);
+  writer.writeBool(offsets[4], object.isDeleted);
+  writer.writeByte(offsets[5], object.type.index);
+  writer.writeString(offsets[6], object.uri);
 }
 
 ContentModel _contentModelDeserialize(
@@ -140,12 +159,13 @@ ContentModel _contentModelDeserialize(
     content: reader.readString(offsets[0]),
     feedItemMd5String: reader.readString(offsets[2]),
     feedUrl: reader.readString(offsets[3]),
-    type: _ContentModeltypeValueEnumMap[reader.readByteOrNull(offsets[4])] ??
+    type: _ContentModeltypeValueEnumMap[reader.readByteOrNull(offsets[5])] ??
         ContentType.html,
-    uri: reader.readString(offsets[5]),
+    uri: reader.readString(offsets[6]),
   );
   object.createTime = reader.readDateTime(offsets[1]);
   object.id = id;
+  object.isDeleted = reader.readBool(offsets[4]);
   return object;
 }
 
@@ -165,9 +185,11 @@ P _contentModelDeserializeProp<P>(
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
+      return (reader.readBool(offset)) as P;
+    case 5:
       return (_ContentModeltypeValueEnumMap[reader.readByteOrNull(offset)] ??
           ContentType.html) as P;
-    case 5:
+    case 6:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -254,6 +276,14 @@ extension ContentModelQueryWhereSort
   QueryBuilder<ContentModel, ContentModel, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterWhere> anyIsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'isDeleted'),
+      );
     });
   }
 }
@@ -456,6 +486,51 @@ extension ContentModelQueryWhere
               indexName: r'feedUrl',
               lower: [],
               upper: [feedUrl],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause> isDeletedEqualTo(
+      bool isDeleted) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'isDeleted',
+        value: [isDeleted],
+      ));
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause>
+      isDeletedNotEqualTo(bool isDeleted) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isDeleted',
+              lower: [],
+              upper: [isDeleted],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isDeleted',
+              lower: [isDeleted],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isDeleted',
+              lower: [isDeleted],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'isDeleted',
+              lower: [],
+              upper: [isDeleted],
               includeUpper: false,
             ));
       }
@@ -982,6 +1057,16 @@ extension ContentModelQueryFilter
     });
   }
 
+  QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition>
+      isDeletedEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isDeleted',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<ContentModel, ContentModel, QAfterFilterCondition> typeEqualTo(
       ContentType value) {
     return QueryBuilder.apply(this, (query) {
@@ -1228,6 +1313,18 @@ extension ContentModelQuerySortBy
     });
   }
 
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByIsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByIsDeletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.desc);
+    });
+  }
+
   QueryBuilder<ContentModel, ContentModel, QAfterSortBy> sortByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
@@ -1318,6 +1415,18 @@ extension ContentModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByIsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByIsDeletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.desc);
+    });
+  }
+
   QueryBuilder<ContentModel, ContentModel, QAfterSortBy> thenByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
@@ -1373,6 +1482,12 @@ extension ContentModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<ContentModel, ContentModel, QDistinct> distinctByIsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isDeleted');
+    });
+  }
+
   QueryBuilder<ContentModel, ContentModel, QDistinct> distinctByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'type');
@@ -1417,6 +1532,12 @@ extension ContentModelQueryProperty
   QueryBuilder<ContentModel, String, QQueryOperations> feedUrlProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'feedUrl');
+    });
+  }
+
+  QueryBuilder<ContentModel, bool, QQueryOperations> isDeletedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isDeleted');
     });
   }
 

@@ -22,18 +22,23 @@ const FeedGroupModelSchema = CollectionSchema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'isSynced': PropertySchema(
+    r'isDeleted': PropertySchema(
       id: 1,
+      name: r'isDeleted',
+      type: IsarType.bool,
+    ),
+    r'isSynced': PropertySchema(
+      id: 2,
       name: r'isSynced',
       type: IsarType.bool,
     ),
     r'name': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'name',
       type: IsarType.string,
     ),
     r'updateTime': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'updateTime',
       type: IsarType.dateTime,
     )
@@ -89,9 +94,10 @@ void _feedGroupModelSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.description);
-  writer.writeBool(offsets[1], object.isSynced);
-  writer.writeString(offsets[2], object.name);
-  writer.writeDateTime(offsets[3], object.updateTime);
+  writer.writeBool(offsets[1], object.isDeleted);
+  writer.writeBool(offsets[2], object.isSynced);
+  writer.writeString(offsets[3], object.name);
+  writer.writeDateTime(offsets[4], object.updateTime);
 }
 
 FeedGroupModel _feedGroupModelDeserialize(
@@ -102,11 +108,12 @@ FeedGroupModel _feedGroupModelDeserialize(
 ) {
   final object = FeedGroupModel(
     description: reader.readStringOrNull(offsets[0]),
-    isSynced: reader.readBoolOrNull(offsets[1]) ?? false,
-    name: reader.readString(offsets[2]),
+    isSynced: reader.readBoolOrNull(offsets[2]) ?? false,
+    name: reader.readString(offsets[3]),
   );
   object.id = id;
-  object.updateTime = reader.readDateTime(offsets[3]);
+  object.isDeleted = reader.readBool(offsets[1]);
+  object.updateTime = reader.readDateTime(offsets[4]);
   return object;
 }
 
@@ -120,10 +127,12 @@ P _feedGroupModelDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readBool(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -536,6 +545,16 @@ extension FeedGroupModelQueryFilter
   }
 
   QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
+      isDeletedEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isDeleted',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterFilterCondition>
       isSyncedEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -760,6 +779,19 @@ extension FeedGroupModelQuerySortBy
     });
   }
 
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> sortByIsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy>
+      sortByIsDeletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> sortByIsSynced() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSynced', Sort.asc);
@@ -828,6 +860,19 @@ extension FeedGroupModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> thenByIsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy>
+      thenByIsDeletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedGroupModel, FeedGroupModel, QAfterSortBy> thenByIsSynced() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSynced', Sort.asc);
@@ -877,6 +922,13 @@ extension FeedGroupModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<FeedGroupModel, FeedGroupModel, QDistinct>
+      distinctByIsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isDeleted');
+    });
+  }
+
   QueryBuilder<FeedGroupModel, FeedGroupModel, QDistinct> distinctByIsSynced() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isSynced');
@@ -910,6 +962,12 @@ extension FeedGroupModelQueryProperty
       descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
+    });
+  }
+
+  QueryBuilder<FeedGroupModel, bool, QQueryOperations> isDeletedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isDeleted');
     });
   }
 

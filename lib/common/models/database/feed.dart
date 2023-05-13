@@ -31,6 +31,8 @@ class FeedModel {
 
   bool isSynced;
 
+  bool isDeleted = false;
+
   @Enumerated(EnumType.ordinal32)
   FeedType? type;
 
@@ -140,6 +142,7 @@ Feed toFeed(FeedModel feed) {
     customName: feed.customName,
     customLogo: feed.customLogo,
     customDescription: feed.customDescription,
+    isDeleted: feed.isDeleted,
     createTime: feed.createTime.millisecondsSinceEpoch,
     updateTime: feed.updateTime.millisecondsSinceEpoch,
   );

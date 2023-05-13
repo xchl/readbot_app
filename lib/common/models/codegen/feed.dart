@@ -18,6 +18,7 @@ class Feed {
     this.customName,
     this.description,
     required this.feedType,
+    required this.isDeleted,
     this.logo,
     this.name,
     this.tags = const [],
@@ -37,6 +38,8 @@ class Feed {
 
   FeedTypeServer feedType;
 
+  bool isDeleted;
+
   String? logo;
 
   String? name;
@@ -55,6 +58,7 @@ class Feed {
      other.customName == customName &&
      other.description == description &&
      other.feedType == feedType &&
+     other.isDeleted == isDeleted &&
      other.logo == logo &&
      other.name == name &&
      other.tags == tags &&
@@ -70,6 +74,7 @@ class Feed {
     (customName == null ? 0 : customName!.hashCode) +
     (description == null ? 0 : description!.hashCode) +
     (feedType.hashCode) +
+    (isDeleted.hashCode) +
     (logo == null ? 0 : logo!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
     (tags == null ? 0 : tags!.hashCode) +
@@ -77,7 +82,7 @@ class Feed {
     (url.hashCode);
 
   @override
-  String toString() => 'Feed[createTime=$createTime, customDescription=$customDescription, customLogo=$customLogo, customName=$customName, description=$description, feedType=$feedType, logo=$logo, name=$name, tags=$tags, updateTime=$updateTime, url=$url]';
+  String toString() => 'Feed[createTime=$createTime, customDescription=$customDescription, customLogo=$customLogo, customName=$customName, description=$description, feedType=$feedType, isDeleted=$isDeleted, logo=$logo, name=$name, tags=$tags, updateTime=$updateTime, url=$url]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -103,6 +108,7 @@ class Feed {
       json[r'description'] = null;
     }
       json[r'feedType'] = this.feedType;
+      json[r'isDeleted'] = this.isDeleted;
     if (this.logo != null) {
       json[r'logo'] = this.logo;
     } else {
@@ -148,6 +154,7 @@ class Feed {
         customName: mapValueOfType<String>(json, r'customName'),
         description: mapValueOfType<String>(json, r'description'),
         feedType: FeedTypeServer.fromJson(json[r'feedType'])!,
+        isDeleted: mapValueOfType<bool>(json, r'isDeleted')!,
         logo: mapValueOfType<String>(json, r'logo'),
         name: mapValueOfType<String>(json, r'name'),
         tags: json[r'tags'] is List
@@ -206,6 +213,7 @@ class Feed {
   static const requiredKeys = <String>{
     'createTime',
     'feedType',
+    'isDeleted',
     'updateTime',
     'url',
   };

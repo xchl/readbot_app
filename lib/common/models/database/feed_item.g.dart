@@ -47,53 +47,58 @@ const FeedItemModelSchema = CollectionSchema(
       name: r'feedUrl',
       type: IsarType.string,
     ),
-    r'isFocus': PropertySchema(
+    r'isDeleted': PropertySchema(
       id: 6,
+      name: r'isDeleted',
+      type: IsarType.bool,
+    ),
+    r'isFocus': PropertySchema(
+      id: 7,
       name: r'isFocus',
       type: IsarType.bool,
     ),
     r'isSeen': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'isSeen',
       type: IsarType.bool,
     ),
     r'isSynced': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'isSynced',
       type: IsarType.bool,
     ),
     r'link': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'link',
       type: IsarType.string,
     ),
     r'md5String': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'md5String',
       type: IsarType.string,
     ),
     r'publishTime': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'publishTime',
       type: IsarType.dateTime,
     ),
     r'summaryAlgo': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'summaryAlgo',
       type: IsarType.string,
     ),
     r'tags': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'tags',
       type: IsarType.stringList,
     ),
     r'title': PropertySchema(
-      id: 14,
+      id: 15,
       name: r'title',
       type: IsarType.string,
     ),
     r'updateTime': PropertySchema(
-      id: 15,
+      id: 16,
       name: r'updateTime',
       type: IsarType.dateTime,
     )
@@ -237,16 +242,17 @@ void _feedItemModelSerialize(
   writer.writeDateTime(offsets[3], object.createTime);
   writer.writeString(offsets[4], object.description);
   writer.writeString(offsets[5], object.feedUrl);
-  writer.writeBool(offsets[6], object.isFocus);
-  writer.writeBool(offsets[7], object.isSeen);
-  writer.writeBool(offsets[8], object.isSynced);
-  writer.writeString(offsets[9], object.link);
-  writer.writeString(offsets[10], object.md5String);
-  writer.writeDateTime(offsets[11], object.publishTime);
-  writer.writeString(offsets[12], object.summaryAlgo);
-  writer.writeStringList(offsets[13], object.tags);
-  writer.writeString(offsets[14], object.title);
-  writer.writeDateTime(offsets[15], object.updateTime);
+  writer.writeBool(offsets[6], object.isDeleted);
+  writer.writeBool(offsets[7], object.isFocus);
+  writer.writeBool(offsets[8], object.isSeen);
+  writer.writeBool(offsets[9], object.isSynced);
+  writer.writeString(offsets[10], object.link);
+  writer.writeString(offsets[11], object.md5String);
+  writer.writeDateTime(offsets[12], object.publishTime);
+  writer.writeString(offsets[13], object.summaryAlgo);
+  writer.writeStringList(offsets[14], object.tags);
+  writer.writeString(offsets[15], object.title);
+  writer.writeDateTime(offsets[16], object.updateTime);
 }
 
 FeedItemModel _feedItemModelDeserialize(
@@ -262,18 +268,19 @@ FeedItemModel _feedItemModelDeserialize(
     cover: reader.readStringOrNull(offsets[2]),
     createTime: reader.readDateTime(offsets[3]),
     description: reader.readStringOrNull(offsets[4]),
-    isFocus: reader.readBoolOrNull(offsets[6]) ?? false,
-    isSeen: reader.readBoolOrNull(offsets[7]) ?? false,
-    isSynced: reader.readBool(offsets[8]),
-    link: reader.readStringOrNull(offsets[9]),
-    publishTime: reader.readDateTimeOrNull(offsets[11]),
-    summaryAlgo: reader.readStringOrNull(offsets[12]),
-    tags: reader.readStringList(offsets[13]),
-    title: reader.readString(offsets[14]),
-    updateTime: reader.readDateTime(offsets[15]),
+    isFocus: reader.readBoolOrNull(offsets[7]) ?? false,
+    isSeen: reader.readBoolOrNull(offsets[8]) ?? false,
+    isSynced: reader.readBool(offsets[9]),
+    link: reader.readStringOrNull(offsets[10]),
+    publishTime: reader.readDateTimeOrNull(offsets[12]),
+    summaryAlgo: reader.readStringOrNull(offsets[13]),
+    tags: reader.readStringList(offsets[14]),
+    title: reader.readString(offsets[15]),
+    updateTime: reader.readDateTime(offsets[16]),
   );
   object.id = id;
-  object.md5String = reader.readString(offsets[10]);
+  object.isDeleted = reader.readBool(offsets[6]);
+  object.md5String = reader.readString(offsets[11]);
   return object;
 }
 
@@ -297,24 +304,26 @@ P _feedItemModelDeserializeProp<P>(
     case 5:
       return (reader.readString(offset)) as P;
     case 6:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readBool(offset)) as P;
     case 7:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 8:
-      return (reader.readBool(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 9:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 10:
-      return (reader.readString(offset)) as P;
-    case 11:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 12:
       return (reader.readStringOrNull(offset)) as P;
-    case 13:
-      return (reader.readStringList(offset)) as P;
-    case 14:
+    case 11:
       return (reader.readString(offset)) as P;
+    case 12:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 13:
+      return (reader.readStringOrNull(offset)) as P;
+    case 14:
+      return (reader.readStringList(offset)) as P;
     case 15:
+      return (reader.readString(offset)) as P;
+    case 16:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1649,6 +1658,16 @@ extension FeedItemModelQueryFilter
   }
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      isDeletedEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isDeleted',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
       isFocusEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -2714,6 +2733,19 @@ extension FeedItemModelQuerySortBy
     });
   }
 
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> sortByIsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy>
+      sortByIsDeletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> sortByIsFocus() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isFocus', Sort.asc);
@@ -2917,6 +2949,19 @@ extension FeedItemModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> thenByIsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy>
+      thenByIsDeletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isDeleted', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> thenByIsFocus() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isFocus', Sort.asc);
@@ -3074,6 +3119,12 @@ extension FeedItemModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<FeedItemModel, FeedItemModel, QDistinct> distinctByIsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isDeleted');
+    });
+  }
+
   QueryBuilder<FeedItemModel, FeedItemModel, QDistinct> distinctByIsFocus() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isFocus');
@@ -3181,6 +3232,12 @@ extension FeedItemModelQueryProperty
   QueryBuilder<FeedItemModel, String, QQueryOperations> feedUrlProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'feedUrl');
+    });
+  }
+
+  QueryBuilder<FeedItemModel, bool, QQueryOperations> isDeletedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isDeleted');
     });
   }
 

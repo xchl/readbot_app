@@ -226,9 +226,8 @@ class FeedService extends GetxService {
   }
 
   Future<void> fetchFeeds(List<FeedModel> feeds) async {
-    var feedUrls = feeds.map((feed) => feed.url).toList();
     List<FeedUpdateRecordModel?> feedLastUpdateRecords =
-        await DatabaseManager().getFeedLastUpdateRecord(feedUrls);
+        await DatabaseManager().getFeedLastUpdateRecord(feeds);
 
     var feedsNeedUpdate = <int>[];
     // if there is no update record, feed need to update

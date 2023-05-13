@@ -18,6 +18,8 @@ class FeedUpdateRecordModel {
 
   bool isSynced;
 
+  bool isDeleted = false;
+
   @Index()
   DateTime updateTime;
 

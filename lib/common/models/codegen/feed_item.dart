@@ -18,6 +18,7 @@ class FeedItem {
     required this.createTime,
     this.description,
     required this.feedUrl,
+    required this.isDeleted,
     required this.isFocus,
     required this.isSeen,
     this.link,
@@ -40,6 +41,8 @@ class FeedItem {
   String? description;
 
   String feedUrl;
+
+  bool isDeleted;
 
   bool isFocus;
 
@@ -67,6 +70,7 @@ class FeedItem {
      other.createTime == createTime &&
      other.description == description &&
      other.feedUrl == feedUrl &&
+     other.isDeleted == isDeleted &&
      other.isFocus == isFocus &&
      other.isSeen == isSeen &&
      other.link == link &&
@@ -86,6 +90,7 @@ class FeedItem {
     (createTime.hashCode) +
     (description == null ? 0 : description!.hashCode) +
     (feedUrl.hashCode) +
+    (isDeleted.hashCode) +
     (isFocus.hashCode) +
     (isSeen.hashCode) +
     (link == null ? 0 : link!.hashCode) +
@@ -97,7 +102,7 @@ class FeedItem {
     (updateTime.hashCode);
 
   @override
-  String toString() => 'FeedItem[authors=$authors, category=$category, cover=$cover, createTime=$createTime, description=$description, feedUrl=$feedUrl, isFocus=$isFocus, isSeen=$isSeen, link=$link, md5String=$md5String, publishTime=$publishTime, summaryAlgo=$summaryAlgo, tags=$tags, title=$title, updateTime=$updateTime]';
+  String toString() => 'FeedItem[authors=$authors, category=$category, cover=$cover, createTime=$createTime, description=$description, feedUrl=$feedUrl, isDeleted=$isDeleted, isFocus=$isFocus, isSeen=$isSeen, link=$link, md5String=$md5String, publishTime=$publishTime, summaryAlgo=$summaryAlgo, tags=$tags, title=$title, updateTime=$updateTime]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -123,6 +128,7 @@ class FeedItem {
       json[r'description'] = null;
     }
       json[r'feedUrl'] = this.feedUrl;
+      json[r'isDeleted'] = this.isDeleted;
       json[r'isFocus'] = this.isFocus;
       json[r'isSeen'] = this.isSeen;
     if (this.link != null) {
@@ -180,6 +186,7 @@ class FeedItem {
         createTime: mapValueOfType<int>(json, r'createTime')!,
         description: mapValueOfType<String>(json, r'description'),
         feedUrl: mapValueOfType<String>(json, r'feedUrl')!,
+        isDeleted: mapValueOfType<bool>(json, r'isDeleted')!,
         isFocus: mapValueOfType<bool>(json, r'isFocus')!,
         isSeen: mapValueOfType<bool>(json, r'isSeen')!,
         link: mapValueOfType<String>(json, r'link'),
@@ -242,6 +249,7 @@ class FeedItem {
   static const requiredKeys = <String>{
     'createTime',
     'feedUrl',
+    'isDeleted',
     'isFocus',
     'isSeen',
     'md5String',

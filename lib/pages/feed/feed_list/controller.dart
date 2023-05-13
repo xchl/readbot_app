@@ -219,6 +219,7 @@ class FeedListController extends GetxController {
           SyncService.to.syncPush();
         }
       } finally {
+        // TODO 无法正常走到
         Loading.dismiss();
       }
     }

@@ -38,6 +38,8 @@ class FeedItemModel {
   @Index()
   String feedUrl;
 
+  bool isDeleted = false;
+
   @Index()
   DateTime updateTime = DateTime.now();
 
@@ -107,6 +109,7 @@ FeedItem toFeedItem(FeedItemModel model) {
       createTime: model.createTime.millisecondsSinceEpoch,
       md5String: model.md5String,
       feedUrl: model.feedUrl,
+      isDeleted: model.isDeleted,
       updateTime: model.updateTime.millisecondsSinceEpoch);
 }
 

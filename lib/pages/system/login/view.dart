@@ -60,7 +60,7 @@ class LoginPage extends GetView<LoginController> {
               LocaleKeys.validatorPassword.trParams(
                 {
                   "min": "${Constants.passwordMinLength}",
-                  "max": "${Constants.passwordMaxLength}}"
+                  "max": "${Constants.passwordMaxLength}"
                 },
               ),
             ),

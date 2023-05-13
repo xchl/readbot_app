@@ -52,7 +52,7 @@ class RegisterPage extends GetView<RegisterController> {
               LocaleKeys.validatorPassword.trParams(
                 {
                   "min": "${Constants.passwordMinLength}",
-                  "max": "${Constants.passwordMaxLength}}"
+                  "max": "${Constants.passwordMaxLength}"
                 },
               ),
             ),
