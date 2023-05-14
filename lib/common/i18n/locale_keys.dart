@@ -129,6 +129,7 @@ class LocaleKeys {
   static const unnameFeedGroup = 'unname_feed_group';
   static const feedGroupDelete = 'feed_group_delete';
   static const feedDelete = 'feed_delete';
+  static const addFeedError = 'add_feed_error';
 
   // Read
   static const turnToFocusTip = 'turn_to_focus_tip';

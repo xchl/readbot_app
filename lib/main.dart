@@ -18,11 +18,6 @@ Future<void> main() async {
     LogService.to.e(details);
     if (kReleaseMode) exit(1);
   };
-  // catch async error
-  PlatformDispatcher.instance.onError = (error, stack) {
-    LogService.to.e(error, stack);
-    return true;
-  };
   runApp(const MyApp());
 }
 

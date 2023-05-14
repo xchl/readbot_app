@@ -127,6 +127,7 @@ Map<String, String> localeZh = {
   LocaleKeys.unnameFeedGroup: '未命名分组',
   LocaleKeys.feedDelete: '取消订阅',
   LocaleKeys.feedGroupDelete: '删除分组',
+  LocaleKeys.addFeedError: '添加订阅源失败',
 
   // Read
   LocaleKeys.turnToFocusTip: '聚焦阅读',

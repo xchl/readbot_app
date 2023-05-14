@@ -198,19 +198,19 @@ class FeedListController extends GetxController {
         Loading.toast(LocaleKeys.feedAlreadyExists.tr);
         return;
       }
-      try {
-        Loading.show();
-        await FeedService.to.addFeedFromUrl(urlController.text);
+      Loading.show();
+      bool isSuccess = await FeedService.to.addFeedFromUrl(urlController.text);
+      if (isSuccess) {
         selectedFeedGroup = defaultFeedGroup;
         Loading.success();
         refreshFeedItemPage();
         refreshCurrentPage();
-        Get.back();
         SyncService.to.syncPush();
-      } finally {
-        // TODO 无法正常走到
-        Loading.dismiss();
+      } else {
+        Loading.error(LocaleKeys.addFeedError.tr);
       }
+      Loading.dismiss();
+      Get.back();
     }
   }
 

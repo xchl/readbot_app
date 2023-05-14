@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:readbot/common/index.dart';
@@ -8,6 +9,8 @@ class HttpService extends GetxService {
   static HttpService get to => Get.find();
 
   late final Dio _dio;
+
+  final retryTimes = 2;
 
   @override
   void onInit() {
@@ -43,17 +46,6 @@ class HttpService extends GetxService {
       cancelToken: cancelToken,
     );
     return response;
-  }
-
-  // TODO 与get融合
-  Future<String?> requestGet(String url) async {
-    try {
-      var res = await HttpService.to.get(url);
-      return res.data;
-    } catch (e) {
-      LogService.to.e(e);
-      return null;
-    }
   }
 
   Future<Response> retry(RequestOptions requestOptions) async {
@@ -148,10 +140,7 @@ class RequestInterceptors extends Interceptor {
         requestOptions.extra['retried'] == true) {
       return false;
     }
-    return err.type == DioErrorType.receiveTimeout ||
-        err.type == DioErrorType.sendTimeout ||
-        err.type == DioErrorType.connectionTimeout ||
-        err.type == DioErrorType.unknown;
+    return err.type == DioErrorType.receiveTimeout;
   }
 
   @override
@@ -187,7 +176,6 @@ class RequestInterceptors extends Interceptor {
       default:
         break;
     }
-    // err.error = exception;
     handler.next(err);
   }
 }

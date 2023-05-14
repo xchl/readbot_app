@@ -152,11 +152,11 @@ class FeedService extends GetxService {
     }
   }
 
-  Future<void> addFeedFromUrl(String url) async {
+  Future<bool> addFeedFromUrl(String url) async {
     String? xml = await fetchFeedFromUrl(url);
-    if (xml == null) return;
+    if (xml == null) return false;
     Tuple2<FeedModel, List<FeedItemModel>>? res = _parseFeed(xml, url);
-    if (res == null) return;
+    if (res == null) return false;
 
     var hash = md5.convert(utf8.encode(xml)).toString();
 
@@ -175,6 +175,7 @@ class FeedService extends GetxService {
     await DatabaseManager()
         .insertFeedAndItems(res.item1, feedItems, newUpdateRecord);
     downloadHtml(feedItems);
+    return true;
   }
 
   FeedModel? handleSingleOutline(XmlElement outline) {
