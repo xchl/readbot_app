@@ -132,6 +132,9 @@ class FeedService extends GetxService {
             Get.find<PostAllController>().handleCoverUpdate(_coverUpdateItems);
             Get.find<PostFocusController>()
                 .handleCoverUpdate(_coverUpdateItems);
+            await DatabaseManager().updateFeedItems(
+                _coverUpdateItems.entries.map((e) => e.value).toList());
+            SyncService.to.syncPush();
             _coverUpdateItems.clear();
           }
         }

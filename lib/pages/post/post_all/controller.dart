@@ -32,9 +32,7 @@ class PostAllController extends GetxController {
     await DatabaseManager().updateFeedItem(_feedItems[index]);
     _feedItems.removeAt(index);
     _feed.removeAt(index);
-    if (UserService.isLogin) {
-      SyncService.to.syncPush();
-    }
+    SyncService.to.syncPush();
     update(["post_all"]);
     Get.find<PostFocusController>().refreshFeedItem();
   }
@@ -121,9 +119,7 @@ class PostAllController extends GetxController {
     try {
       await FeedService.to.fetchAllFeed();
       refreshFeedItem();
-      if (UserService.isLogin) {
-        SyncService.to.syncPush();
-      }
+      SyncService.to.syncPush();
     } catch (error) {
       debugPrint(error.toString());
     }

@@ -74,9 +74,7 @@ class FeedListController extends GetxController {
         await FeedService.to.importFeedFromOpml(contents);
         Loading.success();
         Get.find<PostAllController>().refreshFeedItem();
-        if (UserService.isLogin) {
-          SyncService.to.syncPush();
-        }
+        SyncService.to.syncPush();
       } catch (error) {
         Loading.error(LocaleKeys.importFromOpmlError.tr);
       }
@@ -100,9 +98,7 @@ class FeedListController extends GetxController {
       }
       selectedFeedGroup = group;
       Get.back();
-      if (UserService.isLogin) {
-        SyncService.to.syncPush();
-      }
+      SyncService.to.syncPush();
       update(["feed_list"]);
     }
   }
@@ -135,9 +131,7 @@ class FeedListController extends GetxController {
 
       update(["feed_list"]);
       Get.back();
-      if (UserService.isLogin) {
-        SyncService.to.syncPush();
-      }
+      SyncService.to.syncPush();
     }
   }
 
@@ -172,9 +166,7 @@ class FeedListController extends GetxController {
     }
     Get.back();
     update(["feed_list"]);
-    if (UserService.isLogin) {
-      SyncService.to.syncPush();
-    }
+    SyncService.to.syncPush();
   }
 
   void initGroupForm(FeedGroupModel? feedGroup) {
@@ -214,9 +206,7 @@ class FeedListController extends GetxController {
         refreshFeedItemPage();
         refreshCurrentPage();
         Get.back();
-        if (UserService.isLogin) {
-          SyncService.to.syncPush();
-        }
+        SyncService.to.syncPush();
       } finally {
         // TODO 无法正常走到
         Loading.dismiss();

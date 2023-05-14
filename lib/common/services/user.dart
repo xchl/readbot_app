@@ -32,7 +32,6 @@ class UserService extends GetxService {
     await refreshTokenIfNeed();
     if (hasActiveAccessToken()) {
       _isLogin(true);
-      SyncService.to.syncPull();
     }
     return _isLogin.value;
   }
