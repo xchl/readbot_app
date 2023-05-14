@@ -18,6 +18,7 @@ class FeedItem {
     required this.createTime,
     this.description,
     required this.feedUrl,
+    this.focusTime,
     required this.isDeleted,
     required this.isFocus,
     required this.isSeen,
@@ -41,6 +42,8 @@ class FeedItem {
   String? description;
 
   String feedUrl;
+
+  int? focusTime;
 
   bool isDeleted;
 
@@ -70,6 +73,7 @@ class FeedItem {
      other.createTime == createTime &&
      other.description == description &&
      other.feedUrl == feedUrl &&
+     other.focusTime == focusTime &&
      other.isDeleted == isDeleted &&
      other.isFocus == isFocus &&
      other.isSeen == isSeen &&
@@ -90,6 +94,7 @@ class FeedItem {
     (createTime.hashCode) +
     (description == null ? 0 : description!.hashCode) +
     (feedUrl.hashCode) +
+    (focusTime == null ? 0 : focusTime!.hashCode) +
     (isDeleted.hashCode) +
     (isFocus.hashCode) +
     (isSeen.hashCode) +
@@ -102,7 +107,7 @@ class FeedItem {
     (updateTime.hashCode);
 
   @override
-  String toString() => 'FeedItem[authors=$authors, category=$category, cover=$cover, createTime=$createTime, description=$description, feedUrl=$feedUrl, isDeleted=$isDeleted, isFocus=$isFocus, isSeen=$isSeen, link=$link, md5String=$md5String, publishTime=$publishTime, summaryAlgo=$summaryAlgo, tags=$tags, title=$title, updateTime=$updateTime]';
+  String toString() => 'FeedItem[authors=$authors, category=$category, cover=$cover, createTime=$createTime, description=$description, feedUrl=$feedUrl, focusTime=$focusTime, isDeleted=$isDeleted, isFocus=$isFocus, isSeen=$isSeen, link=$link, md5String=$md5String, publishTime=$publishTime, summaryAlgo=$summaryAlgo, tags=$tags, title=$title, updateTime=$updateTime]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -128,6 +133,11 @@ class FeedItem {
       json[r'description'] = null;
     }
       json[r'feedUrl'] = this.feedUrl;
+    if (this.focusTime != null) {
+      json[r'focusTime'] = this.focusTime;
+    } else {
+      json[r'focusTime'] = null;
+    }
       json[r'isDeleted'] = this.isDeleted;
       json[r'isFocus'] = this.isFocus;
       json[r'isSeen'] = this.isSeen;
@@ -186,6 +196,7 @@ class FeedItem {
         createTime: mapValueOfType<int>(json, r'createTime')!,
         description: mapValueOfType<String>(json, r'description'),
         feedUrl: mapValueOfType<String>(json, r'feedUrl')!,
+        focusTime: mapValueOfType<int>(json, r'focusTime'),
         isDeleted: mapValueOfType<bool>(json, r'isDeleted')!,
         isFocus: mapValueOfType<bool>(json, r'isFocus')!,
         isSeen: mapValueOfType<bool>(json, r'isSeen')!,

@@ -28,6 +28,8 @@ class FeedItemModel {
   String? summaryAlgo;
   DateTime createTime;
 
+  DateTime? focusTime;
+
   bool isSynced;
 
   // md5(title + link)
@@ -110,7 +112,8 @@ FeedItem toFeedItem(FeedItemModel model) {
       md5String: model.md5String,
       feedUrl: model.feedUrl,
       isDeleted: model.isDeleted,
-      updateTime: model.updateTime.millisecondsSinceEpoch);
+      updateTime: model.updateTime.millisecondsSinceEpoch,
+      focusTime: model.focusTime?.millisecondsSinceEpoch);
 }
 
 // function to convert FeedItemModel list to FeedItem list

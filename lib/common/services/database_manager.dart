@@ -269,7 +269,7 @@ class DatabaseManager {
       filter = filter.feedUrlEqualTo(feedUrl);
     }
     return await filter
-        .sortByPublishTimeDesc()
+        .sortByFocusTimeDesc()
         .offset(page * Constants.pageSizeMobile)
         .limit(Constants.pageSizeMobile)
         .findAll();

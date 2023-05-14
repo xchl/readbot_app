@@ -20,7 +20,7 @@ Future<void> main() async {
   };
   // catch async error
   PlatformDispatcher.instance.onError = (error, stack) {
-    LogService.to.e(error);
+    LogService.to.e(error, stack);
     return true;
   };
   runApp(const MyApp());

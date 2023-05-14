@@ -98,19 +98,6 @@ const ContentModelSchema = CollectionSchema(
           caseSensitive: true,
         )
       ],
-    ),
-    r'isDeleted': IndexSchema(
-      id: -786475870904832312,
-      name: r'isDeleted',
-      unique: false,
-      replace: false,
-      properties: [
-        IndexPropertySchema(
-          name: r'isDeleted',
-          type: IndexType.value,
-          caseSensitive: false,
-        )
-      ],
     )
   },
   links: {},
@@ -276,14 +263,6 @@ extension ContentModelQueryWhereSort
   QueryBuilder<ContentModel, ContentModel, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
-
-  QueryBuilder<ContentModel, ContentModel, QAfterWhere> anyIsDeleted() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'isDeleted'),
-      );
     });
   }
 }
@@ -486,51 +465,6 @@ extension ContentModelQueryWhere
               indexName: r'feedUrl',
               lower: [],
               upper: [feedUrl],
-              includeUpper: false,
-            ));
-      }
-    });
-  }
-
-  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause> isDeletedEqualTo(
-      bool isDeleted) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'isDeleted',
-        value: [isDeleted],
-      ));
-    });
-  }
-
-  QueryBuilder<ContentModel, ContentModel, QAfterWhereClause>
-      isDeletedNotEqualTo(bool isDeleted) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'isDeleted',
-              lower: [],
-              upper: [isDeleted],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'isDeleted',
-              lower: [isDeleted],
-              includeLower: false,
-              upper: [],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'isDeleted',
-              lower: [isDeleted],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'isDeleted',
-              lower: [],
-              upper: [isDeleted],
               includeUpper: false,
             ));
       }
