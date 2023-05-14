@@ -127,7 +127,6 @@ class FeedService extends GetxService {
               urlRequest: URLRequest(url: Uri.parse(feedItems[idx].link!)));
         } else {
           // after all items downloaded, update cover
-          // TODO is need push
           if (_coverUpdateItems.isNotEmpty) {
             Get.find<PostAllController>().handleCoverUpdate(_coverUpdateItems);
             Get.find<PostFocusController>()
@@ -143,8 +142,18 @@ class FeedService extends GetxService {
     headlessWebView.run();
   }
 
+  Future<String?> fetchFeedFromUrl(String url) async {
+    try {
+      var res = await HttpService.to.get(url);
+      return res.data;
+    } catch (e) {
+      LogService.to.e(e);
+      return null;
+    }
+  }
+
   Future<void> addFeedFromUrl(String url) async {
-    String? xml = await HttpService.to.requestGet(url);
+    String? xml = await fetchFeedFromUrl(url);
     if (xml == null) return;
     Tuple2<FeedModel, List<FeedItemModel>>? res = _parseFeed(xml, url);
     if (res == null) return;
@@ -251,7 +260,7 @@ class FeedService extends GetxService {
     for (var i in feedsNeedUpdate) {
       var feed = feeds[i];
       var lastUpdateRecord = feedLastUpdateRecords[i];
-      var content = await HttpService.to.requestGet(feed.url);
+      var content = await fetchFeedFromUrl(feed.url);
       if (content == null) {
         continue;
       }
