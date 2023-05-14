@@ -33,13 +33,13 @@ class SyncService extends GetxService {
   }
 
   void syncPull() {
-    if (UserService.isLogin && !ConfigService().enableSync) return;
+    if (!UserService.isLogin || !ConfigService().enableSync) return;
     _syncQueue.add(_syncPull);
     _processSyncQueue();
   }
 
   void syncPush() {
-    if (UserService.isLogin && !ConfigService().enableSync) return;
+    if (!UserService.isLogin || !ConfigService().enableSync) return;
     _syncQueue.add(_syncPush);
     _processSyncQueue();
   }
