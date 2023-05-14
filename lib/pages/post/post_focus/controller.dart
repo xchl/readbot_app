@@ -16,7 +16,7 @@ class PostFocusController extends GetxController {
 
   int lastTapIdx = -1;
 
-  // TODO 是否不应该按找时间排？
+  // TODO 是否不应该按找时间排？按照加入时间排
   refreshFeedItem() async {
     _page = 0;
     _feedItems.clear();

@@ -172,7 +172,6 @@ class FeedListController extends GetxController {
     }
     Get.back();
     update(["feed_list"]);
-    // TODO 数据库删除同步
     if (UserService.isLogin) {
       SyncService.to.syncPush();
     }

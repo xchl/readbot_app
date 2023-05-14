@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// 功能栏项
 class PostItemListWidget extends StatelessWidget {
   final FeedItemModel feedItem;
-  final FeedModel feed;
+  final FeedModel? feed;
 
   const PostItemListWidget(
       {Key? key, required this.feedItem, required this.feed})
@@ -31,9 +31,15 @@ class PostItemListWidget extends StatelessWidget {
 
   Widget _buildDescriptionBlock() {
     return <Widget>[
-      TextWidget.body2(feed.title,
-          color:
-              feedItem.isSeen ? AppColors.seenTextColor : AppColors.textColor),
+      feed == null
+          ? const SizedBox(
+              width: 0,
+              height: 0,
+            )
+          : TextWidget.body2(feed!.title,
+              color: feedItem.isSeen
+                  ? AppColors.seenTextColor
+                  : AppColors.textColor),
       feedItem.publishTime == null
           ? const SizedBox(
               width: 0,

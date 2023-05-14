@@ -56,7 +56,7 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
                 direction: DismissDirection.startToEnd,
                 child: PostItemListWidget(
                   feedItem: feedItem,
-                  feed: feed!, // TODO
+                  feed: feed,
                 ).inkWell(onTap: () {
                   controller.onTapItem(feedItem, i);
                 }),

@@ -38,7 +38,7 @@ class _PostFocusPageViewGetX extends GetView<PostFocusController> {
               final feed = controller.feeds[i];
               return PostItemListWidget(
                 feedItem: feedItem,
-                feed: feed!,
+                feed: feed,
               ).inkWell(onTap: () {
                 controller.onTapItem(feedItem, i);
               });
