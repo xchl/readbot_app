@@ -22,7 +22,7 @@ class ButtonShowItemWidget extends StatelessWidget {
         leading: TextWidget.body1(
           title,
         ),
-        leadingSpace: AppSpace.seqHorization,
+        leadingSpace: AppSpace.seqx2Horization,
 
         // 右侧箭头
         title: TextWidget.body1(

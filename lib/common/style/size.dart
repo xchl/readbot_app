@@ -18,6 +18,9 @@ class AppSize {
   static double get navigationItem => 25.sp;
   static double get navigationHeight => 60.h;
 
+  // 正文页
+  static double get summaryBoxHeight => 400.h;
+
   // 个人主页
   static double get headerHeight => 150.h;
 

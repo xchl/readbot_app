@@ -41,7 +41,7 @@ class ReadModeStyle {
             color: #333333;
             margin: 0;
             padding: 2em;
-            background-color: #f9f9f9;
+            background-color: #FFFEFEFE;
           }
 
           h1, h2, h3, h4, h5, h6 {

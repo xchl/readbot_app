@@ -30,14 +30,13 @@ class PostDetailPage extends GetView<PostDetailController> {
     return Builder(builder: (context) {
       return BottomAppBar(
           child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           ButtonWidget.icon(
             Icon(
               Icons.edit,
               color: AppColors.textColor,
-              size: 30.h,
+              size: AppSize.toolIconSize,
             ),
           ),
           const Expanded(child: SizedBox()),
@@ -47,7 +46,7 @@ class PostDetailPage extends GetView<PostDetailController> {
               color: AppColors.textColor,
               size: AppSize.toolIconSize,
             ),
-          ).paddingRight(15.w),
+          ).paddingRight(AppSpace.seqx2Horization),
           controller.isReadMode
               ? ButtonWidget.icon(
                       Icon(
@@ -72,28 +71,24 @@ class PostDetailPage extends GetView<PostDetailController> {
                 size: AppSize.toolIconSize,
               ), onTap: () {
             controller.summaryText(redo: false);
-            showBottomSheet(
-              context: context,
-              builder: (context) => SingleChildScrollView(
-                child: SizedBox(
-                        width: double.infinity,
-                        child: Column(children: [
-                          TextWidget.title2(LocaleKeys.aiSummaryTitle.tr)
-                              .paddingBottom(AppSpace.card),
-                          Obx(() => controller.summary.isEmpty
-                              ? TextWidget.body1(LocaleKeys.aiLoading.tr)
-                              : TextWidget.body1(
-                                  controller.summary,
-                                ))
-                        ]).height(400.h).paddingAll(AppSpace.card))
-                    .borderRadius(topRight: 2, topLeft: 2)
-                    .padding(left: AppSpace.card, right: AppSpace.card),
-              ),
-            );
+            showCustomModalBottomSheet(
+                context: context, builder: (context) => _buildSummaryView());
           }).paddingRight(15.w),
         ],
       ).height(50.h).padding(left: 15.w, right: 15.w));
     });
+  }
+
+  Widget _buildSummaryView() {
+    return Column(children: [
+      TextWidget.title2(LocaleKeys.aiSummaryTitle.tr)
+          .paddingBottom(AppSpace.card),
+      Obx(() => controller.summary.isEmpty
+          ? TextWidget.body1(LocaleKeys.aiLoading.tr)
+          : TextWidget.body1(
+              controller.summary,
+            ))
+    ]).height(AppSize.summaryBoxHeight).paddingAll(AppSpace.card);
   }
 
   @override
@@ -103,6 +98,11 @@ class PostDetailPage extends GetView<PostDetailController> {
         id: "post_detail",
         builder: (_) {
           return Scaffold(
+              appBar: AppBar(
+                toolbarHeight: 0,
+                backgroundColor: AppColors.background,
+                elevation: AppSize.appBarElevation,
+              ),
               body: SafeArea(
                 child: _buildView(),
               ),
