@@ -29,53 +29,55 @@ class PostDetailPage extends GetView<PostDetailController> {
   Widget _buildToolBar() {
     return Builder(builder: (context) {
       return BottomAppBar(
+          color: AppColors.navigationBarColor,
           child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          ButtonWidget.icon(
-            Icon(
-              Icons.edit,
-              color: AppColors.textColor,
-              size: AppSize.toolIconSize,
-            ),
-          ),
-          const Expanded(child: SizedBox()),
-          ButtonWidget.icon(
-            Icon(
-              Icons.star_outline,
-              color: AppColors.textColor,
-              size: AppSize.toolIconSize,
-            ),
-          ).paddingRight(AppSpace.seqx2Horization),
-          controller.isReadMode
-              ? ButtonWidget.icon(
-                      Icon(
-                        Icons.feed_outlined,
-                        color: AppColors.textColor,
-                        size: AppSize.toolIconSize,
-                      ),
-                      onTap: () => controller.toggleReadMode())
-                  .paddingRight(AppSpace.seqx2Horization)
-              : ButtonWidget.icon(
-                      Icon(
-                        Icons.public_outlined,
-                        color: AppColors.textColor,
-                        size: AppSize.toolIconSize,
-                      ),
-                      onTap: () => controller.toggleReadMode())
-                  .paddingRight(AppSpace.seqx2Horization),
-          ButtonWidget.icon(
-              Icon(
-                Icons.smart_toy_outlined,
-                color: AppColors.textColor,
-                size: AppSize.toolIconSize,
-              ), onTap: () {
-            controller.summaryText(redo: false);
-            showCustomModalBottomSheet(
-                context: context, builder: (context) => _buildSummaryView());
-          }).paddingRight(15.w),
-        ],
-      ).height(50.h).padding(left: 15.w, right: 15.w));
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              ButtonWidget.icon(
+                Icon(
+                  Icons.edit,
+                  color: AppColors.textColor,
+                  size: AppSize.toolIconSize,
+                ),
+              ),
+              const Expanded(child: SizedBox()),
+              ButtonWidget.icon(
+                Icon(
+                  Icons.star_outline,
+                  color: AppColors.textColor,
+                  size: AppSize.toolIconSize,
+                ),
+              ).paddingRight(AppSpace.seqx2Horization),
+              controller.isReadMode
+                  ? ButtonWidget.icon(
+                          Icon(
+                            Icons.feed_outlined,
+                            color: AppColors.textColor,
+                            size: AppSize.toolIconSize,
+                          ),
+                          onTap: () => controller.toggleReadMode())
+                      .paddingRight(AppSpace.seqx2Horization)
+                  : ButtonWidget.icon(
+                          Icon(
+                            Icons.public_outlined,
+                            color: AppColors.textColor,
+                            size: AppSize.toolIconSize,
+                          ),
+                          onTap: () => controller.toggleReadMode())
+                      .paddingRight(AppSpace.seqx2Horization),
+              ButtonWidget.icon(
+                  Icon(
+                    Icons.smart_toy_outlined,
+                    color: AppColors.textColor,
+                    size: AppSize.toolIconSize,
+                  ), onTap: () {
+                controller.summaryText(redo: false);
+                showCustomModalBottomSheet(
+                    context: context,
+                    builder: (context) => _buildSummaryView());
+              }).paddingRight(AppSpace.seqx2Horization),
+            ],
+          ).height(AppSize.toolbarHeight).paddingHorizontal(AppSpace.page));
     });
   }
 

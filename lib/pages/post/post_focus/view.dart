@@ -53,7 +53,7 @@ class _PostFocusPageViewGetX extends GetView<PostFocusController> {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            toolbarHeight: 44.h,
+            toolbarHeight: AppSize.appBarHeight,
             backgroundColor: AppColors.navigationBarColor,
             elevation: AppSize.appBarElevation,
             title: TextWidget.title1(

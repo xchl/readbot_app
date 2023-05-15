@@ -163,6 +163,7 @@ class FeedListPage extends GetView<FeedListController> {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
+            toolbarHeight: AppSize.appBarHeight,
             backgroundColor: AppColors.navigationBarColor,
             elevation: AppSize.appBarElevation,
             title: TextWidget.title1(

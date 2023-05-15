@@ -77,7 +77,7 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
           endDrawer: const PostDrawerPage(PageType.explore),
           onEndDrawerChanged: controller.onEndDrawerChanged,
           appBar: AppBar(
-            toolbarHeight: 44.h,
+            toolbarHeight: AppSize.appBarHeight,
             backgroundColor: AppColors.navigationBarColor,
             elevation: AppSize.appBarElevation,
             title: TextWidget.title1(
