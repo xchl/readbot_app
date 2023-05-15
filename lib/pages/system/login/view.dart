@@ -14,13 +14,13 @@ class LoginPage extends GetView<LoginController> {
       // 提示
       ButtonWidget.text(
         LocaleKeys.loginForgotPassword.tr,
-        textSize: 12,
-      ).paddingRight(10),
+        textSize: AppSize.body2,
+      ).paddingRight(AppSpace.seqHorization),
       // 注册文字按钮
       ButtonWidget.text(
         LocaleKeys.loginSignUp.tr,
         onTap: controller.onSignUp,
-        textSize: 12,
+        textSize: AppSize.body2,
         textColor: AppColors.primary,
       )
     ].toRow(
@@ -36,7 +36,6 @@ class LoginPage extends GetView<LoginController> {
       child: <Widget>[
         // email
         TextFormWidget(
-          autofocus: true,
           keyboardType: TextInputType.emailAddress,
           controller: controller.emailController,
           labelText: LocaleKeys.loginEmail.tr,
@@ -44,13 +43,13 @@ class LoginPage extends GetView<LoginController> {
             Validatorless.required(LocaleKeys.validatorRequired.tr),
             Validatorless.email(LocaleKeys.validatorEmail.tr),
           ]),
-        ),
+        ).paddingBottom(AppSpace.listItem),
 
         // password
         TextFormWidget(
           controller: controller.passwordController,
-          labelText: LocaleKeys.loginPassword.tr,
           isObscure: true,
+          labelText: LocaleKeys.loginPassword.tr,
           validator: Validatorless.multiple([
             Validatorless.required(LocaleKeys.validatorRequired.tr),
             Validators.password(
@@ -69,14 +68,15 @@ class LoginPage extends GetView<LoginController> {
         // 用户协议
         CheckBoxWidget(
           value: controller.isAgree,
+          activeColor: AppColors.primary,
           onChanged: controller.onCheckAgree,
           textWidget: ButtonWidget.text(
             LocaleKeys.registerUserAgreement.tr,
             onTap: controller.onUserAgreement,
-            textSize: 14,
+            textSize: AppSize.body2,
             textColor: AppColors.primary,
           ),
-        ).padding(left: 0, bottom: 10),
+        ).paddingBottom(AppSpace.listItem),
 
         // 登录按钮
         ButtonWidget.primary(
@@ -116,21 +116,25 @@ class LoginPage extends GetView<LoginController> {
 
   // 内容页
   Widget _buildView() {
-    return SingleChildScrollView(
-      child: <Widget>[
-        // 头部标题
-        TextWidget.title1(LocaleKeys.loginBackTitle.tr).padding(
-          top: AppSpace.page,
-          bottom: AppSpace.title,
-        ),
-
-        // 表单
-        _buildForm().card(),
-      ]
-          .toColumn(
-            crossAxisAlignment: CrossAxisAlignment.center,
-          )
-          .paddingHorizontal(AppSpace.page),
+    return CustomScrollView(
+      slivers: <Widget>[
+        SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max, // 新增此行
+            children: <Widget>[
+              TextWidget.bigTitle(LocaleKeys.loginBackTitle.tr)
+                  .padding(
+                    top: AppSpace.page,
+                    bottom: AppSpace.title,
+                  )
+                  .alignLeft()
+                  .paddingHorizontal(AppSpace.card),
+              // 表单
+              _buildForm()
+            ],
+          ).paddingHorizontal(AppSpace.page),
+        ).sliverBox,
+      ],
     );
   }
 
@@ -141,8 +145,13 @@ class LoginPage extends GetView<LoginController> {
       id: "login",
       builder: (_) {
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: AppColors.background,
+            elevation: AppSize.appBarElevation,
+          ),
           body: SafeArea(
-            child: _buildView(),
+            bottom: false,
+            child: _buildView().backgroundColor(AppColors.background),
           ),
         );
       },

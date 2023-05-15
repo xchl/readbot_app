@@ -109,18 +109,30 @@ class RegisterPage extends GetView<RegisterController> {
 
   // 内容页
   Widget _buildView() {
-    return SingleChildScrollView(
-      child: <Widget>[
-        // 头部标题
-        TextWidget.title1(LocaleKeys.registerTitle.tr)
-            .padding(top: AppSpace.page, bottom: AppSpace.title),
+    return CustomScrollView(slivers: <Widget>[
+      SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            <Widget>[
+              // 头部标题
+              TextWidget.bigTitle(LocaleKeys.registerTitle.tr)
+                  .padding(
+                    top: AppSpace.page,
+                    bottom: AppSpace.title,
+                  )
+                  .alignLeft()
+                  .paddingHorizontal(AppSpace.card),
 
-        // 表单
-        _buildForm().card(),
-      ]
-          .toColumn(crossAxisAlignment: CrossAxisAlignment.center)
-          .paddingHorizontal(AppSpace.page),
-    );
+              // 表单
+              _buildForm(),
+            ]
+                .toColumn(crossAxisAlignment: CrossAxisAlignment.center)
+                .paddingHorizontal(AppSpace.page),
+          ],
+        ),
+      ).sliverBox,
+    ]);
   }
 
   @override
@@ -130,9 +142,13 @@ class RegisterPage extends GetView<RegisterController> {
       id: "register",
       builder: (_) {
         return Scaffold(
-          // appBar: AppBar(title: const Text("register")),
+          appBar: AppBar(
+            backgroundColor: AppColors.background,
+            elevation: AppSize.appBarElevation,
+          ),
           body: SafeArea(
-            child: _buildView(),
+            bottom: false,
+            child: _buildView().backgroundColor(AppColors.background),
           ),
         );
       },

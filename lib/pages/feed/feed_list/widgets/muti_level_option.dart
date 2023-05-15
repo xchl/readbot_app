@@ -41,7 +41,7 @@ class MyMultiLevelOptions extends StatelessWidget {
               onLongPress: () => onOptionLongPress(feedGroup),
             );
           }).toList(),
-        ).width(96.w).backgroundColor(AppColors.background),
+        ).width(100.w).backgroundColor(AppColors.background),
         const VerticalDivider(
           thickness: 1,
           width: 1,

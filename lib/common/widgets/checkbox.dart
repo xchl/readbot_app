@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../index.dart';
 
 // CheckBox 确认组件
@@ -9,11 +10,13 @@ class CheckBoxWidget extends StatelessWidget {
     this.onChanged,
     this.text,
     this.textWidget,
+    this.activeColor,
   });
 
   final String? text;
   final Widget? textWidget;
   final bool? value;
+  final Color? activeColor;
   final Function(bool?)? onChanged;
 
   @override
@@ -23,7 +26,8 @@ class CheckBoxWidget extends StatelessWidget {
       Checkbox(
         value: value ?? false,
         onChanged: onChanged,
-      ),
+        activeColor: activeColor,
+      ).scale(all: 0.8),
 
       // 文字
       if (text != null) TextWidget.body1(text!),

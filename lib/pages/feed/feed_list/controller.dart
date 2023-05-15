@@ -41,6 +41,8 @@ class FeedListController extends GetxController {
     List<FeedGroupModel> feedGroups = await DatabaseManager().getAllGroups();
     Map<String, List<FeedModel>> feedGroupedByGroupName = {};
 
+    if (feeds.isEmpty) return;
+
     feedGroupedByGroup[defaultFeedGroup] = [];
     for (var feed in feeds) {
       if (feed.groupName == null) {

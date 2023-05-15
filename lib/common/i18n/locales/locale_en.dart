@@ -138,7 +138,7 @@ Map<String, String> localeEn = {
   LocaleKeys.feedDelete: 'Not Subscribe',
   LocaleKeys.feedGroupDelete: 'Delete Group',
 
-  LocaleKeys.registerUserAgreement: 'Read user agreement',
+  LocaleKeys.registerUserAgreement: 'Agree user agreement',
   LocaleKeys.registerUserAgreementError: 'Please confirm the user agreement',
   LocaleKeys.unnameFeedGroup: 'Not Group',
   LocaleKeys.addFeedError: 'Add Feed Failed',

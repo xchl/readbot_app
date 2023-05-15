@@ -30,31 +30,22 @@ class PostItemListWidget extends StatelessWidget {
 
   Widget _buildDescriptionBlock() {
     return <Widget>[
-      feed == null
-          ? const SizedBox(
-              width: 0,
-              height: 0,
-            )
-          : DescriptionItem(
-                  icon: IconWidget.image(
-                    AssetsSvgs.publisher,
-                    size: 12.sp,
-                  ),
-                  text:
-                      TextWidget.body2(feed!.title, color: AppColors.hideColor))
-              .paddingBottom(AppSpace.seqHorization),
-      feedItem.publishTime == null
-          ? const SizedBox(
-              width: 0,
-              height: 0,
-            )
-          : DescriptionItem(
-              icon: IconWidget.image(
-                AssetsSvgs.publishTime,
-                size: 12.sp,
-              ),
-              text: TextWidget.body2(displayDatetime(feedItem.publishTime!),
-                  color: AppColors.hideColor))
+      if (feed != null)
+        DescriptionItem(
+                icon: IconWidget.image(
+                  AssetsSvgs.publisher,
+                  size: 12.sp,
+                ),
+                text: TextWidget.body2(feed!.title, color: AppColors.hideColor))
+            .paddingBottom(AppSpace.seqHorization),
+      if (feedItem.publishTime != null)
+        DescriptionItem(
+            icon: IconWidget.image(
+              AssetsSvgs.publishTime,
+              size: 12.sp,
+            ),
+            text: TextWidget.body2(displayDatetime(feedItem.publishTime!),
+                color: AppColors.hideColor))
     ].toColumn();
   }
 
@@ -63,15 +54,11 @@ class PostItemListWidget extends StatelessWidget {
     return Container(
       child: <Widget>[
         _buildTextBlock().expanded(),
-        feedItem.cover == null
-            ? const SizedBox(
-                width: 0,
-                height: 0,
-              )
-            : _buildImageBlock()
-                .width(AppSize.exploreImageWidth)
-                .height(AppSize.exploreImageHeight)
-                .paddingLeft(AppSpace.card),
+        if (feedItem.cover != null)
+          _buildImageBlock()
+              .width(AppSize.exploreImageWidth)
+              .height(AppSize.exploreImageHeight)
+              .paddingLeft(AppSpace.card),
       ].toRow().padding(left: AppSpace.card, right: AppSpace.card),
     ).paddingBottom(AppSpace.listItem);
   }

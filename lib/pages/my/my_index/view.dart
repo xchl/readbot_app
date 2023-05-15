@@ -107,13 +107,12 @@ class MyIndexPage extends GetView<MyIndexController> {
           statu: controller.enableAutoDeleteData,
           onTap: (bool value) => controller.onAutoDeleteDataChange(value),
         ),
-        controller.enableAutoDeleteData
-            ? NumberSelectItemWidget(
-                title: LocaleKeys.mySystemAutoDeleteDay.tr,
-                onTap: controller.onSelectAutoDeleteDay,
-                selectValue: controller.onlySaveDataDays,
-                options: controller.onlySaveDataDaysList)
-            : const SizedBox()
+        if (controller.enableAutoDeleteData)
+          NumberSelectItemWidget(
+              title: LocaleKeys.mySystemAutoDeleteDay.tr,
+              onTap: controller.onSelectAutoDeleteDay,
+              selectValue: controller.onlySaveDataDays,
+              options: controller.onlySaveDataDaysList)
       ].toColumn().backgroundColor(AppColors.background)
     ].toColumn().padding(top: 10.h, bottom: 10.h);
   }

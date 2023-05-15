@@ -15,12 +15,10 @@ class PostItemCardWidget extends StatelessWidget {
   }) : super(key: key);
 
   Widget _buildImageBlock() {
-    return feedItem.cover == null
-        ? const SizedBox()
-        : ImageWidget.url(
-            feedItem.cover!,
-            height: AppSize.focusImageHeight,
-          );
+    return ImageWidget.url(
+      feedItem.cover!,
+      height: AppSize.focusImageHeight,
+    );
   }
 
   Widget _buildTitleBlock() {
@@ -34,31 +32,22 @@ class PostItemCardWidget extends StatelessWidget {
 
   Widget _buildDescriptionBlock() {
     return <Widget>[
-      feed == null
-          ? const SizedBox(
-              width: 0,
-              height: 0,
-            )
-          : DescriptionItem(
-                  icon: IconWidget.image(
-                    AssetsSvgs.publisher,
-                    size: 12.sp,
-                  ),
-                  text:
-                      TextWidget.body2(feed!.title, color: AppColors.hideColor))
-              .paddingRight(AppSpace.seqx2Horization),
-      feedItem.publishTime == null
-          ? const SizedBox(
-              width: 0,
-              height: 0,
-            )
-          : DescriptionItem(
-              icon: IconWidget.image(
-                AssetsSvgs.publishTime,
-                size: 12.sp,
-              ),
-              text: TextWidget.body2(displayDatetime(feedItem.publishTime!),
-                  color: AppColors.hideColor))
+      if (feed != null)
+        DescriptionItem(
+                icon: IconWidget.image(
+                  AssetsSvgs.publisher,
+                  size: 12.sp,
+                ),
+                text: TextWidget.body2(feed!.title, color: AppColors.hideColor))
+            .paddingRight(AppSpace.seqx2Horization),
+      if (feedItem.publishTime != null)
+        DescriptionItem(
+            icon: IconWidget.image(
+              AssetsSvgs.publishTime,
+              size: 12.sp,
+            ),
+            text: TextWidget.body2(displayDatetime(feedItem.publishTime!),
+                color: AppColors.hideColor))
     ].toRow(crossAxisAlignment: CrossAxisAlignment.center);
   }
 
@@ -85,8 +74,9 @@ class PostItemCardWidget extends StatelessWidget {
       child: Column(
         children: [
           <Widget>[
-            _buildImageBlock().padding(
-                top: AppSpace.seqHorization, bottom: AppSpace.listItem),
+            if (feedItem.cover != null)
+              _buildImageBlock().padding(
+                  top: AppSpace.seqHorization, bottom: AppSpace.listItem),
             _buildTitleBlock().padding(
                 left: AppSpace.card,
                 right: AppSpace.card,
@@ -95,15 +85,11 @@ class PostItemCardWidget extends StatelessWidget {
                 left: AppSpace.card,
                 right: AppSpace.card,
                 bottom: AppSpace.listItem),
-            feedItem.summaryAlgo == null
-                ? const SizedBox(
-                    width: 0,
-                    height: 0,
-                  )
-                : _buildSummaryBlock().padding(
-                    left: AppSpace.card,
-                    right: AppSpace.card,
-                    bottom: AppSpace.listItem),
+            if (feedItem.summaryAlgo != null)
+              _buildSummaryBlock().padding(
+                  left: AppSpace.card,
+                  right: AppSpace.card,
+                  bottom: AppSpace.listItem),
           ].toColumn().card(color: AppColors.background, radius: AppRadius.card)
         ],
       ).paddingAll(AppSpace.page),

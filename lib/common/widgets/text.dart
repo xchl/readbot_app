@@ -60,6 +60,23 @@ class TextWidget extends StatelessWidget {
         ),
         super(key: key);
 
+  /// 文字 - 标题1
+  TextWidget.bigTitle(
+    this.text, {
+    Key? key,
+    this.maxLines = 1,
+    this.softWrap = false,
+    this.overflow = TextOverflow.clip,
+    this.color,
+    this.size,
+    this.weight,
+    this.textAlign,
+  })  : style = TextStyle(
+          fontSize: AppSize.bigTitle,
+          fontWeight: FontWeight.bold,
+        ),
+        super(key: key);
+
   /// 文字 - 标题2
   const TextWidget.title2(
     this.text, {

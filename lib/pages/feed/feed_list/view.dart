@@ -18,7 +18,7 @@ class FeedListPage extends GetView<FeedListController> {
   // 主视图
   Widget _buildView(BuildContext context) {
     return controller.feedGroupedByGroup.isEmpty
-        ? const SizedBox()
+        ? Container()
         : MyMultiLevelOptions(
             options: controller.feedGroupedByGroup,
             selectedOption: controller.selectedFeedGroup!,
@@ -175,7 +175,6 @@ class FeedListPage extends GetView<FeedListController> {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            toolbarHeight: 44.h,
             backgroundColor: AppColors.navigationBarColor,
             elevation: AppSize.appBarElevation,
             title: TextWidget.title1(

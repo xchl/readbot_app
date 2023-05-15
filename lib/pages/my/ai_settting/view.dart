@@ -15,13 +15,12 @@ class AiSettingPage extends GetView<AiSetttingController> {
           statu: controller.enableAI,
           onTap: (bool value) => controller.onEnableAIChange(value),
         ),
-        controller.enableAI
-            ? StringSelectItemWidget(
-                title: LocaleKeys.myAIServiceSelect.tr,
-                onTap: controller.onAiServiceChange,
-                selectValue: controller.selectAiService,
-                options: controller.aiService)
-            : const SizedBox()
+        if (controller.enableAI)
+          StringSelectItemWidget(
+              title: LocaleKeys.myAIServiceSelect.tr,
+              onTap: controller.onAiServiceChange,
+              selectValue: controller.selectAiService,
+              options: controller.aiService)
       ].toColumn().backgroundColor(AppColors.background)
     ].toColumn();
   }
@@ -113,9 +112,9 @@ class AiSettingPage extends GetView<AiSetttingController> {
   Widget _buildView() {
     return <Widget>[
       _buildAiChoiceSetting(),
-      controller.enableAI && controller.selectAiService == AIService.openai.name
-          ? _buildOpenAISetting()
-          : const SizedBox()
+      if (controller.enableAI &&
+          controller.selectAiService == AIService.openai.name)
+        _buildOpenAISetting()
     ].toColumn();
   }
 

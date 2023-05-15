@@ -24,9 +24,17 @@ class AppSize {
   /// Drawer
   static double get drawerWidth => 180.w;
 
-  // Evaluator
+  /// Evaluator
   static double get appBarElevation => 0;
   static double get bottomBarElevation => 0;
+
+  /// 文字
+  static double get bigTitle => 32.sp;
+  static double get title => 24.sp;
+  static double get body1 => 15.sp;
+  static double get body2 => 13.sp;
+
+  static double get toolIconSize => 28.sp;
 
   /// 图标
   static double get iconTextSmail => 5;
