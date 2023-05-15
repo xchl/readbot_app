@@ -22,8 +22,6 @@ class StringSelectItemWidget extends StatelessWidget {
     return ListTileWidget(
         title: TextWidget.body1(
           title,
-          size: 15.sp,
-          weight: FontWeight.w400,
         ),
 
         // 右侧箭头

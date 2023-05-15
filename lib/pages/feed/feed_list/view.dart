@@ -25,15 +25,9 @@ class FeedListPage extends GetView<FeedListController> {
             onOptionSelect: controller.onGroupSelected,
             onSubOptionSelect: (feed) {
               controller.onFeedSelected(feed);
-              return showModalBottomSheet(
-                  isScrollControlled: true,
+              return showCustomModalBottomSheet(
                   context: context,
-                  builder: (context) {
-                    return Container(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                        child: _buildFeedModifyForm(feed));
-                  });
+                  builder: (context) => _buildFeedModifyForm(feed));
             },
             onOptionLongPress: (feedGroup) {
               // 默认分组不允许修改
@@ -41,15 +35,9 @@ class FeedListPage extends GetView<FeedListController> {
                 return null;
               }
               controller.onGroupSelected(feedGroup);
-              return showModalBottomSheet(
-                  isScrollControlled: true,
+              return showCustomModalBottomSheet(
                   context: context,
-                  builder: (context) {
-                    return Container(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                        child: _buildFeedAddGroupForm(isEdit: true));
-                  });
+                  builder: (context) => _buildFeedAddGroupForm(isEdit: true));
             });
   }
 
@@ -213,35 +201,19 @@ class FeedListPage extends GetView<FeedListController> {
                 onSelected: (value) {
                   switch (value) {
                     case FeedAddButtonFunc.addFromUrl:
-                      showModalBottomSheet(
-                          isScrollControlled: true,
+                      showCustomModalBottomSheet(
                           context: context,
-                          builder: (context) {
-                            return Container(
-                                padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context)
-                                        .viewInsets
-                                        .bottom),
-                                child: SingleChildScrollView(
-                                    child: _buildFeedAddFromUrlForm()));
-                          });
+                          builder: (context) => _buildFeedAddFromUrlForm());
                       break;
                     case FeedAddButtonFunc.importFromOpml:
                       controller.onImportFromOpml();
                       break;
                     case FeedAddButtonFunc.addGroup:
                       controller.clearGroupForm();
-                      showModalBottomSheet(
-                          isScrollControlled: true,
+                      showCustomModalBottomSheet(
                           context: context,
-                          builder: (context) {
-                            return Container(
-                                padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context)
-                                        .viewInsets
-                                        .bottom),
-                                child: _buildFeedAddGroupForm(isEdit: false));
-                          });
+                          builder: (context) =>
+                              _buildFeedAddGroupForm(isEdit: false));
                       break;
                   }
                 },

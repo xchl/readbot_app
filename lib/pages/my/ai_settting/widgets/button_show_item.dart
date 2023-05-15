@@ -21,10 +21,8 @@ class ButtonShowItemWidget extends StatelessWidget {
         // 标题
         leading: TextWidget.body1(
           title,
-          size: 15.sp,
-          weight: FontWeight.w400,
         ),
-        leadingSpace: 10.w,
+        leadingSpace: AppSpace.seqHorization,
 
         // 右侧箭头
         title: TextWidget.body1(

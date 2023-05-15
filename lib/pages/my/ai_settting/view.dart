@@ -77,33 +77,18 @@ class AiSettingPage extends GetView<AiSetttingController> {
       ).alignLeft().padding(left: 10, bottom: 10),
       <Widget>[
         ButtonShowItemWidget(
-          title: LocaleKeys.myAIServiceApiToken.tr,
-          content: controller.openAIToken,
-          onTap: () => showModalBottomSheet(
-              context: Get.context!,
-              isScrollControlled: true,
-              builder: (context) {
-                return SingleChildScrollView(
-                    child: Container(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                        child: _buildAddTokenForm()));
-              }),
-        ).paddingBottom(AppSpace.listItem),
+                title: LocaleKeys.myAIServiceApiToken.tr,
+                content: controller.openAIToken,
+                onTap: () => showCustomModalBottomSheet(
+                    context: Get.context!,
+                    builder: (context) => _buildAddTokenForm()))
+            .paddingBottom(AppSpace.listItem),
         ButtonShowItemWidget(
-          title: LocaleKeys.myAIServiceProxyServer.tr,
-          content: controller.openAIProxyServer,
-          onTap: () => showModalBottomSheet(
-              context: Get.context!,
-              isScrollControlled: true,
-              builder: (context) {
-                return SingleChildScrollView(
-                    child: Container(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                        child: _buildAddProxyServerForm()));
-              }),
-        ),
+            title: LocaleKeys.myAIServiceProxyServer.tr,
+            content: controller.openAIProxyServer,
+            onTap: () => showCustomModalBottomSheet(
+                context: Get.context!,
+                builder: (context) => _buildAddProxyServerForm())),
       ].toColumn().backgroundColor(AppColors.background)
     ].toColumn().paddingTop(AppSpace.card);
   }
