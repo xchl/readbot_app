@@ -30,7 +30,7 @@ class RegisterPinPage extends GetView<RegisterPinController> {
         ButtonWidget.primary(
           LocaleKeys.registerPinButton.tr,
           onTap: controller.onBtnSubmit,
-        ).paddingBottom(AppSpace.listRow),
+        ).paddingBottom(AppSpace.listItem),
 
         // 返回按钮
         ButtonWidget.text(

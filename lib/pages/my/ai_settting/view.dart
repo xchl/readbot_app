@@ -2,7 +2,6 @@ import 'package:readbot/common/index.dart';
 import 'package:readbot/pages/index.dart';
 import 'package:readbot/pages/my/ai_settting/widgets/button_show_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class AiSettingPage extends GetView<AiSetttingController> {
@@ -24,7 +23,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
                 options: controller.aiService)
             : const SizedBox()
       ].toColumn()
-    ].toColumn().padding(bottom: 10.h);
+    ].toColumn();
   }
 
   Widget _buildAddTokenForm() {
@@ -44,7 +43,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
         ButtonWidget.text(
           LocaleKeys.addBtn.tr,
           onTap: controller.onAddToken,
-        ).paddingBottom(AppSpace.listRow.w),
+        ).paddingBottom(AppSpace.listItem),
       ].toColumn(),
     ).paddingAll(AppSpace.card).height(200);
   }
@@ -66,7 +65,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
         ButtonWidget.text(
           LocaleKeys.addBtn.tr,
           onTap: controller.onAddProxyServer,
-        ).paddingBottom(AppSpace.listRow.w),
+        ).paddingBottom(AppSpace.listItem),
       ].toColumn(),
     ).paddingAll(AppSpace.card).height(200);
   }
@@ -87,7 +86,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
                             bottom: MediaQuery.of(context).viewInsets.bottom),
                         child: _buildAddTokenForm()));
               }),
-        ),
+        ).paddingBottom(AppSpace.listItem),
         ButtonShowItemWidget(
           title: LocaleKeys.myAIServiceProxyServer.tr,
           content: controller.openAIProxyServer,
@@ -103,18 +102,17 @@ class AiSettingPage extends GetView<AiSetttingController> {
               }),
         ),
       ].toColumn()
-    ].toColumn().padding(top: 10.h, bottom: 10.h);
+    ].toColumn();
   }
 
   // 主视图
   Widget _buildView() {
-    return SingleChildScrollView(
-        child: <Widget>[
+    return <Widget>[
       _buildAiChoiceSetting(),
       controller.enableAI && controller.selectAiService == AIService.openai.name
           ? _buildOpenAISetting()
           : const SizedBox()
-    ].toColumn());
+    ].toColumn();
   }
 
   @override
@@ -124,17 +122,16 @@ class AiSettingPage extends GetView<AiSetttingController> {
       id: "ai_settting",
       builder: (_) {
         return Scaffold(
-          appBar: AppBar(
-              backgroundColor: AppColors.background,
-              elevation: 0.2,
-              title: TextWidget.title1(
-                LocaleKeys.myAISetting.tr,
-                color: AppColors.titleColor,
-              )),
-          body: SafeArea(
-            child: _buildView().backgroundColor(AppColors.background),
-          ),
-        );
+            appBar: AppBar(
+                backgroundColor: AppColors.background,
+                elevation: 0.2,
+                title: TextWidget.title1(
+                  LocaleKeys.myAISetting.tr,
+                  color: AppColors.titleColor,
+                )),
+            body: SafeArea(
+              child: _buildView().backgroundColor(AppColors.background),
+            ));
       },
     );
   }

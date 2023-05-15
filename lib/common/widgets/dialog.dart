@@ -65,7 +65,7 @@ class ActionDialog {
                   //   child: content ?? Text(LocaleKeys.commonBottomRemove.tr),
                   // ),
                 ),
-                SizedBox(height: AppSpace.listRow),
+                SizedBox(height: AppSpace.listItem),
 
                 // 取消 确认
                 Row(

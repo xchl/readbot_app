@@ -65,7 +65,7 @@ class LoginPage extends GetView<LoginController> {
               ),
             ),
           ]),
-        ).paddingBottom(AppSpace.listRow.w * 3),
+        ).paddingBottom(AppSpace.listItem),
 
         // 用户协议
         CheckBoxWidget(
@@ -83,7 +83,7 @@ class LoginPage extends GetView<LoginController> {
         ButtonWidget.primary(
           LocaleKeys.loginSignIn.tr,
           onTap: controller.onSignIn,
-        ).paddingBottom(AppSpace.listRow.w),
+        ).paddingBottom(AppSpace.listItem),
 
         _buildTips(),
 
@@ -122,7 +122,7 @@ class LoginPage extends GetView<LoginController> {
         // 头部标题
         TextWidget.title1(LocaleKeys.loginBackTitle.tr).padding(
           top: AppSpace.page,
-          bottom: AppSpace.titleContent,
+          bottom: AppSpace.title,
         ),
 
         // 表单

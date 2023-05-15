@@ -71,7 +71,7 @@ class FeedListPage extends GetView<FeedListController> {
         ButtonWidget.text(
           LocaleKeys.addBtn.tr,
           onTap: controller.onAddFeed,
-        ).paddingBottom(AppSpace.listRow.w),
+        ).paddingBottom(AppSpace.listItem),
       ].toColumn(),
     ).paddingAll(AppSpace.card).height(250);
   }

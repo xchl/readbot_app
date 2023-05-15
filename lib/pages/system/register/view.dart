@@ -87,7 +87,7 @@ class RegisterPage extends GetView<RegisterController> {
     return ButtonWidget.primary(
       LocaleKeys.loginSignUp.tr,
       onTap: controller.onSignUp,
-    ).paddingBottom(AppSpace.listRow);
+    ).paddingBottom(AppSpace.listItem);
   }
 
   // 提示
@@ -113,7 +113,7 @@ class RegisterPage extends GetView<RegisterController> {
       child: <Widget>[
         // 头部标题
         TextWidget.title1(LocaleKeys.registerTitle.tr)
-            .padding(top: AppSpace.page, bottom: AppSpace.titleContent),
+            .padding(top: AppSpace.page, bottom: AppSpace.title),
 
         // 表单
         _buildForm().card(),

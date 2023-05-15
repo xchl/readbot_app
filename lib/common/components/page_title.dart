@@ -26,7 +26,7 @@ class PageTitleWithDescWidget extends StatelessWidget {
         )
         .padding(
           top: AppSpace.page,
-          bottom: AppSpace.titleContent,
+          bottom: AppSpace.title,
         );
   }
 }
