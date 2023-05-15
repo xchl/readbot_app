@@ -55,14 +55,14 @@ class _PostFocusPageViewGetX extends GetView<PostFocusController> {
           appBar: AppBar(
             toolbarHeight: 44.h,
             backgroundColor: AppColors.navigationBarColor,
-            elevation: 0.1,
+            elevation: AppSize.appBarElevation,
             title: TextWidget.title1(
               LocaleKeys.focusTitle.tr,
               color: AppColors.titleColor,
             ),
           ),
           body: SafeArea(
-            child: _buildView(),
+            child: _buildView().backgroundColor(AppColors.background),
           ),
         );
       },

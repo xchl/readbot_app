@@ -21,15 +21,13 @@ class ButtonItemWidget extends StatelessWidget {
       // 标题
       title: TextWidget.body1(
         title,
-        size: 15.sp,
-        weight: FontWeight.w400,
       ),
 
       // 右侧箭头
       trailing: <Widget>[
         IconWidget.icon(
           Icons.arrow_forward_ios,
-          size: 14.w,
+          size: 14.sp,
           color: AppColors.hideColor,
         ),
       ],

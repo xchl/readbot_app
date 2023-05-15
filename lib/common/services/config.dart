@@ -36,8 +36,7 @@ class ConfigService extends GetxService {
   String? get openAIToken => Storage().getString(Constants.storageOpenAIToken);
 
   // 是否开启同步
-  bool get enableSync =>
-      Storage().getBool(Constants.storageEnableSync) ?? false;
+  bool get enableSync => Storage().getBool(Constants.storageEnableSync) ?? true;
 
   bool get enableReadMode =>
       Storage().getBool(Constants.storageEnableReadMode) ?? true;

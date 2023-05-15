@@ -58,7 +58,7 @@ class BuildNavigation extends StatelessWidget {
     }
     return BottomAppBar(
         color: AppColors.navigationBarColor,
-        elevation: 0,
+        elevation: AppSize.bottomBarElevation,
         child: ws
             .toRow(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

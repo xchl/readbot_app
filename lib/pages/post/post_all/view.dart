@@ -64,8 +64,7 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
             },
             itemCount: controller.feedItems.length)
         .paddingLeft(5.w)
-        .paddingRight(5.w)
-        .backgroundColor(AppColors.background);
+        .paddingRight(5.w);
   }
 
   @override
@@ -80,7 +79,7 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
           appBar: AppBar(
             toolbarHeight: 44.h,
             backgroundColor: AppColors.navigationBarColor,
-            elevation: 0.1,
+            elevation: AppSize.appBarElevation,
             title: TextWidget.title1(
               LocaleKeys.exploreTitle.tr,
               color: AppColors.titleColor,
@@ -99,7 +98,7 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
                 color: Colors.redAccent,
                 backgroundColor: Colors.blue,
                 onRefresh: controller.onRefresh,
-                child: _buildView()),
+                child: _buildView().backgroundColor(AppColors.background)),
           ),
         );
       },

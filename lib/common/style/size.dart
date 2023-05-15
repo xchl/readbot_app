@@ -5,18 +5,28 @@ class AppSize {
   /// 按钮
   static double get buttonWidth => 10.w;
   static double get buttonHeight => 50.h;
+  static double get buttonTextSize => 20.sp;
 
   /// 图片
   static double get exploreImageHeight => 100.h;
   static double get exploreImageWidth => 120.w;
   static double get focusImageHeight => 200.h;
+  static double get avatorImageHeight => 70.h;
+  static double get avatorImageWidth => 70.w;
 
   // 导航栏
   static double get navigationItem => 25.sp;
   static double get navigationHeight => 60.h;
 
+  // 个人主页
+  static double get headerHeight => 150.h;
+
   /// Drawer
   static double get drawerWidth => 180.w;
+
+  // Evaluator
+  static double get appBarElevation => 0;
+  static double get bottomBarElevation => 0;
 
   /// 图标
   static double get iconTextSmail => 5;

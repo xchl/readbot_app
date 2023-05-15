@@ -177,7 +177,7 @@ class FeedListPage extends GetView<FeedListController> {
           appBar: AppBar(
             toolbarHeight: 44.h,
             backgroundColor: AppColors.navigationBarColor,
-            elevation: 0.1,
+            elevation: AppSize.appBarElevation,
             title: TextWidget.title1(
               LocaleKeys.feedPageTitle.tr,
               color: AppColors.titleColor,
