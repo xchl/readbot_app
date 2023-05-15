@@ -79,7 +79,7 @@ class _PostDrawerPageViewGetX extends GetView<PostDrawerController> {
         builder: (_) {
           return Drawer(
               width: 150.w,
-              backgroundColor: AppColors.onPrimary,
+              backgroundColor: AppColors.navigationBarColor,
               child: _buildView());
         });
   }

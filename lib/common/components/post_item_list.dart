@@ -20,9 +20,8 @@ class PostItemListWidget extends StatelessWidget {
       TextWidget.title3(feedItem.title,
               maxLines: 2,
               softWrap: true,
-              color: feedItem.isSeen
-                  ? AppColors.seenTextColor
-                  : AppColors.textColor)
+              color:
+                  feedItem.isSeen ? AppColors.hideColor : AppColors.titleColor)
           .paddingBottom(10.h)
           .alignLeft(),
       _buildDescriptionBlock()
@@ -36,19 +35,14 @@ class PostItemListWidget extends StatelessWidget {
               width: 0,
               height: 0,
             )
-          : TextWidget.body2(feed!.title,
-              color: feedItem.isSeen
-                  ? AppColors.seenTextColor
-                  : AppColors.textColor),
+          : TextWidget.body2(feed!.title, color: AppColors.hideColor),
       feedItem.publishTime == null
           ? const SizedBox(
               width: 0,
               height: 0,
             )
           : TextWidget.body2(displayDatetime(feedItem.publishTime!),
-                  color: feedItem.isSeen
-                      ? AppColors.seenTextColor
-                      : AppColors.textColor)
+                  color: AppColors.hideColor)
               .paddingLeft(10.w),
     ].toRow();
   }

@@ -176,38 +176,38 @@ class FeedListPage extends GetView<FeedListController> {
         return Scaffold(
           appBar: AppBar(
             toolbarHeight: 44.h,
-            backgroundColor: AppColors.background,
+            backgroundColor: AppColors.navigationBarColor,
             elevation: 0.1,
             title: TextWidget.title1(
               LocaleKeys.feedPageTitle.tr,
-              color: AppColors.secondary,
+              color: AppColors.titleColor,
             ),
             actions: [
               PopupMenuButton(
                 icon: IconWidget.svg(
                   AssetsSvgs.plusLgSvg,
-                  color: AppColors.secondary,
+                  color: AppColors.titleColor,
                 ).paddingRight(AppSpace.listItem),
                 itemBuilder: (context) => [
                   PopupMenuItem(
                     value: FeedAddButtonFunc.addFromUrl,
                     child: TextWidget.body1(
                       LocaleKeys.feedAddFromUrl.tr,
-                      color: AppColors.secondary,
+                      color: AppColors.titleColor,
                     ),
                   ),
                   PopupMenuItem(
                     value: FeedAddButtonFunc.importFromOpml,
                     child: TextWidget.body1(
                       LocaleKeys.feedAddFromOpml.tr,
-                      color: AppColors.secondary,
+                      color: AppColors.titleColor,
                     ),
                   ),
                   PopupMenuItem(
                     value: FeedAddButtonFunc.addGroup,
                     child: TextWidget.body1(
                       LocaleKeys.feedAddGroup.tr,
-                      color: AppColors.secondary,
+                      color: AppColors.titleColor,
                     ),
                   ),
                 ],
@@ -250,7 +250,7 @@ class FeedListPage extends GetView<FeedListController> {
             ],
           ),
           body: SafeArea(
-            child: _buildView(context),
+            child: _buildView(context).backgroundColor(AppColors.background),
           ),
         );
       },

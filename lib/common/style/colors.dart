@@ -7,13 +7,31 @@ class AppColors {
   /// 自定义 颜色
   /// *******************************************
 
-  static Color get seenTextColor =>
-      Get.isDarkMode ? Colors.grey[600]! : Colors.grey[400]!;
+  static Color get hideColor =>
+      Get.isDarkMode ? const Color(0xFF4B5563) : const Color(0xFFA6A3A3);
+
+  static Color get background =>
+      Get.isDarkMode ? const Color(0xFF111827) : const Color(0xFFFEFEFE);
+
+  static Color get navigationBarColor =>
+      Get.isDarkMode ? const Color(0xFF111827) : const Color(0xFFF5F5F5);
+
+  static Color get textOnNavigationBarColor =>
+      Get.isDarkMode ? const Color(0xFF828080) : const Color(0xFF828080);
+
+  static Color get selectTextOnNavigationBarColor =>
+      Get.isDarkMode ? const Color(0xFFFFFFFF) : const Color(0xFF000000);
+
+  static Color get titleColor =>
+      Get.isDarkMode ? const Color(0xFFEEEEEE) : const Color(0xFF000000);
+
   static Color get textColor => Get.isDarkMode ? Colors.white : Colors.black;
 
-  static Color get background => Get.theme.colorScheme.background;
+  static Color get primary =>
+      Get.isDarkMode ? const Color(0xFF256AF1) : const Color(0xFF256AF1);
 
-  static Brightness get brightness => Get.theme.colorScheme.brightness;
+  static Color get onPrimary =>
+      Get.isDarkMode ? const Color(0xFFFFFFFF) : const Color(0xFFFFFFFF);
 
   static Color get error => Get.theme.colorScheme.error;
 
@@ -30,8 +48,6 @@ class AppColors {
   static Color get onErrorContainer => Get.theme.colorScheme.onErrorContainer;
 
   static Color get onInverseSurface => Get.theme.colorScheme.onInverseSurface;
-
-  static Color get onPrimary => Get.theme.colorScheme.onPrimary;
 
   static Color get onPrimaryContainer =>
       Get.theme.colorScheme.onPrimaryContainer;
@@ -51,8 +67,6 @@ class AppColors {
       Get.theme.colorScheme.onTertiaryContainer;
 
   static Color get outline => Get.theme.colorScheme.outline;
-
-  static Color get primary => Get.theme.colorScheme.primary;
 
   static Color get primaryContainer => Get.theme.colorScheme.primaryContainer;
 

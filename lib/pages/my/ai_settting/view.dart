@@ -23,8 +23,8 @@ class AiSettingPage extends GetView<AiSetttingController> {
                 selectValue: controller.selectAiService,
                 options: controller.aiService)
             : const SizedBox()
-      ].toColumn().card()
-    ].toColumn().padding(top: 10.h, bottom: 10.h);
+      ].toColumn()
+    ].toColumn().padding(bottom: 10.h);
   }
 
   Widget _buildAddTokenForm() {
@@ -102,7 +102,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
                         child: _buildAddProxyServerForm()));
               }),
         ),
-      ].toColumn().card()
+      ].toColumn()
     ].toColumn().padding(top: 10.h, bottom: 10.h);
   }
 
@@ -125,15 +125,14 @@ class AiSettingPage extends GetView<AiSetttingController> {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-              toolbarHeight: 44.h,
               backgroundColor: AppColors.background,
-              elevation: 0.1,
+              elevation: 0.2,
               title: TextWidget.title1(
                 LocaleKeys.myAISetting.tr,
-                color: AppColors.secondary,
+                color: AppColors.titleColor,
               )),
           body: SafeArea(
-            child: _buildView(),
+            child: _buildView().backgroundColor(AppColors.background),
           ),
         );
       },

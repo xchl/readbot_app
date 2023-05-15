@@ -45,7 +45,7 @@ class PostDetailPage extends GetView<PostDetailController> {
                     ButtonWidget.icon(
                       Icon(
                         Icons.edit,
-                        color: AppColors.secondary,
+                        color: AppColors.textColor,
                         size: 30.h,
                       ),
                     ),
@@ -53,7 +53,7 @@ class PostDetailPage extends GetView<PostDetailController> {
                     ButtonWidget.icon(
                       Icon(
                         Icons.star_outline,
-                        color: AppColors.secondary,
+                        color: AppColors.textColor,
                         size: 30.h,
                       ),
                     ).paddingRight(15.w),
@@ -61,7 +61,7 @@ class PostDetailPage extends GetView<PostDetailController> {
                         ? ButtonWidget.icon(
                                 Icon(
                                   Icons.feed_outlined,
-                                  color: AppColors.secondary,
+                                  color: AppColors.textColor,
                                   size: 30.h,
                                 ),
                                 onTap: () => controller.toggleReadMode())
@@ -69,7 +69,7 @@ class PostDetailPage extends GetView<PostDetailController> {
                         : ButtonWidget.icon(
                                 Icon(
                                   Icons.public_outlined,
-                                  color: AppColors.secondary,
+                                  color: AppColors.textColor,
                                   size: 30.h,
                                 ),
                                 onTap: () => controller.toggleReadMode())
@@ -77,7 +77,7 @@ class PostDetailPage extends GetView<PostDetailController> {
                     ButtonWidget.icon(
                         Icon(
                           Icons.smart_toy_outlined,
-                          color: AppColors.secondary,
+                          color: AppColors.textColor,
                           size: 30.h,
                         ), onTap: () {
                       controller.summaryText(redo: false);

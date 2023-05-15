@@ -55,7 +55,7 @@ class TextWidget extends StatelessWidget {
     this.weight,
     this.textAlign,
   })  : style = const TextStyle(
-          fontSize: 24,
+          fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
         super(key: key);

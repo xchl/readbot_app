@@ -1,5 +1,5 @@
 class AssetsImages {
-  static const defaultPng = 'assets/images/default.png';
+  static const defaultPng = 'assets/images/launcher.png';
   static const homePlaceholderPng = 'assets/images/home_placeholder.png';
   static const logoPng = 'assets/images/logo.png';
   static const orderConfirmedPng = 'assets/images/order-confirmed.png';

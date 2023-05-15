@@ -43,7 +43,7 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
                     alignment: Alignment.centerLeft,
                     child: TextWidget.body1(
                       LocaleKeys.turnToFocusTip.tr,
-                      color: AppColors.onPrimary,
+                      color: AppColors.primary,
                     ).paddingLeft(20.w),
                   ),
                 ),
@@ -79,11 +79,11 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
           onEndDrawerChanged: controller.onEndDrawerChanged,
           appBar: AppBar(
             toolbarHeight: 44.h,
-            backgroundColor: AppColors.background,
+            backgroundColor: AppColors.navigationBarColor,
             elevation: 0.1,
             title: TextWidget.title1(
               LocaleKeys.exploreTitle.tr,
-              color: AppColors.secondary,
+              color: AppColors.titleColor,
             ),
           ),
           body: NotificationListener<ScrollNotification>(

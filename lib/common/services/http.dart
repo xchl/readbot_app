@@ -9,6 +9,7 @@ class HttpService extends GetxService {
 
   late final Dio _dio;
 
+  // TODO
   final retryTimes = 2;
 
   @override

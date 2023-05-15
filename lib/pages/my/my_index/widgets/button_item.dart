@@ -30,7 +30,7 @@ class ButtonItemWidget extends StatelessWidget {
         IconWidget.icon(
           Icons.arrow_forward_ios,
           size: 14.w,
-          color: AppColors.outline,
+          color: AppColors.hideColor,
         ),
       ],
     ).inkWell(

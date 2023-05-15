@@ -109,7 +109,7 @@ class ButtonWidget extends StatelessWidget {
   })  : child = TextWidget.button(
           text: text!,
           size: textSize,
-          color: textColor ?? AppColors.onPrimaryContainer,
+          color: textColor ?? AppColors.textColor,
           weight: textWeight,
         ),
         super(key: key);
@@ -129,7 +129,7 @@ class ButtonWidget extends StatelessWidget {
     this.height,
   }) : super(key: key);
 
-  /// 文字/填充
+  // / 文字/填充
   ButtonWidget.textFilled(
     this.text, {
     Key? key,
@@ -153,7 +153,7 @@ class ButtonWidget extends StatelessWidget {
         ),
         super(key: key);
 
-  /// 文字/填充/圆形 按钮
+  // / 文字/填充/圆形 按钮
   ButtonWidget.textRoundFilled(
     this.text, {
     Key? key,
@@ -177,7 +177,7 @@ class ButtonWidget extends StatelessWidget {
         ),
         super(key: key);
 
-  /// 图标文字 上下
+  // / 图标文字 上下
   ButtonWidget.iconTextUpDown(
     this.icon,
     this.text, {
@@ -205,7 +205,7 @@ class ButtonWidget extends StatelessWidget {
         ),
         super(key: key);
 
-  /// 图标 / 文字 / 边框
+  // / 图标 / 文字 / 边框
   ButtonWidget.iconTextOutlined(
     this.icon,
     this.text, {
@@ -233,7 +233,7 @@ class ButtonWidget extends StatelessWidget {
         ),
         super(key: key);
 
-  /// 图标 / 文字 / 上下 / 边框
+  // / 图标 / 文字 / 上下 / 边框
   ButtonWidget.iconTextUpDownOutlined(
     this.icon,
     this.text, {

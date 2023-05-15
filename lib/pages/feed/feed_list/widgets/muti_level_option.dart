@@ -31,14 +31,17 @@ class MyMultiLevelOptions extends StatelessWidget {
         ListView(
           children: options.keys.map((feedGroup) {
             return ListTile(
-              title: TextWidget.body1(feedGroup.name),
+              title: TextWidget.body1(
+                feedGroup.name,
+                color: feedGroup == selectedOption
+                    ? AppColors.selectTextOnNavigationBarColor
+                    : AppColors.textOnNavigationBarColor,
+              ),
               onTap: () => onOptionSelect(feedGroup),
               onLongPress: () => onOptionLongPress(feedGroup),
-            ).backgroundColor(feedGroup == selectedOption
-                ? AppColors.surface
-                : AppColors.background);
+            );
           }).toList(),
-        ).width(120.w),
+        ).width(120.w).backgroundColor(AppColors.navigationBarColor),
         const VerticalDivider(
           thickness: 1,
           width: 1,

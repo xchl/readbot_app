@@ -62,7 +62,6 @@ class MyIndexPage extends GetView<MyIndexController> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         )
         .padding(
-          top: AppSpace.card * 3,
           bottom: AppSpace.card,
         );
   }
@@ -117,7 +116,7 @@ class MyIndexPage extends GetView<MyIndexController> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 13,
-                      color: AppColors.secondary,
+                      color: AppColors.titleColor,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
@@ -171,7 +170,12 @@ class MyIndexPage extends GetView<MyIndexController> {
       id: "my_index",
       builder: (_) {
         return Scaffold(
-          body: SafeArea(child: _buildView()),
+          appBar: AppBar(
+            backgroundColor: AppColors.background,
+            elevation: 0,
+          ),
+          body: SafeArea(
+              child: _buildView().backgroundColor(AppColors.background)),
         );
       },
     );
