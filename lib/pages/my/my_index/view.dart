@@ -201,8 +201,9 @@ class MyIndexPage extends GetView<MyIndexController> {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
+            toolbarHeight: 0,
             backgroundColor: AppColors.background,
-            elevation: 0,
+            elevation: AppSize.appBarElevation,
           ),
           body: SafeArea(child: _buildView()),
         );
