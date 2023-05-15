@@ -2,7 +2,6 @@ import 'package:readbot/common/index.dart';
 import 'package:readbot/pages/index.dart';
 import 'package:readbot/pages/post/post_drawer/widgets/feed_filter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'index.dart';
@@ -37,13 +36,12 @@ class _PostDrawerPageViewGetX extends GetView<PostDrawerController> {
     List<ExpansionPanelListItem<String, FeedItemWidget>> items =
         controller.feedGroupedByGroup.entries
             .map((e) => ExpansionPanelListItem(
-                headerValue: e.key.name, // TODO 优化代码
+                headerValue: e.key.name, // TODO 优化代码 & 没有Feed的分组不显示
                 expandedValue: e.value
                     .map((e) => FeedItemWidget(
                           title: e.title,
-                          logoUrl: e.logo,
                           backgroud: e.url == controller.selectedFeed
-                              ? AppColors.primary.withOpacity(0.1)
+                              ? AppColors.primary.withOpacity(0.2)
                               : null,
                           onTap: () => controller.onFeedSelect(e.url),
                         ))
@@ -78,9 +76,9 @@ class _PostDrawerPageViewGetX extends GetView<PostDrawerController> {
         id: "post_drawer",
         builder: (_) {
           return Drawer(
-              width: 150.w,
-              backgroundColor: AppColors.navigationBarColor,
-              child: _buildView());
+              width: AppSize.drawerWidth,
+              backgroundColor: AppColors.background,
+              child: SafeArea(child: _buildView()));
         });
   }
 }

@@ -221,7 +221,7 @@ class ButtonWidget extends StatelessWidget {
     this.width,
     this.height,
   })  : child = <Widget>[
-          icon!.paddingRight(AppSpace.iconTextSmail),
+          icon!.paddingRight(AppSize.iconTextSmail),
           TextWidget.button(
             text: text!,
             size: textSize,
@@ -249,7 +249,7 @@ class ButtonWidget extends StatelessWidget {
     this.width,
     this.height,
   })  : child = <Widget>[
-          icon!.paddingBottom(AppSpace.iconTextSmail),
+          icon!.paddingBottom(AppSize.iconTextSmail),
           TextWidget.button(
             text: text!,
             size: textSize,
@@ -282,7 +282,7 @@ class ButtonWidget extends StatelessWidget {
             size: textSize,
             color: textColor ?? AppColors.onPrimaryContainer,
             weight: textWeight,
-          ).paddingRight(AppSpace.iconTextSmail),
+          ).paddingRight(AppSize.iconTextSmail),
           icon!,
         ].toRow(
           mainAxisSize: MainAxisSize.min,

@@ -43,7 +43,7 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
                     alignment: Alignment.centerLeft,
                     child: TextWidget.body1(
                       LocaleKeys.turnToFocusTip.tr,
-                      color: AppColors.primary,
+                      color: AppColors.onPrimary,
                     ).paddingLeft(20.w),
                   ),
                 ),
@@ -59,7 +59,7 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
                   feed: feed,
                 ).inkWell(onTap: () {
                   controller.onTapItem(feedItem, i);
-                }),
+                }).padding(top: AppSpace.listItem),
               );
             },
             itemCount: controller.feedItems.length)

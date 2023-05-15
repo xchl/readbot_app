@@ -34,14 +34,14 @@ class MyMultiLevelOptions extends StatelessWidget {
               title: TextWidget.body1(
                 feedGroup.name,
                 color: feedGroup == selectedOption
-                    ? AppColors.selectTextOnNavigationBarColor
+                    ? AppColors.primary
                     : AppColors.textOnNavigationBarColor,
               ),
               onTap: () => onOptionSelect(feedGroup),
               onLongPress: () => onOptionLongPress(feedGroup),
             );
           }).toList(),
-        ).width(120.w).backgroundColor(AppColors.navigationBarColor),
+        ).width(96.w).backgroundColor(AppColors.background),
         const VerticalDivider(
           thickness: 1,
           width: 1,
@@ -49,8 +49,9 @@ class MyMultiLevelOptions extends StatelessWidget {
         Expanded(
           child: ListView(
             children: options[selectedOption]!.map((feed) {
-              return ListTile(
-                title: TextWidget.body1(feed.title),
+              return FeedItemWidget(
+                title: feed.title,
+                logoUrl: feed.logo,
                 onTap: () => onSubOptionSelect(feed),
               );
             }).toList(),

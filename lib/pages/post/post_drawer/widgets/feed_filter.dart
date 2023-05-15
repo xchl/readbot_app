@@ -9,10 +9,10 @@ class FeedFilterWidget extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          title: TextWidget.body1(item.headerValue),
-        ),
-        const Divider(
-          height: 0,
+          title: TextWidget.body2(
+            item.headerValue,
+            weight: FontWeight.bold,
+          ),
         ),
         List.generate(
           item.expandedValue.length,
@@ -25,9 +25,7 @@ class FeedFilterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-            child: List.generate(
-                    items.length, (index) => _buildFeedGroup(items[index]))
-                .toColumn())
-        .paddingTop(50);
+        child: List.generate(
+            items.length, (index) => _buildFeedGroup(items[index])).toColumn());
   }
 }

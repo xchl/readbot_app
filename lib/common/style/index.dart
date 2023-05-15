@@ -7,3 +7,4 @@ export 'space.dart';
 export 'radius.dart';
 export 'text.dart';
 export 'read_mode.dart';
+export 'size.dart';

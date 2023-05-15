@@ -291,7 +291,7 @@ class InputWidget extends StatelessWidget {
             width: 1,
             height: 16,
             color: AppColors.surfaceVariant,
-          ).paddingRight(AppSpace.iconTextSmail),
+          ).paddingRight(AppSize.iconTextSmail),
           suffixIcon ??
               IconWidget.icon(
                 Icons.photo_camera_outlined,

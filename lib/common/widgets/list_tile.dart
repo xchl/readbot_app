@@ -56,7 +56,7 @@ class ListTileWidget extends StatelessWidget {
     if (leading != null) {
       ws.add(
         leading!.paddingRight(
-          leadingSpace ?? AppSpace.iconTextSmail,
+          leadingSpace ?? AppSize.iconTextSmail,
         ),
       );
     }

@@ -21,7 +21,7 @@ class BarItemWidget extends StatelessWidget {
         svgPath,
         size: 24.sp,
         color: AppColors.primary,
-      ).paddingBottom(AppSpace.iconTextSmail),
+      ).paddingBottom(AppSize.iconTextSmail),
 
       // 标题
       TextWidget.body2(

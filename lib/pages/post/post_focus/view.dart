@@ -29,14 +29,11 @@ class _PostFocusPageViewGetX extends GetView<PostFocusController> {
 
   // 主视图
   Widget _buildView() {
-    return ListView.separated(
-            separatorBuilder: (_, __) => const Divider(
-                  height: 0,
-                ),
+    return ListView.builder(
             itemBuilder: (context, i) {
               final feedItem = controller.feedItems[i];
               final feed = controller.feeds[i];
-              return PostItemListWidget(
+              return PostItemCardWidget(
                 feedItem: feedItem,
                 feed: feed,
               ).inkWell(onTap: () {
@@ -45,8 +42,7 @@ class _PostFocusPageViewGetX extends GetView<PostFocusController> {
             },
             itemCount: controller.feedItems.length)
         .paddingLeft(5.w)
-        .paddingRight(5.w)
-        .backgroundColor(AppColors.background);
+        .paddingRight(5.w);
   }
 
   @override

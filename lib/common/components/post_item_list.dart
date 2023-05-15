@@ -22,7 +22,7 @@ class PostItemListWidget extends StatelessWidget {
               softWrap: true,
               color:
                   feedItem.isSeen ? AppColors.hideColor : AppColors.titleColor)
-          .paddingBottom(10.h)
+          .paddingBottom(AppSpace.listItem)
           .alignLeft(),
       _buildDescriptionBlock()
     ].toColumn();
@@ -35,32 +35,44 @@ class PostItemListWidget extends StatelessWidget {
               width: 0,
               height: 0,
             )
-          : TextWidget.body2(feed!.title, color: AppColors.hideColor),
+          : DescriptionItem(
+                  icon: IconWidget.image(
+                    AssetsSvgs.publisher,
+                    size: 12.sp,
+                  ),
+                  text:
+                      TextWidget.body2(feed!.title, color: AppColors.hideColor))
+              .paddingBottom(AppSpace.seqHorization),
       feedItem.publishTime == null
           ? const SizedBox(
               width: 0,
               height: 0,
             )
-          : TextWidget.body2(displayDatetime(feedItem.publishTime!),
-                  color: AppColors.hideColor)
-              .paddingLeft(10.w),
-    ].toRow();
+          : DescriptionItem(
+              icon: IconWidget.image(
+                AssetsSvgs.publishTime,
+                size: 12.sp,
+              ),
+              text: TextWidget.body2(displayDatetime(feedItem.publishTime!),
+                  color: AppColors.hideColor))
+    ].toColumn();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: <Widget>[
-        // 图片Block
+        _buildTextBlock().expanded(),
         feedItem.cover == null
             ? const SizedBox(
                 width: 0,
                 height: 0,
               )
-            : _buildImageBlock().width(100).height(80).paddingRight(10),
-        // Description Block
-        _buildTextBlock().expanded(),
-      ].toRow().padding(left: 5.w, right: 5.w, top: 5.h, bottom: 5.h),
-    ).paddingBottom(AppSpace.listItem).paddingTop(AppSpace.listItem);
+            : _buildImageBlock()
+                .width(AppSize.exploreImageWidth)
+                .height(AppSize.exploreImageHeight)
+                .paddingLeft(AppSpace.card),
+      ].toRow().padding(left: AppSpace.card, right: AppSpace.card),
+    ).paddingBottom(AppSpace.listItem);
   }
 }

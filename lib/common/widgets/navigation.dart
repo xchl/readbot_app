@@ -37,12 +37,12 @@ class BuildNavigation extends StatelessWidget {
       ws.add(
         <Widget>[
           // 图标
-          IconWidget.svg(
+          IconWidget.image(
             item.icon,
-            size: 20,
+            size: AppSize.navigationItem,
             color: color,
             badgeString: item.count > 0 ? item.count.toString() : null,
-          ).paddingBottom(2),
+          ).paddingBottom(AppSpace.seqVertical),
           // 文字
           TextWidget.body2(
             item.label.tr,
@@ -57,14 +57,13 @@ class BuildNavigation extends StatelessWidget {
       );
     }
     return BottomAppBar(
-      color: AppColors.navigationBarColor,
-      elevation: 0,
-      child: ws
-          .toRow(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-          )
-          .height(kBottomNavigationBarHeight),
-    );
+        color: AppColors.navigationBarColor,
+        elevation: 0,
+        child: ws
+            .toRow(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+            )
+            .height(AppSize.navigationHeight));
   }
 }

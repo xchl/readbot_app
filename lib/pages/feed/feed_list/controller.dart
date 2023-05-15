@@ -26,7 +26,6 @@ class FeedListController extends GetxController {
 
   Map<FeedGroupModel, List<FeedModel>> feedGroupedByGroup = {};
 
-  FeedGroupModel? selectedFeedGroup;
   FeedModel? selectedFeed;
 
   List<FeedGroupModel> get allGroup => feedGroupedByGroup.keys.toList();
@@ -34,6 +33,8 @@ class FeedListController extends GetxController {
   final defaultFeedGroup = FeedGroupModel(
     name: LocaleKeys.unnameFeedGroup.tr,
   );
+
+  FeedGroupModel? selectedFeedGroup;
 
   _initData() async {
     List<FeedModel> feeds = await DatabaseManager().getAllFeeds();
@@ -54,9 +55,7 @@ class FeedListController extends GetxController {
     for (var group in feedGroups) {
       feedGroupedByGroup[group] = feedGroupedByGroupName[group.name] ?? [];
     }
-    if (feedGroupedByGroup.isNotEmpty) {
-      selectedFeedGroup = feedGroupedByGroup.keys.first;
-    }
+    selectedFeedGroup = defaultFeedGroup;
     update(["feed_list"]);
   }
 
@@ -87,9 +86,10 @@ class FeedListController extends GetxController {
       description: groupDescController.text,
     );
     if ((addGroupKey.currentState as FormState).validate()) {
-      if (selectedFeedGroup != null && selectedFeedGroup!.name != group.name) {
+      // if update
+      if (selectedFeedGroup != defaultFeedGroup &&
+          selectedFeedGroup!.name != group.name) {
         await DatabaseManager().updateFeedGroup(group, selectedFeedGroup!);
-        // TODO 如何不改变顺序
         feedGroupedByGroup[group] = feedGroupedByGroup[selectedFeedGroup] ?? [];
         feedGroupedByGroup.remove(selectedFeedGroup);
       } else {

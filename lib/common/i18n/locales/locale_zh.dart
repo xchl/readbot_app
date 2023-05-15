@@ -126,10 +126,11 @@ Map<String, String> localeZh = {
   LocaleKeys.feedAlreadyExists: '订阅源已经存在',
   LocaleKeys.registerUserAgreement: '阅读用户协议',
   LocaleKeys.registerUserAgreementError: '请确认用户协议',
-  LocaleKeys.unnameFeedGroup: '未命名分组',
+  LocaleKeys.unnameFeedGroup: '未分组',
   LocaleKeys.feedDelete: '取消订阅',
   LocaleKeys.feedGroupDelete: '删除分组',
   LocaleKeys.addFeedError: '添加订阅源失败',
+  LocaleKeys.summaryContent: '主要内容',
 
   // Read
   LocaleKeys.turnToFocusTip: '聚焦阅读',

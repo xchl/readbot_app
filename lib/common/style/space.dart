@@ -3,12 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 间距
 class AppSpace {
-  /// 按钮
-  static double get buttonWidth => 10.w;
-
-  /// 按钮
-  static double get buttonHeight => 50.h;
-
   /// 卡片内 - 12 上下左右
   static double get card => 15;
 
@@ -19,16 +13,15 @@ class AppSpace {
   /// 列表行 - 10 上下
   static double get listItem => 10.h;
 
+  static double get seqHorization => 5.w;
+  static double get seqVertical => 5.h;
+  static double get seqx2Horization => 10.w;
+  static double get seqx2Vertical => 10.h;
+
   /// 页面内 - 16 左右
-  static double get page => 16.w;
+  static double get page => 8.w;
 
   static double get title => 20.h;
 
   static double get settingListHight => 30.h;
-
-  // TODO fontsize单独一个文件
-
-  static double get iconTextSmail => 5;
-  static double get iconTextMedium => 10;
-  static double get iconTextLarge => 15;
 }
