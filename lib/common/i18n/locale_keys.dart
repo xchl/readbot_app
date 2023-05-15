@@ -100,7 +100,7 @@ class LocaleKeys {
   static const myDestroyBth = 'my_destroy_btn';
   static const myDestroyAccountInfo = 'my_destroy_info';
   static const myAccountPart = 'my_account_part';
-  static const mySystemSetting = 'my_system_setting';
+  static const mySystemPart = 'my_system_setting';
   static const mySystemAutoReadmode = 'my_system_auto_readmode';
   static const mySystemAutoDeleteData = 'my_system_auto_clear_data';
   static const mySystemAutoDeleteDay = 'my_system_auto_delete_day';
@@ -108,6 +108,7 @@ class LocaleKeys {
   static const pageNotSupportAI = 'page_not_support_ai';
   static const aiServiceNotReady = 'ai_service_not_ready';
   static const pageTooLongNotSupportAI = 'page_too_long_not_support_ai';
+  static const openAI = 'open_ai';
 
   // Feed
   static const feedAddDesc = 'feed_add_desc';

@@ -22,7 +22,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
                 selectValue: controller.selectAiService,
                 options: controller.aiService)
             : const SizedBox()
-      ].toColumn()
+      ].toColumn().backgroundColor(AppColors.background)
     ].toColumn();
   }
 
@@ -72,6 +72,10 @@ class AiSettingPage extends GetView<AiSetttingController> {
 
   Widget _buildOpenAISetting() {
     return <Widget>[
+      TextWidget.body1(
+        LocaleKeys.openAI.tr,
+        color: AppColors.hideColor,
+      ).alignLeft().padding(left: 10, bottom: 10),
       <Widget>[
         ButtonShowItemWidget(
           title: LocaleKeys.myAIServiceApiToken.tr,
@@ -101,8 +105,8 @@ class AiSettingPage extends GetView<AiSetttingController> {
                         child: _buildAddProxyServerForm()));
               }),
         ),
-      ].toColumn()
-    ].toColumn();
+      ].toColumn().backgroundColor(AppColors.background)
+    ].toColumn().paddingTop(AppSpace.card);
   }
 
   // 主视图
@@ -124,13 +128,13 @@ class AiSettingPage extends GetView<AiSetttingController> {
         return Scaffold(
             appBar: AppBar(
                 backgroundColor: AppColors.background,
-                elevation: 0.2,
+                elevation: 0,
                 title: TextWidget.title1(
                   LocaleKeys.myAISetting.tr,
                   color: AppColors.titleColor,
                 )),
             body: SafeArea(
-              child: _buildView().backgroundColor(AppColors.background),
+              child: _buildView(),
             ));
       },
     );

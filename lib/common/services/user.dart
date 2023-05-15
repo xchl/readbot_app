@@ -37,6 +37,8 @@ class UserService extends GetxService {
   }
 
   String? get username => _basicProfile?.value.username;
+  String? get email => _basicProfile?.value.email;
+
   static bool get isLogin => UserService.to._isLogin.value;
 
   @override

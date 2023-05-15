@@ -108,7 +108,7 @@ Map<String, String> localeEn = {
   LocaleKeys.myDestroyAccountInfo:
       'If you destroy your current account, all information will be deleted and cannot be restored. Please input YES and confirm',
   LocaleKeys.myAccountPart: 'Account',
-  LocaleKeys.mySystemSetting: 'System Setting',
+  LocaleKeys.mySystemPart: 'System',
   LocaleKeys.mySystemAutoReadmode: 'Auto Open Read Mode',
   LocaleKeys.mySystemAutoDeleteData: 'Auto Deleta History Feed',
   LocaleKeys.mySystemAutoDeleteDay: 'Only Save Data in Recent Days',
@@ -117,6 +117,8 @@ Map<String, String> localeEn = {
   LocaleKeys.aiServiceNotReady: 'AI service need to be configured first',
   LocaleKeys.pageTooLongNotSupportAI:
       'This page is too long, not supported by AI',
+
+  LocaleKeys.openAI: 'OpenAI',
 
   // Feed
   LocaleKeys.addBtn: 'Add',

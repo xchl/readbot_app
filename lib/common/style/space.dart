@@ -24,6 +24,8 @@ class AppSpace {
 
   static double get title => 20.h;
 
+  static double get settingListHight => 30.h;
+
   // TODO fontsize单独一个文件
 
   static double get iconTextSmail => 5;

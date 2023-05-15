@@ -102,10 +102,12 @@ Map<String, String> localeZh = {
   LocaleKeys.myDestroyBth: '销毁当前账户',
   LocaleKeys.myDestroyAccountInfo: '如果销毁当前账户，保存在服务器上的所有数据都将被删除。请输入YES并确认',
   LocaleKeys.myAccountPart: '账户',
-  LocaleKeys.mySystemSetting: '系统设置',
+  LocaleKeys.mySystemPart: '系统',
   LocaleKeys.mySystemAutoReadmode: '自动开启阅读模式',
   LocaleKeys.mySystemAutoDeleteData: '自动删除历史数据',
   LocaleKeys.mySystemAutoDeleteDay: '保留近期数据天数',
+
+  LocaleKeys.openAI: 'OpenAI',
 
   //Feed
   LocaleKeys.addBtn: '添加',

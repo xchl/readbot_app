@@ -32,7 +32,7 @@ class SwitchItemWidget extends StatelessWidget {
             value: statu,
             onChanged: onTap,
             activeColor: Colors.green,
-          ).height(30.sp)
+          ).height(AppSpace.settingListHight)
         ]);
   }
 }

@@ -21,53 +21,84 @@ class MyIndexPage extends GetView<MyIndexController> {
         // 主题管理
         _buildSystemButtonsList().sliverBox,
 
-        // 系统设置
+        // 账户相关
         _buildAccountButtonsList().sliverBox,
-
-        // // 注销
-        // ButtonWidget.primary(
-        //   LocaleKeys.myBtnLogout.tr,
-        //   height: 60,
-        //   onTap: () => controller.onLogout(),
-        // )
-        //     .padding(
-        //       left: AppSpace.page,
-        //       right: AppSpace.page,
-        //       top: AppSpace.listRow * 2,
-        //     )
-        //     .sliverBox
       ],
     );
   }
 
+  Widget _buildLoginHeader() {
+    return <Widget>[
+      ImageWidget.url(
+        // TODO
+        "https://ae01.alicdn.com/kf/HTB1umFObCWD3KVjSZSg763CxVXad.png",
+        width: 80.w,
+        height: 80.w,
+        fit: BoxFit.fill,
+        radius: 50.w,
+      ).paddingRight(AppSpace.listItem),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextWidget.title1(
+            "${UserService.to.username}",
+            color: AppColors.titleColor,
+          ).paddingBottom(AppSpace.listItem),
+          TextWidget.body1(
+            "${UserService.to.email}",
+            color: AppColors.hideColor,
+          )
+        ],
+      ),
+    ]
+        .toRow()
+        .paddingHorizontal(AppSpace.card)
+        .backgroundColor(AppColors.background)
+        .height(150.w);
+  }
+
+  Widget _buildUnLoginHeader() {
+    return <Widget>[
+      // 头像
+      ImageWidget.url(
+        // 测试需要改成自定义头像
+        AssetsImages.defaultPng,
+        width: 80.w,
+        height: 80.w,
+        fit: BoxFit.fill,
+        radius: 50.w,
+      ).paddingRight(AppSpace.listItem),
+
+      // 称呼
+      ButtonWidget.text(
+        LocaleKeys.myLoginBtn.tr,
+        onTap: () => Get.toNamed(RouteNames.systemLogin),
+        textSize: 26.sp,
+        textColor: AppColors.primary,
+      ),
+    ]
+        .toRow()
+        .paddingHorizontal(AppSpace.card)
+        .backgroundColor(AppColors.background)
+        .height(150.w);
+  }
+
   Widget _buildHeader() {
+    // 内容
     return <Widget>[
       // 用户信息
-      <Widget>[
-        Obx(() => UserService.isLogin
-            ? TextWidget.title1(
-                "Hi, ${UserService.to.username}",
-                color: AppColors.primary,
-                size: 26.sp,
-              )
-            : ButtonWidget.text(
-                LocaleKeys.myLoginBtn.tr,
-                onTap: () => Get.toNamed(RouteNames.systemLogin),
-                textSize: 26.sp,
-                textColor: AppColors.primary,
-              )),
-      ].toRow().paddingHorizontal(AppSpace.card),
-    ]
-        .toColumn(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        )
-        .padding(
-          bottom: AppSpace.card,
-        );
+      Obx(() =>
+          UserService.isLogin ? _buildLoginHeader() : _buildUnLoginHeader())
+    ].toColumn();
   }
 
   Widget _buildSystemButtonsList() {
     return <Widget>[
+      TextWidget.body1(
+        LocaleKeys.mySystemPart.tr,
+        color: AppColors.hideColor,
+      ).alignLeft().padding(left: 10, bottom: 10),
       <Widget>[
         // SwitchItemWidget(
         //   title: LocaleKeys.myDartTheme.tr,
@@ -91,12 +122,16 @@ class MyIndexPage extends GetView<MyIndexController> {
                 selectValue: controller.onlySaveDataDays,
                 options: controller.onlySaveDataDaysList)
             : const SizedBox()
-      ].toColumn().card()
+      ].toColumn().backgroundColor(AppColors.background)
     ].toColumn().padding(top: 10.h, bottom: 10.h);
   }
 
   Widget _buildAccountButtonsList() {
     return <Widget>[
+      TextWidget.body1(
+        LocaleKeys.myAccountPart.tr,
+        color: AppColors.hideColor,
+      ).alignLeft().padding(left: 10, bottom: 10),
       <Widget>[
         ButtonItemWidget(
           title: LocaleKeys.myBtnLogout.tr,
@@ -143,12 +178,16 @@ class MyIndexPage extends GetView<MyIndexController> {
             );
           },
         ),
-      ].toColumn().card()
+      ].toColumn().backgroundColor(AppColors.background)
     ].toColumn().padding(top: 10.h, bottom: 10.h);
   }
 
   Widget _buildServiceButtonsList() {
     return <Widget>[
+      TextWidget.body1(
+        LocaleKeys.myServicePart.tr,
+        color: AppColors.hideColor,
+      ).alignLeft().padding(left: 10, bottom: 10),
       <Widget>[
         SwitchItemWidget(
           title: LocaleKeys.myIsNeedSync.tr,
@@ -159,7 +198,7 @@ class MyIndexPage extends GetView<MyIndexController> {
           title: LocaleKeys.myAISetting.tr,
           onTap: () => Get.toNamed(RouteNames.myAiSetting),
         ),
-      ].toColumn().card()
+      ].toColumn().backgroundColor(AppColors.background)
     ].toColumn().padding(top: 30.h, bottom: 10.h);
   }
 
@@ -174,8 +213,7 @@ class MyIndexPage extends GetView<MyIndexController> {
             backgroundColor: AppColors.background,
             elevation: 0,
           ),
-          body: SafeArea(
-              child: _buildView().backgroundColor(AppColors.background)),
+          body: SafeArea(child: _buildView()),
         );
       },
     );

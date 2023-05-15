@@ -38,7 +38,7 @@ class StringSelectItemWidget extends StatelessWidget {
                 child: Text(value.toString()),
               );
             }).toList(),
-          )
+          ).height(AppSpace.settingListHight)
         ]);
   }
 }
