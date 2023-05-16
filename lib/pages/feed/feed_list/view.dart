@@ -6,12 +6,6 @@ import 'package:get/get.dart';
 
 import 'index.dart';
 
-enum FeedAddButtonFunc {
-  addFromUrl,
-  importFromOpml,
-  addGroup,
-}
-
 class FeedListPage extends GetView<FeedListController> {
   const FeedListPage({Key? key}) : super(key: key);
 
