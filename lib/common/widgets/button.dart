@@ -23,6 +23,9 @@ class ButtonWidget extends StatelessWidget {
   /// tap 事件
   final Function()? onTap;
 
+  /// Long tap事件
+  final Function()? onLongPress;
+
   /// 文字字符串
   final String? text;
 
@@ -58,6 +61,7 @@ class ButtonWidget extends StatelessWidget {
     this.icon,
     this.borderColor,
     this.width,
+    this.onLongPress,
     this.height,
   }) : super(key: key);
 
@@ -71,6 +75,7 @@ class ButtonWidget extends StatelessWidget {
     this.onTap,
     this.borderRadius,
     this.child,
+    this.onLongPress,
     this.backgroundColor,
     this.icon,
     this.borderColor,
@@ -84,6 +89,7 @@ class ButtonWidget extends StatelessWidget {
     this.width = double.infinity,
     this.height = 50,
     this.onTap,
+    this.onLongPress,
     this.borderRadius,
     this.child,
     this.backgroundColor,
@@ -97,6 +103,7 @@ class ButtonWidget extends StatelessWidget {
     Key? key,
     this.type = ButtonWidgetType.text,
     this.onTap,
+    this.onLongPress,
     Color? textColor,
     double? textSize,
     FontWeight? textWeight,
@@ -120,6 +127,7 @@ class ButtonWidget extends StatelessWidget {
     Key? key,
     this.type = ButtonWidgetType.icon,
     this.onTap,
+    this.onLongPress,
     this.text,
     this.borderRadius,
     this.backgroundColor,
@@ -141,6 +149,7 @@ class ButtonWidget extends StatelessWidget {
     this.onTap,
     this.borderRadius,
     this.icon,
+    this.onLongPress,
     this.borderColor,
     this.width,
     this.height,
@@ -163,6 +172,7 @@ class ButtonWidget extends StatelessWidget {
     double? textSize,
     FontWeight? textWeight,
     this.onTap,
+    this.onLongPress,
     this.borderRadius,
     this.icon,
     this.borderColor,
@@ -187,6 +197,7 @@ class ButtonWidget extends StatelessWidget {
     double? textSize,
     FontWeight? textWeight,
     this.onTap,
+    this.onLongPress,
     this.borderRadius,
     this.backgroundColor,
     this.borderColor,
@@ -212,6 +223,7 @@ class ButtonWidget extends StatelessWidget {
     Key? key,
     this.type = ButtonWidgetType.iconTextOutlined,
     this.onTap,
+    this.onLongPress,
     Color? textColor,
     double? textSize,
     FontWeight? textWeight,
@@ -240,6 +252,7 @@ class ButtonWidget extends StatelessWidget {
     Key? key,
     this.type = ButtonWidgetType.iconTextUpDownOutlined,
     this.onTap,
+    this.onLongPress,
     Color? textColor,
     double? textSize,
     FontWeight? textWeight,
@@ -271,6 +284,7 @@ class ButtonWidget extends StatelessWidget {
     FontWeight? textWeight,
     this.type = ButtonWidgetType.textIcon,
     this.onTap,
+    this.onLongPress,
     this.borderRadius,
     this.backgroundColor,
     this.borderColor,

@@ -1,4 +1,5 @@
 import 'package:readbot/common/index.dart';
+import 'package:readbot/common/widgets/dropdown_menu_form.dart';
 import 'package:readbot/pages/feed/feed_list/widgets/muti_level_Option.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -69,7 +70,6 @@ class FeedListPage extends GetView<FeedListController> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: <Widget>[
         TextFormWidget(
-                // TODO 预填充文字大小
                 keyboardType: TextInputType.text,
                 controller: controller.feedNameController,
                 labelText: LocaleKeys.feedTitle.tr,
@@ -81,17 +81,11 @@ class FeedListPage extends GetView<FeedListController> {
                 labelText: LocaleKeys.feedDesc.tr)
             .paddingBottom(AppSpace.listItem),
         // feed name
-        DropdownButtonFormField<FeedGroupModel>(
-          value: controller.selectedFeedGroup,
-          icon: const Icon(Icons.arrow_downward),
-          items: controller.allGroup.map((FeedGroupModel feedGroup) {
-            return DropdownMenuItem<FeedGroupModel>(
-              value: feedGroup,
-              child: TextWidget.body1(feedGroup.name),
-            );
-          }).toList(),
-          onChanged: (value) => {controller.onModifyFeedGroup(value)},
-        ).paddingBottom(AppSpace.listItem),
+        DropDownMenuFormWidget(
+                onTap: (value) => {controller.onModifyFeedGroup(value)},
+                options: controller.allGroup,
+                selectValue: controller.selectedFeedGroup)
+            .paddingBottom(AppSpace.listItem),
         // url
         <Widget>[
           // 取消订阅

@@ -1,3 +1,5 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 /// 圆角定义
 class AppRadius {
   /// 按钮圆角
@@ -17,4 +19,6 @@ class AppRadius {
 
   /// 图片圆角
   static double get image => 6;
+
+  static double get avator => 50.sp;
 }

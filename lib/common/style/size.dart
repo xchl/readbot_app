@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppSize {
   /// 按钮
   static double get buttonWidth => 10.w;
-  static double get buttonHeight => 50.h;
+  static double get buttonHeight => 48.h;
   static double get buttonTextSize => 20.sp;
 
   /// 图片
@@ -50,6 +50,7 @@ class AppSize {
   static double get body1 => 15.sp;
   static double get body2 => 13.sp;
   static double get body3 => 11.sp;
+  static double get textHeight => 28.h;
 
   static double get toolIconSize => 28.sp;
 

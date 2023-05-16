@@ -27,13 +27,14 @@ class MyIndexPage extends GetView<MyIndexController> {
 
   Widget _buildLoginHeader() {
     return <Widget>[
-      ImageWidget.url(
-        // TODO
-        "https://ae01.alicdn.com/kf/HTB1umFObCWD3KVjSZSg763CxVXad.png",
-        width: AppSize.avatorImageWidth,
-        height: AppSize.avatorImageHeight,
-        fit: BoxFit.fill,
-      ).paddingRight(AppSpace.listItem),
+      if (UserService.to.avatar != null)
+        ImageWidget.url(
+          UserService.to.avatar!,
+          width: AppSize.avatorImageWidth,
+          height: AppSize.avatorImageHeight,
+          radius: AppRadius.avator,
+          fit: BoxFit.fill,
+        ).paddingRight(AppSpace.listItem),
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +107,7 @@ class MyIndexPage extends GetView<MyIndexController> {
           onTap: (bool value) => controller.onAutoDeleteDataChange(value),
         ),
         if (controller.enableAutoDeleteData)
-          SelectItemWidget(
+          TitleSelectItemWidget(
             title: LocaleKeys.mySystemAutoDeleteDay.tr,
             onTap: controller.onSelectAutoDeleteDay,
             selectValue: controller.onlySaveDataDays,

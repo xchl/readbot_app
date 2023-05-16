@@ -9,17 +9,14 @@ class HttpService extends GetxService {
 
   late final Dio _dio;
 
-  // TODO
-  final retryTimes = 2;
-
   @override
   void onInit() {
     super.onInit();
     // 初始 dio
     var options = BaseOptions(
       baseUrl: ConfigService.to.serverUrl,
-      connectTimeout: const Duration(seconds: 10), // 10秒
-      receiveTimeout: const Duration(seconds: 10), // 10秒
+      connectTimeout: const Duration(seconds: 15), // 10秒
+      receiveTimeout: const Duration(seconds: 15), // 10秒
       headers: {},
       contentType: 'application/json; charset=utf-8',
       responseType: ResponseType.json,
@@ -48,25 +45,25 @@ class HttpService extends GetxService {
     return response;
   }
 
-  Future<Response> retry(RequestOptions requestOptions) async {
-    Options options = Options(
-      headers: requestOptions.headers,
-      extra: requestOptions.extra,
-      method: requestOptions.method,
-      responseType: requestOptions.responseType,
-      contentType: requestOptions.contentType,
-      validateStatus: requestOptions.validateStatus,
-      receiveTimeout: requestOptions.receiveTimeout,
-    );
-    options.extra ??= {};
-    options.extra!['retried'] = true;
+  // Future<Response> retry(RequestOptions requestOptions) async {
+  //   Options options = Options(
+  //     headers: requestOptions.headers,
+  //     extra: requestOptions.extra,
+  //     method: requestOptions.method,
+  //     responseType: requestOptions.responseType,
+  //     contentType: requestOptions.contentType,
+  //     validateStatus: requestOptions.validateStatus,
+  //     receiveTimeout: requestOptions.receiveTimeout,
+  //   );
+  //   options.extra ??= {};
+  //   options.extra!['retried'] = true;
 
-    Response response = await _dio.request(requestOptions.path,
-        data: requestOptions.data,
-        queryParameters: requestOptions.queryParameters,
-        options: options);
-    return response;
-  }
+  //   Response response = await _dio.request(requestOptions.path,
+  //       data: requestOptions.data,
+  //       queryParameters: requestOptions.queryParameters,
+  //       options: options);
+  //   return response;
+  // }
 
   Future<Response> post(
     String url, {
@@ -135,20 +132,20 @@ class RequestInterceptors extends Interceptor {
     handler.next(options);
   }
 
-  bool _shouldRetry(DioError err, RequestOptions requestOptions) {
-    if (requestOptions.extra.containsKey('retried') &&
-        requestOptions.extra['retried'] == true) {
-      return false;
-    }
-    return err.type == DioErrorType.receiveTimeout;
-  }
+  // bool _shouldRetry(DioError err, RequestOptions requestOptions) {
+  //   if (requestOptions.extra.containsKey('retried') &&
+  //       requestOptions.extra['retried'] == true) {
+  //     return false;
+  //   }
+  //   return err.type == DioErrorType.receiveTimeout;
+  // }
 
   @override
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
-    if (_shouldRetry(err, err.requestOptions)) {
-      HttpService.to.retry(err.requestOptions);
-      return;
-    }
+    // if (_shouldRetry(err, err.requestOptions)) {
+    //   HttpService.to.retry(err.requestOptions);
+    //   return;
+    // }
     switch (err.type) {
       case DioErrorType.badResponse: // 服务端自定义错误体处理
         {

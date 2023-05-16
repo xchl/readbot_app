@@ -36,7 +36,7 @@ class _PostDrawerPageViewGetX extends GetView<PostDrawerController> {
     List<ExpansionPanelListItem<String, FeedItemWidget>> items =
         controller.feedGroupedByGroup.entries
             .map((e) => ExpansionPanelListItem(
-                headerValue: e.key.name, // TODO 优化代码 & 没有Feed的分组不显示
+                headerValue: e.key,
                 expandedValue: e.value
                     .map((e) => FeedItemWidget(
                           title: e.title,

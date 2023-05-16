@@ -30,15 +30,16 @@ class MyMultiLevelOptions extends StatelessWidget {
         ListView(
           children: options.keys.map((feedGroup) {
             return ListTile(
-              title: TextWidget.body1(
+              title: TextWidget.body2(
                 feedGroup.name,
-                color: feedGroup == selectedOption
-                    ? AppColors.primary
-                    : AppColors.textOnNavigationBarColor,
-              ),
+                maxLines: null,
+                softWrap: true,
+              ).alignCenter(),
               onTap: () => onOptionSelect(feedGroup),
               onLongPress: () => onOptionLongPress(feedGroup),
-            );
+            ).backgroundColor(feedGroup == selectedOption
+                ? AppColors.primary.withOpacity(0.2)
+                : AppColors.background);
           }).toList(),
         )
             .width(AppSize.optionDrawerWidth)

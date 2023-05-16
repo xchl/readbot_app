@@ -23,6 +23,11 @@ class FeedGroupModel {
     this.description,
     this.isSynced = false,
   }) : updateTime = DateTime.now();
+
+  @override
+  String toString() {
+    return name;
+  }
 }
 
 // function to convert FeedGroupModel to FeedGroup

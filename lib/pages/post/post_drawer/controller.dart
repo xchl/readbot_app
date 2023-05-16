@@ -6,30 +6,21 @@ class PostDrawerController extends GetxController {
   PostDrawerController(this._subPage);
 
   final PageType _subPage;
-  Map<FeedGroupModel, List<FeedModel>> feedGroupedByGroup = {};
+  Map<String, List<FeedModel>> feedGroupedByGroup = {};
 
   String? selectedFeed;
 
   _initData() async {
     List<FeedModel> feeds = await DatabaseManager().getAllFeeds();
-    List<FeedGroupModel> feedGroups = await DatabaseManager().getAllGroups();
-    Map<String, List<FeedModel>> feedGroupedByGroupName = {};
-    // TODO 优化
-    FeedGroupModel unnamedGroup =
-        FeedGroupModel(name: LocaleKeys.unnameFeedGroup.tr, isSynced: false);
-    feedGroupedByGroup[unnamedGroup] = [];
+    String unnameGroupName = LocaleKeys.unnameFeedGroup.tr;
+    feedGroupedByGroup[LocaleKeys.unnameFeedGroup.tr] = [];
     for (var feed in feeds) {
       if (feed.groupName == null) {
-        feedGroupedByGroup[unnamedGroup]!.add(feed);
+        feedGroupedByGroup[unnameGroupName]!.add(feed);
         continue;
       }
-      if (feedGroupedByGroupName[feed.groupName] == null) {
-        feedGroupedByGroupName[feed.groupName!] = [];
-      }
-      feedGroupedByGroupName[feed.groupName]!.add(feed);
-    }
-    for (var group in feedGroups) {
-      feedGroupedByGroup[group] = feedGroupedByGroupName[group.name] ?? [];
+      feedGroupedByGroup[feed.groupName!] ??= [];
+      feedGroupedByGroup[feed.groupName]!.add(feed);
     }
     update(["post_drawer"]);
   }

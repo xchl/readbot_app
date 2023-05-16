@@ -78,6 +78,7 @@ class _TextFormWidgetState extends State<TextFormWidget> {
       autofocus: widget.autofocus!, // 自动焦点
       keyboardType: widget.keyboardType, // 输入法类型
       controller: widget.controller, // 控制器
+      style: TextStyle(fontSize: AppSize.body1),
       decoration: widget.isObscure == true
           ? InputDecoration(
               hintText: widget.hintText, // 提示文字
