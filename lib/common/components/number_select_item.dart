@@ -1,6 +1,5 @@
 import 'package:readbot/common/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 按钮列表项
 class NumberSelectItemWidget extends StatelessWidget {
@@ -22,8 +21,6 @@ class NumberSelectItemWidget extends StatelessWidget {
     return ListTileWidget(
         title: TextWidget.body1(
           title,
-          size: 15.sp,
-          weight: FontWeight.w400,
         ),
 
         // 右侧箭头

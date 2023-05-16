@@ -110,6 +110,8 @@ class LocaleKeys {
   static const pageTooLongNotSupportAI = 'page_too_long_not_support_ai';
   static const openAI = 'open_ai';
 
+  static const inputNotRight = 'input_not_right';
+
   // Feed
   static const feedAddDesc = 'feed_add_desc';
   static const feedTitle = 'feed_title';

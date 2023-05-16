@@ -19,9 +19,12 @@ class AppSpace {
   static double get seqx2Vertical => 10.h;
 
   /// 页面内 - 16 左右
-  static double get page => 8.w;
+  static double get page => 10.w;
 
   static double get title => 20.h;
 
   static double get settingListHight => 30.h;
+
+  // 刷新按钮
+  static double get refreshDisplacement => 50.h;
 }

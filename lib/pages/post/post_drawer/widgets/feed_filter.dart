@@ -17,9 +17,9 @@ class FeedFilterWidget extends StatelessWidget {
         List.generate(
           item.expandedValue.length,
           (index) => item.expandedValue[index],
-        ).toColumn().paddingLeft(5)
+        ).toColumn().paddingLeft(AppSpace.seqHorization)
       ],
-    ).paddingBottom(20);
+    ).paddingBottom(AppSpace.listItem);
   }
 
   @override

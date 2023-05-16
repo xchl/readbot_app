@@ -1,7 +1,6 @@
 import 'package:readbot/common/index.dart';
 import 'package:readbot/pages/feed/feed_list/widgets/muti_level_Option.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'index.dart';
@@ -53,7 +52,7 @@ class FeedListPage extends GetView<FeedListController> {
                 controller: controller.urlController,
                 labelText: LocaleKeys.feedAddDesc.tr,
                 validator: Validators.notEmpty(LocaleKeys.validatorRequired.tr))
-            .paddingBottom(30),
+            .paddingBottom(AppSpace.listItem),
 
         // 添加按钮
         ButtonWidget.text(
@@ -61,7 +60,7 @@ class FeedListPage extends GetView<FeedListController> {
           onTap: controller.onAddFeed,
         ).paddingBottom(AppSpace.listItem),
       ].toColumn(),
-    ).paddingAll(AppSpace.card).height(250);
+    ).paddingAll(AppSpace.card).height(AppSize.addFeedFormHeight);
   }
 
   Widget _buildFeedModifyForm(FeedModel feed) {
@@ -75,12 +74,12 @@ class FeedListPage extends GetView<FeedListController> {
                 controller: controller.feedNameController,
                 labelText: LocaleKeys.feedTitle.tr,
                 validator: Validators.notEmpty(LocaleKeys.validatorRequired.tr))
-            .paddingBottom(10),
+            .paddingBottom(AppSpace.listItem),
         TextFormWidget(
                 keyboardType: TextInputType.text,
                 controller: controller.feedDescController,
                 labelText: LocaleKeys.feedDesc.tr)
-            .paddingBottom(10),
+            .paddingBottom(AppSpace.listItem),
         // feed name
         DropdownButtonFormField<FeedGroupModel>(
           value: controller.selectedFeedGroup,
@@ -92,14 +91,14 @@ class FeedListPage extends GetView<FeedListController> {
             );
           }).toList(),
           onChanged: (value) => {controller.onModifyFeedGroup(value)},
-        ).paddingBottom(20.h),
+        ).paddingBottom(AppSpace.listItem),
         // url
         <Widget>[
           // 取消订阅
           ButtonWidget.text(
             LocaleKeys.feedDelete.tr,
             onTap: controller.onUnsubscribeFeed,
-          ).paddingRight(20.w),
+          ).paddingRight(AppSpace.seqx2Horization),
           // 修改
           ButtonWidget.text(
             LocaleKeys.commonBottomSave.tr,
@@ -107,7 +106,7 @@ class FeedListPage extends GetView<FeedListController> {
           )
         ].toRow(mainAxisAlignment: MainAxisAlignment.center)
       ].toColumn(),
-    ).paddingAll(AppSpace.card).height(350.h);
+    ).paddingAll(AppSpace.card).height(AppSize.addFeedFormHeight);
   }
 
   Widget _buildFeedAddGroupForm({required isEdit}) {
@@ -120,19 +119,19 @@ class FeedListPage extends GetView<FeedListController> {
                 controller: controller.groupNameController,
                 labelText: LocaleKeys.feedAddGroupLabel.tr,
                 validator: Validators.notEmpty(LocaleKeys.validatorRequired.tr))
-            .paddingBottom(10),
+            .paddingBottom(AppSpace.listItem),
         TextFormWidget(
           keyboardType: TextInputType.text,
           controller: controller.groupDescController,
           labelText: LocaleKeys.feedAddGroupDescptionLabel.tr,
-        ).paddingBottom(20.w),
+        ).paddingBottom(AppSpace.listItem),
         isEdit
             ? <Widget>[
                 // 删除按钮
                 ButtonWidget.text(
                   LocaleKeys.feedGroupDelete.tr,
                   onTap: controller.onGroupDelete,
-                ).paddingRight(20.w),
+                ).paddingRight(AppSpace.seqx2Horization),
                 // 修改
                 ButtonWidget.text(
                   LocaleKeys.commonBottomApply.tr,
@@ -144,7 +143,7 @@ class FeedListPage extends GetView<FeedListController> {
                 ButtonWidget.text(
                   LocaleKeys.commonBottomCancel.tr,
                   onTap: () => Get.back(),
-                ).paddingRight(20.w),
+                ).paddingRight(AppSpace.seqx2Horization),
                 // 添加按钮
                 ButtonWidget.text(
                   LocaleKeys.commonBottomSave.tr,
@@ -152,7 +151,7 @@ class FeedListPage extends GetView<FeedListController> {
                 )
               ].toRow(mainAxisAlignment: MainAxisAlignment.center)
       ].toColumn(),
-    ).paddingAll(AppSpace.card).height(300.h);
+    ).paddingAll(AppSpace.card).height(AppSize.addGroupFormHeight);
   }
 
   @override

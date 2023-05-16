@@ -1,6 +1,5 @@
 import 'package:readbot/common/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'index.dart';
@@ -41,8 +40,7 @@ class _PostFocusPageViewGetX extends GetView<PostFocusController> {
               });
             },
             itemCount: controller.feedItems.length)
-        .paddingLeft(5.w)
-        .paddingRight(5.w);
+        .paddingHorizontal(AppSpace.seqHorization);
   }
 
   @override

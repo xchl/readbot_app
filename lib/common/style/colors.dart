@@ -33,6 +33,13 @@ class AppColors {
   static Color get onPrimary =>
       Get.isDarkMode ? const Color(0xFFFFFFFF) : const Color(0xFFFFFFFF);
 
+  static Color get switchColor =>
+      Get.isDarkMode ? const Color(0xFF34BA5A) : const Color(0xFF34BA5A);
+
+  static Color get alertColor => Get.isDarkMode
+      ? Colors.red
+      : Colors.red; // Get.theme.colorScheme.surfaceVariant;
+
   static Color get error => Get.theme.colorScheme.error;
 
   static Color get errorContainer => Get.theme.colorScheme.errorContainer;

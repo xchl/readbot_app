@@ -23,8 +23,17 @@ class AppSize {
   static double get summaryBoxHeight => 400.h;
   static double get toolbarHeight => 50.h;
 
-  // 个人主页
+  // 订阅源页面
+  static double get optionDrawerWidth => 100.w;
+  static double get addGroupFormHeight => 300.h;
+  static double get addFeedFormHeight => 300.h;
+  static double get modifyFeedFormHeight => 300.h;
+
+  static double get commonFormHeight => 300.h;
+
+  // 设置页面
   static double get headerHeight => 150.h;
+  static double get arrowSize => 14.sp;
 
   /// Drawer
   static double get drawerWidth => 180.w;
@@ -38,6 +47,7 @@ class AppSize {
   static double get title => 24.sp;
   static double get body1 => 15.sp;
   static double get body2 => 13.sp;
+  static double get body3 => 11.sp;
 
   static double get toolIconSize => 28.sp;
 

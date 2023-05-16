@@ -36,7 +36,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
           keyboardType: TextInputType.text,
           controller: controller.tokenController,
           labelText: LocaleKeys.myAIServiceApiTokenAddDesc.tr,
-        ).paddingBottom(30),
+        ).paddingBottom(AppSpace.listItem),
 
         // 添加按钮
         ButtonWidget.text(
@@ -44,7 +44,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
           onTap: controller.onAddToken,
         ).paddingBottom(AppSpace.listItem),
       ].toColumn(),
-    ).paddingAll(AppSpace.card).height(200);
+    ).paddingAll(AppSpace.card).height(AppSize.commonFormHeight);
   }
 
   Widget _buildAddProxyServerForm() {
@@ -58,7 +58,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
           keyboardType: TextInputType.text,
           controller: controller.proxyServerController,
           labelText: LocaleKeys.myAIServiceProxyServer.tr,
-        ).paddingBottom(30),
+        ).paddingBottom(AppSpace.listItem),
 
         // 添加按钮
         ButtonWidget.text(
@@ -66,7 +66,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
           onTap: controller.onAddProxyServer,
         ).paddingBottom(AppSpace.listItem),
       ].toColumn(),
-    ).paddingAll(AppSpace.card).height(200);
+    ).paddingAll(AppSpace.card).height(AppSize.commonFormHeight);
   }
 
   Widget _buildOpenAISetting() {
@@ -74,7 +74,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
       TextWidget.body1(
         LocaleKeys.openAI.tr,
         color: AppColors.hideColor,
-      ).alignLeft().padding(left: 10, bottom: 10),
+      ).alignLeft().padding(left: AppSpace.page, bottom: AppSpace.listItem),
       <Widget>[
         ButtonShowItemWidget(
                 title: LocaleKeys.myAIServiceApiToken.tr,

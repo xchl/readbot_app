@@ -1,6 +1,5 @@
 import 'package:readbot/common/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 按钮列表项
 class ButtonItemWidget extends StatelessWidget {
@@ -27,7 +26,7 @@ class ButtonItemWidget extends StatelessWidget {
       trailing: <Widget>[
         IconWidget.icon(
           Icons.arrow_forward_ios,
-          size: 14.sp,
+          size: AppSize.arrowSize,
           color: AppColors.hideColor,
         ),
       ],

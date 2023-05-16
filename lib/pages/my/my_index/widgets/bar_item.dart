@@ -1,6 +1,5 @@
 import 'package:readbot/common/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 功能栏项
 class BarItemWidget extends StatelessWidget {
@@ -19,7 +18,6 @@ class BarItemWidget extends StatelessWidget {
       // 图标
       IconWidget.svg(
         svgPath,
-        size: 24.sp,
         color: AppColors.primary,
       ).paddingBottom(AppSize.iconTextSmail),
 

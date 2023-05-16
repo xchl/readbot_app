@@ -132,6 +132,8 @@ Map<String, String> localeZh = {
   LocaleKeys.addFeedError: '添加订阅源失败',
   LocaleKeys.summaryContent: '主要内容',
 
+  LocaleKeys.inputNotRight: '输入不正确',
+
   // Read
   LocaleKeys.turnToFocusTip: '聚焦阅读',
 

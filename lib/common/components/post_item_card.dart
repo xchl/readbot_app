@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:readbot/common/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 功能栏项
 class PostItemCardWidget extends StatelessWidget {
@@ -36,16 +35,13 @@ class PostItemCardWidget extends StatelessWidget {
         DescriptionItem(
                 icon: IconWidget.image(
                   AssetsSvgs.publisher,
-                  size: 12.sp,
+                  size: AppSize.body3,
                 ),
                 text: TextWidget.body2(feed!.title, color: AppColors.hideColor))
             .paddingRight(AppSpace.seqx2Horization),
       if (feedItem.publishTime != null)
         DescriptionItem(
-            icon: IconWidget.image(
-              AssetsSvgs.publishTime,
-              size: 12.sp,
-            ),
+            icon: IconWidget.image(AssetsSvgs.publishTime, size: AppSize.body3),
             text: TextWidget.body2(displayDatetime(feedItem.publishTime!),
                 color: AppColors.hideColor))
     ].toRow(crossAxisAlignment: CrossAxisAlignment.center);

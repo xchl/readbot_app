@@ -1,6 +1,5 @@
 import 'package:readbot/common/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'index.dart';
@@ -16,7 +15,7 @@ class RegisterPinPage extends GetView<RegisterPinController> {
       child: <Widget>[
         // 提示文
         TextWidget.body1(LocaleKeys.registerPinFormTip.tr)
-            .paddingBottom(20.w)
+            .paddingBottom(20)
             .alignLeft(),
 
         // pin
@@ -24,7 +23,7 @@ class RegisterPinPage extends GetView<RegisterPinController> {
           controller: controller.pinController,
           validator: controller.pinValidator, // 验证函数
           onSubmit: controller.onPinSubmit,
-        ).paddingBottom(50.w),
+        ).paddingBottom(50),
 
         // 提交按钮
         ButtonWidget.primary(

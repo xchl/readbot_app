@@ -17,6 +17,8 @@ class MyIndexController extends GetxController {
 
   final List<int> onlySaveDataDaysList = [30, 60, 90, 180];
 
+  final destroyConfirmCode = "YES";
+
   /// 定义输入控制器
   TextEditingController destroyConfirmInput = TextEditingController();
 
@@ -75,8 +77,8 @@ class MyIndexController extends GetxController {
   }
 
   void onDestroy() async {
-    if (destroyConfirmInput.value.text.toLowerCase() != 'yes') {
-      Loading.toast('Code error');
+    if (destroyConfirmInput.value.text != destroyConfirmCode) {
+      Loading.toast(LocaleKeys.inputNotRight.tr);
       return;
     }
     await destory();

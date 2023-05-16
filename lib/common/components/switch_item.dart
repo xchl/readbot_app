@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 class SwitchItemWidget extends StatelessWidget {
   final String title;
   final bool statu;
-  final Color? color;
+  final Color color = AppColors.switchColor;
   final Function(bool) onTap;
 
-  const SwitchItemWidget({
+  SwitchItemWidget({
     Key? key,
     required this.title,
     required this.statu,
-    this.color = Colors.green,
     required this.onTap,
   }) : super(key: key);
 

@@ -2,7 +2,6 @@ import 'package:readbot/common/index.dart';
 import 'package:readbot/pages/index.dart';
 import 'package:readbot/pages/post/post_drawer/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class PostAllPage extends StatefulWidget {
@@ -44,7 +43,7 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
                     child: TextWidget.body1(
                       LocaleKeys.turnToFocusTip.tr,
                       color: AppColors.onPrimary,
-                    ).paddingLeft(20.w),
+                    ).paddingLeft(AppSpace.seqx2Horization),
                   ),
                 ),
                 key: ValueKey<int>(feedItem.id),
@@ -63,8 +62,7 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
               );
             },
             itemCount: controller.feedItems.length)
-        .paddingLeft(5.w)
-        .paddingRight(5.w);
+        .paddingHorizontal(AppSpace.seqHorization);
   }
 
   @override
@@ -94,9 +92,9 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
               return false;
             },
             child: RefreshIndicator(
-                displacement: 50,
-                color: Colors.redAccent,
-                backgroundColor: Colors.blue,
+                displacement: AppSpace.refreshDisplacement,
+                color: AppColors.primary,
+                backgroundColor: AppColors.navigationBarColor,
                 onRefresh: controller.onRefresh,
                 child: _buildView().backgroundColor(AppColors.background)),
           ),

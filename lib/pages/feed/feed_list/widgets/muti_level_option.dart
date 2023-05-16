@@ -1,6 +1,5 @@
 import 'package:readbot/common/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyMultiLevelOptions extends StatelessWidget {
   final Map<FeedGroupModel, List<FeedModel>> options;
@@ -41,7 +40,9 @@ class MyMultiLevelOptions extends StatelessWidget {
               onLongPress: () => onOptionLongPress(feedGroup),
             );
           }).toList(),
-        ).width(100.w).backgroundColor(AppColors.background),
+        )
+            .width(AppSize.optionDrawerWidth)
+            .backgroundColor(AppColors.background),
         const VerticalDivider(
           thickness: 1,
           width: 1,

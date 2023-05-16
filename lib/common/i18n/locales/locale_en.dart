@@ -144,6 +144,8 @@ Map<String, String> localeEn = {
   LocaleKeys.addFeedError: 'Add Feed Failed',
   LocaleKeys.summaryContent: 'Summary',
 
+  LocaleKeys.inputNotRight: 'Please input right content',
+
   // Read
   LocaleKeys.turnToFocusTip: 'Focus Read',
 

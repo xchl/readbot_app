@@ -57,19 +57,20 @@ class RegisterPage extends GetView<RegisterController> {
               ),
             ),
           ]),
-        ).paddingBottom(10),
+        ).paddingBottom(AppSpace.seqx2Vertical),
 
         // 用户协议
         CheckBoxWidget(
           value: controller.isAgree,
+          activeColor: AppColors.primary,
           onChanged: controller.onCheckAgree,
           textWidget: ButtonWidget.text(
             LocaleKeys.registerUserAgreement.tr,
             onTap: controller.onUserAgreement,
-            textSize: 14,
+            textSize: AppSize.body2,
             textColor: AppColors.primary,
           ),
-        ).padding(left: 0, bottom: 10),
+        ).paddingBottom(AppSpace.listItem),
 
         // 注册按钮
         _buildBtnSignUp(),
@@ -99,7 +100,7 @@ class RegisterPage extends GetView<RegisterController> {
       ButtonWidget.text(
         LocaleKeys.loginSignIn.tr,
         onTap: controller.onSignIn,
-        textSize: 12,
+        textSize: AppSize.body2,
         textColor: AppColors.primary,
       )
     ].toRow(

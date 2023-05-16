@@ -1,7 +1,6 @@
 import 'package:readbot/common/index.dart';
 import 'package:readbot/common/components/number_select_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'index.dart';
@@ -114,7 +113,7 @@ class MyIndexPage extends GetView<MyIndexController> {
               selectValue: controller.onlySaveDataDays,
               options: controller.onlySaveDataDaysList)
       ].toColumn().backgroundColor(AppColors.background)
-    ].toColumn().padding(top: 10.h, bottom: 10.h);
+    ].toColumn().paddingTop(AppSpace.listItem);
   }
 
   Widget _buildAccountButtonsList() {
@@ -137,40 +136,27 @@ class MyIndexPage extends GetView<MyIndexController> {
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
+                  TextWidget.body1(
                     LocaleKeys.myDestroyAccountInfo.tr,
+                    color: AppColors.titleColor,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: AppColors.titleColor,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'YES',
+                  ).paddingBottom(AppSpace.seqx2Vertical),
+                  TextWidget.body1(
+                    controller.destroyConfirmCode,
+                    color: AppColors.alertColor,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.red,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  InputWidget(
-                    hintText: 'Input',
-                    fontSize: 14,
+                  ).paddingBottom(AppSpace.seqx2Vertical),
+                  TextFormWidget(
                     controller: controller.destroyConfirmInput,
                   ),
                 ],
               ),
-              confirm: Text(LocaleKeys.commonBottomConfirm.tr),
-              confirmBackgroundColor: Colors.red,
               onConfirm: controller.onDestroy,
             );
           },
         ),
       ].toColumn().backgroundColor(AppColors.background)
-    ].toColumn().padding(top: 10.h, bottom: 10.h);
+    ].toColumn().paddingTop(AppSpace.listItem);
   }
 
   Widget _buildServiceButtonsList() {
@@ -190,7 +176,7 @@ class MyIndexPage extends GetView<MyIndexController> {
           onTap: () => Get.toNamed(RouteNames.myAiSetting),
         ),
       ].toColumn().backgroundColor(AppColors.background)
-    ].toColumn().padding(top: 30.h, bottom: 10.h);
+    ].toColumn().paddingTop(AppSpace.listItem);
   }
 
   @override
