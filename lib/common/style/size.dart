@@ -28,12 +28,14 @@ class AppSize {
   static double get addGroupFormHeight => 300.h;
   static double get addFeedFormHeight => 300.h;
   static double get modifyFeedFormHeight => 300.h;
+  static double get popupMenuWidth => 150.w;
 
   static double get commonFormHeight => 300.h;
 
   // 设置页面
   static double get headerHeight => 150.h;
   static double get arrowSize => 14.sp;
+  static double get selectWidgetWidth => 100.w;
 
   /// Drawer
   static double get drawerWidth => 180.w;

@@ -1,5 +1,4 @@
 import 'package:readbot/common/index.dart';
-import 'package:readbot/common/components/number_select_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -107,11 +106,13 @@ class MyIndexPage extends GetView<MyIndexController> {
           onTap: (bool value) => controller.onAutoDeleteDataChange(value),
         ),
         if (controller.enableAutoDeleteData)
-          NumberSelectItemWidget(
-              title: LocaleKeys.mySystemAutoDeleteDay.tr,
-              onTap: controller.onSelectAutoDeleteDay,
-              selectValue: controller.onlySaveDataDays,
-              options: controller.onlySaveDataDaysList)
+          SelectItemWidget(
+            title: LocaleKeys.mySystemAutoDeleteDay.tr,
+            onTap: controller.onSelectAutoDeleteDay,
+            selectValue: controller.onlySaveDataDays,
+            options: controller.onlySaveDataDaysList,
+            width: AppSize.selectWidgetWidth,
+          )
       ].toColumn().backgroundColor(AppColors.background)
     ].toColumn().paddingTop(AppSpace.listItem);
   }

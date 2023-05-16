@@ -162,64 +162,40 @@ class FeedListPage extends GetView<FeedListController> {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            toolbarHeight: AppSize.appBarHeight,
-            backgroundColor: AppColors.navigationBarColor,
-            elevation: AppSize.appBarElevation,
-            title: TextWidget.title1(
-              LocaleKeys.feedPageTitle.tr,
-              color: AppColors.titleColor,
-            ),
-            actions: [
-              PopupMenuButton(
-                icon: IconWidget.svg(
-                  AssetsSvgs.plusLgSvg,
-                  color: AppColors.titleColor,
-                ).paddingRight(AppSpace.listItem),
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: FeedAddButtonFunc.addFromUrl,
-                    child: TextWidget.body1(
+              toolbarHeight: AppSize.appBarHeight,
+              backgroundColor: AppColors.navigationBarColor,
+              elevation: AppSize.appBarElevation,
+              title: TextWidget.title1(
+                LocaleKeys.feedPageTitle.tr,
+                color: AppColors.titleColor,
+              ),
+              actions: [
+                PopupButtonWidget(
+                  options: [
+                    ButtonWidget.text(
                       LocaleKeys.feedAddFromUrl.tr,
-                      color: AppColors.titleColor,
+                      onTap: () => showCustomModalBottomSheet(
+                          context: context,
+                          builder: (context) => _buildFeedAddFromUrlForm()),
                     ),
-                  ),
-                  PopupMenuItem(
-                    value: FeedAddButtonFunc.importFromOpml,
-                    child: TextWidget.body1(
+                    ButtonWidget.text(
                       LocaleKeys.feedAddFromOpml.tr,
-                      color: AppColors.titleColor,
+                      onTap: () => controller.onImportFromOpml(),
                     ),
-                  ),
-                  PopupMenuItem(
-                    value: FeedAddButtonFunc.addGroup,
-                    child: TextWidget.body1(
+                    ButtonWidget.text(
                       LocaleKeys.feedAddGroup.tr,
-                      color: AppColors.titleColor,
+                      onTap: () {
+                        controller.clearGroupForm();
+                        showCustomModalBottomSheet(
+                            context: context,
+                            builder: (context) =>
+                                _buildFeedAddGroupForm(isEdit: false));
+                      },
                     ),
-                  ),
-                ],
-                onSelected: (value) {
-                  switch (value) {
-                    case FeedAddButtonFunc.addFromUrl:
-                      showCustomModalBottomSheet(
-                          context: context,
-                          builder: (context) => _buildFeedAddFromUrlForm());
-                      break;
-                    case FeedAddButtonFunc.importFromOpml:
-                      controller.onImportFromOpml();
-                      break;
-                    case FeedAddButtonFunc.addGroup:
-                      controller.clearGroupForm();
-                      showCustomModalBottomSheet(
-                          context: context,
-                          builder: (context) =>
-                              _buildFeedAddGroupForm(isEdit: false));
-                      break;
-                  }
-                },
-              )
-            ],
-          ),
+                  ],
+                  width: AppSize.popupMenuWidth,
+                )
+              ]),
           body: SafeArea(
             child: _buildView(context).backgroundColor(AppColors.background),
           ),

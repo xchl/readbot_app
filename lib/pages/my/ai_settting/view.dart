@@ -16,7 +16,7 @@ class AiSettingPage extends GetView<AiSetttingController> {
           onTap: (bool value) => controller.onEnableAIChange(value),
         ),
         if (controller.enableAI)
-          StringSelectItemWidget(
+          SelectItemWidget(
               title: LocaleKeys.myAIServiceSelect.tr,
               onTap: controller.onAiServiceChange,
               selectValue: controller.selectAiService,
