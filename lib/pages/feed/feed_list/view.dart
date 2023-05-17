@@ -162,17 +162,24 @@ class FeedListPage extends GetView<FeedListController> {
                   options: [
                     ButtonWidget.text(
                       LocaleKeys.feedAddFromUrl.tr,
-                      onTap: () => showCustomModalBottomSheet(
-                          context: context,
-                          builder: (context) => _buildFeedAddFromUrlForm()),
+                      onTap: () {
+                        Get.back(); //close popup menu
+                        showCustomModalBottomSheet(
+                            context: context,
+                            builder: (context) => _buildFeedAddFromUrlForm());
+                      },
                     ),
                     ButtonWidget.text(
                       LocaleKeys.feedAddFromOpml.tr,
-                      onTap: () => controller.onImportFromOpml(),
+                      onTap: () {
+                        Get.back();
+                        controller.onImportFromOpml();
+                      },
                     ),
                     ButtonWidget.text(
                       LocaleKeys.feedAddGroup.tr,
                       onTap: () {
+                        Get.back();
                         controller.clearGroupForm();
                         showCustomModalBottomSheet(
                             context: context,

@@ -35,9 +35,9 @@ class PostDetailController extends GetxController {
   );
 
   FeedItemModel feedItem = Get.arguments['feedItem'];
-  // TODO 需要加载的时候再加载
-  ContentModel? content = Get.arguments['content'];
   PageType fromPage = Get.arguments['fromPage'];
+
+  ContentModel? content;
 
   String? html;
 
@@ -46,13 +46,16 @@ class PostDetailController extends GetxController {
   String get summary => _summary.value;
 
   @override
-  void onReady() {
+  void onReady() async {
     super.onReady();
+    content =
+        await DatabaseManager().getContentByFeedItemMd5(feedItem.md5String);
     if (content != null && content!.type == ContentType.html) {
       //TODO 性能是否有问题
       html = injectCss(content!.content, ReadModeStyle().css);
     }
     _summary(feedItem.summaryAlgo);
+    loadContent();
     handleRead();
   }
 

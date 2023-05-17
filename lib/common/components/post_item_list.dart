@@ -32,7 +32,7 @@ class PostItemListWidget extends StatelessWidget {
       if (feed != null)
         DescriptionItem(
                 icon: IconWidget.image(
-                  AssetsSvgs.publisher,
+                  AssetsIcons.publisher,
                   size: AppSize.body3,
                 ),
                 text: TextWidget.body2(feed!.title, color: AppColors.hideColor))
@@ -40,7 +40,7 @@ class PostItemListWidget extends StatelessWidget {
       if (feedItem.publishTime != null)
         DescriptionItem(
             icon: IconWidget.image(
-              AssetsSvgs.publishTime,
+              AssetsIcons.publishTime,
               size: AppSize.body3,
             ),
             text: TextWidget.body2(displayDatetime(feedItem.publishTime!),

@@ -21,11 +21,5 @@
             "type": "dart",
             "flutterMode": "release"
         },
-        {
-            "name": "webfeed",
-            "cwd": "lib/package/webfeed",
-            "request": "launch",
-            "type": "dart"
-        }
     ]
 }

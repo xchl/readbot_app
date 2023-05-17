@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:readbot/common/index.dart';
@@ -78,9 +79,11 @@ class FeedService extends GetxService {
     while (idx < feedItems.length && feedItems[idx].link == null) {
       idx += 1;
     }
+    var loadCompleter = Completer<void>();
     var headlessWebView = HeadlessInAppWebView(
       initialUrlRequest: URLRequest(url: Uri.parse(feedItems[idx].link!)),
       onLoadStop: (controller, url) async {
+        debugPrint("Download html: $url");
         // replace code text with textContent to preserve style
         String htmlContent = await controller.evaluateJavascript(source: '''
           var codeElements = document.querySelectorAll('pre > code');
@@ -136,10 +139,13 @@ class FeedService extends GetxService {
             SyncService.to.syncPush();
             _coverUpdateItems.clear();
           }
+          loadCompleter.complete();
         }
       },
     );
     headlessWebView.run();
+    await loadCompleter.future;
+    headlessWebView.dispose();
   }
 
   Future<String?> fetchFeedFromUrl(String url) async {

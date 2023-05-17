@@ -1,4 +1,4 @@
-class AssetsSvgs {
+class AssetsIcons {
   static const pTranslateSvg = 'assets/svgs/p-translate.svg';
   static const plusLgSvg = 'assets/svgs/plus-lg.svg';
   static const profileHeaderBackgroundSvg =
@@ -10,4 +10,5 @@ class AssetsSvgs {
   static const subscribe = 'assets/icons/subscribe.png';
   static const publisher = 'assets/icons/publisher.png';
   static const publishTime = 'assets/icons/publish_time.png';
+  static const filter = 'assets/icons/filter.png';
 }

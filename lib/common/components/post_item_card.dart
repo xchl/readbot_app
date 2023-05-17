@@ -34,14 +34,15 @@ class PostItemCardWidget extends StatelessWidget {
       if (feed != null)
         DescriptionItem(
                 icon: IconWidget.image(
-                  AssetsSvgs.publisher,
+                  AssetsIcons.publisher,
                   size: AppSize.body3,
                 ),
                 text: TextWidget.body2(feed!.title, color: AppColors.hideColor))
             .paddingRight(AppSpace.seqx2Horization),
       if (feedItem.publishTime != null)
         DescriptionItem(
-            icon: IconWidget.image(AssetsSvgs.publishTime, size: AppSize.body3),
+            icon:
+                IconWidget.image(AssetsIcons.publishTime, size: AppSize.body3),
             text: TextWidget.body2(displayDatetime(feedItem.publishTime!),
                 color: AppColors.hideColor))
     ].toRow(crossAxisAlignment: CrossAxisAlignment.center);

@@ -62,19 +62,19 @@ class _MainViewGetX extends GetView<MainController> {
                     items: [
                       NavigationItemModel(
                         label: LocaleKeys.tabBarFocus.tr,
-                        icon: AssetsSvgs.focus,
+                        icon: AssetsIcons.focus,
                       ),
                       NavigationItemModel(
                         label: LocaleKeys.tabBarAll.tr,
-                        icon: AssetsSvgs.explore,
+                        icon: AssetsIcons.explore,
                       ),
                       NavigationItemModel(
                         label: LocaleKeys.tabFeed.tr,
-                        icon: AssetsSvgs.subscribe,
+                        icon: AssetsIcons.subscribe,
                       ),
                       NavigationItemModel(
                         label: LocaleKeys.tabBarSetting.tr,
-                        icon: AssetsSvgs.myIcon,
+                        icon: AssetsIcons.myIcon,
                       ),
                     ],
                     onTap: controller.onJumpToPage, // 切换tab事件

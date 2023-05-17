@@ -28,7 +28,7 @@ class PopupButtonWidget extends StatelessWidget {
             onChanged: (ButtonWidget? value) => value?.onTap,
             iconStyleData: IconStyleData(
               icon: IconWidget.svg(
-                AssetsSvgs.plusLgSvg,
+                AssetsIcons.plusLgSvg,
                 color: AppColors.titleColor,
               ).paddingRight(AppSpace.listItem),
             ),

@@ -37,6 +37,7 @@ class FeedListController extends GetxController {
   FeedGroupModel? selectedFeedGroup;
 
   _initData() async {
+    feedGroupedByGroup = {};
     List<FeedModel> feeds = await DatabaseManager().getAllFeeds();
     List<FeedGroupModel> feedGroups = await DatabaseManager().getAllGroups();
     Map<String, List<FeedModel>> feedGroupedByGroupName = {};

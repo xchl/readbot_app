@@ -18,8 +18,6 @@ class PostAllController extends GetxController {
 
   int lastTapIdx = -1;
 
-  void onTap() {}
-
   @override
   void onReady() {
     super.onReady();

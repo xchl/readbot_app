@@ -75,6 +75,14 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
           endDrawer: const PostDrawerPage(PageType.explore),
           onEndDrawerChanged: controller.onEndDrawerChanged,
           appBar: AppBar(
+            actions: [
+              Builder(
+                builder: (context) => IconButton(
+                  icon: IconWidget.image(AssetsIcons.filter),
+                  onPressed: () => Scaffold.of(context).openEndDrawer(),
+                ),
+              ),
+            ],
             toolbarHeight: AppSize.appBarHeight,
             backgroundColor: AppColors.navigationBarColor,
             elevation: AppSize.appBarElevation,

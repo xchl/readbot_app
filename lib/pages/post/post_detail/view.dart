@@ -15,7 +15,7 @@ class PostDetailPage extends GetView<PostDetailController> {
           initialOptions: controller.options,
           onWebViewCreated: (webController) {
             controller.webView = webController;
-            controller.loadContent();
+            // controller.loadContent();
           },
           // onScrollChanged: (webController, x, y) {
           //   controller.handleScrollChange(x, y);
