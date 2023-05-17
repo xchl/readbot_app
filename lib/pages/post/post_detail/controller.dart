@@ -111,13 +111,9 @@ class PostDetailController extends GetxController {
       Loading.toast(LocaleKeys.pageNotSupportAI.tr);
       return;
     }
-    String? text = await compute(extractHtmlText, html!);
 
-    if (text == null) {
-      Loading.toast(LocaleKeys.pageNotSupportAI.tr);
-      return;
-    }
-    String? result = await AiApi.summary(text);
+    String? result = await AIQueryService.summaryHtml(html!);
+
     if (result != null) {
       feedItem.summaryAlgo = result;
       DatabaseManager().updateFeedItem(feedItem);

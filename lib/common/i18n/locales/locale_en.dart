@@ -94,6 +94,7 @@ Map<String, String> localeEn = {
   LocaleKeys.myDartTheme: 'Dart Mode',
   LocaleKeys.myIsNeedSync: 'Content Sync',
   LocaleKeys.myAISetting: 'AI Service',
+  LocaleKeys.myAISetttingAutoSummary: 'Auto Summary Focus Content',
   LocaleKeys.myAISettingEnableAI: 'Enable AI Service',
   LocaleKeys.myAIServiceSelect: 'Select AI Service',
   LocaleKeys.myAIServiceApiToken: 'API Token',

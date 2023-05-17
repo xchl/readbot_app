@@ -25,7 +25,15 @@ class UserAgreementPage extends GetView<UserAgreementController> {
       id: "user_agreement",
       builder: (_) {
         return Scaffold(
-          appBar: AppBar(title: Text(LocaleKeys.registerUserAgreement.tr)),
+          appBar: AppBar(
+            leading: const SizedBox(),
+            title: TextWidget.title1(
+              LocaleKeys.registerUserAgreement.tr,
+              color: AppColors.titleColor,
+            ),
+            backgroundColor: AppColors.navigationBarColor,
+            elevation: AppSize.appBarElevation,
+          ),
           body: SafeArea(
             child: _buildView(),
           ),

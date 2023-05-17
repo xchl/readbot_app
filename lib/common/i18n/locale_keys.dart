@@ -88,6 +88,7 @@ class LocaleKeys {
   static const myIsNeedSync = 'is_need_sync';
   static const myAISetting = 'my_ai_setting';
   static const myAISettingEnableAI = 'my_ai_setting_enable_ai';
+  static const myAISetttingAutoSummary = 'my_ai_setting_auto_summary';
   static const myAIServiceSelect = 'my_ai_service_select';
   static const myAIServiceApiToken = 'my_ai_service_api_token';
   static const myAIServiceModel = 'my_ai_service_model';

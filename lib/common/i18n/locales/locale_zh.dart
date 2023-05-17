@@ -88,6 +88,7 @@ Map<String, String> localeZh = {
   LocaleKeys.myAISetting: 'AI服务',
   LocaleKeys.myAISettingEnableAI: '开启AI服务',
   LocaleKeys.myAIServiceSelect: 'AI服务选择',
+  LocaleKeys.myAISetttingAutoSummary: '聚焦内容自动摘要',
   LocaleKeys.myAIServiceApiToken: 'API Token',
   LocaleKeys.myAIServiceApiTokenAddDesc: '输入API Token',
   LocaleKeys.myAIServiceModel: '模型',

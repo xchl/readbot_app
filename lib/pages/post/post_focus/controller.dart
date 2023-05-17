@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 class PostFocusController extends GetxController {
   PostFocusController();
 
-  final List<FeedItemModel> _feedItems = List.empty(growable: true);
+  final List<FeedItemModel> _feedItems =
+      List<FeedItemModel>.empty(growable: true);
   final List<FeedModel?> _feeds = List.empty(growable: true);
 
   int _page = 0;
@@ -27,6 +28,14 @@ class PostFocusController extends GetxController {
     _feedItems.addAll(feedItems);
     _feeds.addAll(feeds);
     update(["post_focus"]);
+    autoSummary(_feedItems);
+  }
+
+  void autoSummary(List<FeedItemModel> feedItems) {
+    if (feedItems.isNotEmpty && ConfigService.to.isAutoSummaryReady()) {
+      AIQueryService.summaryFeedItems(
+          _feedItems.where((element) => element.summaryAlgo == null).toList());
+    }
   }
 
   void onTapItem(FeedItemModel feedItem, int itemIdx) async {
@@ -62,6 +71,11 @@ class PostFocusController extends GetxController {
     );
     _feedItems.addAll(newFeedItems);
     _feeds.addAll(newFeed);
+    update(["post_focus"]);
+    autoSummary(newFeedItems);
+  }
+
+  void refreshCurrentPage() {
     update(["post_focus"]);
   }
 

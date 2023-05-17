@@ -6,6 +6,7 @@ class AiSetttingController extends GetxController {
   AiSetttingController();
 
   bool enableAI = ConfigService.to.enableAi;
+  bool enableAutoSummary = ConfigService.to.enableAutoSummary;
   String openAIToken = ConfigService.to.openAIToken ?? '';
   String openAIProxyServer = ConfigService.to.openAIProxyUrl ?? '';
 
@@ -36,6 +37,12 @@ class AiSetttingController extends GetxController {
   void onEnableAIChange(bool val) async {
     enableAI = val;
     await ConfigService.to.saveEnableAiOption(enableAI);
+    update(["ai_settting"]);
+  }
+
+  void onEnableAutoSummary(bool val) async {
+    enableAutoSummary = val;
+    await ConfigService.to.saveEnableAutoSummary(enableAutoSummary);
     update(["ai_settting"]);
   }
 

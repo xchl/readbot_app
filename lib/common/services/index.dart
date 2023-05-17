@@ -9,3 +9,4 @@ export 'feed.dart';
 export 'logger.dart';
 export 'database_manager.dart';
 export 'sync.dart';
+export 'ai.dart';

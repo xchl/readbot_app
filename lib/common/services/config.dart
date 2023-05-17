@@ -33,6 +33,9 @@ class ConfigService extends GetxService {
 
   bool get enableAi => Storage().getBool(Constants.storageEnableAi) ?? false;
 
+  bool get enableAutoSummary =>
+      Storage().getBool(Constants.storageEnableAutoSummary) ?? false;
+
   String? get openAIToken => Storage().getString(Constants.storageOpenAIToken);
 
   // 是否开启同步
@@ -62,6 +65,12 @@ class ConfigService extends GetxService {
       return openAIToken != null && openAIToken!.isNotEmpty;
     }
     return false;
+  }
+
+  bool isAutoSummaryReady() {
+    if (isAIReady() == false) return false;
+    if (enableAutoSummary == false) return false;
+    return true;
   }
 
   late ClientInfo clientInfo;
@@ -118,6 +127,10 @@ class ConfigService extends GetxService {
 
   Future<void> saveEnableAiOption(bool value) async {
     Storage().setBool(Constants.storageEnableAi, value);
+  }
+
+  Future<void> saveEnableAutoSummary(bool value) async {
+    Storage().setBool(Constants.storageEnableAutoSummary, value);
   }
 
   Future<void> saveAiService(String value) async {

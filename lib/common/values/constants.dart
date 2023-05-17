@@ -44,9 +44,11 @@ class Constants {
   static const storageEnableAi = 'enable_ai';
   static const storageAiService = 'ai_service';
   static const storageAIModel = 'ai_model';
+  static const storageEnableAutoSummary = 'ai_auto_summary';
 
   // AI
   static const openAI = 'openAI';
   static const storageOpenAIToken = 'storage_open_ai_token';
   static const storageOpenAIProxyUrl = 'storage_open_ai_proxy_url';
+  static const requestIntervalSecond = 10;
 }

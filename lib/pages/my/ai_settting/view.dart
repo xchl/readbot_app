@@ -15,6 +15,11 @@ class AiSettingPage extends GetView<AiSetttingController> {
           statu: controller.enableAI,
           onTap: (bool value) => controller.onEnableAIChange(value),
         ),
+        SwitchItemWidget(
+          title: LocaleKeys.myAISetttingAutoSummary.tr,
+          statu: controller.enableAutoSummary,
+          onTap: (bool value) => controller.onEnableAutoSummary(value),
+        ),
         if (controller.enableAI)
           TitleSelectItemWidget(
               title: LocaleKeys.myAIServiceSelect.tr,
