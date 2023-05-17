@@ -31,12 +31,15 @@ class PostItemListWidget extends StatelessWidget {
     return <Widget>[
       if (feed != null)
         DescriptionItem(
-                icon: IconWidget.image(
-                  AssetsIcons.publisher,
-                  size: AppSize.body3,
-                ),
-                text: TextWidget.body2(feed!.title, color: AppColors.hideColor))
-            .paddingBottom(AppSpace.seqHorization),
+            icon: IconWidget.image(
+              AssetsIcons.publisher,
+              size: AppSize.body3,
+            ),
+            text: TextWidget.body2(
+              feed!.title,
+              color: AppColors.hideColor,
+              softWrap: true,
+            )).paddingBottom(AppSpace.seqHorization),
       if (feedItem.publishTime != null)
         DescriptionItem(
             icon: IconWidget.image(

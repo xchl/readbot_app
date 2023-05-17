@@ -22,7 +22,7 @@ class BarItemWidget extends StatelessWidget {
       ).paddingBottom(AppSize.iconTextSmail),
 
       // 标题
-      TextWidget.body2(
+      TextWidget.body1(
         title,
       ),
     ].toColumn();

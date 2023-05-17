@@ -30,7 +30,7 @@ class MyMultiLevelOptions extends StatelessWidget {
         ListView(
           children: options.keys.map((feedGroup) {
             return ListTile(
-              title: TextWidget.body2(
+              title: TextWidget.body1(
                 feedGroup.name,
                 maxLines: null,
                 softWrap: true,

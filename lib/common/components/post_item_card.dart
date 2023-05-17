@@ -72,21 +72,17 @@ class PostItemCardWidget extends StatelessWidget {
         children: [
           <Widget>[
             if (feedItem.cover != null)
-              _buildImageBlock().padding(
-                  top: AppSpace.seqHorization, bottom: AppSpace.listItem),
-            _buildTitleBlock().padding(
-                left: AppSpace.card,
-                right: AppSpace.card,
-                bottom: AppSpace.listItem),
-            _buildDescriptionBlock().padding(
-                left: AppSpace.card,
-                right: AppSpace.card,
-                bottom: AppSpace.listItem),
+              _buildImageBlock().padding(bottom: AppSpace.listItem),
+            _buildTitleBlock()
+                .paddingVertical(AppSpace.listItem)
+                .paddingHorizontal(AppSpace.card),
+            _buildDescriptionBlock()
+                .paddingVertical(AppSpace.listItem)
+                .paddingHorizontal(AppSpace.card),
             if (feedItem.summaryAlgo != null)
-              _buildSummaryBlock().padding(
-                  left: AppSpace.card,
-                  right: AppSpace.card,
-                  bottom: AppSpace.listItem),
+              _buildSummaryBlock()
+                  .paddingVertical(AppSpace.card)
+                  .paddingHorizontal(AppSpace.card),
           ].toColumn().card(color: AppColors.background, radius: AppRadius.card)
         ],
       ).paddingAll(AppSpace.page),

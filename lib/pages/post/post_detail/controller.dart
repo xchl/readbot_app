@@ -51,8 +51,8 @@ class PostDetailController extends GetxController {
     content =
         await DatabaseManager().getContentByFeedItemMd5(feedItem.md5String);
     if (content != null && content!.type == ContentType.html) {
-      //TODO 性能是否有问题
-      html = injectCss(content!.content, ReadModeStyle().css);
+      html = await compute(
+          injectCss, HtmlContent(content!.content, ReadModeStyle().css));
     }
     _summary(feedItem.summaryAlgo);
     loadContent();

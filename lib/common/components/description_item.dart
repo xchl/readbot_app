@@ -13,9 +13,11 @@ class DescriptionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return <Widget>[
-      icon.paddingRight(AppSpace.seqHorization),
-      text,
-    ].toRow();
+    return SizedBox(
+      child: <Widget>[
+        icon.paddingRight(AppSpace.seqHorization),
+        text.flexible() // solve long text overflow
+      ].toRow(mainAxisSize: MainAxisSize.min).alignLeft(),
+    );
   }
 }

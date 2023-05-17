@@ -20,7 +20,7 @@ class FeedItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTileWidget(
       // 标题
-      title: TextWidget.body2(
+      title: TextWidget.body1(
         title,
         overflow: TextOverflow.ellipsis,
       ),

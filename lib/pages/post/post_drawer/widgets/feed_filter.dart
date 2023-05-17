@@ -9,7 +9,7 @@ class FeedFilterWidget extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          title: TextWidget.body2(
+          title: TextWidget.body1(
             item.headerValue,
             weight: FontWeight.bold,
           ),

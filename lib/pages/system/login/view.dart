@@ -14,13 +14,13 @@ class LoginPage extends GetView<LoginController> {
       // 提示
       ButtonWidget.text(
         LocaleKeys.loginForgotPassword.tr,
-        textSize: AppSize.body2,
+        textSize: AppSize.body1,
       ).paddingRight(AppSpace.seqHorization),
       // 注册文字按钮
       ButtonWidget.text(
         LocaleKeys.loginSignUp.tr,
         onTap: controller.onSignUp,
-        textSize: AppSize.body2,
+        textSize: AppSize.body1,
         textColor: AppColors.primary,
       )
     ].toRow(
@@ -73,7 +73,7 @@ class LoginPage extends GetView<LoginController> {
           textWidget: ButtonWidget.text(
             LocaleKeys.registerUserAgreement.tr,
             onTap: controller.onUserAgreement,
-            textSize: AppSize.body2,
+            textSize: AppSize.body1,
             textColor: AppColors.primary,
           ),
         ).paddingBottom(AppSpace.listItem),

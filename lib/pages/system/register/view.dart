@@ -67,7 +67,7 @@ class RegisterPage extends GetView<RegisterController> {
           textWidget: ButtonWidget.text(
             LocaleKeys.registerUserAgreement.tr,
             onTap: controller.onUserAgreement,
-            textSize: AppSize.body2,
+            textSize: AppSize.body1,
             textColor: AppColors.primary,
           ),
         ).paddingBottom(AppSpace.listItem),
@@ -95,12 +95,12 @@ class RegisterPage extends GetView<RegisterController> {
   Widget _buildTips() {
     return <Widget>[
       // 提示
-      TextWidget.body2(LocaleKeys.registerHaveAccount.tr),
+      TextWidget.body1(LocaleKeys.registerHaveAccount.tr),
       // 登录文字按钮
       ButtonWidget.text(
         LocaleKeys.loginSignIn.tr,
         onTap: controller.onSignIn,
-        textSize: AppSize.body2,
+        textSize: AppSize.body1,
         textColor: AppColors.primary,
       )
     ].toRow(

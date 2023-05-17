@@ -11,14 +11,20 @@ String? findCoverImageInHtml(String htmlContent) {
   }
 }
 
-String injectCss(String htmlContent, String css) {
-  Document document = parse(htmlContent);
+class HtmlContent {
+  String html;
+  String css;
+  HtmlContent(this.html, this.css);
+}
+
+String injectCss(HtmlContent html) {
+  Document document = parse(html.html);
   Element? style = document.querySelector('style');
   if (style != null) style.remove();
   Element head = document.querySelector('head')!;
   Element styleElement = Element.tag('style');
   styleElement.attributes['type'] = 'text/css';
-  styleElement.innerHtml = css;
+  styleElement.innerHtml = html.css;
   head.append(styleElement);
   return document.outerHtml;
 }
