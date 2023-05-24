@@ -39,7 +39,7 @@ class FeedModel {
   @Index()
   DateTime updateTime;
 
-  String get title => customName ?? name ?? "No Name";
+  String get title => customName ?? name ?? url;
 
   FeedModel(
     this.url, {

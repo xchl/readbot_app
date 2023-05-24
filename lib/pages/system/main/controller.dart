@@ -2,6 +2,7 @@ import 'package:readbot/common/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:readbot/pages/index.dart';
 
 class MainController extends GetxController {
   MainController();
@@ -31,8 +32,18 @@ class MainController extends GetxController {
     update(['main']);
   }
 
-  void onJumpToPage(int page) async {
+  void onJumpToPage(int page) {
     pageController.jumpToPage(page);
+  }
+
+  void onRefreshPage(int page) {
+    if (page == 1) {
+      debugPrint(
+          "Notice: ${NoticeService.to.exploreUpdateCount} explore need update");
+      if (NoticeService.to.exploreUpdateCount > 0) {
+        Get.find<PostAllController>().refreshFeedItem();
+      }
+    }
   }
 
   void onEndDrawerChanged(bool isOpen) {
@@ -45,8 +56,8 @@ class MainController extends GetxController {
 
   _initData() async {
     await UserService.to.tryLogin();
-    SyncService.to.syncPull();
-    SyncService.to.syncPush();
+    SyncService.to.pullFromService();
+    SyncService.to.pushToService();
     update(["main"]);
   }
 
@@ -62,5 +73,9 @@ class MainController extends GetxController {
     super.onClose();
     // 释放页控制器
     pageController.dispose();
+  }
+
+  void acceptNotice() {
+    update(["navigation"]);
   }
 }

@@ -509,6 +509,23 @@ extension ExWidget on Widget {
         child: this,
       );
 
+  /// 双击
+  Widget onDoubleTap(
+    GestureTapCallback? onDoubleTap, {
+    Key? key,
+    HitTestBehavior? behavior,
+    bool excludeFromSemantics = false,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
+  }) =>
+      GestureDetector(
+        key: key,
+        onDoubleTap: onDoubleTap,
+        behavior: behavior ?? HitTestBehavior.opaque,
+        excludeFromSemantics: excludeFromSemantics,
+        dragStartBehavior: dragStartBehavior,
+        child: this,
+      );
+
   /// 长按手势
   Widget onLongPress(
     GestureTapCallback? onLongPress, {

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:readbot/common/index.dart';
 
 enum OpenAIModel { gpt35 }
@@ -20,19 +21,24 @@ extension OpenAIModelExtension on OpenAIModel {
 }
 
 class OpenAI {
-  static final completeApi =
+  static Api get completeApi =>
       Api(url: '$baseUrl/v1/completions', method: HttpMethod.post);
-  static final chatApi =
+
+  static get chatApi =>
       Api(url: '$baseUrl/v1/chat/completions', method: HttpMethod.post);
 
-  static final baseUrl =
-      ConfigService.to.openAIProxyUrl ?? 'https://api.openai-proxy.com';
+  static get baseUrl =>
+      ConfigService.to.openAIProxyUrl ?? 'https://api.openai.com';
 
   static Future<OpenAICompleteResponse?> complete(
       OpenAICompleteRequest request) async {
     try {
       var res = await HttpService.to.post(completeApi.url,
-          data: request.toJson(), options: Options(headers: request.header));
+          data: request.toJson(),
+          options: Options(
+              headers: request.header,
+              // TODO
+              receiveTimeout: const Duration(seconds: 60)));
       return OpenAICompleteResponse.fromJson(res.data);
     } catch (e) {
       Loading.toast('Openai request error');
@@ -43,8 +49,13 @@ class OpenAI {
 
   static Future<OpenAIChatResponse?> chat(OpenAIChatRequest request) async {
     try {
+      debugPrint(chatApi.url);
       var res = await HttpService.to.post(chatApi.url,
-          data: request.toJson(), options: Options(headers: request.header));
+          data: request.toJson(),
+          options: Options(
+              headers: request.header,
+              //TODO
+              receiveTimeout: const Duration(seconds: 60)));
       return OpenAIChatResponse.fromJson(res.data);
     } catch (e) {
       Loading.toast('Openai request error');

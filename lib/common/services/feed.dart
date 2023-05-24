@@ -25,6 +25,21 @@ class FeedService extends GetxService {
         : [];
   }
 
+  void checkUpdate(List<FeedModel> feeds, List<FeedItemModel> feedItemList,
+      List<FeedGroupModel> feedGroupList) async {
+    if (feedItemList.isNotEmpty) {
+      downloadHtml(feedItemList);
+      NoticeService.to.updateExplore(feedItemList.length);
+    }
+    if (feeds.isNotEmpty) {
+      var updatedItemsCount = await fetchFeeds(feeds);
+      NoticeService.to.updateExplore(updatedItemsCount);
+      NoticeService.to.updateFeed();
+    } else if (feedGroupList.isNotEmpty) {
+      NoticeService.to.updateFeed();
+    }
+  }
+
   // parse Atom item
   List<FeedItemModel> _parseAtomItem(
       FeedModel feed, List<webfeed.AtomItem>? items) {
@@ -136,7 +151,7 @@ class FeedService extends GetxService {
                 .handleCoverUpdate(_coverUpdateItems);
             await DatabaseManager().updateFeedItems(
                 _coverUpdateItems.entries.map((e) => e.value).toList());
-            SyncService.to.syncPush();
+            SyncService.to.pushToService();
             _coverUpdateItems.clear();
           }
           loadCompleter.complete();
@@ -244,7 +259,8 @@ class FeedService extends GetxService {
     await fetchFeeds(feeds);
   }
 
-  Future<void> fetchFeeds(List<FeedModel> feeds) async {
+  Future<int> fetchFeeds(List<FeedModel> feeds) async {
+    int totalUpdate = 0;
     List<FeedUpdateRecordModel?> feedLastUpdateRecords =
         await DatabaseManager().getFeedLastUpdateRecord(feeds);
 
@@ -316,8 +332,12 @@ class FeedService extends GetxService {
       feedItemsNeedInsert = parseCover(feedItemsNeedInsert);
       await DatabaseManager()
           .insertFeedItems(feedItemsNeedInsert, newUpdateRecord);
+
+      totalUpdate += feedItemsNeedInsert.length;
+
       downloadHtml(feedItemsNeedInsert);
     }
+    return totalUpdate;
   }
 
   // parse feed items from feed content

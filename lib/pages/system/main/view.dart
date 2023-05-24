@@ -65,9 +65,9 @@ class _MainViewGetX extends GetView<MainController> {
                         icon: AssetsIcons.focus,
                       ),
                       NavigationItemModel(
-                        label: LocaleKeys.tabBarAll.tr,
-                        icon: AssetsIcons.explore,
-                      ),
+                          label: LocaleKeys.tabBarAll.tr,
+                          icon: AssetsIcons.explore,
+                          count: NoticeService.to.exploreUpdateCount),
                       NavigationItemModel(
                         label: LocaleKeys.tabFeed.tr,
                         icon: AssetsIcons.subscribe,
@@ -77,7 +77,8 @@ class _MainViewGetX extends GetView<MainController> {
                         icon: AssetsIcons.myIcon,
                       ),
                     ],
-                    onTap: controller.onJumpToPage, // 切换tab事件
+                    onTap: controller.onJumpToPage,
+                    onDoubleTap: controller.onRefreshPage,
                   );
                 },
               )

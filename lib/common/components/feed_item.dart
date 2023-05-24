@@ -6,11 +6,13 @@ class FeedItemWidget extends StatelessWidget {
   final String title;
   final String? logoUrl;
   final Color? backgroud;
+  final bool titleWraped;
   final Function()? onTap;
 
   const FeedItemWidget({
     Key? key,
     required this.title,
+    this.titleWraped = false,
     this.backgroud,
     this.logoUrl,
     this.onTap,
@@ -22,7 +24,7 @@ class FeedItemWidget extends StatelessWidget {
       // 标题
       title: TextWidget.body1(
         title,
-        overflow: TextOverflow.ellipsis,
+        overflow: titleWraped ? null : TextOverflow.ellipsis,
       ),
     )
         .inkWell(

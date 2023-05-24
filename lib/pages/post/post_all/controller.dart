@@ -30,7 +30,7 @@ class PostAllController extends GetxController {
     await DatabaseManager().updateFeedItem(_feedItems[index]);
     _feedItems.removeAt(index);
     _feed.removeAt(index);
-    SyncService.to.syncPush();
+    SyncService.to.pushToService();
     update(["post_all"]);
     Get.find<PostFocusController>().refreshFeedItem();
   }
@@ -75,6 +75,7 @@ class PostAllController extends GetxController {
     );
     _feedItems.addAll(feedItems);
     _feed.addAll(feed);
+    NoticeService.to.clearExplore();
     update(["post_all"]);
   }
 
@@ -115,9 +116,10 @@ class PostAllController extends GetxController {
 
   Future<void> onRefresh() async {
     try {
+      SyncService.to.pullFromService();
       await FeedService.to.fetchAllFeed();
       refreshFeedItem();
-      SyncService.to.syncPush();
+      SyncService.to.pushToService();
     } catch (error) {
       debugPrint(error.toString());
     }

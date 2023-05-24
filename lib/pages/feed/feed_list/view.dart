@@ -59,6 +59,7 @@ class FeedListPage extends GetView<FeedListController> {
   }
 
   Widget _buildFeedModifyForm(FeedModel feed) {
+    debugPrint(feed.url);
     return Form(
       key: controller.feedFormKey, //设置globalKey，用于后面获取FormState
       autovalidateMode: AutovalidateMode.onUserInteraction,

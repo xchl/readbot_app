@@ -20,12 +20,14 @@ class BuildNavigation extends StatelessWidget {
   final int currentIndex;
   final List<NavigationItemModel> items;
   final Function(int) onTap;
+  final Function(int)? onDoubleTap;
 
   const BuildNavigation({
     Key? key,
     required this.currentIndex,
     required this.items,
     required this.onTap,
+    this.onDoubleTap,
   }) : super(key: key);
 
   @override
@@ -53,7 +55,9 @@ class BuildNavigation extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
             )
             .onTap(() => onTap(i))
-            .expanded(),
+            .onDoubleTap(() {
+          if (onDoubleTap != null) onDoubleTap!(i);
+        }).expanded(),
       );
     }
     return BottomAppBar(

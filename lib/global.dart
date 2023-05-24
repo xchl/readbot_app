@@ -26,6 +26,7 @@ class Global {
     Get.put<UserService>(UserService());
     Get.put<FeedService>(FeedService());
     Get.put<SyncService>(SyncService());
+    Get.put<NoticeService>(NoticeService());
     Get.put<AIQueryService>(AIQueryService());
 
     // 阅读模式

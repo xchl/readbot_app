@@ -76,7 +76,7 @@ class FeedListController extends GetxController {
         await FeedService.to.importFeedFromOpml(contents);
         Loading.success();
         Get.find<PostAllController>().refreshFeedItem();
-        SyncService.to.syncPush();
+        SyncService.to.pushToService();
       } catch (error) {
         Loading.error(LocaleKeys.importFromOpmlError.tr);
       }
@@ -101,7 +101,7 @@ class FeedListController extends GetxController {
       }
       selectedFeedGroup = group;
       Get.back();
-      SyncService.to.syncPush();
+      SyncService.to.pushToService();
       update(["feed_list"]);
     }
   }
@@ -134,7 +134,7 @@ class FeedListController extends GetxController {
 
       update(["feed_list"]);
       Get.back();
-      SyncService.to.syncPush();
+      SyncService.to.pushToService();
     }
   }
 
@@ -169,7 +169,7 @@ class FeedListController extends GetxController {
     }
     Get.back();
     update(["feed_list"]);
-    SyncService.to.syncPush();
+    SyncService.to.pushToService();
   }
 
   void initGroupForm(FeedGroupModel? feedGroup) {
@@ -194,6 +194,10 @@ class FeedListController extends GetxController {
     urlController.text = "";
   }
 
+  void acceptNotice() {
+    refreshCurrentPage();
+  }
+
   void onAddFeed() async {
     if ((urlFormKey.currentState as FormState).validate()) {
       var feed = await DatabaseManager().getFeedByUrl(urlController.text);
@@ -208,7 +212,7 @@ class FeedListController extends GetxController {
         Loading.success();
         refreshFeedItemPage();
         refreshCurrentPage();
-        SyncService.to.syncPush();
+        SyncService.to.pushToService();
       } else {
         Loading.error(LocaleKeys.addFeedError.tr);
       }

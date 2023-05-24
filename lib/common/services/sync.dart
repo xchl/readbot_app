@@ -32,13 +32,13 @@ class SyncService extends GetxService {
     _processSyncQueue();
   }
 
-  void syncPull() {
+  void pullFromService() {
     if (!UserService.isLogin || !ConfigService().enableSync) return;
     _syncQueue.add(_syncPull);
     _processSyncQueue();
   }
 
-  void syncPush() {
+  void pushToService() {
     if (!UserService.isLogin || !ConfigService().enableSync) return;
     _syncQueue.add(_syncPush);
     _processSyncQueue();
@@ -117,14 +117,15 @@ class SyncService extends GetxService {
     }
 
     var feedItemList = toFeedItemModelList(contentPullResponse.feedItems);
-    FeedService().downloadHtml(feedItemList);
+    var feedList = toFeedModelList(contentPullResponse.feeds);
+    var feedGroupList = toFeedGroupModelList(contentPullResponse.feedGroups);
+    var feedUpdateRecordList =
+        toFeedUpdateRecordModelList(contentPullResponse.feedUpdateRecords);
 
-    await DatabaseManager().pullSyncSave(
-        toFeedModelList(contentPullResponse.feeds),
-        toFeedItemModelList(contentPullResponse.feedItems),
-        toFeedGroupModelList(contentPullResponse.feedGroups),
-        toFeedUpdateRecordModelList(contentPullResponse.feedUpdateRecords),
-        syncTimestampModelsToSave);
+    await DatabaseManager().pullSyncSave(feedList, feedItemList, feedGroupList,
+        feedUpdateRecordList, syncTimestampModelsToSave);
+
+    FeedService.to.checkUpdate(feedList, feedItemList, feedGroupList);
   }
 
   Future<void> _syncPush() async {

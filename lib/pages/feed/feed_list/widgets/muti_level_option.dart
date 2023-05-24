@@ -54,6 +54,7 @@ class MyMultiLevelOptions extends StatelessWidget {
               return FeedItemWidget(
                 title: feed.title,
                 logoUrl: feed.logo,
+                titleWraped: true,
                 onTap: () => onSubOptionSelect(feed),
               );
             }).toList(),

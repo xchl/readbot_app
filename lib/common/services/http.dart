@@ -15,8 +15,8 @@ class HttpService extends GetxService {
     // 初始 dio
     var options = BaseOptions(
       baseUrl: ConfigService.to.serverUrl,
-      connectTimeout: const Duration(seconds: 15), // 10秒
-      receiveTimeout: const Duration(seconds: 15), // 10秒
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
       headers: {},
       contentType: 'application/json; charset=utf-8',
       responseType: ResponseType.json,
