@@ -17,7 +17,7 @@ class Feed {
     this.customLogo,
     this.customName,
     this.description,
-    required this.feedType,
+    this.feedType,
     required this.isDeleted,
     this.logo,
     this.name,
@@ -36,7 +36,7 @@ class Feed {
 
   String? description;
 
-  FeedTypeServer feedType;
+  FeedTypeServer? feedType;
 
   bool isDeleted;
 
@@ -73,7 +73,7 @@ class Feed {
     (customLogo == null ? 0 : customLogo!.hashCode) +
     (customName == null ? 0 : customName!.hashCode) +
     (description == null ? 0 : description!.hashCode) +
-    (feedType.hashCode) +
+    (feedType == null ? 0 : feedType!.hashCode) +
     (isDeleted.hashCode) +
     (logo == null ? 0 : logo!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
@@ -107,7 +107,11 @@ class Feed {
     } else {
       json[r'description'] = null;
     }
+    if (this.feedType != null) {
       json[r'feedType'] = this.feedType;
+    } else {
+      json[r'feedType'] = null;
+    }
       json[r'isDeleted'] = this.isDeleted;
     if (this.logo != null) {
       json[r'logo'] = this.logo;
@@ -153,7 +157,7 @@ class Feed {
         customLogo: mapValueOfType<String>(json, r'customLogo'),
         customName: mapValueOfType<String>(json, r'customName'),
         description: mapValueOfType<String>(json, r'description'),
-        feedType: FeedTypeServer.fromJson(json[r'feedType'])!,
+        feedType: FeedTypeServer.fromJson(json[r'feedType']),
         isDeleted: mapValueOfType<bool>(json, r'isDeleted')!,
         logo: mapValueOfType<String>(json, r'logo'),
         name: mapValueOfType<String>(json, r'name'),
@@ -212,7 +216,6 @@ class Feed {
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
     'createTime',
-    'feedType',
     'isDeleted',
     'updateTime',
     'url',

@@ -114,7 +114,10 @@ FeedModel toFeedModel(Feed feed) {
 }
 
 // convert FeedTypeServer to FeedType in FeedModel
-FeedType convertFeedTypeServerToModel(FeedTypeServer type) {
+FeedType? convertFeedTypeServerToModel(FeedTypeServer? type) {
+  if (type == null) {
+    return null;
+  }
   switch (type) {
     case FeedTypeServer.rss:
       return FeedType.rss;
