@@ -103,6 +103,7 @@ class LocaleKeys {
   static const myAccountPart = 'my_account_part';
   static const mySystemPart = 'my_system_setting';
   static const mySystemAutoReadmode = 'my_system_auto_readmode';
+  static const myHelpDoc = 'my_help_doc';
   static const mySystemAutoDeleteData = 'my_system_auto_clear_data';
   static const mySystemAutoDeleteDay = 'my_system_auto_delete_day';
 

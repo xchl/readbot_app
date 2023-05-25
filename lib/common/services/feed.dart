@@ -112,7 +112,7 @@ class FeedService extends GetxService {
 
         String pureContent = await compute(extractReadableContent, htmlContent);
 
-        if (pureContent != '') {
+        if (pureContent.length > Constants.minPageContentLength) {
           var content = ContentModel(
             type: ContentType.html,
             content: pureContent,

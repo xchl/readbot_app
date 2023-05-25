@@ -57,5 +57,9 @@ class RoutePages {
       name: RouteNames.systemUserAgreement,
       page: () => const UserAgreementPage(),
     ),
+    GetPage(
+      name: RouteNames.systemHelpDoc,
+      page: () => const HelpDocPage(),
+    ),
   ];
 }

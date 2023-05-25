@@ -19,6 +19,8 @@ class MyIndexPage extends GetView<MyIndexController> {
         // 主题管理
         _buildSystemButtonsList().sliverBox,
 
+        _buildHelpButtonsList().sliverBox,
+
         // 账户相关
         _buildAccountButtonsList().sliverBox,
       ],
@@ -114,6 +116,17 @@ class MyIndexPage extends GetView<MyIndexController> {
             options: controller.onlySaveDataDaysList,
             width: AppSize.selectWidgetWidth,
           )
+      ].toColumn().backgroundColor(AppColors.background)
+    ].toColumn().paddingTop(AppSpace.listItem);
+  }
+
+  Widget _buildHelpButtonsList() {
+    return <Widget>[
+      <Widget>[
+        ButtonItemWidget(
+          title: LocaleKeys.myHelpDoc.tr,
+          onTap: controller.toHelpDoc,
+        ),
       ].toColumn().backgroundColor(AppColors.background)
     ].toColumn().paddingTop(AppSpace.listItem);
   }

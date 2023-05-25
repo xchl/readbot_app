@@ -108,6 +108,8 @@ Map<String, String> localeZh = {
   LocaleKeys.mySystemAutoDeleteData: '自动删除历史数据',
   LocaleKeys.mySystemAutoDeleteDay: '保留近期数据天数',
 
+  LocaleKeys.myHelpDoc: '帮助文档',
+
   LocaleKeys.openAI: 'OpenAI',
 
   //Feed

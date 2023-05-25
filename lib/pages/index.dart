@@ -13,3 +13,4 @@ export 'system/register/index.dart';
 export 'system/register_pin/index.dart';
 export 'system/splash/index.dart';
 export 'system/user_agreement/index.dart';
+export 'system/help_doc/index.dart';

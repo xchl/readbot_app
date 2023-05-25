@@ -32,11 +32,13 @@ class Constants {
   static const storageArchivePost = 'history_archive_post';
   static const storageLatestPostId = 'history_latest_post_id';
   static const storagePostCache = 'postCache';
+  static const minPageContentLength = 500;
 
   // Config
   static const configFile = 'assets/configs/config.json';
   static const serverUrlField = 'server_url';
   static const privacyUrlField = 'privacy_policy_url';
+  static const helpDocUrlField = 'help_doc_url';
   static const storageEnableSync = 'enable_sync';
   static const storageEnableReadMode = 'enable_read_mode';
   static const storageAutoDeleteData = 'enable_auto_delete_data';
