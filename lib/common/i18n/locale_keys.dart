@@ -146,6 +146,7 @@ class LocaleKeys {
   static const loginError = 'login_error';
   static const destoryAccoutError = 'destory_accout_error';
   static const importFromOpmlError = 'import_from_opml_error';
+  static const groupExistError = 'group_exist_error';
 
   // Time
   static const yesterday = 'yesterday';

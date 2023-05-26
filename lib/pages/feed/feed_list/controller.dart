@@ -83,21 +83,24 @@ class FeedListController extends GetxController {
     }
   }
 
-  Future<void> onGroupSave() async {
-    var group = FeedGroupModel(
-      name: groupNameController.text,
-      description: groupDescController.text,
-    );
+  Future<void> onGroupSave(bool isEdit) async {
     if ((addGroupKey.currentState as FormState).validate()) {
-      // if update
-      if (selectedFeedGroup != defaultFeedGroup &&
-          selectedFeedGroup!.name != group.name) {
+      var group = FeedGroupModel(
+        name: groupNameController.text,
+        description: groupDescController.text,
+      );
+      if (isEdit) {
         await DatabaseManager().updateFeedGroup(group, selectedFeedGroup!);
         feedGroupedByGroup[group] = feedGroupedByGroup[selectedFeedGroup] ?? [];
         feedGroupedByGroup.remove(selectedFeedGroup);
       } else {
-        await DatabaseManager().insertFeedGroup(group);
-        feedGroupedByGroup[group] = [];
+        var existGroup = await DatabaseManager().findGroup(group.name);
+        if (existGroup != null) {
+          Loading.error(LocaleKeys.groupExistError.tr);
+        } else {
+          await DatabaseManager().insertFeedGroup(group);
+          feedGroupedByGroup[group] = [];
+        }
       }
       selectedFeedGroup = group;
       Get.back();

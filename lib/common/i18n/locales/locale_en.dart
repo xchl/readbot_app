@@ -66,6 +66,7 @@ Map<String, String> localeEn = {
   LocaleKeys.registerPinFormTip: 'Pin',
   LocaleKeys.registerPinButton: 'Submit',
   LocaleKeys.registerError: 'Register Error',
+  LocaleKeys.groupExistError: 'Group already exist',
 
   // 登录 - back login
   LocaleKeys.loginBackTitle: 'Welcome login!',

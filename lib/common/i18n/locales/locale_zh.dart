@@ -134,6 +134,7 @@ Map<String, String> localeZh = {
   LocaleKeys.feedGroupDelete: '删除分组',
   LocaleKeys.addFeedError: '添加订阅源失败',
   LocaleKeys.summaryContent: '主要内容',
+  LocaleKeys.groupExistError: '分组已经存在',
 
   LocaleKeys.inputNotRight: '输入不正确',
 

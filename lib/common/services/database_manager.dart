@@ -331,6 +331,11 @@ class DatabaseManager {
     });
   }
 
+  // find group
+  Future<FeedGroupModel?> findGroup(String name) async {
+    return await _isar.feedGroupModels.getByName(name);
+  }
+
   // save all content from sync pull
   Future<void> pullSyncSave(
       List<FeedModel> feeds,

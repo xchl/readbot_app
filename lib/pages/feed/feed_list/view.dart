@@ -124,7 +124,7 @@ class FeedListPage extends GetView<FeedListController> {
                 // 修改
                 ButtonWidget.text(
                   LocaleKeys.commonBottomApply.tr,
-                  onTap: controller.onGroupSave,
+                  onTap: () => controller.onGroupSave(isEdit),
                 )
               ].toRow(mainAxisAlignment: MainAxisAlignment.center)
             : <Widget>[
@@ -136,7 +136,7 @@ class FeedListPage extends GetView<FeedListController> {
                 // 添加按钮
                 ButtonWidget.text(
                   LocaleKeys.commonBottomSave.tr,
-                  onTap: controller.onGroupSave,
+                  onTap: () => controller.onGroupSave(isEdit),
                 )
               ].toRow(mainAxisAlignment: MainAxisAlignment.center)
       ].toColumn(),

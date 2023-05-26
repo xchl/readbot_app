@@ -13,7 +13,6 @@ class PostItemCardWidget extends StatelessWidget {
     required this.feed,
   }) : super(key: key);
 
-  // TODO:加载失败处理
   Widget _buildImageBlock() {
     return ImageWidget.url(
       feedItem.cover!,
