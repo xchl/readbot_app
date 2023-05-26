@@ -93,6 +93,7 @@ class FeedListController extends GetxController {
         await DatabaseManager().updateFeedGroup(group, selectedFeedGroup!);
         feedGroupedByGroup[group] = feedGroupedByGroup[selectedFeedGroup] ?? [];
         feedGroupedByGroup.remove(selectedFeedGroup);
+        selectedFeedGroup = group;
       } else {
         var existGroup = await DatabaseManager().findGroup(group.name);
         if (existGroup != null) {
@@ -100,9 +101,10 @@ class FeedListController extends GetxController {
         } else {
           await DatabaseManager().insertFeedGroup(group);
           feedGroupedByGroup[group] = [];
+          selectedFeedGroup = group;
         }
       }
-      selectedFeedGroup = group;
+
       Get.back();
       SyncService.to.pushToService();
       update(["feed_list"]);
