@@ -5,6 +5,17 @@ String? findCoverImageInHtml(String htmlContent) {
   try {
     Document document = parse(htmlContent);
     List<Element> imgElements = document.getElementsByTagName('img');
+    // take the img that has a http/https src and has a (png, jpg, jpeg) extension
+    imgElements = imgElements.where((element) {
+      String? src = element.attributes['src'];
+      return src != null &&
+          (src.startsWith('http') || src.startsWith('https')) &&
+          (src.endsWith('.png') ||
+              src.endsWith('.jpg') ||
+              src.endsWith('.jpeg') ||
+              src.endsWith('.webp'));
+    }).toList();
+    // take the first img
     return imgElements.isNotEmpty ? imgElements.first.attributes['src'] : null;
   } catch (e) {
     return null;
