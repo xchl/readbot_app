@@ -70,4 +70,11 @@ class AiSetttingController extends GetxController {
     await ConfigService.to.saveAiService(selectAiService);
     update(["ai_settting"]);
   }
+
+  @override
+  void onClose() {
+    super.onClose();
+    tokenController.dispose();
+    proxyServerController.dispose();
+  }
 }

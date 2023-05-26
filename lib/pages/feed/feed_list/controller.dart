@@ -226,4 +226,14 @@ class FeedListController extends GetxController {
     super.onReady();
     _initData();
   }
+
+  @override
+  void onClose() {
+    super.onClose();
+    groupNameController.dispose();
+    groupDescController.dispose();
+    feedNameController.dispose();
+    feedDescController.dispose();
+    urlController.dispose();
+  }
 }

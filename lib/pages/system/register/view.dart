@@ -21,7 +21,7 @@ class RegisterPage extends GetView<RegisterController> {
           validator: Validatorless.multiple([
             Validatorless.required(LocaleKeys.validatorRequired.tr),
             Validatorless.min(
-                3, LocaleKeys.validatorMin.trParams({"size": "3"})),
+                2, LocaleKeys.validatorMin.trParams({"size": "2"})),
             Validatorless.max(
                 20, LocaleKeys.validatorMax.trParams({"size": "20"})),
           ]),

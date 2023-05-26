@@ -36,14 +36,9 @@ class PostAllController extends GetxController {
   }
 
   void onTapItem(FeedItemModel feedItem, int itemIdx) async {
-    var content =
-        await DatabaseManager().getContentByFeedItemMd5(feedItem.md5String);
     lastTapIdx = itemIdx;
-    Get.toNamed(RouteNames.postPostDetail, arguments: {
-      'feedItem': feedItem,
-      'content': content,
-      'fromPage': PageType.explore
-    });
+    Get.toNamed(RouteNames.postPostDetail,
+        arguments: {'feedItem': feedItem, 'fromPage': PageType.explore});
   }
 
   void handleCoverUpdate(Map<int, FeedItemModel> feedItemMap) {

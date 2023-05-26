@@ -93,4 +93,10 @@ class MyIndexController extends GetxController {
     super.onReady();
     await _initData();
   }
+
+  @override
+  void onClose() {
+    super.onClose();
+    destroyConfirmInput.dispose();
+  }
 }

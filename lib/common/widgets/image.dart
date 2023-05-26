@@ -174,14 +174,16 @@ class ImageWidget extends StatelessWidget {
         final completed = state.completedWidget;
         return builder?.call(context, provider, completed, size) ?? completed;
       // 读取失败
+      // case LoadState.failed:
+      //   return const Center(
+      //     child: Icon(
+      //       CupertinoIcons.info_circle,
+      //       size: 20,
+      //       color: Colors.grey,
+      //     ),
+      //   );
       case LoadState.failed:
-        return const Center(
-          child: Icon(
-            CupertinoIcons.info_circle,
-            size: 20,
-            color: Colors.grey,
-          ),
-        );
+        return const SizedBox.shrink();
     }
   }
 }

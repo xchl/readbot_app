@@ -55,11 +55,11 @@ class PostDetailController extends GetxController {
           injectCss, HtmlContent(content!.content, ReadModeStyle().css));
     }
     _summary(feedItem.summaryAlgo);
-    loadContent();
+    await loadContent();
     handleRead();
   }
 
-  void handleRead() async {
+  void handleRead() {
     feedItem.isSeen = true;
     DatabaseManager().updateFeedItem(feedItem);
     if (fromPage == PageType.focus) {
@@ -85,11 +85,12 @@ class PostDetailController extends GetxController {
   //   }
   // }
 
-  void loadContent() {
+  Future<void> loadContent() async {
     if (isReadMode && html != null) {
-      webView.loadData(data: html!);
+      await webView.loadData(data: html!);
     } else {
-      webView.loadUrl(urlRequest: URLRequest(url: Uri.parse(feedItem.link!)));
+      await webView.loadUrl(
+          urlRequest: URLRequest(url: Uri.parse(feedItem.link!)));
     }
   }
 
