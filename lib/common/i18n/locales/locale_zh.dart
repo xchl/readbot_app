@@ -148,6 +148,7 @@ Map<String, String> localeZh = {
   LocaleKeys.registerError: '注册失败',
   LocaleKeys.destoryAccoutError: '销毁账户失败',
   LocaleKeys.importFromOpmlError: '从OPML导入失败',
+  LocaleKeys.networkError: '请检查网络是否联通，或给应用网络权限',
 
   // Time
   LocaleKeys.yesterday: '昨天',

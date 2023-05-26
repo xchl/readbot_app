@@ -20,8 +20,9 @@ class LoginController extends GetxController {
   bool isAgree = false;
 
   @override
-  void onReady() {
+  void onReady() async {
     super.onReady();
+    await checkNetwork();
     _initData();
   }
 

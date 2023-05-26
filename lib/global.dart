@@ -29,6 +29,8 @@ class Global {
     Get.put<NoticeService>(NoticeService());
     Get.put<AIQueryService>(AIQueryService());
 
+    askInternetPermission();
+
     // 阅读模式
     ReadModeStyle.fromConfig(
       fontSize: 16,

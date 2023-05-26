@@ -8,3 +8,4 @@ export 'loading.dart';
 export 'encrypt.dart';
 export 'html.dart';
 export 'time.dart';
+export 'permission.dart';

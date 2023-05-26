@@ -159,6 +159,7 @@ Map<String, String> localeEn = {
   LocaleKeys.loginError: 'Error occurs when login',
   LocaleKeys.destoryAccoutError: 'Error occurs when destory account',
   LocaleKeys.importFromOpmlError: 'Error occurs when import from opml',
+  LocaleKeys.networkError: 'Please check network or give network permission',
 
   // time
   LocaleKeys.yesterday: 'Yesterday',

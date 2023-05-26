@@ -33,8 +33,9 @@ class RegisterController extends GetxController {
   }
 
   @override
-  void onReady() {
+  void onReady() async {
     super.onReady();
+    await checkNetwork();
     _initData();
   }
 
