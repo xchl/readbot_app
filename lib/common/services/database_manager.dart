@@ -38,6 +38,28 @@ class DatabaseManager {
     });
   }
 
+  // delete data which is deleted and synced
+  Future<void> deleteDeletedData() async {
+    await _isar.writeTxn(() async {
+      await _isar.feedItemModels
+          .filter()
+          .isDeletedEqualTo(true)
+          .isSyncedEqualTo(true)
+          .deleteAll();
+      await _isar.contentModels.filter().isDeletedEqualTo(true).deleteAll();
+      await _isar.feedGroupModels
+          .filter()
+          .isDeletedEqualTo(true)
+          .isSyncedEqualTo(true)
+          .deleteAll();
+      await _isar.feedModels
+          .filter()
+          .isDeletedEqualTo(true)
+          .isSyncedEqualTo(true)
+          .deleteAll();
+    });
+  }
+
   // FeedGroup
   // insert Feed Groups
   Future<void> insertFeedGroups(List<FeedGroupModel> groups) async {

@@ -41,6 +41,8 @@ class Global {
       DatabaseManager().deleteHistoryData(ConfigService.to.onlySaveDataDays);
     }
 
+    DatabaseManager().deleteDeletedData();
+
     // 默认语言
     ConfigService.to.onLocaleUpdate(Translation.fallbackLocale);
   }
