@@ -21,6 +21,7 @@ class Feed {
     required this.isDeleted,
     this.logo,
     this.name,
+    this.syncTime,
     this.tags = const [],
     required this.updateTime,
     required this.url,
@@ -44,6 +45,8 @@ class Feed {
 
   String? name;
 
+  int? syncTime;
+
   List<String>? tags;
 
   int updateTime;
@@ -61,6 +64,7 @@ class Feed {
      other.isDeleted == isDeleted &&
      other.logo == logo &&
      other.name == name &&
+     other.syncTime == syncTime &&
      other.tags == tags &&
      other.updateTime == updateTime &&
      other.url == url;
@@ -77,12 +81,13 @@ class Feed {
     (isDeleted.hashCode) +
     (logo == null ? 0 : logo!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
+    (syncTime == null ? 0 : syncTime!.hashCode) +
     (tags == null ? 0 : tags!.hashCode) +
     (updateTime.hashCode) +
     (url.hashCode);
 
   @override
-  String toString() => 'Feed[createTime=$createTime, customDescription=$customDescription, customLogo=$customLogo, customName=$customName, description=$description, feedType=$feedType, isDeleted=$isDeleted, logo=$logo, name=$name, tags=$tags, updateTime=$updateTime, url=$url]';
+  String toString() => 'Feed[createTime=$createTime, customDescription=$customDescription, customLogo=$customLogo, customName=$customName, description=$description, feedType=$feedType, isDeleted=$isDeleted, logo=$logo, name=$name, syncTime=$syncTime, tags=$tags, updateTime=$updateTime, url=$url]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -123,6 +128,11 @@ class Feed {
     } else {
       json[r'name'] = null;
     }
+    if (this.syncTime != null) {
+      json[r'syncTime'] = this.syncTime;
+    } else {
+      json[r'syncTime'] = null;
+    }
     if (this.tags != null) {
       json[r'tags'] = this.tags;
     } else {
@@ -161,6 +171,7 @@ class Feed {
         isDeleted: mapValueOfType<bool>(json, r'isDeleted')!,
         logo: mapValueOfType<String>(json, r'logo'),
         name: mapValueOfType<String>(json, r'name'),
+        syncTime: mapValueOfType<int>(json, r'syncTime'),
         tags: json[r'tags'] is List
             ? (json[r'tags'] as List).cast<String>()
             : const [],

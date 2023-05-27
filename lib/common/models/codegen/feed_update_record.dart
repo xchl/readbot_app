@@ -16,6 +16,7 @@ class FeedUpdateRecord {
     required this.lastContentHash,
     this.lastItemPublishTime,
     required this.lastUpdate,
+    this.syncTime,
     required this.updateTime,
   });
 
@@ -27,6 +28,8 @@ class FeedUpdateRecord {
 
   int lastUpdate;
 
+  int? syncTime;
+
   int updateTime;
 
   @override
@@ -35,6 +38,7 @@ class FeedUpdateRecord {
      other.lastContentHash == lastContentHash &&
      other.lastItemPublishTime == lastItemPublishTime &&
      other.lastUpdate == lastUpdate &&
+     other.syncTime == syncTime &&
      other.updateTime == updateTime;
 
   @override
@@ -44,10 +48,11 @@ class FeedUpdateRecord {
     (lastContentHash.hashCode) +
     (lastItemPublishTime == null ? 0 : lastItemPublishTime!.hashCode) +
     (lastUpdate.hashCode) +
+    (syncTime == null ? 0 : syncTime!.hashCode) +
     (updateTime.hashCode);
 
   @override
-  String toString() => 'FeedUpdateRecord[feedUrl=$feedUrl, lastContentHash=$lastContentHash, lastItemPublishTime=$lastItemPublishTime, lastUpdate=$lastUpdate, updateTime=$updateTime]';
+  String toString() => 'FeedUpdateRecord[feedUrl=$feedUrl, lastContentHash=$lastContentHash, lastItemPublishTime=$lastItemPublishTime, lastUpdate=$lastUpdate, syncTime=$syncTime, updateTime=$updateTime]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -59,6 +64,11 @@ class FeedUpdateRecord {
       json[r'lastItemPublishTime'] = null;
     }
       json[r'lastUpdate'] = this.lastUpdate;
+    if (this.syncTime != null) {
+      json[r'syncTime'] = this.syncTime;
+    } else {
+      json[r'syncTime'] = null;
+    }
       json[r'updateTime'] = this.updateTime;
     return json;
   }
@@ -86,6 +96,7 @@ class FeedUpdateRecord {
         lastContentHash: mapValueOfType<String>(json, r'lastContentHash')!,
         lastItemPublishTime: mapValueOfType<int>(json, r'lastItemPublishTime'),
         lastUpdate: mapValueOfType<int>(json, r'lastUpdate')!,
+        syncTime: mapValueOfType<int>(json, r'syncTime'),
         updateTime: mapValueOfType<int>(json, r'updateTime')!,
       );
     }

@@ -15,6 +15,7 @@ class FeedGroup {
     this.description,
     required this.isDeleted,
     required this.name,
+    this.syncTime,
     required this.updateTime,
   });
 
@@ -24,6 +25,8 @@ class FeedGroup {
 
   String name;
 
+  int? syncTime;
+
   int updateTime;
 
   @override
@@ -31,6 +34,7 @@ class FeedGroup {
      other.description == description &&
      other.isDeleted == isDeleted &&
      other.name == name &&
+     other.syncTime == syncTime &&
      other.updateTime == updateTime;
 
   @override
@@ -39,10 +43,11 @@ class FeedGroup {
     (description == null ? 0 : description!.hashCode) +
     (isDeleted.hashCode) +
     (name.hashCode) +
+    (syncTime == null ? 0 : syncTime!.hashCode) +
     (updateTime.hashCode);
 
   @override
-  String toString() => 'FeedGroup[description=$description, isDeleted=$isDeleted, name=$name, updateTime=$updateTime]';
+  String toString() => 'FeedGroup[description=$description, isDeleted=$isDeleted, name=$name, syncTime=$syncTime, updateTime=$updateTime]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -53,6 +58,11 @@ class FeedGroup {
     }
       json[r'isDeleted'] = this.isDeleted;
       json[r'name'] = this.name;
+    if (this.syncTime != null) {
+      json[r'syncTime'] = this.syncTime;
+    } else {
+      json[r'syncTime'] = null;
+    }
       json[r'updateTime'] = this.updateTime;
     return json;
   }
@@ -79,6 +89,7 @@ class FeedGroup {
         description: mapValueOfType<String>(json, r'description'),
         isDeleted: mapValueOfType<bool>(json, r'isDeleted')!,
         name: mapValueOfType<String>(json, r'name')!,
+        syncTime: mapValueOfType<int>(json, r'syncTime'),
         updateTime: mapValueOfType<int>(json, r'updateTime')!,
       );
     }

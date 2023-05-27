@@ -26,6 +26,7 @@ class FeedItem {
     required this.md5String,
     this.publishTime,
     this.summaryAlgo,
+    this.syncTime,
     this.tags = const [],
     this.title,
     required this.updateTime,
@@ -59,6 +60,8 @@ class FeedItem {
 
   String? summaryAlgo;
 
+  int? syncTime;
+
   List<String>? tags;
 
   String? title;
@@ -81,6 +84,7 @@ class FeedItem {
      other.md5String == md5String &&
      other.publishTime == publishTime &&
      other.summaryAlgo == summaryAlgo &&
+     other.syncTime == syncTime &&
      other.tags == tags &&
      other.title == title &&
      other.updateTime == updateTime;
@@ -102,12 +106,13 @@ class FeedItem {
     (md5String.hashCode) +
     (publishTime == null ? 0 : publishTime!.hashCode) +
     (summaryAlgo == null ? 0 : summaryAlgo!.hashCode) +
+    (syncTime == null ? 0 : syncTime!.hashCode) +
     (tags == null ? 0 : tags!.hashCode) +
     (title == null ? 0 : title!.hashCode) +
     (updateTime.hashCode);
 
   @override
-  String toString() => 'FeedItem[authors=$authors, category=$category, cover=$cover, createTime=$createTime, description=$description, feedUrl=$feedUrl, focusTime=$focusTime, isDeleted=$isDeleted, isFocus=$isFocus, isSeen=$isSeen, link=$link, md5String=$md5String, publishTime=$publishTime, summaryAlgo=$summaryAlgo, tags=$tags, title=$title, updateTime=$updateTime]';
+  String toString() => 'FeedItem[authors=$authors, category=$category, cover=$cover, createTime=$createTime, description=$description, feedUrl=$feedUrl, focusTime=$focusTime, isDeleted=$isDeleted, isFocus=$isFocus, isSeen=$isSeen, link=$link, md5String=$md5String, publishTime=$publishTime, summaryAlgo=$summaryAlgo, syncTime=$syncTime, tags=$tags, title=$title, updateTime=$updateTime]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -157,6 +162,11 @@ class FeedItem {
     } else {
       json[r'summaryAlgo'] = null;
     }
+    if (this.syncTime != null) {
+      json[r'syncTime'] = this.syncTime;
+    } else {
+      json[r'syncTime'] = null;
+    }
     if (this.tags != null) {
       json[r'tags'] = this.tags;
     } else {
@@ -204,6 +214,7 @@ class FeedItem {
         md5String: mapValueOfType<String>(json, r'md5String')!,
         publishTime: mapValueOfType<int>(json, r'publishTime'),
         summaryAlgo: mapValueOfType<String>(json, r'summaryAlgo'),
+        syncTime: mapValueOfType<int>(json, r'syncTime'),
         tags: json[r'tags'] is List
             ? (json[r'tags'] as List).cast<String>()
             : const [],
