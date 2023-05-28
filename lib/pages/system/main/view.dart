@@ -63,6 +63,7 @@ class _MainViewGetX extends GetView<MainController> {
                       NavigationItemModel(
                         label: LocaleKeys.tabBarFocus.tr,
                         icon: AssetsIcons.focus,
+                        count: NoticeService.to.focusUpdateCount,
                       ),
                       NavigationItemModel(
                           label: LocaleKeys.tabBarAll.tr,

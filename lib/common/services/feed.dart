@@ -33,14 +33,21 @@ class FeedService extends GetxService {
       List<FeedGroupModel> feedGroupList) async {
     if (feedItemList.isNotEmpty) {
       downloadHtml(feedItemList);
-      NoticeService.to.updateExplore(feedItemList.length);
+      int focusCount =
+          feedItemList.where((item) => item.isFocus == true).toList().length;
+      NoticeService.to.updateFocus(focusCount);
+      NoticeService.to.updateExplore(feedItemList.length - focusCount);
     }
-    if (feeds.isNotEmpty) {
-      var updatedItemsCount = await fetchFeeds(feeds);
-      NoticeService.to.updateExplore(updatedItemsCount);
-      NoticeService.to.updateFeed();
-    } else if (feedGroupList.isNotEmpty) {
-      NoticeService.to.updateFeed();
+  }
+
+  Future<void> globalPullFeed() async {
+    try {
+      SyncService.to.pullFromService();
+      await SyncService.to.waitSyncQueueEmpty();
+      await FeedService.to.fetchAllFeed();
+      SyncService.to.pushToService();
+    } catch (error) {
+      debugPrint(error.toString());
     }
   }
 
@@ -201,6 +208,8 @@ class FeedService extends GetxService {
     var feedItems = parseCover(res.item2);
     await DatabaseManager()
         .insertFeedAndItems(res.item1, feedItems, newUpdateRecord);
+
+    NoticeService.to.updateExplore(feedItems.length);
     downloadHtml(feedItems);
     return true;
   }
@@ -338,6 +347,8 @@ class FeedService extends GetxService {
       feedItemsNeedInsert = parseCover(feedItemsNeedInsert);
       await DatabaseManager()
           .insertFeedItems(feedItemsNeedInsert, newUpdateRecord);
+
+      NoticeService.to.updateExplore(feedItemsNeedInsert.length);
 
       totalUpdate += feedItemsNeedInsert.length;
 

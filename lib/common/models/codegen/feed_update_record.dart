@@ -13,6 +13,7 @@ class FeedUpdateRecord {
   /// Returns a new [FeedUpdateRecord] instance.
   FeedUpdateRecord({
     required this.feedUrl,
+    required this.isDeleted,
     required this.lastContentHash,
     this.lastItemPublishTime,
     required this.lastUpdate,
@@ -21,6 +22,8 @@ class FeedUpdateRecord {
   });
 
   String feedUrl;
+
+  bool isDeleted;
 
   String lastContentHash;
 
@@ -35,6 +38,7 @@ class FeedUpdateRecord {
   @override
   bool operator ==(Object other) => identical(this, other) || other is FeedUpdateRecord &&
      other.feedUrl == feedUrl &&
+     other.isDeleted == isDeleted &&
      other.lastContentHash == lastContentHash &&
      other.lastItemPublishTime == lastItemPublishTime &&
      other.lastUpdate == lastUpdate &&
@@ -45,6 +49,7 @@ class FeedUpdateRecord {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (feedUrl.hashCode) +
+    (isDeleted.hashCode) +
     (lastContentHash.hashCode) +
     (lastItemPublishTime == null ? 0 : lastItemPublishTime!.hashCode) +
     (lastUpdate.hashCode) +
@@ -52,11 +57,12 @@ class FeedUpdateRecord {
     (updateTime.hashCode);
 
   @override
-  String toString() => 'FeedUpdateRecord[feedUrl=$feedUrl, lastContentHash=$lastContentHash, lastItemPublishTime=$lastItemPublishTime, lastUpdate=$lastUpdate, syncTime=$syncTime, updateTime=$updateTime]';
+  String toString() => 'FeedUpdateRecord[feedUrl=$feedUrl, isDeleted=$isDeleted, lastContentHash=$lastContentHash, lastItemPublishTime=$lastItemPublishTime, lastUpdate=$lastUpdate, syncTime=$syncTime, updateTime=$updateTime]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'feedUrl'] = this.feedUrl;
+      json[r'isDeleted'] = this.isDeleted;
       json[r'lastContentHash'] = this.lastContentHash;
     if (this.lastItemPublishTime != null) {
       json[r'lastItemPublishTime'] = this.lastItemPublishTime;
@@ -93,6 +99,7 @@ class FeedUpdateRecord {
 
       return FeedUpdateRecord(
         feedUrl: mapValueOfType<String>(json, r'feedUrl')!,
+        isDeleted: mapValueOfType<bool>(json, r'isDeleted')!,
         lastContentHash: mapValueOfType<String>(json, r'lastContentHash')!,
         lastItemPublishTime: mapValueOfType<int>(json, r'lastItemPublishTime'),
         lastUpdate: mapValueOfType<int>(json, r'lastUpdate')!,
@@ -148,6 +155,7 @@ class FeedUpdateRecord {
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
     'feedUrl',
+    'isDeleted',
     'lastContentHash',
     'lastUpdate',
     'updateTime',

@@ -121,7 +121,6 @@ class UserService extends GetxService {
       await ConfigService.to.saveClientInfo();
     }
     _isLogin.value = true;
-    SyncService.to.pullFromService();
     return true;
   }
 

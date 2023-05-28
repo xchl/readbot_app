@@ -36,6 +36,7 @@ class FeedUpdateRecordModel {
 // function to convert FeedUpdateRecordModel to FeedUpdateRecord
 FeedUpdateRecord toFeedUpdateRecord(FeedUpdateRecordModel model) {
   return FeedUpdateRecord(
+    isDeleted: model.isDeleted,
     feedUrl: model.feedUrl,
     lastUpdate: model.lastUpdate.millisecondsSinceEpoch,
     lastContentHash: model.lastContentHash,

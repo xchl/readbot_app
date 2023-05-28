@@ -63,6 +63,7 @@ class LoginController extends GetxController {
         Loading.error(LocaleKeys.loginError.tr);
         return;
       }
+      FeedService.to.globalPullFeed();
       Loading.success();
       Get.back(result: true);
       Loading.dismiss();

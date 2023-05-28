@@ -119,6 +119,7 @@ class FeedListController extends GetxController {
     if (selectedFeed == null) return;
     await DatabaseManager().deleteFeed(selectedFeed!);
     feedGroupedByGroup[selectedFeedGroup]!.remove(selectedFeed);
+    SyncService.to.pushToService();
     update(["feed_list"]);
     refreshFeedItemPage();
     Get.back();

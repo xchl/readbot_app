@@ -32,6 +32,13 @@ class SyncService extends GetxService {
     _processSyncQueue();
   }
 
+  // a function wait the _syncQueue to be empty
+  Future<void> waitSyncQueueEmpty() async {
+    while (_syncQueue.isNotEmpty) {
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+  }
+
   void pullFromService() {
     if (!UserService.isLogin || !ConfigService().enableSync) return;
     _syncQueue.add(_syncPull);

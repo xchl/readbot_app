@@ -44,6 +44,13 @@ class MainController extends GetxController {
         Get.find<PostAllController>().refreshFeedItem();
       }
     }
+    if (page == 0) {
+      debugPrint(
+          "Notice: ${NoticeService.to.focusUpdateCount} focus need update");
+      if (NoticeService.to.focusUpdateCount > 0) {
+        Get.find<PostFocusController>().refreshFeedItem();
+      }
+    }
   }
 
   void onEndDrawerChanged(bool isOpen) {
@@ -56,8 +63,7 @@ class MainController extends GetxController {
 
   _initData() async {
     await UserService.to.tryLogin();
-    SyncService.to.pullFromService();
-    SyncService.to.pushToService();
+    FeedService.to.globalPullFeed();
     update(["main"]);
   }
 

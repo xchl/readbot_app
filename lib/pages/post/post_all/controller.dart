@@ -110,13 +110,7 @@ class PostAllController extends GetxController {
   }
 
   Future<void> onRefresh() async {
-    try {
-      SyncService.to.pullFromService();
-      await FeedService.to.fetchAllFeed();
-      refreshFeedItem();
-      SyncService.to.pushToService();
-    } catch (error) {
-      debugPrint(error.toString());
-    }
+    await FeedService.to.globalPullFeed();
+    refreshFeedItem();
   }
 }

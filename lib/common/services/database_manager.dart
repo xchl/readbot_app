@@ -151,6 +151,8 @@ class DatabaseManager {
     await deleteAllFeedItemByFeed(feed);
     // delete all feed content
     await deleteAllFeedContentByFeed(feed);
+    // delete all feed update record
+    await deleteAllFeedUpdateRecordByFeed(feed);
   }
 
   // query all feed
@@ -441,5 +443,20 @@ class DatabaseManager {
         .filter()
         .isSyncedEqualTo(false)
         .findAll();
+  }
+
+  // delete feedupdate record
+  Future<void> deleteAllFeedUpdateRecordByFeed(FeedModel feed) async {
+    // find all feedupdate record by feed and set isDeleted to true
+    await _isar.writeTxn(() async {
+      FeedUpdateRecordModel? record =
+          await _isar.feedUpdateRecordModels.getByFeedUrl(feed.url);
+      if (record != null) {
+        record.isDeleted = true;
+        record.isSynced = false;
+        record.updateTime = DateTime.now();
+        await _isar.feedUpdateRecordModels.putByFeedUrl(record);
+      }
+    });
   }
 }

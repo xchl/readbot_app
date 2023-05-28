@@ -28,6 +28,7 @@ class PostFocusController extends GetxController {
     _feedItems.addAll(feedItems);
     _feeds.addAll(feeds);
     update(["post_focus"]);
+    NoticeService.to.clearFocus();
     autoSummary(_feedItems);
   }
 

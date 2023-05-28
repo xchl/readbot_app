@@ -137,7 +137,7 @@ List<FeedModel> toFeedModelList(List<Feed> feeds) {
 Feed toFeed(FeedModel feed) {
   return Feed(
     url: feed.url,
-    feedType: convertFeedTypeModelToServer(feed.type!),
+    feedType: convertFeedTypeModelToServer(feed.type),
     name: feed.name,
     logo: feed.logo,
     description: feed.description,
@@ -152,7 +152,10 @@ Feed toFeed(FeedModel feed) {
 }
 
 // convert FeedType in FeedModel to FeedTypeServer
-FeedTypeServer convertFeedTypeModelToServer(FeedType type) {
+FeedTypeServer? convertFeedTypeModelToServer(FeedType? type) {
+  if (type == null) {
+    return null;
+  }
   switch (type) {
     case FeedType.rss:
       return FeedTypeServer.rss;
