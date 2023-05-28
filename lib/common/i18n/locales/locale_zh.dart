@@ -72,7 +72,7 @@ Map<String, String> localeZh = {
   LocaleKeys.tabBarSetting: '设置',
 
   // 我的
-  LocaleKeys.myBtnLogout: '注销',
+  LocaleKeys.myBtnLogout: '退出登录',
   LocaleKeys.myBtnLanguage: '语言',
   LocaleKeys.myBtnTheme: '主题',
   LocaleKeys.myBtnStyles: '样式调试',

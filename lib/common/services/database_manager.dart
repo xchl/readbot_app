@@ -200,6 +200,11 @@ class DatabaseManager {
     });
   }
 
+  // get all feed items that contentDownloaded is null (not try downloaded)
+  Future<List<FeedItemModel>> getFeedItemsNeedDownload() async {
+    return _isar.feedItemModels.filter().contentIsDownloadedIsNull().findAll();
+  }
+
   // set FeedItems read
   Future<void> setFeedItemRead(FeedItemModel item) async {
     item.isSeen = true;

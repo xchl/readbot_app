@@ -27,83 +27,88 @@ const FeedItemModelSchema = CollectionSchema(
       name: r'category',
       type: IsarType.string,
     ),
-    r'cover': PropertySchema(
+    r'contentIsDownloaded': PropertySchema(
       id: 2,
+      name: r'contentIsDownloaded',
+      type: IsarType.bool,
+    ),
+    r'cover': PropertySchema(
+      id: 3,
       name: r'cover',
       type: IsarType.string,
     ),
     r'createTime': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'createTime',
       type: IsarType.dateTime,
     ),
     r'description': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'description',
       type: IsarType.string,
     ),
     r'feedUrl': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'feedUrl',
       type: IsarType.string,
     ),
     r'focusTime': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'focusTime',
       type: IsarType.dateTime,
     ),
     r'isDeleted': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'isDeleted',
       type: IsarType.bool,
     ),
     r'isFocus': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'isFocus',
       type: IsarType.bool,
     ),
     r'isSeen': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'isSeen',
       type: IsarType.bool,
     ),
     r'isSynced': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'isSynced',
       type: IsarType.bool,
     ),
     r'link': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'link',
       type: IsarType.string,
     ),
     r'md5String': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'md5String',
       type: IsarType.string,
     ),
     r'publishTime': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'publishTime',
       type: IsarType.dateTime,
     ),
     r'summaryAlgo': PropertySchema(
-      id: 14,
+      id: 15,
       name: r'summaryAlgo',
       type: IsarType.string,
     ),
     r'tags': PropertySchema(
-      id: 15,
+      id: 16,
       name: r'tags',
       type: IsarType.stringList,
     ),
     r'title': PropertySchema(
-      id: 16,
+      id: 17,
       name: r'title',
       type: IsarType.string,
     ),
     r'updateTime': PropertySchema(
-      id: 17,
+      id: 18,
       name: r'updateTime',
       type: IsarType.dateTime,
     )
@@ -243,22 +248,23 @@ void _feedItemModelSerialize(
 ) {
   writer.writeString(offsets[0], object.authors);
   writer.writeString(offsets[1], object.category);
-  writer.writeString(offsets[2], object.cover);
-  writer.writeDateTime(offsets[3], object.createTime);
-  writer.writeString(offsets[4], object.description);
-  writer.writeString(offsets[5], object.feedUrl);
-  writer.writeDateTime(offsets[6], object.focusTime);
-  writer.writeBool(offsets[7], object.isDeleted);
-  writer.writeBool(offsets[8], object.isFocus);
-  writer.writeBool(offsets[9], object.isSeen);
-  writer.writeBool(offsets[10], object.isSynced);
-  writer.writeString(offsets[11], object.link);
-  writer.writeString(offsets[12], object.md5String);
-  writer.writeDateTime(offsets[13], object.publishTime);
-  writer.writeString(offsets[14], object.summaryAlgo);
-  writer.writeStringList(offsets[15], object.tags);
-  writer.writeString(offsets[16], object.title);
-  writer.writeDateTime(offsets[17], object.updateTime);
+  writer.writeBool(offsets[2], object.contentIsDownloaded);
+  writer.writeString(offsets[3], object.cover);
+  writer.writeDateTime(offsets[4], object.createTime);
+  writer.writeString(offsets[5], object.description);
+  writer.writeString(offsets[6], object.feedUrl);
+  writer.writeDateTime(offsets[7], object.focusTime);
+  writer.writeBool(offsets[8], object.isDeleted);
+  writer.writeBool(offsets[9], object.isFocus);
+  writer.writeBool(offsets[10], object.isSeen);
+  writer.writeBool(offsets[11], object.isSynced);
+  writer.writeString(offsets[12], object.link);
+  writer.writeString(offsets[13], object.md5String);
+  writer.writeDateTime(offsets[14], object.publishTime);
+  writer.writeString(offsets[15], object.summaryAlgo);
+  writer.writeStringList(offsets[16], object.tags);
+  writer.writeString(offsets[17], object.title);
+  writer.writeDateTime(offsets[18], object.updateTime);
 }
 
 FeedItemModel _feedItemModelDeserialize(
@@ -268,26 +274,27 @@ FeedItemModel _feedItemModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = FeedItemModel(
-    reader.readString(offsets[5]),
+    reader.readString(offsets[6]),
     authors: reader.readStringOrNull(offsets[0]),
     category: reader.readStringOrNull(offsets[1]),
-    cover: reader.readStringOrNull(offsets[2]),
-    createTime: reader.readDateTime(offsets[3]),
-    description: reader.readStringOrNull(offsets[4]),
-    isFocus: reader.readBoolOrNull(offsets[8]) ?? false,
-    isSeen: reader.readBoolOrNull(offsets[9]) ?? false,
-    isSynced: reader.readBool(offsets[10]),
-    link: reader.readStringOrNull(offsets[11]),
-    publishTime: reader.readDateTimeOrNull(offsets[13]),
-    summaryAlgo: reader.readStringOrNull(offsets[14]),
-    tags: reader.readStringList(offsets[15]),
-    title: reader.readString(offsets[16]),
-    updateTime: reader.readDateTime(offsets[17]),
+    cover: reader.readStringOrNull(offsets[3]),
+    createTime: reader.readDateTime(offsets[4]),
+    description: reader.readStringOrNull(offsets[5]),
+    isFocus: reader.readBoolOrNull(offsets[9]) ?? false,
+    isSeen: reader.readBoolOrNull(offsets[10]) ?? false,
+    isSynced: reader.readBool(offsets[11]),
+    link: reader.readStringOrNull(offsets[12]),
+    publishTime: reader.readDateTimeOrNull(offsets[14]),
+    summaryAlgo: reader.readStringOrNull(offsets[15]),
+    tags: reader.readStringList(offsets[16]),
+    title: reader.readString(offsets[17]),
+    updateTime: reader.readDateTime(offsets[18]),
   );
-  object.focusTime = reader.readDateTimeOrNull(offsets[6]);
+  object.contentIsDownloaded = reader.readBoolOrNull(offsets[2]);
+  object.focusTime = reader.readDateTimeOrNull(offsets[7]);
   object.id = id;
-  object.isDeleted = reader.readBool(offsets[7]);
-  object.md5String = reader.readString(offsets[12]);
+  object.isDeleted = reader.readBool(offsets[8]);
+  object.md5String = reader.readString(offsets[13]);
   return object;
 }
 
@@ -303,36 +310,38 @@ P _feedItemModelDeserializeProp<P>(
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 3:
-      return (reader.readDateTime(offset)) as P;
-    case 4:
       return (reader.readStringOrNull(offset)) as P;
+    case 4:
+      return (reader.readDateTime(offset)) as P;
     case 5:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 7:
-      return (reader.readBool(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 8:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readBool(offset)) as P;
     case 9:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 10:
-      return (reader.readBool(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 11:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 12:
-      return (reader.readString(offset)) as P;
-    case 13:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 14:
       return (reader.readStringOrNull(offset)) as P;
-    case 15:
-      return (reader.readStringList(offset)) as P;
-    case 16:
+    case 13:
       return (reader.readString(offset)) as P;
+    case 14:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 15:
+      return (reader.readStringOrNull(offset)) as P;
+    case 16:
+      return (reader.readStringList(offset)) as P;
     case 17:
+      return (reader.readString(offset)) as P;
+    case 18:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1108,6 +1117,34 @@ extension FeedItemModelQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'category',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      contentIsDownloadedIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'contentIsDownloaded',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      contentIsDownloadedIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'contentIsDownloaded',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      contentIsDownloadedEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'contentIsDownloaded',
+        value: value,
       ));
     });
   }
@@ -2766,6 +2803,20 @@ extension FeedItemModelQuerySortBy
     });
   }
 
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy>
+      sortByContentIsDownloaded() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'contentIsDownloaded', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy>
+      sortByContentIsDownloadedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'contentIsDownloaded', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> sortByCover() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'cover', Sort.asc);
@@ -2980,6 +3031,20 @@ extension FeedItemModelQuerySortThenBy
       thenByCategoryDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'category', Sort.desc);
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy>
+      thenByContentIsDownloaded() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'contentIsDownloaded', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy>
+      thenByContentIsDownloadedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'contentIsDownloaded', Sort.desc);
     });
   }
 
@@ -3201,6 +3266,13 @@ extension FeedItemModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<FeedItemModel, FeedItemModel, QDistinct>
+      distinctByContentIsDownloaded() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'contentIsDownloaded');
+    });
+  }
+
   QueryBuilder<FeedItemModel, FeedItemModel, QDistinct> distinctByCover(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -3323,6 +3395,13 @@ extension FeedItemModelQueryProperty
   QueryBuilder<FeedItemModel, String?, QQueryOperations> categoryProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'category');
+    });
+  }
+
+  QueryBuilder<FeedItemModel, bool?, QQueryOperations>
+      contentIsDownloadedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'contentIsDownloaded');
     });
   }
 

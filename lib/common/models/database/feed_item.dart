@@ -30,6 +30,11 @@ class FeedItemModel {
 
   DateTime? focusTime;
 
+  // null -> not downloaded
+  // true -> downloaded
+  // false -> download but parse failed
+  bool? contentIsDownloaded;
+
   bool isSynced;
 
   // md5(title + link)

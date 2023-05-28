@@ -43,6 +43,8 @@ class Global {
 
     DatabaseManager().deleteDeletedData();
 
+    FeedService.to.keepDownload();
+
     // 默认语言
     ConfigService.to.onLocaleUpdate(Translation.fallbackLocale);
   }

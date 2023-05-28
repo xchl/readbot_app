@@ -16,13 +16,17 @@ import 'package:xml/xml.dart';
 class FeedService extends GetxService {
   static FeedService get to => Get.find();
 
-  final Map<int, FeedItemModel> _coverUpdateItems = {};
-
   List<FeedItemModel> _parseRssItem(
       FeedModel feed, List<webfeed.RssItem>? items) {
     return items != null
         ? items.map((item) => FeedItemModel.fromRssItem(item, feed)).toList()
         : [];
+  }
+
+  void keepDownload() async {
+    // take all items that contentDownloaded is null
+    var items = await DatabaseManager().getFeedItemsNeedDownload();
+    downloadHtml(items);
   }
 
   void checkUpdate(List<FeedModel> feeds, List<FeedItemModel> feedItemList,
@@ -89,6 +93,7 @@ class FeedService extends GetxService {
   }
 
   Future<void> downloadHtml(List<FeedItemModel> feedItems) async {
+    final Map<int, FeedItemModel> coverUpdateItems = {};
     if (feedItems.isEmpty) return;
     int idx = 0;
     while (idx < feedItems.length && feedItems[idx].link == null) {
@@ -120,13 +125,15 @@ class FeedService extends GetxService {
             feedItemMd5String: feedItems[idx].md5String,
             feedUrl: feedItems[idx].feedUrl,
           );
-
+          feedItems[idx].contentIsDownloaded = true;
           DatabaseManager().insertContent(content);
+        } else {
+          feedItems[idx].contentIsDownloaded = false;
         }
 
         if (feedItems[idx].cover == null) {
           feedItems[idx].cover = findCoverImageInHtml(pureContent);
-          _coverUpdateItems[feedItems[idx].id] = feedItems[idx];
+          coverUpdateItems[feedItems[idx].id] = feedItems[idx];
         }
 
         // if (kDebugMode) {
@@ -145,14 +152,13 @@ class FeedService extends GetxService {
               urlRequest: URLRequest(url: Uri.parse(feedItems[idx].link!)));
         } else {
           // after all items downloaded, update cover
-          if (_coverUpdateItems.isNotEmpty) {
-            Get.find<PostAllController>().handleCoverUpdate(_coverUpdateItems);
-            Get.find<PostFocusController>()
-                .handleCoverUpdate(_coverUpdateItems);
+          if (coverUpdateItems.isNotEmpty) {
+            Get.find<PostAllController>().handleCoverUpdate(coverUpdateItems);
+            Get.find<PostFocusController>().handleCoverUpdate(coverUpdateItems);
             await DatabaseManager().updateFeedItems(
-                _coverUpdateItems.entries.map((e) => e.value).toList());
+                coverUpdateItems.entries.map((e) => e.value).toList());
             SyncService.to.pushToService();
-            _coverUpdateItems.clear();
+            coverUpdateItems.clear();
           }
           loadCompleter.complete();
         }
