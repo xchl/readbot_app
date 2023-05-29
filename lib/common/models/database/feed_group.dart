@@ -16,12 +16,13 @@ class FeedGroupModel {
 
   bool isSynced;
 
-  bool isDeleted = false;
+  bool isDeleted;
 
   FeedGroupModel({
     required this.name,
     this.description,
     this.isSynced = false,
+    this.isDeleted = false,
   }) : updateTime = DateTime.now();
 
   @override
@@ -47,7 +48,10 @@ List<FeedGroup> toFeedGroupList(List<FeedGroupModel> models) {
 // function to convert FeedGroup to FeedGroupModel
 FeedGroupModel toFeedGroupModel(FeedGroup feedGroup) {
   return FeedGroupModel(
-      name: feedGroup.name, description: feedGroup.description, isSynced: true)
+      name: feedGroup.name,
+      description: feedGroup.description,
+      isSynced: true,
+      isDeleted: feedGroup.isDeleted)
     ..updateTime = DateTime.fromMillisecondsSinceEpoch(feedGroup.updateTime);
 }
 

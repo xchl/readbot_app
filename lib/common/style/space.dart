@@ -26,5 +26,5 @@ class AppSpace {
   static double get settingListHight => 30.h;
 
   // 刷新按钮
-  static double get refreshDisplacement => 50.h;
+  static double get refreshDisplacement => 40.h;
 }

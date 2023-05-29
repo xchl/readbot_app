@@ -96,4 +96,9 @@ class PostFocusController extends GetxController {
     super.onReady();
     refreshFeedItem();
   }
+
+  Future<void> onRefresh() async {
+    await FeedService.to.globalPullFeed();
+    refreshFeedItem();
+  }
 }

@@ -31,7 +31,7 @@ class FeedModel {
 
   bool isSynced;
 
-  bool isDeleted = false;
+  bool isDeleted;
 
   @Enumerated(EnumType.ordinal32)
   FeedType? type;
@@ -51,6 +51,7 @@ class FeedModel {
     this.tags = const [],
     this.customDescription,
     this.customLogo,
+    this.isDeleted = false,
     required this.updateTime,
     required this.createTime,
     required this.isSynced,
@@ -110,7 +111,8 @@ FeedModel toFeedModel(Feed feed) {
       customDescription: feed.customDescription,
       createTime: DateTime.fromMillisecondsSinceEpoch(feed.createTime),
       updateTime: DateTime.fromMillisecondsSinceEpoch(feed.updateTime),
-      isSynced: true);
+      isSynced: true,
+      isDeleted: feed.isDeleted);
 }
 
 // convert FeedTypeServer to FeedType in FeedModel

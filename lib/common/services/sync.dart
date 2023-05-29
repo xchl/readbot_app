@@ -1,5 +1,6 @@
 import 'package:readbot/common/index.dart';
 import 'package:get/get.dart';
+import 'package:tuple/tuple.dart';
 
 class SyncService extends GetxService {
   static SyncService get to => Get.find();
@@ -129,10 +130,49 @@ class SyncService extends GetxService {
     var feedUpdateRecordList =
         toFeedUpdateRecordModelList(contentPullResponse.feedUpdateRecords);
 
+    Tuple2 updateCount = await checkFeedItemUpdate(feedItemList);
     await DatabaseManager().pullSyncSave(feedList, feedItemList, feedGroupList,
         feedUpdateRecordList, syncTimestampModelsToSave);
+    NoticeService.to.updateFocus(updateCount.item1);
+    NoticeService.to.updateExplore(updateCount.item2);
+  }
 
-    FeedService.to.checkUpdate(feedList, feedItemList, feedGroupList);
+  Future<Tuple2> checkFeedItemUpdate(
+    List<FeedItemModel> feedItemList,
+  ) async {
+    int newFocusCount = 0;
+    int newExploreCount = 0;
+    List<FeedItemModel> needDownload = List.empty(growable: true);
+    if (feedItemList.isNotEmpty) {
+      List<FeedItemModel> notDeleteFeedItem =
+          feedItemList.where((element) => element.isDeleted == false).toList();
+      List<FeedItemModel?> result =
+          await DatabaseManager().checkFeedItemsInDb(notDeleteFeedItem);
+      for (var i = 0; i < notDeleteFeedItem.length; i++) {
+        // if not in db, download new item content
+        if (result[i] == null) needDownload.add(notDeleteFeedItem[i]);
+        // if new item is focus, while old item is not exist or not focus or deleted, update focus count
+        if (notDeleteFeedItem[i].isFocus == true) {
+          if (result[i] == null ||
+              result[i]!.isDeleted == true ||
+              result[i]!.isFocus == false) {
+            newFocusCount += 1;
+          }
+        } else {
+          // if new item is explore, while old item is not exist or not explore or deleted, update explore count
+          if (result[i] == null ||
+              result[i]!.isDeleted == true ||
+              result[i]!.isFocus == true) {
+            newExploreCount += 1;
+          }
+        }
+      }
+
+      if (needDownload.isNotEmpty) {
+        FeedService.to.downloadHtml(needDownload);
+      }
+    }
+    return Tuple2(newFocusCount, newExploreCount);
   }
 
   Future<void> _syncPush() async {

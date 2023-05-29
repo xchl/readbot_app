@@ -45,7 +45,7 @@ class FeedItemModel {
   @Index()
   String feedUrl;
 
-  bool isDeleted = false;
+  bool isDeleted;
 
   @Index()
   DateTime updateTime = DateTime.now();
@@ -63,6 +63,7 @@ class FeedItemModel {
       this.category,
       this.description,
       this.summaryAlgo,
+      this.isDeleted = false,
       required this.updateTime,
       required this.createTime,
       required this.isSynced})
@@ -129,27 +130,30 @@ List<FeedItem> toFeedItemList(List<FeedItemModel> models) {
 
 // function to convert FeedItem to FeedItemModel
 FeedItemModel toFeedItemModel(FeedItem feedItem) {
-  return FeedItemModel(feedItem.feedUrl,
-      isFocus: feedItem.isFocus,
-      isSeen: feedItem.isSeen,
-      title: feedItem.title ?? '',
-      cover: feedItem.cover,
-      link: feedItem.link,
-      // timestamp to Datetime
-      publishTime: feedItem.publishTime == null
-          ? null
-          : DateTime.fromMillisecondsSinceEpoch(feedItem.publishTime!),
-      authors: feedItem.authors,
-      tags: feedItem.tags,
-      category: feedItem.category,
-      description: feedItem.description,
-      summaryAlgo: feedItem.summaryAlgo,
-      focusTime: feedItem.focusTime == null
-          ? null
-          : DateTime.fromMillisecondsSinceEpoch(feedItem.focusTime!),
-      createTime: DateTime.fromMillisecondsSinceEpoch(feedItem.createTime),
-      updateTime: DateTime.fromMillisecondsSinceEpoch(feedItem.updateTime),
-      isSynced: true);
+  return FeedItemModel(
+    feedItem.feedUrl,
+    isFocus: feedItem.isFocus,
+    isSeen: feedItem.isSeen,
+    title: feedItem.title ?? '',
+    cover: feedItem.cover,
+    link: feedItem.link,
+    // timestamp to Datetime
+    publishTime: feedItem.publishTime == null
+        ? null
+        : DateTime.fromMillisecondsSinceEpoch(feedItem.publishTime!),
+    authors: feedItem.authors,
+    tags: feedItem.tags,
+    category: feedItem.category,
+    description: feedItem.description,
+    summaryAlgo: feedItem.summaryAlgo,
+    focusTime: feedItem.focusTime == null
+        ? null
+        : DateTime.fromMillisecondsSinceEpoch(feedItem.focusTime!),
+    createTime: DateTime.fromMillisecondsSinceEpoch(feedItem.createTime),
+    updateTime: DateTime.fromMillisecondsSinceEpoch(feedItem.updateTime),
+    isSynced: true,
+    isDeleted: feedItem.isDeleted,
+  );
 }
 
 // function to convert FeedItem list to FeedItemModel list

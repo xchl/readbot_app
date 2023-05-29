@@ -60,7 +60,12 @@ class _PostFocusPageViewGetX extends GetView<PostFocusController> {
             ),
           ),
           body: SafeArea(
-            child: _buildView().backgroundColor(AppColors.background),
+            child: RefreshIndicator(
+                displacement: AppSpace.refreshDisplacement,
+                color: AppColors.primary,
+                backgroundColor: AppColors.navigationBarColor,
+                onRefresh: controller.onRefresh,
+                child: _buildView().backgroundColor(AppColors.background)),
           ),
         );
       },

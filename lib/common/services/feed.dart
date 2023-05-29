@@ -29,17 +29,6 @@ class FeedService extends GetxService {
     downloadHtml(items);
   }
 
-  void checkUpdate(List<FeedModel> feeds, List<FeedItemModel> feedItemList,
-      List<FeedGroupModel> feedGroupList) async {
-    if (feedItemList.isNotEmpty) {
-      downloadHtml(feedItemList);
-      int focusCount =
-          feedItemList.where((item) => item.isFocus == true).toList().length;
-      NoticeService.to.updateFocus(focusCount);
-      NoticeService.to.updateExplore(feedItemList.length - focusCount);
-    }
-  }
-
   Future<void> globalPullFeed() async {
     try {
       SyncService.to.pullFromService();
@@ -141,9 +130,11 @@ class FeedService extends GetxService {
         await DatabaseManager().updateFeedItemNotSync(feedItems[idx]);
 
         if (feedItems[idx].cover == null) {
-          feedItems[idx].cover = findCoverImageInHtml(pureContent);
-          coverUpdateItems[feedItems[idx].id] = feedItems[idx];
-          await DatabaseManager().updateFeedItemNeedSync(feedItems[idx]);
+          var newCover = findCoverImageInHtml(pureContent);
+          if (newCover != null) {
+            feedItems[idx].cover = newCover;
+            coverUpdateItems[feedItems[idx].id] = feedItems[idx];
+          }
         }
 
         // if (kDebugMode) {

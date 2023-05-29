@@ -18,7 +18,7 @@ class FeedUpdateRecordModel {
 
   bool isSynced;
 
-  bool isDeleted = false;
+  bool isDeleted;
 
   @Index()
   DateTime updateTime;
@@ -29,6 +29,7 @@ class FeedUpdateRecordModel {
     required this.lastItemPublishTime,
     required this.updateTime,
     required this.feedUrl,
+    this.isDeleted = false,
     required this.isSynced,
   });
 }
@@ -61,7 +62,8 @@ FeedUpdateRecordModel toFeedUpdateRecordModel(FeedUpdateRecord record) {
           ? null
           : DateTime.fromMillisecondsSinceEpoch(record.lastItemPublishTime!),
       updateTime: DateTime.fromMillisecondsSinceEpoch(record.updateTime),
-      isSynced: true);
+      isSynced: true,
+      isDeleted: record.isDeleted);
 }
 
 // function to convert FeedUpdateRecord list to FeedUpdateRecordModel list

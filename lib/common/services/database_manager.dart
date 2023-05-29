@@ -164,7 +164,17 @@ class DatabaseManager {
   Future<List<FeedUpdateRecordModel?>> getFeedLastUpdateRecord(
       List<FeedModel> feeds) async {
     List<String> feedUrls = feeds.map((e) => e.url).toList();
-    return await _isar.feedUpdateRecordModels.getAllByFeedUrl(feedUrls);
+
+    List<FeedUpdateRecordModel?> records =
+        await _isar.feedUpdateRecordModels.getAllByFeedUrl(feedUrls);
+    // if record is delete, replace with null
+    records = records.map((e) {
+      if (e == null || e.isDeleted == true) {
+        return null;
+      }
+      return e;
+    }).toList();
+    return records;
   }
 
   // query feed by urls
@@ -202,9 +212,20 @@ class DatabaseManager {
     });
   }
 
+  // input FeedItem list, check how many not in db, return count
+  Future<List<FeedItemModel?>> checkFeedItemsInDb(
+      List<FeedItemModel> items) async {
+    List<String> md5Strings = items.map((e) => e.md5String).toList();
+    return await _isar.feedItemModels.getAllByMd5String(md5Strings);
+  }
+
   // get all feed items that contentDownloaded is null (not try downloaded)
   Future<List<FeedItemModel>> getFeedItemsNeedDownload() async {
-    return _isar.feedItemModels.filter().contentIsDownloadedIsNull().findAll();
+    return _isar.feedItemModels
+        .filter()
+        .contentIsDownloadedIsNull()
+        .sortByUpdateTimeDesc()
+        .findAll();
   }
 
   // set FeedItems read
