@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/widgets.dart';
 import 'package:readbot/common/index.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -202,24 +203,18 @@ class ConfigService extends GetxService {
   Future<ClientInfo> getDeviceInfo() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     var name = '';
-    try {
-      if (Platform.isAndroid) {
-        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-        name = androidInfo.model;
-      } else if (Platform.isIOS) {
-        IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-        name = iosInfo.name ?? "IOS";
-      } else if (Platform.isWindows) {
-        WindowsDeviceInfo windowsInfo = await deviceInfo.windowsInfo;
-        name = windowsInfo.computerName;
-      } else if (Platform.isMacOS) {
-        MacOsDeviceInfo macOsInfo = await deviceInfo.macOsInfo;
-        name = macOsInfo.computerName;
-      }
-    } catch (e) {
-      debugPrint('Failed to get device info: $e');
-      clientInfo.clientName = "Unknown";
+    // TODO if add platform, need add name
+    if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      name = iosInfo.identifierForVendor ?? iosInfo.name ?? "IOS";
+      debugPrint(iosInfo.toString());
     }
+    // add a rand number after name use current time as seed
+    // to ensure that the name is different if user reinstall app
+    // which make sync work correctly
+    name +=
+        "-${Random(DateTime.now().millisecondsSinceEpoch).nextInt(1000000)}";
+    debugPrint(name);
     return ClientInfo(clientName: name);
   }
 }
