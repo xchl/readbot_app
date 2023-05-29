@@ -48,8 +48,7 @@ List<FeedGroup> toFeedGroupList(List<FeedGroupModel> models) {
 FeedGroupModel toFeedGroupModel(FeedGroup feedGroup) {
   return FeedGroupModel(
       name: feedGroup.name, description: feedGroup.description, isSynced: true)
-    ..updateTime =
-        DateTime.fromMillisecondsSinceEpoch(feedGroup.updateTime.toInt());
+    ..updateTime = DateTime.fromMillisecondsSinceEpoch(feedGroup.updateTime);
 }
 
 // function to convert FeedGroup list to FeedGroupModel list

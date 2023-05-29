@@ -30,7 +30,7 @@ class AIQueryService extends GetxService {
         if (summary == null) continue;
         feedItem.summaryAlgo = summary;
         debugPrint(summary);
-        await DatabaseManager().updateFeedItem(feedItem);
+        await DatabaseManager().updateFeedItemNeedSync(feedItem);
         // TODO 如何写更好？
         Get.find<PostFocusController>().refreshCurrentPage();
         await Future.delayed(

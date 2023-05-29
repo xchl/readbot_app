@@ -216,9 +216,15 @@ class DatabaseManager {
   }
 
   // update FeedItem
-  Future<void> updateFeedItem(FeedItemModel item) async {
+  Future<void> updateFeedItemNeedSync(FeedItemModel item) async {
     item.isSynced = false;
     item.updateTime = DateTime.now();
+    await _isar.writeTxn(() async {
+      await _isar.feedItemModels.putByMd5String(item);
+    });
+  }
+
+  Future<void> updateFeedItemNotSync(FeedItemModel item) async {
     await _isar.writeTxn(() async {
       await _isar.feedItemModels.putByMd5String(item);
     });

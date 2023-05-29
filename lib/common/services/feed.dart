@@ -133,22 +133,23 @@ class FeedService extends GetxService {
             feedUrl: feedItems[idx].feedUrl,
           );
           feedItems[idx].contentIsDownloaded = true;
-          DatabaseManager().insertContent(content);
+          await DatabaseManager().insertContent(content);
         } else {
           feedItems[idx].contentIsDownloaded = false;
         }
 
+        await DatabaseManager().updateFeedItemNotSync(feedItems[idx]);
+
         if (feedItems[idx].cover == null) {
           feedItems[idx].cover = findCoverImageInHtml(pureContent);
           coverUpdateItems[feedItems[idx].id] = feedItems[idx];
+          await DatabaseManager().updateFeedItemNeedSync(feedItems[idx]);
         }
 
         // if (kDebugMode) {
         //   File file = File("/Users/luosen/Desktop/html/$idx.html");
         //   file.writeAsString(htmlContent);
         // }
-
-        DatabaseManager().updateFeedItem(feedItems[idx]);
 
         idx += 1;
         while (idx < feedItems.length && feedItems[idx].link == null) {

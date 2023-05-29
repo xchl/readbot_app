@@ -27,7 +27,7 @@ class PostAllController extends GetxController {
   void turnToFocus(int index) async {
     _feedItems[index].isFocus = true;
     _feedItems[index].focusTime = DateTime.now();
-    await DatabaseManager().updateFeedItem(_feedItems[index]);
+    await DatabaseManager().updateFeedItemNeedSync(_feedItems[index]);
     _feedItems.removeAt(index);
     _feed.removeAt(index);
     SyncService.to.pushToService();

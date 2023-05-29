@@ -108,8 +108,8 @@ FeedModel toFeedModel(Feed feed) {
       customName: feed.customName,
       customLogo: feed.customLogo,
       customDescription: feed.customDescription,
-      createTime: DateTime.fromMillisecondsSinceEpoch(feed.createTime.toInt()),
-      updateTime: DateTime.fromMillisecondsSinceEpoch(feed.updateTime.toInt()),
+      createTime: DateTime.fromMillisecondsSinceEpoch(feed.createTime),
+      updateTime: DateTime.fromMillisecondsSinceEpoch(feed.updateTime),
       isSynced: true);
 }
 

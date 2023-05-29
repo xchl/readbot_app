@@ -59,6 +59,7 @@ class FeedItemModel {
       this.publishTime,
       this.authors,
       this.tags,
+      this.focusTime,
       this.category,
       this.description,
       this.summaryAlgo,
@@ -143,10 +144,11 @@ FeedItemModel toFeedItemModel(FeedItem feedItem) {
       category: feedItem.category,
       description: feedItem.description,
       summaryAlgo: feedItem.summaryAlgo,
-      createTime:
-          DateTime.fromMillisecondsSinceEpoch(feedItem.createTime.toInt()),
-      updateTime:
-          DateTime.fromMillisecondsSinceEpoch(feedItem.updateTime.toInt()),
+      focusTime: feedItem.focusTime == null
+          ? null
+          : DateTime.fromMillisecondsSinceEpoch(feedItem.focusTime!),
+      createTime: DateTime.fromMillisecondsSinceEpoch(feedItem.createTime),
+      updateTime: DateTime.fromMillisecondsSinceEpoch(feedItem.updateTime),
       isSynced: true);
 }
 

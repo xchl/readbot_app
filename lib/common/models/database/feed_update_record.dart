@@ -55,14 +55,12 @@ List<FeedUpdateRecord> toFeedUpdateRecordList(
 FeedUpdateRecordModel toFeedUpdateRecordModel(FeedUpdateRecord record) {
   return FeedUpdateRecordModel(
       feedUrl: record.feedUrl,
-      lastUpdate:
-          DateTime.fromMillisecondsSinceEpoch(record.lastUpdate.toInt()),
+      lastUpdate: DateTime.fromMillisecondsSinceEpoch(record.lastUpdate),
       lastContentHash: record.lastContentHash,
       lastItemPublishTime: record.lastItemPublishTime == null
           ? null
           : DateTime.fromMillisecondsSinceEpoch(record.lastItemPublishTime!),
-      updateTime:
-          DateTime.fromMillisecondsSinceEpoch(record.updateTime.toInt()),
+      updateTime: DateTime.fromMillisecondsSinceEpoch(record.updateTime),
       isSynced: true);
 }
 

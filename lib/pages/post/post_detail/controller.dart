@@ -61,7 +61,7 @@ class PostDetailController extends GetxController {
 
   void handleRead() {
     feedItem.isSeen = true;
-    DatabaseManager().updateFeedItem(feedItem);
+    DatabaseManager().updateFeedItemNeedSync(feedItem);
     if (fromPage == PageType.focus) {
       Get.find<PostFocusController>().handleRead(feedItem);
     }
@@ -117,7 +117,7 @@ class PostDetailController extends GetxController {
 
     if (result != null) {
       feedItem.summaryAlgo = result;
-      DatabaseManager().updateFeedItem(feedItem);
+      DatabaseManager().updateFeedItemNeedSync(feedItem);
       _summary(result);
       debugPrint(result);
     }
