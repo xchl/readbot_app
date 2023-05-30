@@ -224,6 +224,7 @@ class DatabaseManager {
     return _isar.feedItemModels
         .filter()
         .contentIsDownloadedIsNull()
+        .isDeletedEqualTo(false)
         .sortByUpdateTimeDesc()
         .findAll();
   }

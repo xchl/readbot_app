@@ -10,7 +10,8 @@ class PostDetailController extends GetxController {
 
   final GlobalKey webViewKey = GlobalKey();
 
-  bool isReadMode = ConfigService().enableReadMode;
+  bool isEnableReadMode = ConfigService().enableReadMode;
+  late bool isInReadMode;
   bool get isReadAble => content != null;
 
   // double _lastScrollPosition = 0;
@@ -45,18 +46,29 @@ class PostDetailController extends GetxController {
 
   String get summary => _summary.value;
 
+  Future<void>? loadHtmlFuture;
+
   @override
-  void onReady() async {
+  void onReady() {
     super.onReady();
+    loadHtmlFuture = loadHtml();
+    _summary(feedItem.summaryAlgo);
+    handleRead();
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    isInReadMode = isEnableReadMode;
+  }
+
+  Future<void> loadHtml() async {
     content =
         await DatabaseManager().getContentByFeedItemMd5(feedItem.md5String);
     if (content != null && content!.type == ContentType.html) {
       html = await compute(
           injectCss, HtmlContent(content!.content, ReadModeStyle().css));
     }
-    _summary(feedItem.summaryAlgo);
-    await loadContent();
-    handleRead();
   }
 
   void handleRead() {
@@ -86,18 +98,20 @@ class PostDetailController extends GetxController {
   // }
 
   Future<void> loadContent() async {
-    if (isReadMode && html != null) {
+    if (isEnableReadMode && html != null) {
       await webView.loadData(data: html!);
+      isInReadMode = true;
     } else {
       await webView.loadUrl(
           urlRequest: URLRequest(url: Uri.parse(feedItem.link!)));
+      isInReadMode = false;
     }
+    update(['post_detail']);
   }
 
   void toggleReadMode() {
-    isReadMode = !isReadMode;
+    isEnableReadMode = !isEnableReadMode;
     loadContent();
-    update(['post_detail']);
   }
 
   void summaryText({required bool redo}) async {

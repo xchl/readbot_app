@@ -13,9 +13,12 @@ class PostDetailPage extends GetView<PostDetailController> {
         InAppWebView(
           key: controller.webViewKey,
           initialOptions: controller.options,
-          onWebViewCreated: (webController) {
+          onWebViewCreated: (webController) async {
             controller.webView = webController;
-            // controller.loadContent();
+            if (controller.loadHtmlFuture != null) {
+              await controller.loadHtmlFuture;
+              await controller.loadContent();
+            }
           },
           // onScrollChanged: (webController, x, y) {
           //   controller.handleScrollChange(x, y);
@@ -47,7 +50,7 @@ class PostDetailPage extends GetView<PostDetailController> {
                   size: AppSize.toolIconSize,
                 ),
               ).paddingRight(AppSpace.seqx2Horization),
-              controller.isReadMode
+              controller.isInReadMode
                   ? ButtonWidget.icon(
                           Icon(
                             Icons.feed_outlined,
