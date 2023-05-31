@@ -61,5 +61,8 @@ class RoutePages {
       name: RouteNames.systemHelpDoc,
       page: () => const HelpDocPage(),
     ),
+    GetPage(
+        name: RouteNames.systemForgetPassword,
+        page: () => const ForgetPasswordPage()),
   ];
 }

@@ -124,6 +124,11 @@ class UserService extends GetxService {
     return true;
   }
 
+  /// 修改密码
+  Future<bool> modifyPassword(LoginInfo req) async {
+    return await UserApi.modifyPassword(req);
+  }
+
   /// 刷新token
   Future<void> refreshTokenIfNeed() async {
     if (!hasActiveAccessToken() && hasActiveRefreshToken()) {

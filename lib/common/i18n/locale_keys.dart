@@ -29,11 +29,13 @@ class LocaleKeys {
   // 登录、注册 - 通用
   static const loginForgotPassword = 'login_forgot_password';
   static const loginSignIn = 'login_sign_in';
+  static const loginModifyPassword = 'login_modify_password';
   static const loginOrText = 'login_or_text';
   static const loginSignUp = 'login_sign_up';
   static const loginEmail = 'login_email';
   static const loginUsername = 'login_username';
   static const loginPassword = 'login_password';
+  static const loginPasswordRepeat = 'login_password_repeat';
 
   // 注册 - register user
   static const registerTitle = 'register_title';
@@ -148,6 +150,8 @@ class LocaleKeys {
   static const importFromOpmlError = 'import_from_opml_error';
   static const groupExistError = 'group_exist_error';
   static const networkError = 'network_error';
+  static const passwordNotSame = 'password_not_same';
+  static const passwordModifyError = 'password_modify_error';
 
   // Time
   static const yesterday = 'yesterday';

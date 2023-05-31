@@ -11,8 +11,7 @@ Map<String, String> localeEn = {
   LocaleKeys.commonBottomApply: 'Apply',
   LocaleKeys.commonBottomBack: 'Back',
   LocaleKeys.commonSelectTips: 'Please select',
-  LocaleKeys.commonMessageSuccess: '@method successfully',
-  LocaleKeys.commonMessageIncorrect: '@method incorrect',
+  LocaleKeys.commonMessageSuccess: 'success',
 
   // welcome 欢迎
   LocaleKeys.welcomeOneTitle: 'Choose Your Desire Product',
@@ -38,6 +37,8 @@ Map<String, String> localeEn = {
   LocaleKeys.loginOrText: '- OR -',
   LocaleKeys.loginEmail: 'Email',
   LocaleKeys.loginPassword: 'Password',
+  LocaleKeys.loginPasswordRepeat: 'Repeat Password',
+  LocaleKeys.loginModifyPassword: 'Modify Password',
   LocaleKeys.loginUsername: 'Username',
 
   // 注册 - new user
@@ -160,6 +161,8 @@ Map<String, String> localeEn = {
   LocaleKeys.destoryAccoutError: 'Error occurs when destory account',
   LocaleKeys.importFromOpmlError: 'Error occurs when import from opml',
   LocaleKeys.networkError: 'Please check network or give network permission',
+  LocaleKeys.passwordNotSame: 'Password not same',
+  LocaleKeys.passwordModifyError: 'User Not Exist',
 
   // time
   LocaleKeys.yesterday: 'Yesterday',

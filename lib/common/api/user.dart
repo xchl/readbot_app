@@ -50,6 +50,20 @@ class UserApi {
     }
   }
 
+  /// 修改密码
+  static Future<bool> modifyPassword(LoginInfo info) async {
+    var request = ModifyPasswordRequest(
+            client: ConfigService.to.clientInfo, loginInfo: info)
+        .toJson();
+    try {
+      await HttpService.to.post('/user/modify_password', data: request);
+      return true;
+    } catch (e) {
+      LogService.to.e(e);
+      return false;
+    }
+  }
+
   static Future<AuthResponse?> refreshToken(String refreshToken) async {
     var request = RefreshTokenRequest(
             client: ConfigService.to.clientInfo, refreshToken: refreshToken)

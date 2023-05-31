@@ -16,6 +16,7 @@ export 'pro_level.dart';
 export 'content_push_request.dart'; 
 export 'content_push_response.dart'; 
 export 'subscribe_feed_response.dart'; 
+export 'modify_password_request.dart'; 
 export 'jwt_tokens.dart'; 
 export 'client_info.dart'; 
 export 'login_info.dart'; 

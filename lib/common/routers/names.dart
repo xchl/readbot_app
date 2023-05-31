@@ -26,4 +26,5 @@ class RouteNames {
   static const systemUserAgreement = '/system_user_agreement';
   static const systemHelpDoc = '/systemp_help_doc';
   static const systemWelcome = '/system_welcome';
+  static const systemForgetPassword = '/system_forget_password';
 }

@@ -45,6 +45,10 @@ class LoginController extends GetxController {
     passwordController.dispose();
   }
 
+  void onForgetPassword() {
+    Get.toNamed(RouteNames.systemForgetPassword);
+  }
+
   /// Sign In
   Future<void> onSignIn() async {
     if (isAgree == false) {

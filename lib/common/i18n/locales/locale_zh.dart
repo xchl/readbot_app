@@ -11,8 +11,7 @@ Map<String, String> localeZh = {
   LocaleKeys.commonBottomApply: '修改',
   LocaleKeys.commonBottomBack: '返回',
   LocaleKeys.commonSelectTips: '请选择',
-  LocaleKeys.commonMessageSuccess: '@method 成功',
-  LocaleKeys.commonMessageIncorrect: '@method 不正确',
+  LocaleKeys.commonMessageSuccess: '成功',
 
   // welcome 欢迎
   LocaleKeys.welcomeOneTitle: '选择您喜欢的产品',
@@ -38,6 +37,8 @@ Map<String, String> localeZh = {
   LocaleKeys.loginOrText: '- 或者 -',
   LocaleKeys.loginEmail: '电子邮箱',
   LocaleKeys.loginPassword: '密码',
+  LocaleKeys.loginPasswordRepeat: '重复密码',
+  LocaleKeys.loginModifyPassword: '修改密码',
   LocaleKeys.loginUsername: '用户名',
 
   // 注册 - register user
@@ -149,6 +150,8 @@ Map<String, String> localeZh = {
   LocaleKeys.destoryAccoutError: '销毁账户失败',
   LocaleKeys.importFromOpmlError: '从OPML导入失败',
   LocaleKeys.networkError: '请检查网络是否联通，或给应用网络权限',
+  LocaleKeys.passwordNotSame: '两次输入的密码不一致',
+  LocaleKeys.passwordModifyError: '用户不存在',
 
   // Time
   LocaleKeys.yesterday: '昨天',

@@ -67,8 +67,7 @@ class RegisterController extends GetxController {
         Loading.show();
         bool isOk = await UserApi.register(req);
         if (isOk) {
-          Loading.success(
-              LocaleKeys.commonMessageSuccess.trParams({"method": "Register"}));
+          Loading.success(LocaleKeys.commonMessageSuccess.tr);
           Get.back(result: true);
         } else {
           Loading.error(LocaleKeys.registerError.tr);
