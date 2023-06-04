@@ -18,6 +18,7 @@ class Feed {
     this.customName,
     this.description,
     this.feedType,
+    this.groupName,
     required this.isDeleted,
     this.logo,
     this.name,
@@ -38,6 +39,8 @@ class Feed {
   String? description;
 
   FeedTypeServer? feedType;
+
+  String? groupName;
 
   bool isDeleted;
 
@@ -61,6 +64,7 @@ class Feed {
      other.customName == customName &&
      other.description == description &&
      other.feedType == feedType &&
+     other.groupName == groupName &&
      other.isDeleted == isDeleted &&
      other.logo == logo &&
      other.name == name &&
@@ -78,6 +82,7 @@ class Feed {
     (customName == null ? 0 : customName!.hashCode) +
     (description == null ? 0 : description!.hashCode) +
     (feedType == null ? 0 : feedType!.hashCode) +
+    (groupName == null ? 0 : groupName!.hashCode) +
     (isDeleted.hashCode) +
     (logo == null ? 0 : logo!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
@@ -87,7 +92,7 @@ class Feed {
     (url.hashCode);
 
   @override
-  String toString() => 'Feed[createTime=$createTime, customDescription=$customDescription, customLogo=$customLogo, customName=$customName, description=$description, feedType=$feedType, isDeleted=$isDeleted, logo=$logo, name=$name, syncTime=$syncTime, tags=$tags, updateTime=$updateTime, url=$url]';
+  String toString() => 'Feed[createTime=$createTime, customDescription=$customDescription, customLogo=$customLogo, customName=$customName, description=$description, feedType=$feedType, groupName=$groupName, isDeleted=$isDeleted, logo=$logo, name=$name, syncTime=$syncTime, tags=$tags, updateTime=$updateTime, url=$url]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -116,6 +121,11 @@ class Feed {
       json[r'feedType'] = this.feedType;
     } else {
       json[r'feedType'] = null;
+    }
+    if (this.groupName != null) {
+      json[r'groupName'] = this.groupName;
+    } else {
+      json[r'groupName'] = null;
     }
       json[r'isDeleted'] = this.isDeleted;
     if (this.logo != null) {
@@ -168,6 +178,7 @@ class Feed {
         customName: mapValueOfType<String>(json, r'customName'),
         description: mapValueOfType<String>(json, r'description'),
         feedType: FeedTypeServer.fromJson(json[r'feedType']),
+        groupName: mapValueOfType<String>(json, r'groupName'),
         isDeleted: mapValueOfType<bool>(json, r'isDeleted')!,
         logo: mapValueOfType<String>(json, r'logo'),
         name: mapValueOfType<String>(json, r'name'),

@@ -25,9 +25,9 @@ class AppSize {
 
   // 订阅源页面
   static double get optionDrawerWidth => 100.w;
-  static double get addGroupFormHeight => 300.h;
-  static double get addFeedFormHeight => 300.h;
-  static double get modifyFeedFormHeight => 300.h;
+  static double get addGroupFormHeight => 350.h;
+  static double get addFeedFormHeight => 350.h;
+  static double get modifyFeedFormHeight => 350.h;
   static double get popupMenuWidth => 150.w;
 
   static double get commonFormHeight => 300.h;
