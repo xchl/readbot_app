@@ -139,8 +139,8 @@ class FeedListController extends GetxController {
       DatabaseManager().updateFeed(selectedFeed!);
 
       update(["feed_list"]);
-      Get.back();
       SyncService.to.pushToService();
+      Get.back();
     }
   }
 

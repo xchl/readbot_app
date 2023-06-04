@@ -25,15 +25,6 @@ class HelpDocPage extends GetView<HelpDocController> {
       id: "help_doc",
       builder: (_) {
         return Scaffold(
-          appBar: AppBar(
-            leading: const SizedBox(),
-            title: TextWidget.title1(
-              LocaleKeys.myHelpDoc.tr,
-              color: AppColors.titleColor,
-            ),
-            backgroundColor: AppColors.navigationBarColor,
-            elevation: AppSize.appBarElevation,
-          ),
           body: SafeArea(
             child: _buildView(),
           ),
