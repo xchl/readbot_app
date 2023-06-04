@@ -37,11 +37,9 @@ class OpenAI {
           data: request.toJson(),
           options: Options(
               headers: request.header,
-              // TODO
-              receiveTimeout: const Duration(seconds: 60)));
+              receiveTimeout: const Duration(seconds: 90)));
       return OpenAICompleteResponse.fromJson(res.data);
     } catch (e) {
-      Loading.toast('Openai request error');
       LogService.to.e(e);
       return null;
     }
