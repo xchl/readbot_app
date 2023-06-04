@@ -130,7 +130,7 @@ class FeedListController extends GetxController {
       selectedFeed!.name = feedNameController.text;
       selectedFeed!.description = feedDescController.text;
       if (modifiedFeedGroup != null && selectedFeedGroup != modifiedFeedGroup) {
-        selectedFeed!.groupName = modifiedFeedGroup == defaultFeedGroup
+        selectedFeed!.groupName = modifiedFeedGroup != defaultFeedGroup
             ? modifiedFeedGroup!.name
             : null;
         feedGroupedByGroup[selectedFeedGroup]!.remove(selectedFeed);
