@@ -18,7 +18,7 @@ class PostDrawerPage extends StatefulWidget {
 class _PostDrawerPageState extends State<PostDrawerPage>
     with AutomaticKeepAliveClientMixin {
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,8 @@ class _PostDrawerPageViewGetX extends GetView<PostDrawerController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PostDrawerController>(
-        init: Get.find<PostDrawerController>(tag: 'explore'),
+        // init: Get.find<PostDrawerController>(tag: 'explore'),
+        init: PostDrawerController(PageType.explore),
         id: "post_drawer",
         builder: (_) {
           return Drawer(

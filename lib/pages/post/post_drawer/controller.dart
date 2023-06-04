@@ -22,6 +22,8 @@ class PostDrawerController extends GetxController {
       feedGroupedByGroup[feed.groupName!] ??= [];
       feedGroupedByGroup[feed.groupName]!.add(feed);
     }
+    // remove empty key
+    feedGroupedByGroup.removeWhere((key, value) => value.isEmpty);
     update(["post_drawer"]);
   }
 
