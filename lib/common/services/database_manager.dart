@@ -348,6 +348,19 @@ class DatabaseManager {
         .findAll();
   }
 
+  Future<List<FeedItemModel>> getMarkFeedItemsByPage(
+    int page,
+  ) async {
+    return await _isar.feedItemModels
+        .filter()
+        .isMarkedEqualTo(true)
+        .isDeletedEqualTo(false)
+        .sortByUpdateTimeDesc()
+        .offset(page * Constants.pageSizeMobile)
+        .limit(Constants.pageSizeMobile)
+        .findAll();
+  }
+
   // Content
   // insert content
   Future<void> insertContent(ContentModel content) async {

@@ -80,6 +80,7 @@ Map<String, String> localeEn = {
   LocaleKeys.tabBarAll: 'Explore',
   LocaleKeys.tabBarSetting: 'Setting',
   LocaleKeys.tabFeed: 'Source',
+  LocaleKeys.tabBarMy: 'Me',
 
   // 我的
   LocaleKeys.myBtnLogout: 'Logout',
@@ -117,6 +118,7 @@ Map<String, String> localeEn = {
   LocaleKeys.mySystemAutoDeleteDay: 'Only Save Data in Recent Days',
 
   LocaleKeys.myHelpDoc: 'Help Doc',
+  LocaleKeys.myMark: 'My Favorite',
 
   LocaleKeys.pageNotSupportAI: 'This page does not support AI service',
   LocaleKeys.aiServiceNotReady: 'AI service need to be configured first',

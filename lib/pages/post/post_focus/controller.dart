@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:readbot/common/index.dart';
 import 'package:readbot/pages/index.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ class PostFocusController extends GetxController {
 
   int _page = 0;
   String? _feedUrl;
+  bool? _isAllLoaded;
 
   List<FeedItemModel> get feedItems => _feedItems;
   List<FeedModel?> get feeds => _feeds;
@@ -21,6 +23,7 @@ class PostFocusController extends GetxController {
     _page = 0;
     _feedItems.clear();
     _feeds.clear();
+    _isAllLoaded = false;
     var feedItems = await DatabaseManager().getFocusFeedItemsByPage(_page);
     var feeds = await DatabaseManager().getFeedsByUrls(
       feedItems.map((e) => e.feedUrl).toList(),
@@ -65,6 +68,7 @@ class PostFocusController extends GetxController {
         .getFocusFeedItemsByPage(_page, feedUrl: _feedUrl);
     if (newFeedItems.isEmpty) {
       _page--;
+      _isAllLoaded = true;
       return;
     }
     var newFeed = await DatabaseManager().getFeedsByUrls(
@@ -88,6 +92,10 @@ class PostFocusController extends GetxController {
   }
 
   void onLoadMore() async {
+    if (_isAllLoaded == true) {
+      return;
+    }
+    debugPrint("Current Focus FeedItem length: ${feedItems.length}");
     appendFeedItem();
   }
 

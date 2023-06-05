@@ -28,6 +28,8 @@ class FeedItemModel {
   String? summaryAlgo;
   DateTime createTime;
 
+  bool? isMarked;
+
   DateTime? focusTime;
 
   // null -> not downloaded
@@ -63,6 +65,7 @@ class FeedItemModel {
       this.category,
       this.description,
       this.summaryAlgo,
+      this.isMarked = false,
       this.isDeleted = false,
       required this.updateTime,
       required this.createTime,
@@ -118,6 +121,7 @@ FeedItem toFeedItem(FeedItemModel model) {
       createTime: model.createTime.millisecondsSinceEpoch,
       md5String: model.md5String,
       feedUrl: model.feedUrl,
+      isMarked: model.isMarked,
       isDeleted: model.isDeleted,
       updateTime: model.updateTime.millisecondsSinceEpoch,
       focusTime: model.focusTime?.millisecondsSinceEpoch);
@@ -145,6 +149,7 @@ FeedItemModel toFeedItemModel(FeedItem feedItem) {
     tags: feedItem.tags,
     category: feedItem.category,
     description: feedItem.description,
+    isMarked: feedItem.isMarked,
     summaryAlgo: feedItem.summaryAlgo,
     focusTime: feedItem.focusTime == null
         ? null

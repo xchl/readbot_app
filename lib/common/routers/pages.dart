@@ -64,5 +64,6 @@ class RoutePages {
     GetPage(
         name: RouteNames.systemForgetPassword,
         page: () => const ForgetPasswordPage()),
+    GetPage(name: RouteNames.postMark, page: () => const PostMarkPage()),
   ];
 }

@@ -67,48 +67,53 @@ const FeedItemModelSchema = CollectionSchema(
       name: r'isFocus',
       type: IsarType.bool,
     ),
-    r'isSeen': PropertySchema(
+    r'isMarked': PropertySchema(
       id: 10,
+      name: r'isMarked',
+      type: IsarType.bool,
+    ),
+    r'isSeen': PropertySchema(
+      id: 11,
       name: r'isSeen',
       type: IsarType.bool,
     ),
     r'isSynced': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'isSynced',
       type: IsarType.bool,
     ),
     r'link': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'link',
       type: IsarType.string,
     ),
     r'md5String': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'md5String',
       type: IsarType.string,
     ),
     r'publishTime': PropertySchema(
-      id: 14,
+      id: 15,
       name: r'publishTime',
       type: IsarType.dateTime,
     ),
     r'summaryAlgo': PropertySchema(
-      id: 15,
+      id: 16,
       name: r'summaryAlgo',
       type: IsarType.string,
     ),
     r'tags': PropertySchema(
-      id: 16,
+      id: 17,
       name: r'tags',
       type: IsarType.stringList,
     ),
     r'title': PropertySchema(
-      id: 17,
+      id: 18,
       name: r'title',
       type: IsarType.string,
     ),
     r'updateTime': PropertySchema(
-      id: 18,
+      id: 19,
       name: r'updateTime',
       type: IsarType.dateTime,
     )
@@ -256,15 +261,16 @@ void _feedItemModelSerialize(
   writer.writeDateTime(offsets[7], object.focusTime);
   writer.writeBool(offsets[8], object.isDeleted);
   writer.writeBool(offsets[9], object.isFocus);
-  writer.writeBool(offsets[10], object.isSeen);
-  writer.writeBool(offsets[11], object.isSynced);
-  writer.writeString(offsets[12], object.link);
-  writer.writeString(offsets[13], object.md5String);
-  writer.writeDateTime(offsets[14], object.publishTime);
-  writer.writeString(offsets[15], object.summaryAlgo);
-  writer.writeStringList(offsets[16], object.tags);
-  writer.writeString(offsets[17], object.title);
-  writer.writeDateTime(offsets[18], object.updateTime);
+  writer.writeBool(offsets[10], object.isMarked);
+  writer.writeBool(offsets[11], object.isSeen);
+  writer.writeBool(offsets[12], object.isSynced);
+  writer.writeString(offsets[13], object.link);
+  writer.writeString(offsets[14], object.md5String);
+  writer.writeDateTime(offsets[15], object.publishTime);
+  writer.writeString(offsets[16], object.summaryAlgo);
+  writer.writeStringList(offsets[17], object.tags);
+  writer.writeString(offsets[18], object.title);
+  writer.writeDateTime(offsets[19], object.updateTime);
 }
 
 FeedItemModel _feedItemModelDeserialize(
@@ -280,21 +286,22 @@ FeedItemModel _feedItemModelDeserialize(
     cover: reader.readStringOrNull(offsets[3]),
     createTime: reader.readDateTime(offsets[4]),
     description: reader.readStringOrNull(offsets[5]),
+    focusTime: reader.readDateTimeOrNull(offsets[7]),
+    isDeleted: reader.readBoolOrNull(offsets[8]) ?? false,
     isFocus: reader.readBoolOrNull(offsets[9]) ?? false,
-    isSeen: reader.readBoolOrNull(offsets[10]) ?? false,
-    isSynced: reader.readBool(offsets[11]),
-    link: reader.readStringOrNull(offsets[12]),
-    publishTime: reader.readDateTimeOrNull(offsets[14]),
-    summaryAlgo: reader.readStringOrNull(offsets[15]),
-    tags: reader.readStringList(offsets[16]),
-    title: reader.readString(offsets[17]),
-    updateTime: reader.readDateTime(offsets[18]),
+    isMarked: reader.readBoolOrNull(offsets[10]),
+    isSeen: reader.readBoolOrNull(offsets[11]) ?? false,
+    isSynced: reader.readBool(offsets[12]),
+    link: reader.readStringOrNull(offsets[13]),
+    publishTime: reader.readDateTimeOrNull(offsets[15]),
+    summaryAlgo: reader.readStringOrNull(offsets[16]),
+    tags: reader.readStringList(offsets[17]),
+    title: reader.readString(offsets[18]),
+    updateTime: reader.readDateTime(offsets[19]),
   );
   object.contentIsDownloaded = reader.readBoolOrNull(offsets[2]);
-  object.focusTime = reader.readDateTimeOrNull(offsets[7]);
   object.id = id;
-  object.isDeleted = reader.readBool(offsets[8]);
-  object.md5String = reader.readString(offsets[13]);
+  object.md5String = reader.readString(offsets[14]);
   return object;
 }
 
@@ -322,26 +329,28 @@ P _feedItemModelDeserializeProp<P>(
     case 7:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 8:
-      return (reader.readBool(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 9:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 10:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 11:
-      return (reader.readBool(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 12:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 13:
-      return (reader.readString(offset)) as P;
-    case 14:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 15:
       return (reader.readStringOrNull(offset)) as P;
-    case 16:
-      return (reader.readStringList(offset)) as P;
-    case 17:
+    case 14:
       return (reader.readString(offset)) as P;
+    case 15:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 16:
+      return (reader.readStringOrNull(offset)) as P;
+    case 17:
+      return (reader.readStringList(offset)) as P;
     case 18:
+      return (reader.readString(offset)) as P;
+    case 19:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1798,6 +1807,34 @@ extension FeedItemModelQueryFilter
   }
 
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      isMarkedIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'isMarked',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      isMarkedIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'isMarked',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
+      isMarkedEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isMarked',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterFilterCondition>
       isSeenEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -2905,6 +2942,19 @@ extension FeedItemModelQuerySortBy
     });
   }
 
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> sortByIsMarked() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isMarked', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy>
+      sortByIsMarkedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isMarked', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> sortByIsSeen() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSeen', Sort.asc);
@@ -3148,6 +3198,19 @@ extension FeedItemModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> thenByIsMarked() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isMarked', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy>
+      thenByIsMarkedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isMarked', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedItemModel, FeedItemModel, QAfterSortBy> thenByIsSeen() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSeen', Sort.asc);
@@ -3318,6 +3381,12 @@ extension FeedItemModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<FeedItemModel, FeedItemModel, QDistinct> distinctByIsMarked() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isMarked');
+    });
+  }
+
   QueryBuilder<FeedItemModel, FeedItemModel, QDistinct> distinctByIsSeen() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isSeen');
@@ -3444,6 +3513,12 @@ extension FeedItemModelQueryProperty
   QueryBuilder<FeedItemModel, bool, QQueryOperations> isFocusProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isFocus');
+    });
+  }
+
+  QueryBuilder<FeedItemModel, bool?, QQueryOperations> isMarkedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isMarked');
     });
   }
 

@@ -34,52 +34,57 @@ class PostDetailPage extends GetView<PostDetailController> {
           color: AppColors.navigationBarColor,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              ButtonWidget.icon(
-                Icon(
-                  Icons.edit,
-                  color: AppColors.textColor,
-                  size: AppSize.toolIconSize,
-                ),
-              ),
-              const Expanded(child: SizedBox()),
-              ButtonWidget.icon(
-                Icon(
-                  Icons.star_outline,
-                  color: AppColors.textColor,
-                  size: AppSize.toolIconSize,
-                ),
-              ).paddingRight(AppSpace.seqx2Horization),
               controller.isInReadMode
                   ? ButtonWidget.icon(
-                          Icon(
-                            Icons.feed_outlined,
-                            color: AppColors.textColor,
-                            size: AppSize.toolIconSize,
-                          ),
-                          onTap: () => controller.toggleReadMode())
-                      .paddingRight(AppSpace.seqx2Horization)
+                      Icon(
+                        Icons.feed_outlined,
+                        color: AppColors.textColor,
+                        size: AppSize.toolIconSize,
+                      ),
+                      onTap: () => controller.toggleReadMode())
                   : ButtonWidget.icon(
-                          Icon(
-                            Icons.public_outlined,
-                            color: AppColors.textColor,
-                            size: AppSize.toolIconSize,
-                          ),
-                          onTap: () => controller.toggleReadMode())
-                      .paddingRight(AppSpace.seqx2Horization),
+                      Icon(
+                        Icons.public_outlined,
+                        color: AppColors.textColor,
+                        size: AppSize.toolIconSize,
+                      ),
+                      onTap: () => controller.toggleReadMode()),
+              controller.isMarked
+                  ? ButtonWidget.icon(
+                      Icon(
+                        Icons.star,
+                        color: AppColors.marked,
+                        size: AppSize.toolIconSize,
+                      ),
+                      onTap: controller.mark,
+                    )
+                  : ButtonWidget.icon(
+                      Icon(
+                        Icons.star_outline,
+                        color: AppColors.textColor,
+                        size: AppSize.toolIconSize,
+                      ),
+                      onTap: controller.mark,
+                    ),
               ButtonWidget.icon(
                   Icon(
                     Icons.smart_toy_outlined,
                     color: AppColors.textColor,
                     size: AppSize.toolIconSize,
                   ), onTap: () {
-                controller.summaryText(redo: false);
-                showCustomModalBottomSheet(
-                    context: context,
-                    builder: (context) => _buildSummaryView());
-              }).paddingRight(AppSpace.seqx2Horization),
+                if (controller.isAIReady) {
+                  controller.summaryText(redo: false);
+                  showCustomModalBottomSheet(
+                      context: context,
+                      builder: (context) => _buildSummaryView());
+                } else {
+                  Loading.toast(LocaleKeys.aiServiceNotReady.tr);
+                }
+              }),
             ],
-          ).height(AppSize.toolbarHeight).paddingHorizontal(AppSpace.page));
+          ).height(AppSize.toolbarHeight));
     });
   }
 

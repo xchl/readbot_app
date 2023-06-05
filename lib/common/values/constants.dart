@@ -12,7 +12,7 @@ class Constants {
   static const storageLanguageCode = 'language_code';
   static const storageThemeCode = 'theme_code';
   static const storageAlreadyOpen = 'already_open'; // 首次打开
-  static const pageSizeMobile = 20;
+  static const pageSizeMobile = 15;
   static const pageSizePC = 50;
   static const clientInfo = 'client_info';
   static const passwordMinLength = 8;

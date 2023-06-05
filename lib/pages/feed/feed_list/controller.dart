@@ -125,7 +125,7 @@ class FeedListController extends GetxController {
     Get.back();
   }
 
-  void onFeedSave() {
+  void onFeedSave() async {
     if ((feedFormKey.currentState as FormState).validate()) {
       selectedFeed!.name = feedNameController.text;
       selectedFeed!.description = feedDescController.text;
@@ -136,9 +136,8 @@ class FeedListController extends GetxController {
         feedGroupedByGroup[selectedFeedGroup]!.remove(selectedFeed);
         feedGroupedByGroup[modifiedFeedGroup!]!.add(selectedFeed!);
       }
-      DatabaseManager().updateFeed(selectedFeed!);
-
       update(["feed_list"]);
+      await DatabaseManager().updateFeed(selectedFeed!);
       SyncService.to.pushToService();
       Get.back();
     }

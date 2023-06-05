@@ -236,6 +236,8 @@ FeedModel _feedModelDeserialize(
     customLogo: reader.readStringOrNull(offsets[2]),
     customName: reader.readStringOrNull(offsets[3]),
     description: reader.readStringOrNull(offsets[4]),
+    groupName: reader.readStringOrNull(offsets[5]),
+    isDeleted: reader.readBoolOrNull(offsets[6]) ?? false,
     isSynced: reader.readBool(offsets[7]),
     logo: reader.readStringOrNull(offsets[8]),
     name: reader.readStringOrNull(offsets[9]),
@@ -243,9 +245,7 @@ FeedModel _feedModelDeserialize(
     type: _FeedModeltypeValueEnumMap[reader.readIntOrNull(offsets[12])],
     updateTime: reader.readDateTime(offsets[13]),
   );
-  object.groupName = reader.readStringOrNull(offsets[5]);
   object.id = id;
-  object.isDeleted = reader.readBool(offsets[6]);
   return object;
 }
 
@@ -269,7 +269,7 @@ P _feedModelDeserializeProp<P>(
     case 5:
       return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (reader.readBool(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 7:
       return (reader.readBool(offset)) as P;
     case 8:

@@ -21,6 +21,8 @@ class MyIndexPage extends GetView<MyIndexController> {
 
         _buildHelpButtonsList().sliverBox,
 
+        _buildMyMarkList().sliverBox,
+
         // 账户相关
         _buildAccountButtonsList().sliverBox,
       ],
@@ -126,6 +128,17 @@ class MyIndexPage extends GetView<MyIndexController> {
         ButtonItemWidget(
           title: LocaleKeys.myHelpDoc.tr,
           onTap: controller.toHelpDoc,
+        ),
+      ].toColumn().backgroundColor(AppColors.background)
+    ].toColumn().paddingTop(AppSpace.listItem);
+  }
+
+  Widget _buildMyMarkList() {
+    return <Widget>[
+      <Widget>[
+        ButtonItemWidget(
+          title: LocaleKeys.myMark.tr,
+          onTap: controller.toMarks,
         ),
       ].toColumn().backgroundColor(AppColors.background)
     ].toColumn().paddingTop(AppSpace.listItem);

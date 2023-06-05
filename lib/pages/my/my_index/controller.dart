@@ -74,6 +74,10 @@ class MyIndexController extends GetxController {
     Get.toNamed(RouteNames.systemHelpDoc);
   }
 
+  void toMarks() {
+    Get.toNamed(RouteNames.postMark);
+  }
+
   // 注销
   void onLogout() {
     UserService.to.logout();

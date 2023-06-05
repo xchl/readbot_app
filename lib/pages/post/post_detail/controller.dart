@@ -44,7 +44,9 @@ class PostDetailController extends GetxController {
 
   final RxString _summary = "".obs;
 
+  bool get isMarked => feedItem.isMarked == true;
   String get summary => _summary.value;
+  bool get isAIReady => ConfigService.to.isAIReady();
 
   Future<void>? loadHtmlFuture;
 
@@ -114,12 +116,19 @@ class PostDetailController extends GetxController {
     loadContent();
   }
 
+  void mark() async {
+    if (feedItem.isMarked != null) {
+      feedItem.isMarked = !feedItem.isMarked!;
+    } else {
+      feedItem.isMarked = true;
+    }
+    update(['post_detail']);
+    await DatabaseManager().updateFeedItemNeedSync(feedItem);
+    SyncService.to.pushToService();
+  }
+
   void summaryText({required bool redo}) async {
     if (!redo && summary.isNotEmpty) {
-      return;
-    }
-    if (!ConfigService.to.isAIReady()) {
-      Loading.toast(LocaleKeys.aiServiceNotReady.tr);
       return;
     }
     if (html == null) {

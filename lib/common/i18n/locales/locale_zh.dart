@@ -71,6 +71,7 @@ Map<String, String> localeZh = {
   LocaleKeys.tabBarAll: '发现',
   LocaleKeys.tabFeed: '订阅',
   LocaleKeys.tabBarSetting: '设置',
+  LocaleKeys.tabBarMy: '我',
 
   // 我的
   LocaleKeys.myBtnLogout: '退出登录',
@@ -110,6 +111,7 @@ Map<String, String> localeZh = {
   LocaleKeys.mySystemAutoDeleteDay: '保留近期数据天数',
 
   LocaleKeys.myHelpDoc: '帮助文档',
+  LocaleKeys.myMark: '我的收藏',
 
   LocaleKeys.openAI: 'OpenAI',
 

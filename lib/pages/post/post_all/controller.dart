@@ -18,6 +18,8 @@ class PostAllController extends GetxController {
 
   int lastTapIdx = -1;
 
+  bool? _isAllLoaded;
+
   @override
   void onReady() {
     super.onReady();
@@ -63,6 +65,7 @@ class PostAllController extends GetxController {
     _page = 0;
     _feedItems.clear();
     _feed.clear();
+    _isAllLoaded = false;
     var feedItems = await DatabaseManager()
         .getExploreFeedItemsByPage(_page, feedUrl: _feedUrl);
     var feed = await DatabaseManager().getFeedsByUrls(
@@ -80,6 +83,7 @@ class PostAllController extends GetxController {
         .getExploreFeedItemsByPage(_page, feedUrl: _feedUrl);
     if (newFeedItems.isEmpty) {
       _page--;
+      _isAllLoaded = true;
       return;
     }
     var newFeed = await DatabaseManager().getFeedsByUrls(
@@ -91,6 +95,10 @@ class PostAllController extends GetxController {
   }
 
   void onLoadMore() async {
+    if (_isAllLoaded == true) {
+      return;
+    }
+    debugPrint("Current Explore FeedItem length: ${feedItems.length}");
     appendFeedItem();
   }
 

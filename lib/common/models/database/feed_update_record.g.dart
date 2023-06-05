@@ -129,6 +129,7 @@ FeedUpdateRecordModel _feedUpdateRecordModelDeserialize(
 ) {
   final object = FeedUpdateRecordModel(
     feedUrl: reader.readString(offsets[0]),
+    isDeleted: reader.readBoolOrNull(offsets[1]) ?? false,
     isSynced: reader.readBool(offsets[2]),
     lastContentHash: reader.readString(offsets[3]),
     lastItemPublishTime: reader.readDateTimeOrNull(offsets[4]),
@@ -136,7 +137,6 @@ FeedUpdateRecordModel _feedUpdateRecordModelDeserialize(
     updateTime: reader.readDateTime(offsets[6]),
   );
   object.id = id;
-  object.isDeleted = reader.readBool(offsets[1]);
   return object;
 }
 
@@ -150,7 +150,7 @@ P _feedUpdateRecordModelDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readBool(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 2:
       return (reader.readBool(offset)) as P;
     case 3:

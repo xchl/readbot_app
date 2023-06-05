@@ -72,6 +72,7 @@ class LocaleKeys {
   static const tabBarFocus = 'tab_bar_focus';
   static const tabBarAll = 'tab_bar_all';
   static const tabBarSetting = 'tab_bar_setting';
+  static const tabBarMy = 'tab_bar_my';
   static const tabFeed = 'tab_feed';
 
   // 我的
@@ -106,6 +107,7 @@ class LocaleKeys {
   static const mySystemPart = 'my_system_setting';
   static const mySystemAutoReadmode = 'my_system_auto_readmode';
   static const myHelpDoc = 'my_help_doc';
+  static const myMark = 'my_mark';
   static const mySystemAutoDeleteData = 'my_system_auto_clear_data';
   static const mySystemAutoDeleteDay = 'my_system_auto_delete_day';
 

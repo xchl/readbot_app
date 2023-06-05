@@ -28,6 +28,7 @@ enum PageType {
   explore,
   feed,
   setting,
+  favorite,
 }
 
 class _MainViewGetX extends GetView<MainController> {
@@ -74,7 +75,7 @@ class _MainViewGetX extends GetView<MainController> {
                         icon: AssetsIcons.subscribe,
                       ),
                       NavigationItemModel(
-                        label: LocaleKeys.tabBarSetting.tr,
+                        label: LocaleKeys.tabBarMy.tr,
                         icon: AssetsIcons.myIcon,
                       ),
                     ],

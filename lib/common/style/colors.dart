@@ -10,6 +10,10 @@ class AppColors {
   static Color get hideColor =>
       Get.isDarkMode ? const Color(0xFF4B5563) : const Color(0xFFA6A3A3);
 
+  static Color get marked => Get.isDarkMode
+      ? const Color.fromARGB(255, 250, 219, 19)
+      : const Color.fromARGB(255, 250, 219, 19);
+
   static Color get background =>
       Get.isDarkMode ? const Color(0xFF111827) : const Color(0xFFFEFEFE);
 

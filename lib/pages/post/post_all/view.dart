@@ -93,8 +93,8 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
           ),
           body: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification notification) {
-              if (notification.metrics.pixels >
-                  notification.metrics.maxScrollExtent / 2) {
+              if (notification.metrics.extentAfter <
+                  MediaQuery.of(context).size.height) {
                 controller.onLoadMore();
               }
               return false;
