@@ -102,9 +102,13 @@ class PostAllController extends GetxController {
     appendFeedItem();
   }
 
-  Future<void> onFeedSelect(String? feedUrl) async {
+  void onFeedSelect(String? feedUrl) {
     _feedUrl = feedUrl;
     refreshFeedItem();
+  }
+
+  String? getSelectedFeed() {
+    return _feedUrl;
   }
 
   void onEndDrawerChanged(bool isOpen) {

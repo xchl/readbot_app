@@ -11,6 +11,9 @@ class PostDrawerController extends GetxController {
   String? selectedFeed;
 
   _initData() async {
+    if (_subPage == PageType.explore) {
+      selectedFeed = Get.find<PostAllController>().getSelectedFeed();
+    }
     List<FeedModel> feeds = await DatabaseManager().getAllFeeds();
     String unnameGroupName = LocaleKeys.unnameFeedGroup.tr;
     feedGroupedByGroup[LocaleKeys.unnameFeedGroup.tr] = [];
@@ -33,7 +36,7 @@ class PostDrawerController extends GetxController {
     _initData();
   }
 
-  void onFeedSelect(String feedUrl) async {
+  void onFeedSelect(String feedUrl) {
     if (selectedFeed == feedUrl) {
       selectedFeed = null;
     } else {
@@ -41,7 +44,7 @@ class PostDrawerController extends GetxController {
     }
     update(["post_drawer"]);
     if (_subPage == PageType.explore) {
-      await Get.find<PostAllController>().onFeedSelect(selectedFeed);
+      Get.find<PostAllController>().onFeedSelect(selectedFeed);
     }
   }
 }
