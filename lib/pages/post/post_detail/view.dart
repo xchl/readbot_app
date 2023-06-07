@@ -74,7 +74,7 @@ class PostDetailPage extends GetView<PostDetailController> {
                     color: AppColors.textColor,
                     size: AppSize.toolIconSize,
                   ), onTap: () {
-                if (controller.isAIReady) {
+                if (controller.isAIReady || controller.summary.isNotEmpty) {
                   controller.summaryText(redo: false);
                   showCustomModalBottomSheet(
                       context: context,
