@@ -33,7 +33,7 @@ class ReadModeStyle {
 
   String get css => getCss();
 
-  String getCss() {
+  String getCssOld() {
     return '''
           body {
             line-height: 1.8;
@@ -109,6 +109,65 @@ class ReadModeStyle {
             font-style: italic;
             line-height: 1.5;
             font-size: 1.1em;
+            color: #333333;
+          }
+
+          img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1em 0;
+          }
+    ''';
+  }
+
+  String getCss() {
+    return '''
+          body {
+            // color: #333333;
+            margin: 0;
+            padding: 1em;
+            background-color: #FFFEFEFE;
+            line-height: 1.8;
+          }
+
+          h1,h2,h3,h4 {
+            line-height: 1.5;
+          }
+
+          a {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+          }
+
+          p {
+            margin: 0.8em 0;
+          }
+
+          i {
+            font-style: italic;
+          }
+
+          b, strong {
+            font-weight: bold;
+          }
+
+          pre {
+            overflow: auto;
+            white-space: pre;
+            background-color: #f0f0f0;
+          }
+
+          code {
+            display: block;
+          }
+
+          blockquote {
+            margin: 1em 1em;
+            padding: 1em 1em;
+            border-left: 4px solid #cccccc;
+            background-color: #f9f9f9;
+            font-style: italic;
             color: #333333;
           }
 

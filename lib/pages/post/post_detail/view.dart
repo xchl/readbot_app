@@ -89,15 +89,17 @@ class PostDetailPage extends GetView<PostDetailController> {
   }
 
   Widget _buildSummaryView() {
-    return Column(children: [
-      TextWidget.title2(LocaleKeys.aiSummaryTitle.tr)
-          .paddingBottom(AppSpace.card),
-      Obx(() => controller.summary.isEmpty
-          ? TextWidget.body1(LocaleKeys.aiLoading.tr)
-          : TextWidget.body1(
-              controller.summary,
-            ))
-    ]).height(AppSize.summaryBoxHeight).paddingAll(AppSpace.card);
+    return SingleChildScrollView(
+      child: Column(children: [
+        TextWidget.title2(LocaleKeys.aiSummaryTitle.tr)
+            .paddingBottom(AppSpace.card),
+        Obx(() => controller.summary.isEmpty
+            ? TextWidget.body1(LocaleKeys.aiLoading.tr)
+            : TextWidget.body1(
+                controller.summary,
+              )).paddingBottom(AppSpace.card)
+      ]).paddingAll(AppSpace.card),
+    );
   }
 
   @override

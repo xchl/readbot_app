@@ -124,17 +124,25 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Montserrat
-  #     fonts:
-  #       - asset: assets/fonts/Montserrat/Montserrat-Light.ttf
-  #         weight: 300
-  #       - asset: assets/fonts/Montserrat/Montserrat-Regular.ttf
-  #         weight: 400
-  #       - asset: assets/fonts/Montserrat/Montserrat-Medium.ttf
-  #         weight: 500
-  #       - asset: assets/fonts/Montserrat/Montserrat-Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: SourceHanSansCN # 思源黑体
+      fonts:
+        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Bold.otf
+        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-ExtraLight.otf
+        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Heavy.otf
+        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Light.otf
+        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Medium.otf
+        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Regular.otf
+        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Normal.otf
+    # - family: SourceHanSerifSC # 思源宋体
+    #   fonts:
+    #     - asset: assets/fonts/SourceHanSerifSC/SourceHanSerifSC-Bold.otf
+    #     - asset: assets/fonts/SourceHanSerifSC/SourceHanSerifSC-ExtraLight.otf
+    #     - asset: assets/fonts/SourceHanSerifSC/SourceHanSerifSC-Heavy.otf
+    #     - asset: assets/fonts/SourceHanSerifSC/SourceHanSerifSC-Light.otf
+    #     - asset: assets/fonts/SourceHanSerifSC/SourceHanSerifSC-Medium.otf
+    #     - asset: assets/fonts/SourceHanSerifSC/SourceHanSerifSC-Regular.otf
+    #     - asset: assets/fonts/SourceHanSerifSC/SourceHanSerifSC-SemiBold.otf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

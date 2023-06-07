@@ -37,6 +37,11 @@ String injectCss(HtmlContent html) {
   styleElement.attributes['type'] = 'text/css';
   styleElement.innerHtml = html.css;
   head.append(styleElement);
+  // 增加 <head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+  Element metaElement = Element.tag('meta');
+  metaElement.attributes['name'] = 'viewport';
+  metaElement.attributes['content'] = 'width=device-width, initial-scale=1.0';
+  head.append(metaElement);
   return document.outerHtml;
 }
 
