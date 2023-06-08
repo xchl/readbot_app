@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.1.2
+version: 1.1.3
 
 environment:
   sdk: '>=2.18.0 <3.0.0'
@@ -124,16 +124,16 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: SourceHanSansCN # 思源黑体
-      fonts:
-        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Bold.otf
-        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-ExtraLight.otf
-        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Heavy.otf
-        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Light.otf
-        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Medium.otf
-        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Regular.otf
-        - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Normal.otf
+  # fonts:
+    # - family: SourceHanSansCN # 思源黑体
+    #   fonts:
+        # - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Bold.otf
+        # - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-ExtraLight.otf
+        # - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Heavy.otf
+        # - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Light.otf
+        # - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Medium.otf
+        # - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Regular.otf
+        # - asset: assets/fonts/SourceHanSansCN/SourceHanSansCN-Normal.otf
     # - family: SourceHanSerifSC # 思源宋体
     #   fonts:
     #     - asset: assets/fonts/SourceHanSerifSC/SourceHanSerifSC-Bold.otf
