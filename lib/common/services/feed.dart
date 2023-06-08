@@ -88,7 +88,24 @@ class FeedService extends GetxService {
     return '';
   }
 
+  // sort feed items by publish time desc, if publish time is null then put it to the end
+  static List<FeedItemModel> sortFeedItems(List<FeedItemModel> feedItems) {
+    feedItems.sort((a, b) {
+      if (a.publishTime == null && b.publishTime == null) {
+        return 0;
+      } else if (a.publishTime == null) {
+        return 1;
+      } else if (b.publishTime == null) {
+        return -1;
+      } else {
+        return b.publishTime!.compareTo(a.publishTime!);
+      }
+    });
+    return feedItems;
+  }
+
   Future<void> downloadHtml(List<FeedItemModel> feedItems) async {
+    feedItems = sortFeedItems(feedItems);
     final Map<int, FeedItemModel> coverUpdateItems = {};
     if (feedItems.isEmpty) return;
     int idx = 0;

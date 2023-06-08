@@ -225,7 +225,6 @@ class DatabaseManager {
         .filter()
         .contentIsDownloadedIsNull()
         .isDeletedEqualTo(false)
-        .sortByUpdateTimeDesc()
         .findAll();
   }
 
