@@ -71,7 +71,8 @@ class MyIndexController extends GetxController {
   }
 
   void toHelpDoc() {
-    Get.toNamed(RouteNames.systemHelpDoc);
+    Get.toNamed(RouteNames.systemHelpDoc,
+        arguments: {'url': ConfigService.to.helpDocUrl});
   }
 
   void toMarks() {

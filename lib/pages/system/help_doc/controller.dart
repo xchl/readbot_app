@@ -9,6 +9,8 @@ class HelpDocController extends GetxController {
 
   late InAppWebViewController webView;
 
+  String url = Get.arguments['url'];
+
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
     crossPlatform: InAppWebViewOptions(
         useShouldOverrideUrlLoading: true,

@@ -8,25 +8,6 @@ import 'index.dart';
 class ForgetPasswordPage extends GetView<ForgetPasswordController> {
   const ForgetPasswordPage({Key? key}) : super(key: key);
 
-  // 提示
-  Widget _buildTips() {
-    return <Widget>[
-      // 提示
-      ButtonWidget.text(
-        LocaleKeys.loginForgotPassword.tr,
-        textSize: AppSize.body1,
-      ).paddingRight(AppSpace.seqHorization),
-      // 注册文字按钮
-      ButtonWidget.text(
-        LocaleKeys.loginSignUp.tr,
-        textSize: AppSize.body1,
-        textColor: AppColors.primary,
-      )
-    ].toRow(
-      mainAxisAlignment: MainAxisAlignment.center,
-    );
-  }
-
   // 表单页
   Widget _buildForm() {
     return Form(

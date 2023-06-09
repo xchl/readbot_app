@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:readbot/common/index.dart';
 
 import 'index.dart';
 
@@ -13,8 +12,7 @@ class HelpDocPage extends GetView<HelpDocController> {
     return InAppWebView(
       key: controller.webViewKey,
       initialOptions: controller.options,
-      initialUrlRequest:
-          URLRequest(url: Uri.parse(ConfigService.to.helpDocUrl)),
+      initialUrlRequest: URLRequest(url: Uri.parse(controller.url)),
     );
   }
 

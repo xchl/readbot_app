@@ -14,12 +14,23 @@ class PostFocusController extends GetxController {
   String? _feedUrl;
   bool? _isAllLoaded;
 
+  bool isUserConfused = false;
+
   List<FeedItemModel> get feedItems => _feedItems;
   List<FeedModel?> get feeds => _feeds;
 
   int lastTapIdx = -1;
 
   refreshFeedItem() async {
+    // TODO isUserConfused放在这里有点难看
+    var feedItemCount = await DatabaseManager().feedItemTableSize();
+    if (feedItemCount == 0) {
+      isUserConfused = true;
+      update(["post_focus"]);
+      return;
+    } else {
+      isUserConfused = false;
+    }
     _page = 0;
     _feedItems.clear();
     _feeds.clear();
@@ -100,7 +111,7 @@ class PostFocusController extends GetxController {
   }
 
   @override
-  void onReady() {
+  void onReady() async {
     super.onReady();
     refreshFeedItem();
   }

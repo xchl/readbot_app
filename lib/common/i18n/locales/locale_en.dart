@@ -118,6 +118,8 @@ Map<String, String> localeEn = {
   LocaleKeys.mySystemAutoDeleteDay: 'Only Save Data in Recent Days',
 
   LocaleKeys.myHelpDoc: 'Help Doc',
+  LocaleKeys.myHelpDetail: 'Help Doc',
+  LocaleKeys.myHelpGetStart: 'Get Start',
   LocaleKeys.myMark: 'My Favorite',
 
   LocaleKeys.pageNotSupportAI: 'This page does not support AI service',

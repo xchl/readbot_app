@@ -21,6 +21,7 @@ class ConfigService extends GetxService {
   late String serverUrl;
   late String privacyUrl;
   late String helpDocUrl;
+  late String quickStartDocUrl;
 
   // 多语言
   Locale locale = PlatformDispatcher.instance.locale;
@@ -106,6 +107,7 @@ class ConfigService extends GetxService {
       serverUrl = config[Constants.serverUrlField];
       privacyUrl = config[Constants.privacyUrlField];
       helpDocUrl = config[Constants.helpDocUrlField];
+      quickStartDocUrl = config[Constants.quickStartDocUrlField];
     } catch (e) {
       LogService.to
           .e('Error occur when loading assets/configs/config.json: $e');

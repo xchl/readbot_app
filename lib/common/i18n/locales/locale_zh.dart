@@ -111,6 +111,8 @@ Map<String, String> localeZh = {
   LocaleKeys.mySystemAutoDeleteDay: '保留近期数据天数',
 
   LocaleKeys.myHelpDoc: '帮助文档',
+  LocaleKeys.myHelpDetail: '详细说明',
+  LocaleKeys.myHelpGetStart: '快速使用',
   LocaleKeys.myMark: '我的收藏',
 
   LocaleKeys.openAI: 'OpenAI',

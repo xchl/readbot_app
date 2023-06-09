@@ -236,6 +236,11 @@ class DatabaseManager {
     });
   }
 
+  // check if feeditem table is empty
+  Future<int> feedItemTableSize() async {
+    return await _isar.feedItemModels.count();
+  }
+
   // update FeedItem
   Future<void> updateFeedItemNeedSync(FeedItemModel item) async {
     item.isSynced = false;

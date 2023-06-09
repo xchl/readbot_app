@@ -1,6 +1,7 @@
 import 'package:readbot/common/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:readbot/pages/post/post_focus/widgets/help_item.dart';
 
 import 'index.dart';
 
@@ -26,8 +27,7 @@ class _PostFocusPageState extends State<PostFocusPage>
 class _PostFocusPageViewGetX extends GetView<PostFocusController> {
   const _PostFocusPageViewGetX({Key? key}) : super(key: key);
 
-  // 主视图
-  Widget _buildView() {
+  Widget _buildFocusView() {
     return ListView.builder(
             itemBuilder: (context, i) {
               final feedItem = controller.feedItems[i];
@@ -41,6 +41,35 @@ class _PostFocusPageViewGetX extends GetView<PostFocusController> {
             },
             itemCount: controller.feedItems.length)
         .paddingHorizontal(AppSpace.seqHorization);
+  }
+
+  Widget _buildHelpView() {
+    return ListView(children: <Widget>[
+      SizedBox(
+        height: AppSize.helpItemHeight,
+        child: HelpItem(
+          title: "💡 ${LocaleKeys.myHelpGetStart.tr}",
+          url: ConfigService.to.quickStartDocUrl,
+        ),
+      ),
+      const Divider(),
+      SizedBox(
+        height: AppSize.helpItemHeight,
+        child: HelpItem(
+          title: "📘 ${LocaleKeys.myHelpDetail.tr}",
+          url: ConfigService.to.helpDocUrl,
+        ),
+      ),
+    ]);
+  }
+
+  // 主视图
+  Widget _buildView() {
+    if (controller.isUserConfused) {
+      return _buildHelpView();
+    } else {
+      return _buildFocusView();
+    }
   }
 
   @override

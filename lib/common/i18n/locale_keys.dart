@@ -107,6 +107,8 @@ class LocaleKeys {
   static const mySystemPart = 'my_system_setting';
   static const mySystemAutoReadmode = 'my_system_auto_readmode';
   static const myHelpDoc = 'my_help_doc';
+  static const myHelpGetStart = 'my_help_get_start';
+  static const myHelpDetail = 'my_help_detail';
   static const myMark = 'my_mark';
   static const mySystemAutoDeleteData = 'my_system_auto_clear_data';
   static const mySystemAutoDeleteDay = 'my_system_auto_delete_day';

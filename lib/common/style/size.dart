@@ -6,6 +6,7 @@ class AppSize {
   static double get buttonWidth => 10.w;
   static double get buttonHeight => 48.h;
   static double get buttonTextSize => 20.sp;
+  static double get helpItemHeight => 50.sp;
 
   /// 图片
   static double get exploreImageHeight => 100.h;
