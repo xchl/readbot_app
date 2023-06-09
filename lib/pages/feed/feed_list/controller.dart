@@ -74,6 +74,8 @@ class FeedListController extends GetxController {
       try {
         Loading.show();
         await FeedService.to.importFeedFromOpml(contents);
+        refreshFeedItemPage();
+        refreshCurrentPage();
         Loading.success();
         Get.find<PostAllController>().refreshFeedItem();
         SyncService.to.pushToService();
@@ -127,7 +129,9 @@ class FeedListController extends GetxController {
 
   void onFeedSave() async {
     if ((feedFormKey.currentState as FormState).validate()) {
-      selectedFeed!.name = feedNameController.text;
+      if (selectedFeed!.name != feedNameController.text) {
+        selectedFeed!.customName = feedNameController.text;
+      }
       selectedFeed!.description = feedDescController.text;
       if (modifiedFeedGroup != null && selectedFeedGroup != modifiedFeedGroup) {
         selectedFeed!.groupName = modifiedFeedGroup != defaultFeedGroup
@@ -190,7 +194,7 @@ class FeedListController extends GetxController {
   }
 
   void initFeedForm(FeedModel feed) {
-    feedNameController.text = feed.name ?? "";
+    feedNameController.text = feed.title;
     feedDescController.text = feed.description ?? "";
   }
 
