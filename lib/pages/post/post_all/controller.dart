@@ -10,6 +10,8 @@ class PostAllController extends GetxController {
 
   String? _feedUrl;
 
+  final ScrollController scrollController = ScrollController();
+
   final List<FeedItemModel> _feedItems = List.empty(growable: true);
   final List<FeedModel?> _feed = List.empty(growable: true);
 
@@ -19,6 +21,7 @@ class PostAllController extends GetxController {
   int lastTapIdx = -1;
 
   bool? _isAllLoaded;
+  bool isLoading = false;
 
   @override
   void onReady() {
@@ -95,11 +98,13 @@ class PostAllController extends GetxController {
   }
 
   void onLoadMore() async {
-    if (_isAllLoaded == true) {
+    if (_isAllLoaded == true || isLoading) {
       return;
     }
+    isLoading = true;
     debugPrint("Current Explore FeedItem length: ${feedItems.length}");
     appendFeedItem();
+    isLoading = false;
   }
 
   void onFeedSelect(String? feedUrl) {

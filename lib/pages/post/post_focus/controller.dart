@@ -13,6 +13,7 @@ class PostFocusController extends GetxController {
   int _page = 0;
   String? _feedUrl;
   bool? _isAllLoaded;
+  bool isLoading = false;
 
   bool isUserConfused = false;
 
@@ -103,11 +104,13 @@ class PostFocusController extends GetxController {
   }
 
   void onLoadMore() async {
-    if (_isAllLoaded == true) {
+    if (_isAllLoaded == true || isLoading) {
       return;
     }
+    isLoading = true;
     debugPrint("Current Focus FeedItem length: ${feedItems.length}");
     appendFeedItem();
+    isLoading = false;
   }
 
   @override

@@ -47,7 +47,8 @@ class PostMarkPage extends GetView<PostMarkController> {
           body: NotificationListener<ScrollNotification>(
               onNotification: (ScrollNotification notification) {
                 if (notification.metrics.extentAfter <
-                    MediaQuery.of(context).size.height / 2) {
+                        MediaQuery.of(context).size.height / 2 &&
+                    controller.isLoading == false) {
                   controller.onLoadMore();
                 }
                 return false;

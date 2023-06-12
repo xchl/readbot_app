@@ -15,6 +15,7 @@ class PostMarkController extends GetxController {
   List<FeedModel?> get feed => _feed;
 
   bool? isAllLoaded;
+  bool isLoading = false;
 
   @override
   void onReady() {
@@ -57,10 +58,12 @@ class PostMarkController extends GetxController {
   }
 
   void onLoadMore() async {
-    if (isAllLoaded == true) {
+    if (isAllLoaded == true || isLoading) {
       return;
     }
+    isLoading = true;
     debugPrint("Current Mark FeedItem length: ${feedItems.length}");
     appendFeedItem();
+    isLoading = false;
   }
 }
