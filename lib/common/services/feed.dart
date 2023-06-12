@@ -16,6 +16,8 @@ import 'package:xml/xml.dart';
 class FeedService extends GetxService {
   static FeedService get to => Get.find();
 
+  bool isFetching = false;
+
   List<FeedItemModel> _parseRssItem(
       FeedModel feed, List<webfeed.RssItem>? items) {
     return items != null
@@ -30,6 +32,11 @@ class FeedService extends GetxService {
   }
 
   Future<void> globalPullFeed() async {
+    if (isFetching) {
+      return;
+    }
+    isFetching = true;
+    NoticeService.to.updateFetching(isFetching);
     try {
       SyncService.to.pullFromService();
       await SyncService.to.waitSyncQueueEmpty();
@@ -38,6 +45,8 @@ class FeedService extends GetxService {
     } catch (error) {
       debugPrint(error.toString());
     }
+    isFetching = false;
+    NoticeService.to.updateFetching(isFetching);
   }
 
   // parse Atom item

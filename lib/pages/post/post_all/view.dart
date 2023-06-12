@@ -87,7 +87,9 @@ class _PostAllPageViewGetX extends GetView<PostAllController> {
             backgroundColor: AppColors.navigationBarColor,
             elevation: AppSize.appBarElevation,
             title: TextWidget.title1(
-              LocaleKeys.exploreTitle.tr,
+              NoticeService.to.isFetching
+                  ? LocaleKeys.exploreTitleFetching.tr
+                  : LocaleKeys.exploreTitle.tr,
               color: AppColors.titleColor,
             ),
           ),

@@ -133,6 +133,8 @@ class LocaleKeys {
   static const feedNoTitle = 'feed_no_title';
   static const focusTitle = 'feed_focus_title';
   static const exploreTitle = 'feed_explore_title';
+  static const exploreTitleFetching = 'feed_explore_title_fetching';
+  static const focustTitleFetching = 'feed_focus_title_fetching';
   static const feedPageTitle = 'feed_page_title';
   static const feedAlreadyExists = 'feed_already_exists';
   static const registerUserAgreement = 'register_user_agreement';

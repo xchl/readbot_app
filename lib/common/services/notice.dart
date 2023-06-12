@@ -8,6 +8,7 @@ class NoticeService extends GetxService {
   int exploreUpdateCount = 0;
   int focusUpdateCount = 0;
   bool isFeedUpdated = false;
+  bool isFetching = false;
 
   void updateExplore(int count) {
     exploreUpdateCount += count;
@@ -17,6 +18,12 @@ class NoticeService extends GetxService {
   void updateFocus(int count) {
     focusUpdateCount += count;
     Get.find<MainController>().acceptNotice();
+  }
+
+  void updateFetching(bool fetching) {
+    isFetching = fetching;
+    Get.find<PostAllController>().acceptNotice();
+    Get.find<PostFocusController>().acceptNotice();
   }
 
   void clearExplore() {

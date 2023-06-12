@@ -127,7 +127,10 @@ class PostAllController extends GetxController {
   }
 
   Future<void> onRefresh() async {
-    await FeedService.to.globalPullFeed();
-    refreshFeedItem();
+    FeedService.to.globalPullFeed();
+  }
+
+  void acceptNotice() {
+    update(["post_all"]);
   }
 }

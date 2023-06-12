@@ -84,7 +84,9 @@ class _PostFocusPageViewGetX extends GetView<PostFocusController> {
             backgroundColor: AppColors.navigationBarColor,
             elevation: AppSize.appBarElevation,
             title: TextWidget.title1(
-              LocaleKeys.focusTitle.tr,
+              NoticeService.to.isFetching
+                  ? LocaleKeys.focustTitleFetching.tr
+                  : LocaleKeys.focusTitle.tr,
               color: AppColors.titleColor,
             ),
           ),
