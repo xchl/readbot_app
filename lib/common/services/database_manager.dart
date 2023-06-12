@@ -219,6 +219,12 @@ class DatabaseManager {
     return await _isar.feedItemModels.getAllByMd5String(md5Strings);
   }
 
+  // input Feed list, check if feed in db
+  Future<List<FeedModel?>> checkFeedsInDb(List<FeedModel> feeds) async {
+    List<String> urls = feeds.map((e) => e.url).toList();
+    return await _isar.feedModels.getAllByUrl(urls);
+  }
+
   // get all feed items that contentDownloaded is null (not try downloaded)
   Future<List<FeedItemModel>> getFeedItemsNeedDownload() async {
     return _isar.feedItemModels

@@ -81,9 +81,13 @@ class FeedService extends GetxService {
 
   // extract content from html
   static String extractReadableContent(String html) {
-    var doc = HtmlDocument(input: html);
-    if (doc.parse()) {
-      return doc.pureHtml;
+    try {
+      var doc = HtmlDocument(input: html);
+      if (doc.parse()) {
+        return doc.pureHtml;
+      }
+    } catch (e) {
+      LogService.to.d(e.toString());
     }
     return '';
   }
@@ -279,8 +283,17 @@ class FeedService extends GetxService {
         }
       }
     }
-    await DatabaseManager().insertFeeds(feeds);
-    await fetchFeeds(feeds);
+    List<FeedModel?> feedsNotExist =
+        await DatabaseManager().checkFeedsInDb(feeds);
+    List<FeedModel> feedsNeedInsert = [];
+    // if feed exist, not insert
+    for (var i = 0; i < feeds.length; i++) {
+      if (feedsNotExist[i] == null) {
+        feedsNeedInsert.add(feeds[i]);
+      }
+    }
+    await DatabaseManager().insertFeeds(feedsNeedInsert);
+    await fetchFeeds(feedsNeedInsert);
   }
 
   Future<int> fetchFeeds(List<FeedModel> feeds) async {
