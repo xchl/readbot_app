@@ -78,7 +78,7 @@ class FeedItemModel {
         isSeen: false,
         title: item.title ?? '',
         link: item.link,
-        publishTime: item.pubDate,
+        publishTime: item.pubDate ?? DateTime.now(),
         authors: item.author,
         description: item.description,
         createTime: DateTime.now(),
