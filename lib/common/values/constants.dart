@@ -54,4 +54,5 @@ class Constants {
   static const storageOpenAIToken = 'storage_open_ai_token';
   static const storageOpenAIProxyUrl = 'storage_open_ai_proxy_url';
   static const requestIntervalSecond = 10;
+  static const openAITimeoutSecond = 100;
 }

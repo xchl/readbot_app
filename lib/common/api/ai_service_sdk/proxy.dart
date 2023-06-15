@@ -15,7 +15,7 @@ extension AIServiceExtension on AIService {
   int get maxToken {
     switch (this) {
       case AIService.openai:
-        return 3000;
+        return 15000;
     }
   }
 
@@ -37,7 +37,7 @@ extension ParseAIServiceExtension on String {
 class AIProxy {
   static Future<AIResponse?> summary(AIRequest request) async {
     if (request.service == AIService.openai) {
-      OpenAIChatResponse? response = await OpenAI.chat(request.toOpenAIChat());
+      OpenAIChatResponse? response = await OpenAI.chat(request);
       if (response != null) {
         return AIResponse.fromOpenAIChat(response);
       }

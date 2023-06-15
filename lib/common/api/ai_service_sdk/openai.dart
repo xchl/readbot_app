@@ -2,13 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:readbot/common/index.dart';
 
-enum OpenAIModel { gpt35 }
+enum OpenAIModel { gpt35, gpt35_16k }
 
 extension OpenAIModelExtension on OpenAIModel {
   String get name {
     switch (this) {
       case OpenAIModel.gpt35:
         return 'gpt-3.5-turbo';
+      case OpenAIModel.gpt35_16k:
+        return 'gpt-3.5-turbo-16k';
     }
   }
 
@@ -16,6 +18,8 @@ extension OpenAIModelExtension on OpenAIModel {
     switch (this) {
       case OpenAIModel.gpt35:
         return 4000;
+      case OpenAIModel.gpt35_16k:
+        return 15000;
     }
   }
 }
@@ -37,8 +41,8 @@ class OpenAI {
           data: request.toJson(),
           options: Options(
               headers: request.header,
-              // TODO
-              receiveTimeout: const Duration(seconds: 90)));
+              receiveTimeout:
+                  const Duration(seconds: Constants.openAITimeoutSecond)));
       return OpenAICompleteResponse.fromJson(res.data);
     } catch (e) {
       LogService.to.e(e);
@@ -46,18 +50,19 @@ class OpenAI {
     }
   }
 
-  static Future<OpenAIChatResponse?> chat(OpenAIChatRequest request) async {
+  static Future<OpenAIChatResponse?> chat(AIRequest request) async {
     try {
       debugPrint(chatApi.url);
+      OpenAIChatRequest summaryRequest =
+          OpenAIChatRequest.generateSummaryRequest(request);
       var res = await HttpService.to.post(chatApi.url,
-          data: request.toJson(),
+          data: summaryRequest.toJson(),
           options: Options(
-              headers: request.header,
-              //TODO
-              receiveTimeout: const Duration(seconds: 60)));
+              headers: summaryRequest.header,
+              receiveTimeout:
+                  const Duration(seconds: Constants.openAITimeoutSecond)));
       return OpenAIChatResponse.fromJson(res.data);
     } catch (e) {
-      Loading.toast('Openai request error');
       LogService.to.e(e);
       return null;
     }
@@ -120,12 +125,33 @@ class OpenAIChatRequest {
       this.temperature,
       required this.header});
 
+  factory OpenAIChatRequest.generateSummaryRequest(AIRequest request) {
+    return OpenAIChatRequest(
+        model: request.userContent.length < 4000
+            ? OpenAIModel.gpt35
+            : OpenAIModel.gpt35_16k,
+        messages: [
+          Message(content: '''
+                  你是一个专业的私人秘书，我订阅了很多文章，你可以从每篇文章中提取重点内容，并且能用很少的字数表达出原文一样的意思，每次你都能以列表的形式给出内容总结，最多不会超过5条。
+                  
+                  比如对上述内容总结，你会给出：
+                  """
+                  1. 我是个专业的私人秘书
+                  2. 我能以列表的形式简洁得输出文章的主要内容
+                  """
+                  ''', role: 'system'),
+          Message(
+              content: '请帮我总结以下文章 \n\n ${request.userContent}', role: 'user'),
+        ],
+        header: request.headers,
+        maxTokens: request.otherParms?['maxTokens'],
+        temperature: request.otherParms?['temperature']);
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'model': model.name,
       'messages': messages.map((e) => e.toJson()).toList(),
-      'max_tokens': maxTokens,
-      'temperature': temperature,
     };
   }
 }
