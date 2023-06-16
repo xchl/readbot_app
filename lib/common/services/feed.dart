@@ -168,7 +168,8 @@ class FeedService extends GetxService {
         }
 
         // if (kDebugMode) {
-        //   File file = File("/Users/luosen/Desktop/html/$idx.html");
+        //   File file = File(
+        //       "/Users/luosen/Documents/project/work/readbot/readability/test_cases/${feedItems[idx].title}.html");
         //   file.writeAsString(htmlContent);
         // }
 
