@@ -39,6 +39,8 @@ class FeedModel {
   @Index()
   DateTime updateTime;
 
+  bool isSubItemsDeleted;
+
   String get title => customName ?? name ?? url;
 
   FeedModel(
@@ -53,6 +55,7 @@ class FeedModel {
     this.customLogo,
     this.groupName,
     this.isDeleted = false,
+    this.isSubItemsDeleted = false,
     required this.updateTime,
     required this.createTime,
     required this.isSynced,

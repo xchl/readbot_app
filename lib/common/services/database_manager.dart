@@ -58,6 +58,15 @@ class DatabaseManager {
           .isSyncedEqualTo(true)
           .deleteAll();
     });
+    // get feed that is deleted but subitem is not deleted
+    List<FeedModel> feeds = await _isar.feedModels
+        .filter()
+        .isDeletedEqualTo(true)
+        .isSubItemsDeletedEqualTo(false)
+        .findAll();
+    for (var feed in feeds) {
+      await deleteSubItemOfFeed(feed);
+    }
   }
 
   // FeedGroup
@@ -147,12 +156,22 @@ class DatabaseManager {
       feed.updateTime = DateTime.now();
       await _isar.feedModels.putByUrl(feed);
     });
+    await deleteSubItemOfFeed(feed);
+  }
+
+  // delete subitem of feed
+  Future<void> deleteSubItemOfFeed(FeedModel feed) async {
     // delete all feed items
     await deleteAllFeedItemByFeed(feed);
     // delete all feed content
     await deleteAllFeedContentByFeed(feed);
     // delete all feed update record
     await deleteAllFeedUpdateRecordByFeed(feed);
+
+    await _isar.writeTxn(() async {
+      feed.isSubItemsDeleted = true;
+      await _isar.feedModels.putByUrl(feed);
+    });
   }
 
   // query all feed

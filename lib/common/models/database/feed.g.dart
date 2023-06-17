@@ -52,44 +52,49 @@ const FeedModelSchema = CollectionSchema(
       name: r'isDeleted',
       type: IsarType.bool,
     ),
-    r'isSynced': PropertySchema(
+    r'isSubItemsDeleted': PropertySchema(
       id: 7,
+      name: r'isSubItemsDeleted',
+      type: IsarType.bool,
+    ),
+    r'isSynced': PropertySchema(
+      id: 8,
       name: r'isSynced',
       type: IsarType.bool,
     ),
     r'logo': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'logo',
       type: IsarType.string,
     ),
     r'name': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'name',
       type: IsarType.string,
     ),
     r'tags': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'tags',
       type: IsarType.stringList,
     ),
     r'title': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'title',
       type: IsarType.string,
     ),
     r'type': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'type',
       type: IsarType.int,
       enumMap: _FeedModeltypeEnumValueMap,
     ),
     r'updateTime': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'updateTime',
       type: IsarType.dateTime,
     ),
     r'url': PropertySchema(
-      id: 14,
+      id: 15,
       name: r'url',
       type: IsarType.string,
     )
@@ -213,14 +218,15 @@ void _feedModelSerialize(
   writer.writeString(offsets[4], object.description);
   writer.writeString(offsets[5], object.groupName);
   writer.writeBool(offsets[6], object.isDeleted);
-  writer.writeBool(offsets[7], object.isSynced);
-  writer.writeString(offsets[8], object.logo);
-  writer.writeString(offsets[9], object.name);
-  writer.writeStringList(offsets[10], object.tags);
-  writer.writeString(offsets[11], object.title);
-  writer.writeInt(offsets[12], object.type?.index);
-  writer.writeDateTime(offsets[13], object.updateTime);
-  writer.writeString(offsets[14], object.url);
+  writer.writeBool(offsets[7], object.isSubItemsDeleted);
+  writer.writeBool(offsets[8], object.isSynced);
+  writer.writeString(offsets[9], object.logo);
+  writer.writeString(offsets[10], object.name);
+  writer.writeStringList(offsets[11], object.tags);
+  writer.writeString(offsets[12], object.title);
+  writer.writeInt(offsets[13], object.type?.index);
+  writer.writeDateTime(offsets[14], object.updateTime);
+  writer.writeString(offsets[15], object.url);
 }
 
 FeedModel _feedModelDeserialize(
@@ -230,7 +236,7 @@ FeedModel _feedModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = FeedModel(
-    reader.readString(offsets[14]),
+    reader.readString(offsets[15]),
     createTime: reader.readDateTime(offsets[0]),
     customDescription: reader.readStringOrNull(offsets[1]),
     customLogo: reader.readStringOrNull(offsets[2]),
@@ -238,12 +244,13 @@ FeedModel _feedModelDeserialize(
     description: reader.readStringOrNull(offsets[4]),
     groupName: reader.readStringOrNull(offsets[5]),
     isDeleted: reader.readBoolOrNull(offsets[6]) ?? false,
-    isSynced: reader.readBool(offsets[7]),
-    logo: reader.readStringOrNull(offsets[8]),
-    name: reader.readStringOrNull(offsets[9]),
-    tags: reader.readStringList(offsets[10]),
-    type: _FeedModeltypeValueEnumMap[reader.readIntOrNull(offsets[12])],
-    updateTime: reader.readDateTime(offsets[13]),
+    isSubItemsDeleted: reader.readBoolOrNull(offsets[7]) ?? false,
+    isSynced: reader.readBool(offsets[8]),
+    logo: reader.readStringOrNull(offsets[9]),
+    name: reader.readStringOrNull(offsets[10]),
+    tags: reader.readStringList(offsets[11]),
+    type: _FeedModeltypeValueEnumMap[reader.readIntOrNull(offsets[13])],
+    updateTime: reader.readDateTime(offsets[14]),
   );
   object.id = id;
   return object;
@@ -271,20 +278,22 @@ P _feedModelDeserializeProp<P>(
     case 6:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 7:
-      return (reader.readBool(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 8:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 9:
       return (reader.readStringOrNull(offset)) as P;
     case 10:
-      return (reader.readStringList(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 11:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringList(offset)) as P;
     case 12:
-      return (_FeedModeltypeValueEnumMap[reader.readIntOrNull(offset)]) as P;
+      return (reader.readString(offset)) as P;
     case 13:
-      return (reader.readDateTime(offset)) as P;
+      return (_FeedModeltypeValueEnumMap[reader.readIntOrNull(offset)]) as P;
     case 14:
+      return (reader.readDateTime(offset)) as P;
+    case 15:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1463,6 +1472,16 @@ extension FeedModelQueryFilter
     });
   }
 
+  QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition>
+      isSubItemsDeletedEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isSubItemsDeleted',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<FeedModel, FeedModel, QAfterFilterCondition> isSyncedEqualTo(
       bool value) {
     return QueryBuilder.apply(this, (query) {
@@ -2476,6 +2495,19 @@ extension FeedModelQuerySortBy on QueryBuilder<FeedModel, FeedModel, QSortBy> {
     });
   }
 
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByIsSubItemsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSubItemsDeleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy>
+      sortByIsSubItemsDeletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSubItemsDeleted', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedModel, FeedModel, QAfterSortBy> sortByIsSynced() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSynced', Sort.asc);
@@ -2660,6 +2692,19 @@ extension FeedModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByIsSubItemsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSubItemsDeleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedModel, FeedModel, QAfterSortBy>
+      thenByIsSubItemsDeletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isSubItemsDeleted', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedModel, FeedModel, QAfterSortBy> thenByIsSynced() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSynced', Sort.asc);
@@ -2795,6 +2840,12 @@ extension FeedModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByIsSubItemsDeleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isSubItemsDeleted');
+    });
+  }
+
   QueryBuilder<FeedModel, FeedModel, QDistinct> distinctByIsSynced() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isSynced');
@@ -2896,6 +2947,12 @@ extension FeedModelQueryProperty
   QueryBuilder<FeedModel, bool, QQueryOperations> isDeletedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isDeleted');
+    });
+  }
+
+  QueryBuilder<FeedModel, bool, QQueryOperations> isSubItemsDeletedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isSubItemsDeleted');
     });
   }
 

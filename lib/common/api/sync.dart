@@ -14,7 +14,7 @@ class ContentSyncApi {
       );
       return ContentPullResponse.fromJson(res.data)!;
     } catch (e) {
-      Loading.toast(LocaleKeys.syncPullError.tr);
+      // Loading.toast(LocaleKeys.syncPullError.tr);
       LogService.to.e(e);
       return null;
     }

@@ -149,7 +149,7 @@ Map<String, String> localeZh = {
   LocaleKeys.turnToFocusTip: '聚焦阅读',
 
   //Error
-  LocaleKeys.syncPullError: '从服务器同步内容失败',
+  LocaleKeys.syncPullError: '从服务器拉取内容失败',
   LocaleKeys.syncPushError: '向服务器同步内容失败',
   LocaleKeys.loginError: '登录失败',
   LocaleKeys.registerError: '注册失败',
