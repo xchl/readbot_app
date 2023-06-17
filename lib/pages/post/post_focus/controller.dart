@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:readbot/common/index.dart';
 import 'package:readbot/pages/index.dart';
 import 'package:get/get.dart';
+import 'package:tuple/tuple.dart';
 
 class PostFocusController extends GetxController {
   PostFocusController();
@@ -22,6 +23,26 @@ class PostFocusController extends GetxController {
 
   int lastTapIdx = -1;
 
+  Future<Tuple2<List<FeedItemModel>, List<FeedModel>>> getFeedItems(int page,
+      {String? feedUrl}) async {
+    List<FeedItemModel> feedItems =
+        await DatabaseManager().getFocusFeedItemsByPage(page, feedUrl: feedUrl);
+    List<FeedModel?> feed = await DatabaseManager().getFeedsByUrlsIncludeDelete(
+      feedItems,
+    );
+    List<FeedItemModel> cleanFeedItems = [];
+    List<FeedModel> cleanFeed = [];
+
+    // for every feed, if feed is not null, add to cleanFeed and add feedItem to cleanFeedItems
+    for (var i = 0; i < feed.length; i++) {
+      if (feed[i] != null) {
+        cleanFeed.add(feed[i]!);
+        cleanFeedItems.add(feedItems[i]);
+      }
+    }
+    return Tuple2(cleanFeedItems, cleanFeed);
+  }
+
   refreshFeedItem() async {
     // TODO isUserConfused放在这里有点难看
     var feedItemCount = await DatabaseManager().feedItemTableSize();
@@ -32,16 +53,16 @@ class PostFocusController extends GetxController {
     } else {
       isUserConfused = false;
     }
+
     _page = 0;
     _feedItems.clear();
     _feeds.clear();
     _isAllLoaded = false;
-    var feedItems = await DatabaseManager().getFocusFeedItemsByPage(_page);
-    var feeds = await DatabaseManager().getFeedsByUrls(
-      feedItems.map((e) => e.feedUrl).toList(),
-    );
-    _feedItems.addAll(feedItems);
-    _feeds.addAll(feeds);
+
+    final feedItemsAndFeed = await getFeedItems(_page, feedUrl: _feedUrl);
+    _feedItems.addAll(feedItemsAndFeed.item1);
+    _feeds.addAll(feedItemsAndFeed.item2);
+
     update(["post_focus"]);
     NoticeService.to.clearFocus();
     autoSummary(_feedItems);
@@ -76,20 +97,18 @@ class PostFocusController extends GetxController {
 
   Future<void> appendFeedItem() async {
     _page++;
-    var newFeedItems = await DatabaseManager()
-        .getFocusFeedItemsByPage(_page, feedUrl: _feedUrl);
-    if (newFeedItems.isEmpty) {
+    final feedItemsAndFeed = await getFeedItems(_page, feedUrl: _feedUrl);
+
+    if (feedItemsAndFeed.item1.isEmpty) {
       _page--;
       _isAllLoaded = true;
       return;
     }
-    var newFeed = await DatabaseManager().getFeedsByUrls(
-      newFeedItems.map((e) => e.feedUrl).toList(),
-    );
-    _feedItems.addAll(newFeedItems);
-    _feeds.addAll(newFeed);
+
+    _feedItems.addAll(feedItemsAndFeed.item1);
+    _feeds.addAll(feedItemsAndFeed.item2);
     update(["post_focus"]);
-    autoSummary(newFeedItems);
+    autoSummary(feedItemsAndFeed.item1);
   }
 
   void refreshCurrentPage() {

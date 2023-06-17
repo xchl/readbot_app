@@ -178,9 +178,10 @@ class DatabaseManager {
   }
 
   // query feed by urls
-  Future<List<FeedModel?>> getFeedsByUrls(List<String> urls) async {
-    List<FeedModel?> feeds = await _isar.feedModels.getAllByUrl(urls);
-    return feeds.where((e) => e != null && e.isDeleted == false).toList();
+  Future<List<FeedModel?>> getFeedsByUrlsIncludeDelete(
+      List<FeedItemModel> feedModel) async {
+    List<String> urls = feedModel.map((e) => e.feedUrl).toList();
+    return await _isar.feedModels.getAllByUrl(urls);
   }
 
   // query feed by group name

@@ -211,7 +211,10 @@ class SyncService extends GetxService {
     contentPushRequest.feedUpdateRecords =
         toFeedUpdateRecordList(feedUpdateRecordModels);
 
-    await ContentSyncApi.push(contentPushRequest);
+    ContentPushResponse? response =
+        await ContentSyncApi.push(contentPushRequest);
+
+    if (response == null) return;
 
     // change isSynced to true for all modfels and save
     for (var feedModel in feedModels) {

@@ -2,6 +2,7 @@ import 'package:readbot/common/index.dart';
 import 'package:readbot/pages/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tuple/tuple.dart';
 
 class PostAllController extends GetxController {
   PostAllController();
@@ -64,36 +65,48 @@ class PostAllController extends GetxController {
     update(["post_all"]);
   }
 
+  Future<Tuple2<List<FeedItemModel>, List<FeedModel>>> getFeedItems(int page,
+      {String? feedUrl}) async {
+    List<FeedItemModel> feedItems = await DatabaseManager()
+        .getExploreFeedItemsByPage(page, feedUrl: feedUrl);
+    List<FeedModel?> feed = await DatabaseManager().getFeedsByUrlsIncludeDelete(
+      feedItems,
+    );
+    List<FeedItemModel> cleanFeedItems = [];
+    List<FeedModel> cleanFeed = [];
+
+    // for every feed, if feed is not null, add to cleanFeed and add feedItem to cleanFeedItems
+    for (var i = 0; i < feed.length; i++) {
+      if (feed[i] != null) {
+        cleanFeed.add(feed[i]!);
+        cleanFeedItems.add(feedItems[i]);
+      }
+    }
+    return Tuple2(cleanFeedItems, cleanFeed);
+  }
+
   Future<void> refreshFeedItem() async {
     _page = 0;
     _feedItems.clear();
     _feed.clear();
     _isAllLoaded = false;
-    var feedItems = await DatabaseManager()
-        .getExploreFeedItemsByPage(_page, feedUrl: _feedUrl);
-    var feed = await DatabaseManager().getFeedsByUrls(
-      feedItems.map((e) => e.feedUrl).toList(),
-    );
-    _feedItems.addAll(feedItems);
-    _feed.addAll(feed);
+    final feedItemsAndFeed = await getFeedItems(_page, feedUrl: _feedUrl);
+    _feedItems.addAll(feedItemsAndFeed.item1);
+    _feed.addAll(feedItemsAndFeed.item2);
     NoticeService.to.clearExplore();
     update(["post_all"]);
   }
 
   Future<void> appendFeedItem() async {
     _page++;
-    var newFeedItems = await DatabaseManager()
-        .getExploreFeedItemsByPage(_page, feedUrl: _feedUrl);
-    if (newFeedItems.isEmpty) {
+    final feedItemsAndFeed = await getFeedItems(_page, feedUrl: _feedUrl);
+    if (feedItemsAndFeed.item1.isEmpty) {
       _page--;
       _isAllLoaded = true;
       return;
     }
-    var newFeed = await DatabaseManager().getFeedsByUrls(
-      newFeedItems.map((e) => e.feedUrl).toList(),
-    );
-    _feedItems.addAll(newFeedItems);
-    _feed.addAll(newFeed);
+    _feedItems.addAll(feedItemsAndFeed.item1);
+    _feed.addAll(feedItemsAndFeed.item2);
     update(["post_all"]);
   }
 

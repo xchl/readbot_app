@@ -54,6 +54,8 @@ class ReadModeStyle {
 
           p {
             margin: 0.8em 0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
           }
 
           i {
@@ -64,14 +66,18 @@ class ReadModeStyle {
             font-weight: bold;
           }
 
-          pre, code {
+          pre {
             overflow: auto;
             white-space: pre;
             background-color: #f0f0f0;
-            padding: 5px;
-            display: block;
+            padding: 8px;
           }
-          
+
+          code {
+            background-color: #f0f0f0;
+            padding: 5px;
+          }
+
           blockquote {
             margin: 1em 1em;
             padding: 1em 1em;
