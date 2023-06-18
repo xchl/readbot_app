@@ -1,17 +1,15 @@
 # ReadBot
 
-A new Flutter project.
+## 介绍
 
-## Getting Started
+ReadBot是一个RSS阅读器，支持：
+1. AI对内容进行摘要，目前是调用ChatGPT，最长支持15K长度内容摘要
+2. 自动提取网页正文，支持阅读模式
+3. 支持收藏
+4. 支持订阅源分组管理
+5. 支持按订阅源筛选内容
+6. 支持内容同步服务器，定期删除本地缓存
 
-This project is a starting point for a Flutter application.
+## 目标
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# readbot
+ReadBot的目标是能对最近一段时间的内容进行摘要汇总，生成目录，方便阅读。
